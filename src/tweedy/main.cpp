@@ -5,8 +5,9 @@
  * Created on 5 novembre 2011, 23:40
  */
 
+#include <tweedy/gui/HelloForm.h>
+
 #include <QtGui/QApplication>
-#include "HelloForm.h"
 
 int main(int argc, char *argv[])
 {

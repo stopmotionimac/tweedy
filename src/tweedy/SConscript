@@ -3,6 +3,7 @@ Import('project', 'libs')
 project.StaticLibrary(
 	target='tweedyCore',
 	dirs=['core'],
+	includes=['..'],
 	libraries=[
 		libs.boost,
 		]
@@ -10,6 +11,7 @@ project.StaticLibrary(
 project.StaticLibrary(
 	target='tweedyGui',
 	dirs=['gui'],
+	includes=['..'],
 	libraries=[
 		libs.boost,
 		libs.qt4(uiFiles=project.scanFiles(['gui'], accept=['*.ui'])),
@@ -19,6 +21,7 @@ project.StaticLibrary(
 project.Program(
 	target='tweedy',
 	sources=['main.cpp'],
+	includes=['..'],
 	libraries=[
 		libs.tweedyCore,
 		libs.tweedyGui,
