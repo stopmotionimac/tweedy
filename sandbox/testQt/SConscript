@@ -1,0 +1,10 @@
+Import('project', 'libs')
+
+project.Program(
+	target='testQt',
+	dirs=['src'],
+	libraries=[
+		libs.qt4(uiFiles=project.scanFiles(['src'], accept=['*.ui']))
+		]
+	)
+
