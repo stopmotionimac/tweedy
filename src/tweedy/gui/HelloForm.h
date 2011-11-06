@@ -10,6 +10,9 @@
 
 #include "ui_HelloForm.h"
 
+#include <QtGui/QDialog>
+
+
 class HelloForm : public QDialog {
     Q_OBJECT
 public:
