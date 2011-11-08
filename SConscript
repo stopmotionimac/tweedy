@@ -4,7 +4,8 @@ Import('project', 'libs')
 SConscript(
 	project.scanFiles( [
 		'sandbox',
-		'src'
+		'src',
+		'tests',
 		],
 		accept=['SConscript']
 	)
