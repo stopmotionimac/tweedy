@@ -3,7 +3,6 @@ Import( 'project', 'libs' )
 project.UnitTest(
 	target = project.getDirs(2),
 	dirs = ['.'],
-	#includes=[project.getRealAbsoluteCwd('#src')], # temporary solution
 	libraries = [
 		libs.tweedyCore, # todo tweedyUndo
 		libs.boost_unittestframework,
