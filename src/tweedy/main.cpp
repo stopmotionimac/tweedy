@@ -1,13 +1,6 @@
-/*
- * File:   main.cpp
- * Author: Julien
- *
- * Created on 5 novembre 2011, 23:40
- */
-
-#include <tweedy/gui/HelloForm.h>
 
 #include <QtGui/QApplication>
+#include "gui/timesheet/TimeSheet.h"
 
 int main(int argc, char *argv[])
 {
@@ -15,9 +8,8 @@ int main(int argc, char *argv[])
     // Q_INIT_RESOURCE(resfile);
 
     QApplication app(argc, argv);
-
-    // create and show your widgets here
-    HelloForm form;
+    
+    TimeSheet form;
     form.show();
     
     return app.exec();
