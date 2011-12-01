@@ -76,17 +76,3 @@ void Invoker::invoke(ICommand& cmd){
 
 
 
-
-
-int main(int argc, char** argv) {
-    
-    CommandInt command1(1);
-    CommandChar command2('o');
-    
-    Invoker inv;
-    
-    inv.invoke(command1);
-    inv.invoke(command2);
-    
-    
-}
