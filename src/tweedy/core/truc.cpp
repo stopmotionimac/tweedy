@@ -28,7 +28,7 @@ bool CommandInt::operator==(const CommandInt& o){
     }
     
 bool CommandInt::operator==(const ICommand& o){
-        const CommandInt* other = dynamic_cast<const CommandInt*>(o);
+        const CommandInt* other = dynamic_cast<const CommandInt*>(&o);
         if(other == NULL)
         {
             return false;
@@ -56,7 +56,7 @@ bool CommandChar::operator==(const CommandChar& o){
 }
     
 bool CommandChar::operator==(const ICommand& o){
-        const CommandInt* other = dynamic_cast<const CommandChar*>(o);
+        const CommandChar* other = dynamic_cast<const CommandChar*>(&o);
         if(other == NULL)
         {
             return false;
