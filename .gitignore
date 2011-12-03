@@ -1,7 +1,30 @@
-dist
-.dist
-*.sconf
 
+# temporary files
 *~
+.*.swp # vim
+*.flc # xemacs
+.DS_Store # MacOS
+Thumbs.db # Windows
 
-/nbproject/private/
+# removing dist folder : folder receiving the compilation products
+/dist
+/.dist
+
+# datas or personal files
+/data
+/scripts
+/*.sh
+
+# in case uncrustify.sh script fails, do not commit the temporary file
+/files_to_uncrustify_delete_me.txt
+
+# in case scons configure fails, do not commit the temporary file
+/config.log
+
+# do not keep tuttlePluginCache.xml in case you one executes sam
+/*.xml
+/*.dot
+/*.log
+
+/nbproject
+
