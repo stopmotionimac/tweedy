@@ -1,4 +1,4 @@
-#include <tweedy/core/truc.hpp>
+#include <tweedy/core/icommand.hpp>
 
 #include <iostream>
 #include <queue>
