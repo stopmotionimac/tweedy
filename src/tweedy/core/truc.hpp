@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-using namespace std;
+
 
 /*------- Interface ICommand -------*/
 
@@ -11,15 +11,21 @@ public:
 
     virtual ~ICommand() = 0;
         
-    virtual void execute(){
+    virtual void execute()
+    {
         std::cout<<" ---Execution--- "<<std::endl;
        
     }
     
-    virtual bool operator==(const ICommand&)=0;
+    virtual std::ostream& cout( std::ostream& o ) const
+    {
+        o << "ICommand" << std::endl;
+        return o;
+    }
+    virtual bool operator==(const ICommand&)const=0;
 };
 
-
+std::ostream& operator<<( std::ostream& o, const ICommand& command );
 
 /*----- Classe CommandInt ------*/
 
@@ -32,9 +38,9 @@ public:
  
     void execute();
     
-    bool operator==(const CommandInt& o);
+    bool operator==(const CommandInt& o)const;
     
-    bool operator==(const ICommand& o);
+    bool operator==(const ICommand& o)const;
     
 private:
     int a;
@@ -54,9 +60,9 @@ public:
     void execute();
     
     
-    bool operator==(const CommandChar& o);
+    bool operator==(const CommandChar& o)const;
     
-    bool operator==(const ICommand& o);
+    bool operator==(const ICommand& o)const;
 
 private:
     

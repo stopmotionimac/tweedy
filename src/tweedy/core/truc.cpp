@@ -4,6 +4,11 @@
 #include <iostream>
 
 
+std::ostream& operator<<( std::ostream& o, const ICommand& command )
+{
+    return command.cout(o);
+}
+
 /* ---- Interface ICommand ----*/
 
 ICommand::~ICommand() {}
@@ -20,14 +25,14 @@ void CommandInt::execute(){
 }
 
 
-bool CommandInt::operator==(const CommandInt& o){
+bool CommandInt::operator==(const CommandInt& o) const{
         if(a != o.a){
             return false;
         }
         return true;
     }
     
-bool CommandInt::operator==(const ICommand& o){
+bool CommandInt::operator==(const ICommand& o) const{
         const CommandInt* other = dynamic_cast<const CommandInt*>(&o);
         if(other == NULL)
         {
@@ -48,14 +53,14 @@ void CommandChar::execute(){
 
 
 
-bool CommandChar::operator==(const CommandChar& o){
+bool CommandChar::operator==(const CommandChar& o) const{
         if(a != o.a){
             return false;
         }
         return true;
 }
     
-bool CommandChar::operator==(const ICommand& o){
+bool CommandChar::operator==(const ICommand& o) const{
         const CommandChar* other = dynamic_cast<const CommandChar*>(&o);
         if(other == NULL)
         {
@@ -69,14 +74,13 @@ bool CommandChar::operator==(const ICommand& o){
 
 
 void Invoker::invoke(ICommand& cmd){
-    cout << "----Invocation----" << endl;
+    std::cout << "----Invocation----" << std::endl;
     cmd.execute();
 }
 
 
 
-
-
+/*
 
 int main(int argc, char** argv) {
     
@@ -90,3 +94,4 @@ int main(int argc, char** argv) {
     
     
 }
+*/

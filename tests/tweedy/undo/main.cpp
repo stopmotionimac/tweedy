@@ -39,20 +39,20 @@ BOOST_AUTO_TEST_CASE( undo_floats )
 {
 	// simple example to manipulate a stack of undo/redo commands
 	// with basic commands to manipulate integer, strings, ...
-        std::vector<int> q;
+        std::vector<int> v;
 	
-	q.push_back(5);
-	q.push_back(51);
-	q.push_back(52);
-	q.push_back(53);
+	v.push_back(5);
+	v.push_back(51);
+	v.push_back(52);
+	v.push_back(53);
 
-	BOOST_CHECK_EQUAL( q.front(), 5 );
+	BOOST_CHECK_EQUAL( v.front(), 5 );
 
-	q.pop_back();
+	v.pop_back();
 	
-	BOOST_CHECK_EQUAL( q.size(), 3 );
-	BOOST_CHECK_EQUAL( q.front(), 51 );
-	BOOST_CHECK_EQUAL( q.back(), 53 );
+	BOOST_CHECK_EQUAL( v.size(), 3 );
+	BOOST_CHECK_EQUAL( v.front(), 5 );
+	BOOST_CHECK_EQUAL( v.back(), 52 );
 	
 }
 
@@ -77,14 +77,14 @@ BOOST_AUTO_TEST_CASE( undo_command )
         v.push_back(ci2);
         
         
-	//BOOST_CHECK_EQUAL( v.front(), ci1 );
+	BOOST_CHECK_EQUAL( v.front(), *ci1 );
         BOOST_CHECK_EQUAL( v.size(), 4 );
 
 	v.pop_back();
 	
 	BOOST_CHECK_EQUAL( v.size(), 3 );
-	//BOOST_CHECK_EQUAL( v.front(), ci1 );
-	//BOOST_CHECK_EQUAL( v.back(), cc1 );
+	BOOST_CHECK_EQUAL( v.front(), *ci1 );
+	BOOST_CHECK_EQUAL( v.back(), *cc1 );
 	
 }
 
