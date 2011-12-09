@@ -1,4 +1,4 @@
-#include "icommand.hpp"
+#include "Icommand.hpp"
 
 #include <cstdlib>
 #include <iostream>
@@ -77,5 +77,3 @@ void Invoker::invoke(ICommand& cmd){
     std::cout << "----Invocation----" << std::endl;
     cmd.execute();
 }
-
-
