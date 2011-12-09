@@ -1,4 +1,4 @@
-#include <tweedy/core/icommand.hpp>
+#include <tweedy/core/Icommand.hpp>
 
 #include <iostream>
 #include <queue>
