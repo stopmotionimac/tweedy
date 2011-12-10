@@ -1,6 +1,9 @@
 #include <cstdlib>
-
 #include <iostream>
+#include <string>
+#include <boost/ptr_container/ptr_vector.hpp>
+
+
 
 
 
@@ -26,6 +29,8 @@ public:
 };
 
 std::ostream& operator<<( std::ostream& o, const ICommand& command );
+
+
 
 /*----- Classe CommandInt ------*/
 
@@ -71,6 +76,7 @@ private:
 };
 
 
+
 /* ---- Invocateur ----*/
 
 class Invoker {
@@ -78,4 +84,3 @@ public:
     
     void invoke(ICommand& cmd);
 };
-
