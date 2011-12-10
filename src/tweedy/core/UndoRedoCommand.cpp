@@ -189,10 +189,10 @@ Somme& CommandManager::getSomme(){
 }
 
 
-int main(){
+//int main(){
     
     /* simple test on CommandManager */
-    
+ /*   
     CommandManager cmdMan ;
     
     std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
@@ -204,3 +204,4 @@ int main(){
     
     return EXIT_SUCCESS;
 }
+*/
