@@ -1,6 +1,8 @@
 
 #include <QtGui/QApplication>
+#include <QtGui/QMainWindow>
 #include "gui/timesheet/TimeSheet.h"
+#include "gui/MainWindow/MainWindow.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -11,6 +13,9 @@ int main(int argc, char *argv[])
     
     TimeSheet form;
     form.show();
+
+	MainWindow mainWin;
+    	mainWin.show();
     
     return app.exec();
 }
