@@ -13,6 +13,8 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QMenuBar>
 
+#include "../timesheet/TimeSheet.h"
+
 class MainWindow : public QMainWindow
 {
 	Q_OBJECT
@@ -66,6 +68,7 @@ class MainWindow : public QMainWindow
 		QAction *_aboutAction;
 		QAction *_aboutQtAction;
 		
+                TimeSheet* timesheet;
 };
 
 

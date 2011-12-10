@@ -7,7 +7,8 @@
 #include "MainWindow.hpp"
 
 
-MainWindow::MainWindow()
+
+MainWindow::MainWindow() : timesheet(new TimeSheet)
 {
 	textEdit = new QTextEdit;
      	setCentralWidget(textEdit);
@@ -56,8 +57,8 @@ MainWindow::MainWindow()
 
 	contenuDock1->setLayout(dockLayout);
 
-	QDockWidget *dock2 = new QDockWidget("Timeline", this);
-	addDockWidget(Qt::BottomDockWidgetArea, dock2);
+	//ajout de timesheet a la mainwindow
+	addDockWidget(Qt::BottomDockWidgetArea, timesheet);
 
 	createWindow();
 

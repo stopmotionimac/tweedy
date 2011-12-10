@@ -11,11 +11,8 @@ int main(int argc, char *argv[])
 
     QApplication app(argc, argv);
     
-    TimeSheet form;
-    form.show();
-
-	MainWindow mainWin;
-    	mainWin.show();
+    MainWindow mainWin;
+    mainWin.show();
     
     return app.exec();
 }
