@@ -4,7 +4,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 #include "gui/timesheet/TimeSheet.h"
-#include "gui/MainWindow/MainWindow.hpp"
+#include "gui/MainWindow/mainwindow.h"
 
 #include <iostream>
 

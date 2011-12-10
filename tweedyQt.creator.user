@@ -50,7 +50,7 @@
        <value type="QString">all</value>
       </valuelist>
       <value key="GenericProjectManager.GenericMakeStep.MakeArguments" type="QString"></value>
-      <value key="GenericProjectManager.GenericMakeStep.MakeCommand" type="QString"></value>
+      <value key="GenericProjectManager.GenericMakeStep.MakeCommand" type="QString">scons</value>
       <value key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName" type="QString">Make</value>
       <value key="ProjectExplorer.ProjectConfiguration.DisplayName" type="QString"></value>
       <value key="ProjectExplorer.ProjectConfiguration.Id" type="QString">GenericProjectManager.GenericMakeStep</value>
@@ -114,7 +114,7 @@
     <value key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments" type="QString">scons</value>
     <value key="ProjectExplorer.CustomExecutableRunConfiguration.BaseEnvironmentBase" type="int">2</value>
     <value key="ProjectExplorer.CustomExecutableRunConfiguration.Executable" type="QString">/home/stephanie/TWEEDY/tweedy/dist/stephanie-N53SV/gcc-4.6.1/production/bin/tweedy</value>
-    <value key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal" type="bool">true</value>
+    <value key="ProjectExplorer.CustomExecutableRunConfiguration.UseTerminal" type="bool">false</value>
     <valuelist key="ProjectExplorer.CustomExecutableRunConfiguration.UserEnvironmentChanges" type="QVariantList"/>
     <value key="ProjectExplorer.CustomExecutableRunConfiguration.WorkingDirectory" type="QString"></value>
     <value key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName" type="QString">Exécuter /home/stephanie/TWEEDY/tweedy/dist/stephanie-N53SV/gcc-4.6.1/production/bin/tweedy</value>

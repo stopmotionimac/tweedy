@@ -112,3 +112,13 @@ tools/sconsProject/tools/unittest.py
 tools/sconsProject/utils/__init__.py
 tools/sconsProject/utils/colors.py
 tools/sconsProject/utils/utils.py
+src/tweedy/gui/MainWindow/widgetImport.ui
+src/tweedy/gui/MainWindow/widgetFlux.ui
+src/tweedy/gui/MainWindow/ouvrir.png
+src/tweedy/gui/MainWindow/nouveau.png
+src/tweedy/gui/MainWindow/example.jpg
+src/tweedy/gui/MainWindow/ui_mainwindow.h
+src/tweedy/gui/MainWindow/mainwindow.cpp
+src/tweedy/gui/MainWindow/mainwindow.ui
+src/tweedy/gui/MainWindow/mainwindow.h
+src/tweedy/gui/MainWindow/example.jpg
