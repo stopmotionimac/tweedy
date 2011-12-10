@@ -9,6 +9,9 @@
 class Somme{
 public:
     
+    Somme(int i):value(i){};
+    ~Somme();
+    
     int getSommeValue() const;
     void setSommeValue(int value);
     
@@ -36,7 +39,7 @@ class AddCommand : public UndoRedoCommand
  {
     
  public:
-     AddCommand(int i, std::string s, Somme * somme): value(i), text(s), target(somme){
+     AddCommand(int i, std::string s, Somme& somme): value(i), text(s), target(somme){
          
      }
      
@@ -55,7 +58,7 @@ class AddCommand : public UndoRedoCommand
  private:
      int value;
      std::string text;
-     Somme * target ;
+     Somme& target ;
  };
  
  
@@ -66,7 +69,7 @@ class AddCommand : public UndoRedoCommand
  {
     
  public:
-     DeleteCommand(int i, std::string s, Somme * somme): value(i), text(s), target(somme){
+     DeleteCommand(int i, std::string s, Somme& somme): value(i), text(s), target(somme){
          
      }
      
@@ -84,7 +87,7 @@ class AddCommand : public UndoRedoCommand
  private:
      int value;
      std::string text;
-     Somme * target;
+     Somme& target;
  };
 
 
@@ -95,7 +98,7 @@ class AddCommand : public UndoRedoCommand
 class CommandManager
 {
 public:
-    CommandManager();
+    CommandManager(): somme(0){};
     
     ~CommandManager();
     
@@ -126,10 +129,15 @@ public:
     size_t countUndo() const;
     size_t countRedo() const;
     
+    UndoRedoCommand& getCommandToUndo();
+    UndoRedoCommand& getCommandToRedo();
     
     void pushNewCommand(UndoRedoCommand * newCommand);
-    void removeCommand(UndoRedoCommand * Command);
+    
+    void undo();        /* will be implemented as slots */
+    void redo();
 
+    Somme& getSomme();
     
     
 private:
@@ -143,7 +151,7 @@ private:
     int undoLimit;
     int redoLimit;
     
-    int somme; /* pour le test , il faudra ensuite le placer dans un autre objet */
+    Somme somme; /* pour le test , il faudra ensuite le placer dans un autre objet */
     
 };
 
