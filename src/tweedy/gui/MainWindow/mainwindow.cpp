@@ -15,8 +15,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QString * image1 = new QString("example.jpg");
-    QString * image2 = new QString("full.jpg");
+    QString * image1 = new QString("img/example.jpg");
+    QString * image2 = new QString("img/full.jpg");
 
     /*QListWidgetItem *item = new QListWidgetItem(QIcon(*image1), *image1, ui->listWidget);
     QListWidgetItem *item2 = new QListWidgetItem(QIcon(*image2),*image2, ui->listWidget);
