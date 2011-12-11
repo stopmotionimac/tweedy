@@ -2,6 +2,8 @@
 
 #include <cstdlib>
 #include <iostream>
+#include <boost/ptr_container/ptr_vector.hpp>
+#include <string>
 
 
 
@@ -15,7 +17,7 @@ void Somme::setSommeValue(int newValue){
 
 /* ---- Interface UndoRedoCommand ----*/
 
-IUndoRedoCommand::~IUndoRedoCommand() {}
+//IUndoRedoCommand::~IUndoRedoCommand() {}
 
 
 
@@ -30,6 +32,10 @@ void AddCommand::redo(){
     target.setSommeValue(target.getSommeValue()+value);
 }
 
+void AddCommand::getName() const{
+    std::cout<<text<<std::endl;
+}
+
 /* ------ DeleteCommand ------ */
 
 
@@ -41,6 +47,9 @@ void DeleteCommand::redo(){
     target.setSommeValue(target.getSommeValue()-value);
 }
 
+void DeleteCommand::getName() const{
+    std::cout<<text<<std::endl;
+}
 
 /* ##############    CommandManager   ############ */
 
@@ -133,9 +142,9 @@ size_t CommandManager::count() const{
 
 
 
-IUndoRedoCommand& CommandManager::getCommandToUndo(){
+IUndoRedoCommand* CommandManager::getCommandToUndo(){
     
-    IUndoRedoCommand& cmd = undoStack.back();
+    IUndoRedoCommand* cmd = &(undoStack.back());
     undoStack.pop_back();
     return cmd;
 }
@@ -161,9 +170,11 @@ void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
 void CommandManager::undo(){
     
     if (this->canUndo()){
-        IUndoRedoCommand& cmd = this->getCommandToUndo();
-        cmd.undo();
-        redoStack.push_back(&cmd);
+        IUndoRedoCommand* cmd = this->getCommandToUndo();
+        cmd->getName();
+        cmd->undo();
+        //redoStack.push_back(cmd);
+        redoStack.push_back(new AddCommand(2,"command +2", this->getSomme()));
     }
     else
         std::cout << "No command to undo" << std::endl; /* case of no command to undo will be implement
@@ -174,9 +185,10 @@ void CommandManager::undo(){
 void CommandManager::redo(){
     
     if (this->canRedo()){
-        IUndoRedoCommand& cmd = this->getCommandToRedo();
-        cmd.redo();
-        undoStack.push_back(&cmd);
+        IUndoRedoCommand* cmd = &(this->getCommandToRedo());
+        cmd->getName();
+        cmd->redo();
+        undoStack.push_back(cmd);
     }
     else
         std::cout << "No command to redo" << std::endl; /* case of no command to undo will be implement
@@ -188,3 +200,11 @@ Somme& CommandManager::getSomme(){
     return somme;
 }
 
+
+ boost::ptr_vector<IUndoRedoCommand>* CommandManager::getUndoStack(){   /*renvoyer un const ptr vers les stacks ?*/
+     return &(this->undoStack);
+ }
+ 
+ boost::ptr_vector<IUndoRedoCommand>* CommandManager::getRedoStack(){
+     return &(this->redoStack);
+ }
