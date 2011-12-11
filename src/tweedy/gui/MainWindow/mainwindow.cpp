@@ -8,7 +8,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    timesheet(new TimeSheet)
 {
     ui->setupUi(this);
 
@@ -21,6 +22,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
     imageLabel->setPixmap(*pixmap_img);
     imageLabel->adjustSize();
+    
+    //ajout de timesheet a la mainwindow
+    addDockWidget(Qt::BottomDockWidgetArea, timesheet);
 }
 
 MainWindow::~MainWindow()

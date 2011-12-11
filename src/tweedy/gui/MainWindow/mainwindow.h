@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
+#include "../timesheet/TimeSheet.h"
 
 namespace Ui {
     class MainWindow;
@@ -17,6 +18,7 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    TimeSheet* timesheet;
 };
 
 #endif // MAINWINDOW_H
