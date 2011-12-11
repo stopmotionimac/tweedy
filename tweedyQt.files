@@ -122,3 +122,11 @@ src/tweedy/gui/MainWindow/mainwindow.cpp
 src/tweedy/gui/MainWindow/mainwindow.ui
 src/tweedy/gui/MainWindow/mainwindow.h
 src/tweedy/gui/MainWindow/example.jpg
+src/tweedy/gui/MainWindow/ouvrir.png
+src/tweedy/gui/MainWindow/nouveau.png
+src/tweedy/gui/MainWindow/full.jpg
+src/tweedy/gui/MainWindow/example.jpg
+src/tweedy/gui/MainWindow/ui_mainwindow.h
+src/tweedy/gui/MainWindow/mainwindow.h
+src/tweedy/gui/MainWindow/mainwindow.cpp
+src/tweedy/gui/MainWindow/mainwindow.ui

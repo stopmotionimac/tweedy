@@ -6,6 +6,7 @@
 #include "gui/timesheet/TimeSheet.h"
 #include "gui/MainWindow/mainwindow.h"
 
+
 #include <iostream>
 
 int main(int argc, char *argv[])
@@ -18,7 +19,7 @@ int main(int argc, char *argv[])
     MainWindow mainWin;
     mainWin.show();
     
-    return app.exec();    
+    return app.exec();   
    
 }
 

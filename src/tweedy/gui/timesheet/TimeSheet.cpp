@@ -1,26 +1,48 @@
 #include "TimeSheet.h"
 #include <QtGui/QTableView>
+#include <QtGui/QIcon>
 #include <iostream>
+#include <qt4/QtGui/qtablewidget.h>
+#include<iostream>
+#include <qt4/QtGui/qlabel.h>
 
 
 TimeSheet::TimeSheet(QDockWidget *parent) :
     QDockWidget(parent),
-    currentTime(-1),
+    currentTime(0),
     ui(new Ui::TimeSheet),
     timer(new QTimer(this))
 {
     ui->setupUi(this);
-    ui->temps->setNum(currentTime + 1);
+       
     
+    QIcon icon0("img/tweedy0.jpg");
+    QIcon icon1("img/tweedy1.jpg");
+    QIcon icon2("img/tweedy2.jpg");
+    QIcon icon3("img/tweedy3.jpg");
+    ui->maTable->item(0,0)->setIcon(icon0);
+    ui->maTable->item(0,1)->setIcon(icon1);
+    ui->maTable->item(0,2)->setIcon(icon2);
+    ui->maTable->item(0,3)->setIcon(icon3);
+    ui->maTable->item(1,0)->setText("img/tweedy0.jpg");
+    ui->maTable->item(1,1)->setText("img/tweedy1.jpg");
+    ui->maTable->item(1,2)->setText("img/tweedy2.jpg");
+    ui->maTable->item(1,3)->setText("img/tweedy3.jpg");
+    
+    
+    
+   //for(int i=0; i<4; ++i)
+     //  ui->maTable->item(1,0)->setText(ui->maTable->item(0,0)->icon().name());
+       
+            
     connect(timer, SIGNAL(timeout()), this, SLOT(on_playButton_clicked()));
             
 }
 
-
 void TimeSheet::on_playButton_clicked()
 {
    timer->start(1000);
-   ++TimeSheet::currentTime;
+   ++currentTime;
    
    ui->temps->setNum(currentTime);
    
@@ -31,16 +53,25 @@ void TimeSheet::on_playButton_clicked()
             currentTime < ui->maTable->item(3,i)->text().toInt() )
        {
            found = true;
-            ui->element->setText(ui->maTable->item(1,i)->text());
-            ui->maTable->setCurrentCell(0,i);
+           ui->element->setText(ui->maTable->item(1,i)->text());
+           ui->maTable->setCurrentCell(0,i);
+           
+           QPixmap current(ui->maTable->item(1,i)->text());
+           current = current.scaled(300,200);
+           ui->image->setPixmap(current);
+           ui->image->adjustSize();
+           
             break;
        }
+       
+       if( !found )
+       {
+           ui->element->setText("none");
+           ui->image->clear();
+       }
    }
-
-   if( !found )
-       ui->element->setText("none");
-         
 }
+
 
 void TimeSheet::on_pauseButton_clicked()
 {
@@ -136,6 +167,6 @@ void TimeSheet::on_previousButton_clicked()
 
 TimeSheet::~TimeSheet()
 {
-	delete timer;
+    delete timer;
     delete ui;
 }

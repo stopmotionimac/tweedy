@@ -10,7 +10,8 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    timesheet(new TimeSheet)
 {
     ui->setupUi(this);
 
@@ -28,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     imageLabel->setPixmap(*image1);
     imageLabel->adjustSize();
+<<<<<<< HEAD
 
     //connect(ui->listWidget, SIGNAL(itemActivated(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
 }
@@ -36,6 +38,11 @@ void MainWindow::on_photo_selected(QListWidgetItem * item) {
 
     imageLabel->setPixmap(item->text());
     ui->viewer->setWidget(imageLabel);
+=======
+    
+    //ajout de timesheet a la mainwindow
+    addDockWidget(Qt::BottomDockWidgetArea, timesheet);
+>>>>>>> c6c92d07f7a26c0ff557cd51658186a94fa97790
 }
 
 MainWindow::~MainWindow()
