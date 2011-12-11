@@ -143,6 +143,16 @@
        <attribute name="title">
         <string>Photos</string>
        </attribute>
+       <widget class="QListWidget" name="listWidget">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>0</y>
+          <width>231</width>
+          <height>221</height>
+         </rect>
+        </property>
+       </widget>
       </widget>
       <widget class="QWidget" name="importPhoto">
        <attribute name="title">
@@ -159,12 +169,15 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>248</y>
+        <y>250</y>
         <width>269</width>
-        <height>31</height>
+        <height>29</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
        <item>
         <widget class="QPushButton" name="ImportButton">
          <property name="text">
@@ -230,7 +243,7 @@
       <x>160</x>
       <y>300</y>
       <width>721</width>
-      <height>231</height>
+      <height>251</height>
      </rect>
     </property>
     <widget class="QWidget" name="contentTimeline"/>
@@ -249,6 +262,12 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionPaste"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -276,6 +295,9 @@
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="separator"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_as"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -301,7 +323,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>images/nouveau.png</normaloff>images/nouveau.png</iconset>
+     <normaloff>nouveau.png</normaloff>nouveau.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -313,13 +335,48 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>images/ouvrir.png</normaloff>images/ouvrir.png</iconset>
+     <normaloff>ouvrir.png</normaloff>ouvrir.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save as</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
    </property>
   </action>
  </widget>
