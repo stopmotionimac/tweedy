@@ -2,7 +2,7 @@
 #include <QtCore/QString>
 
 
-
+/*
 QIcon UndoView::cleanIcon() const{
     return this->icon;
 }
@@ -17,8 +17,9 @@ QString	UndoView::getEmptyLabel () const{
 
 
 void UndoView::setEmptyLabel( const QString & label ){
-    this->emptyLabel.operator =(label) ;
+    this->emptyLabel(label) ;
 }
+*/
         
 QUndoGroup * UndoView::group() const{
     return this->undoGroup;
