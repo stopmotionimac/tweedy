@@ -28,8 +28,12 @@ void AddCommand::undo(){
     target.setSommeValue(target.getSommeValue()-value);
 }
 
-void AddCommand::redo(){
+void AddCommand::runDo(){
     target.setSommeValue(target.getSommeValue()+value);
+}
+
+void AddCommand::redo(){
+    this->runDo();
 }
 
 void AddCommand::getName() const{
@@ -43,8 +47,12 @@ void DeleteCommand::undo(){
     target.setSommeValue(target.getSommeValue()+value);
 }
 
-void DeleteCommand::redo(){
+void DeleteCommand::runDo(){
     target.setSommeValue(target.getSommeValue()-value);
+}
+
+void DeleteCommand::redo(){
+    this->runDo();
 }
 
 void DeleteCommand::getName() const{
@@ -163,7 +171,7 @@ void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
     
     /* pusher the new command into the undoStack and execute it*/
     undoStack.push_back(newCommand);
-    newCommand->redo();         //will be modified
+    newCommand->runDo();         //will be modified
 }
 
 

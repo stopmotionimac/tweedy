@@ -28,6 +28,7 @@ public:
     virtual ~IUndoRedoCommand(){};
     
     virtual void undo()= 0;
+    virtual void runDo()=0;
     virtual void redo()= 0;
     virtual void getName() const = 0;
 };
@@ -47,6 +48,7 @@ class AddCommand : public IUndoRedoCommand
      
      
      virtual void undo();
+     virtual void runDo();
      virtual void redo();
      
      virtual void getName() const;
@@ -79,6 +81,7 @@ class AddCommand : public IUndoRedoCommand
      
      
      virtual void undo();
+     virtual void runDo();
      virtual void redo();
      
      virtual void getName() const;
