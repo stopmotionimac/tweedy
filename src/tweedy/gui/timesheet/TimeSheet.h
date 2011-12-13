@@ -5,6 +5,8 @@
 #include <QtGui/QStandardItemModel>
 #include <QtCore/QTimer>
 #include <string>
+#include "../viewerImg/ViewerImg.h"
+
 #include "ui_TimeSheet.h"
 
 namespace Ui {
@@ -16,7 +18,7 @@ class TimeSheet : public QDockWidget
     Q_OBJECT
 
 public:
-    explicit TimeSheet(QDockWidget *parent = 0);
+    explicit TimeSheet(ViewerImg* viewerimg, QDockWidget *parent = 0);
     ~TimeSheet();
        
 private Q_SLOTS:
@@ -30,6 +32,7 @@ private:
     Ui::TimeSheet *ui;
     int currentTime;
     QTimer * timer;
+    ViewerImg* viewerImg;
 };
 
 #endif // TIMESHEET_H

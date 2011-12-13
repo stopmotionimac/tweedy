@@ -2,21 +2,21 @@
 #include <QtGui/QTableView>
 #include <QtGui/QIcon>
 #include <iostream>
-//#include <qt4/QtGui/qtablewidget.h>
-//#include <qt4/QtGui/qlabel.h>
-//#include <QtGui/qlabel.h>
-//#include <QtGui/qtablewidget.h>
+#include <qt4/QtGui/qtablewidget.h>
+#include <iostream>
+#include <qt4/QtGui/qlabel.h>
 
 
-TimeSheet::TimeSheet(QDockWidget *parent) :
+TimeSheet::TimeSheet(ViewerImg* vi, QDockWidget *parent) :
     QDockWidget(parent),
     currentTime(0),
     ui(new Ui::TimeSheet),
-    timer(new QTimer(this))
+    timer(new QTimer(this)),
+    viewerImg(new ViewerImg)
 {
     ui->setupUi(this);
        
-    
+    viewerImg = vi;
     QIcon icon0("img/tweedy0.jpg");
     QIcon icon1("img/tweedy1.jpg");
     QIcon icon2("img/tweedy2.jpg");
@@ -59,16 +59,17 @@ void TimeSheet::on_playButton_clicked()
            
            QPixmap current(ui->maTable->item(1,i)->text());
            current = current.scaled(300,200);
-           ui->image->setPixmap(current);
-           ui->image->adjustSize();
            
+           viewerImg->getUi()->labelImg->setPixmap(current);
+           viewerImg->getUi()->labelImg->adjustSize();
+                      
             break;
        }
        
        if( !found )
        {
            ui->element->setText("none");
-           ui->image->clear();
+           viewerImg->getUi()->labelImg->clear();
        }
    }
 }
@@ -168,6 +169,7 @@ void TimeSheet::on_previousButton_clicked()
 
 TimeSheet::~TimeSheet()
 {
+    delete viewerImg;
     delete timer;
     delete ui;
 }
