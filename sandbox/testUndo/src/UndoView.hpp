@@ -11,6 +11,7 @@
 #include <QtGui/QWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QPushButton>
+#include <QtGui/QLabel>
 
 
 class UndoView : public QListWidget{
@@ -38,6 +39,7 @@ public:
         void fillStringStack();
         void fill();
 
+        CommandManager* getCmdMan();
 
 private Q_SLOTS:
     //void setGroup ( QUndoGroup * group);
@@ -54,15 +56,27 @@ private:
 };
 
 class UndoWidget: public QWidget{
+    Q_OBJECT
 public:
     
     UndoWidget(UndoView * undoView);
     ~UndoWidget();
+
+private Q_SLOTS:
+    void updateUndoLabelValue();
+    void updateRedoLabelValue();
+    
     
 private:
     QVBoxLayout * dockLayout;
+    
     QPushButton * addButton;
     QPushButton * dltButton;
+    QPushButton * undoButton;
+    QPushButton * redoButton;
+    
+    QLabel * labelSomme;
+    
     UndoView* undoView;
 };
  

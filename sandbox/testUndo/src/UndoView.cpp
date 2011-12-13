@@ -2,6 +2,7 @@
 #include <QtCore/QString>
 #include <iostream>
 #include <string>
+#include <QtCore/QVariant>
 
 
 UndoView::~UndoView(){
@@ -38,8 +39,8 @@ std::stack<IUndoRedoCommand *>& UndoView::stack() const{
 
 
 void UndoView::fillStringStack(){
-            std::stack<IUndoRedoCommand*>& copyUndoStack = this->cmdMan->getUndoStack();
-            std::stack<IUndoRedoCommand*>& copyRedoStack = this->cmdMan->getRedoStack();
+            std::stack<IUndoRedoCommand*> copyUndoStack(this->cmdMan->getUndoStack());
+            std::stack<IUndoRedoCommand*> copyRedoStack(this->cmdMan->getRedoStack());
             
             while(!copyUndoStack.empty()){
                 std::cout << (*copyUndoStack.top()).getText() << std::endl;
@@ -58,6 +59,8 @@ void UndoView::fillStringStack(){
 }
 
 void UndoView::fill(){
+    this->fillStringStack();
+    
     while(!pileString.empty()){
         this->addItem(pileString.top());
         pileString.pop();
@@ -65,25 +68,47 @@ void UndoView::fill(){
 }
 
 
+CommandManager* UndoView::getCmdMan(){
+    return cmdMan;
+}
 
-UndoWidget::UndoWidget( UndoView * undoView){
+
+UndoWidget::UndoWidget( UndoView * nundoView){
+    
     
     dockLayout = new QVBoxLayout();
     
     addButton = new QPushButton("Ajouter");
     dltButton = new QPushButton("Retirer");
     
-    this->undoView = undoView;
+    undoButton = new QPushButton("Undo");
+    redoButton = new QPushButton("Redo");
     
     
-    undoView->fillStringStack();
+    
+    undoView = nundoView;
+    
     undoView->fill();
+    
+    
+    /* A modifier/cleaner */
+    
+    QVariant* tempValue = new QVariant(undoView->getCmdMan()->getSomme().getSommeValue());
+    
+    labelSomme = new QLabel("Somme :" + tempValue->toString());
     
     dockLayout->addWidget(addButton);
     dockLayout->addWidget(dltButton);
+    dockLayout->addWidget(undoButton);
+    dockLayout->addWidget(redoButton);
     dockLayout->addWidget(undoView);
     
+    dockLayout->addWidget(labelSomme);
+    
     this->setLayout(dockLayout);
+    
+    connect(undoButton, SIGNAL(clicked()), this, SLOT(updateUndoLabelValue()));
+    connect(redoButton, SIGNAL(clicked()), this, SLOT(updateRedoLabelValue()));
     
 }
 
@@ -92,4 +117,28 @@ UndoWidget::~UndoWidget(){
     delete dockLayout;
     delete addButton;
     delete dltButton;
+}
+
+
+void UndoWidget::updateUndoLabelValue(){
+    
+    undoView->getCmdMan()->undo();
+    
+    
+    QVariant* tempValue = new QVariant(undoView->getCmdMan()->getSomme().getSommeValue());
+    
+    
+    labelSomme->setText("Somme :" + tempValue->toString());
+}
+
+
+void UndoWidget::updateRedoLabelValue(){
+    
+    undoView->getCmdMan()->redo();
+    
+    
+    QVariant* tempValue = new QVariant(undoView->getCmdMan()->getSomme().getSommeValue());
+    
+    
+    labelSomme->setText("Somme :" + tempValue->toString());
 }
