@@ -7,7 +7,6 @@ int main (int argc, char** argv)
 {
       std::cout<<"GP_OK = "<<GP_OK<<std::endl;
 
-
       GPContext *currentContext = NULL;
       gp_context_new();
 
