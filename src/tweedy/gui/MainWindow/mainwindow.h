@@ -4,6 +4,7 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QLabel>
 #include <QtGui/QListWidgetItem>
+#include <QtGui/QListWidget>
 
 
 #include "../timesheet/TimeSheet.h"
@@ -23,10 +24,13 @@ public:
 private Q_SLOTS:
     void on_photo_selected(QListWidgetItem * item);
 
+    void on_ImportButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     QLabel *imageLabel;
     TimeSheet* timesheet;
+    QListWidget * listWidget;
 };
 
 #endif // MAINWINDOW_H
