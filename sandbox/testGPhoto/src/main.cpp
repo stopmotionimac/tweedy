@@ -5,44 +5,47 @@
 
 int main (int argc, char** argv)
 {
-
-//std::cout<<*cameraUsed<<std::endl;
-
-    //Camera ** cameraUsed;
-
-   // int (*pointeurFonctionCameraNew)(**Camera);
-   //pointeurFonctionCameraNew = gp_camera_new;
-
-//    int a;
-//    a = gp_camera_new(cameraUsed);
-    //a = (*pointeurFonctionCameraNew)(cameraUsed);
-
-    //GPContext* currentContext;
-    //  GPContext* gp_context_new();
-
-
-    //int initCamera;
-    //initCamera = camera_init(cameraUsed, GPContext);
-
-
-
- /*   Camera * cameraUsed;
-    int returnCameraNew;
-    returnCameraNew = gp_camera_new(&cameraUsed);
-
- */
-
-/*    Camera * canon;
-      int i, retval;
-      GPContext * canoncontext = gp_context_new();
-      gp_camera_new(&canon);
-*/
+      GPContext *currentContext = NULL;
+      gp_context_new();
 
       Camera *camera=NULL;
       gp_camera_new (&camera);
-      gp_camera_init (camera, NULL);
-      gp_camera_unref (camera);
+      CameraAbilitiesList * abilitiesList = NULL;
+      CameraAbilities  abilities;
+      CameraAbilities * ptr_abilities;
+      ptr_abilities = &abilities;
+      int haveListAbilities = gp_abilities_list_get_abilities (abilitiesList, 0, ptr_abilities);
+      int haveAbilities = gp_camera_set_abilities(camera, abilities);
+
+/*      //in case camera driver can't figure out the current camera's speed
+      //gp_camera_set_port_path or name => pas TROUVE
+      int speed; //AURA BESOIN D4UNE VALEUR (???)
+      int hasSpeed = gp_camera_set_port_speed (camera, speed);
+*/
+
+      gp_camera_init (camera, currentContext);
+
+      //to know port's camera
+      GPPortInfo info;
+      GPPortInfo * ptr_info;
+      ptr_info = &info;
+      int infoSetted = gp_camera_set_port_info (camera, info);
 
 
+      ///
+      int infoGetted = gp_camera_get_port_info(camera, ptr_info);
+
+
+      //To have a window with camera's config
+      CameraWidget ** widget;
+      CameraWidgetType type;
+      const char *label;
+      int widgetCreated = gp_widget_new (type, label, widget);
+      int configGetted = gp_camera_get_config (camera, widget, currentContext);
+
+      int indiceCountCamera = gp_camera_unref (camera);
+
+        //Before the end of using camera => better!
+        int cameraExited = gp_camera_exit (camera, currentContext);
         return EXIT_SUCCESS;
 }

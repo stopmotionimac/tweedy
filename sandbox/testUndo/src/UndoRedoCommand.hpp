@@ -4,13 +4,14 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <stack>
 #include <boost/ptr_container/ptr_vector.hpp>
 
 class Somme{
 public:
     
     Somme(int i):value(i){};
-    ~Somme();
+    ~Somme(){}
     
     int getSommeValue() const;
     void setSommeValue(int value);
@@ -25,11 +26,12 @@ private:
 
 class IUndoRedoCommand{
 public:
-    virtual ~IUndoRedoCommand() =0;
+    virtual ~IUndoRedoCommand(){};
     
-    virtual void undo();
-    virtual void redo();
-        
+    virtual void undo()= 0;
+    virtual void runDo()=0;
+    virtual void redo()= 0;
+    virtual void getName() const = 0;
 };
 
 /* ---------- Classe AddCommand -----------*/
@@ -43,11 +45,14 @@ class AddCommand : public IUndoRedoCommand
          
      }
      
-     ~AddCommand();
+     ~AddCommand(){};
      
      
-     void undo();
-     void redo();
+     virtual void undo();
+     virtual void runDo();
+     virtual void redo();
+     
+     virtual void getName() const;
 
      /*
      bool operator==(const AddCommand& o)const;
@@ -73,11 +78,14 @@ class AddCommand : public IUndoRedoCommand
          
      }
      
-     ~DeleteCommand();
+     ~DeleteCommand(){}
      
      
-     void undo();
-     void redo();
+     virtual void undo();
+     virtual void runDo();
+     virtual void redo();
+     
+     virtual void getName() const;
 
      /*
      bool operator==(const DeleteCommand& o)const;
@@ -98,9 +106,9 @@ class AddCommand : public IUndoRedoCommand
 class CommandManager
 {
 public:
-    CommandManager(): somme(0){};
+    CommandManager(): somme(0),undoStack(), redoStack(){}
     
-    ~CommandManager();
+    ~CommandManager() {}
     
     bool isActive() const;
     void setActive(bool active = true) ;
@@ -129,8 +137,8 @@ public:
     size_t countUndo() const;
     size_t countRedo() const;
     
-    IUndoRedoCommand& getCommandToUndo();
-    IUndoRedoCommand& getCommandToRedo();
+    IUndoRedoCommand* getCommandToUndo();
+    IUndoRedoCommand* getCommandToRedo();
     
     void pushNewCommand(IUndoRedoCommand * newCommand);
     
@@ -139,10 +147,13 @@ public:
 
     Somme& getSomme();
     
+    std::stack<IUndoRedoCommand*>& getUndoStack();
+    std::stack<IUndoRedoCommand*>& getRedoStack();
+    
     
 private:
-    boost::ptr_vector<IUndoRedoCommand> undoStack;
-    boost::ptr_vector<IUndoRedoCommand> redoStack;
+    std::stack<IUndoRedoCommand *> undoStack;
+    std::stack<IUndoRedoCommand *> redoStack;
     
     bool active;
     

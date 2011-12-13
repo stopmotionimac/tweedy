@@ -14,7 +14,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    timesheet(new TimeSheet)
+    timesheet(new TimeSheet())
 {
     ui->setupUi(this);
 
