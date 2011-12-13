@@ -143,16 +143,6 @@
        <attribute name="title">
         <string>Photos</string>
        </attribute>
-       <widget class="QListWidget" name="listWidget">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>231</width>
-          <height>221</height>
-         </rect>
-        </property>
-       </widget>
       </widget>
       <widget class="QWidget" name="importPhoto">
        <attribute name="title">
@@ -170,7 +160,7 @@
        <rect>
         <x>0</x>
         <y>250</y>
-        <width>269</width>
+        <width>231</width>
         <height>29</height>
        </rect>
       </property>
@@ -225,28 +215,6 @@
      <set>Qt::NoDockWidgetArea</set>
     </property>
     <widget class="QWidget" name="contentFlux"/>
-   </widget>
-   <widget class="QDockWidget" name="widgetEffect">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>300</y>
-      <width>161</width>
-      <height>241</height>
-     </rect>
-    </property>
-    <widget class="QWidget" name="contentEffect"/>
-   </widget>
-   <widget class="QDockWidget" name="widgetTimeline">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>300</y>
-      <width>721</width>
-      <height>251</height>
-     </rect>
-    </property>
-    <widget class="QWidget" name="contentTimeline"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -323,7 +291,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../img/nouveau.png</normaloff>../../../../img/nouveau.png</iconset>
+     <normaloff>../../../../../../../../img/nouveau.png</normaloff>../../../../../../../../img/nouveau.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -335,7 +303,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../img/ouvrir.png</normaloff>../../../../img/ouvrir.png</iconset>
+     <normaloff>../../../../../../../../img/ouvrir.png</normaloff>../../../../../../../../img/ouvrir.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
