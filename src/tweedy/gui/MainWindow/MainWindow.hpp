@@ -68,6 +68,7 @@ class MainWindow : public QMainWindow
 		QAction *_aboutAction;
 		QAction *_aboutQtAction;
 		
+                ViewerImg* viewerImg;
                 TimeSheet* timesheet;
 };
 
