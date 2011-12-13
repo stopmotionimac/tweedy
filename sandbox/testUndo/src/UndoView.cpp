@@ -1,5 +1,7 @@
 #include "UndoView.hpp"
 #include <QtCore/QString>
+#include <iostream>
+#include <string>
 
 
 UndoView::~UndoView(){
@@ -14,7 +16,7 @@ QIcon UndoView::cleanIcon() const{
 void UndoView::setCleanIcon(const QIcon & icon){
     this->icon = icon;
 }
-        
+
 QString	UndoView::getEmptyLabel () const{
     return this->emptyLabel;
 }
@@ -28,12 +30,30 @@ void UndoView::setEmptyLabel( const QString & label ){
 QUndoGroup * UndoView::group() const{
     return this->undoGroup;
 }
-/*        
-boost::ptr_vector<IUndoRedoCommand>* UndoView::stack() const{
+
+
+std::stack<IUndoRedoCommand *>& UndoView::stack() const{
     return this->cmdMan->getUndoStack();
 }
-*/
-//QUndoView.show()
+
+
+void UndoView::fillStringStack(){
+            std::stack<IUndoRedoCommand*>& copyStack = this->cmdMan->getUndoStack();
+            while(!copyStack.empty()){
+                std::cout << (*copyStack.top()).getText() << std::endl;
+                QString q;
+                pileString.push(q.fromStdString((*copyStack.top()).getText()));
+                copyStack.pop();
+                
+            }
+}
+
+void UndoView::fill(){
+    while(!pileString.empty()){
+        this->addItem(pileString.top());
+        pileString.pop();
+    }
+}
 /*
 MainWindow::MainWindow()
  {

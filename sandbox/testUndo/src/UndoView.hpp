@@ -7,14 +7,15 @@
 #include <QtGui/QListView>
 #include <QtGui/QUndoGroup>
 #include <QtGui/QMainWindow>
+#include <QtGui/QListWidget>
 
 
-class UndoView : public QListView{
+class UndoView : public QListWidget{
     Q_OBJECT
 public:
         UndoView(QWidget* parent =0);
         UndoView(CommandManager * cmdManager, QWidget * parent = 0) 
-                : QListView(parent), cmdMan(cmdManager){
+                : QListWidget(parent), cmdMan(cmdManager){
                     
         }
         UndoView(QUndoGroup * group, QWidget * parent = 0): undoGroup(group){}
@@ -29,7 +30,10 @@ public:
         
         QUndoGroup * group() const;
         
-        boost::ptr_vector<IUndoRedoCommand>* stack() const;
+        std::stack<IUndoRedoCommand*>& stack() const;
+        
+        void fillStringStack();
+        void fill();
 
 
 private Q_SLOTS:
@@ -42,6 +46,7 @@ private:
     QString emptyLabel;
     CommandManager* cmdMan;
     QUndoGroup * undoGroup;
+    std::stack<QString> pileString;
         
 };
 

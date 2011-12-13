@@ -40,6 +40,14 @@ void AddCommand::getName() const{
     std::cout<<text<<std::endl;
 }
 
+void AddCommand::setText(const std::string & newText){
+    text = newText;
+}
+
+std::string AddCommand::getText(){
+    return text;
+}
+
 /* ------ DeleteCommand ------ */
 
 
@@ -59,6 +67,13 @@ void DeleteCommand::getName() const{
     std::cout<<text<<std::endl;
 }
 
+void DeleteCommand::setText(const std::string & newText){
+    text = newText;
+}
+
+std::string DeleteCommand::getText(){
+    return text;
+}
 /* ##############    CommandManager   ############ */
 
 

@@ -32,6 +32,8 @@ public:
     virtual void runDo()=0;
     virtual void redo()= 0;
     virtual void getName() const = 0;
+    virtual void setText(const std::string &text)=0;
+    virtual std::string getText() =0;
 };
 
 /* ---------- Classe AddCommand -----------*/
@@ -53,6 +55,8 @@ class AddCommand : public IUndoRedoCommand
      virtual void redo();
      
      virtual void getName() const;
+     virtual void setText(const std::string &text);
+     virtual std::string getText();
 
      /*
      bool operator==(const AddCommand& o)const;
@@ -86,6 +90,9 @@ class AddCommand : public IUndoRedoCommand
      virtual void redo();
      
      virtual void getName() const;
+     virtual void setText(const std::string &text);
+     
+     virtual std::string getText();
 
      /*
      bool operator==(const DeleteCommand& o)const;

@@ -46,20 +46,25 @@ int main(int argc, char *argv[]){
     
     
     std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
+   
     
     
     
-     /*
     QApplication app(argc, argv);
     
     UndoView* undoView = new UndoView(&cmdMan);
     undoView->setWindowTitle("Command List");
+    
+    undoView->fillStringStack();
+    undoView->fill();
+    
     undoView->show();
-    undoView->setAttribute(Qt::WA_QuitOnClose, false);
+    undoView->setAttribute(Qt::WA_QuitOnClose, true);
+    
     
     
     return app.exec();
-    */
-    return EXIT_SUCCESS;
+    
+    //return EXIT_SUCCESS;
 }
 
