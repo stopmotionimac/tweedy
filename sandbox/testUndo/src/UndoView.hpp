@@ -8,6 +8,9 @@
 #include <QtGui/QUndoGroup>
 #include <QtGui/QMainWindow>
 #include <QtGui/QListWidget>
+#include <QtGui/QWidget>
+#include <QtGui/QVBoxLayout>
+#include <QtGui/QPushButton>
 
 
 class UndoView : public QListWidget{
@@ -50,29 +53,18 @@ private:
         
 };
 
-
-/*
-class MainWindow : public QMainWindow
-{
-     //Q_OBJECT
-
- public:
-     MainWindow();
-
-
- private:
-
-     void createUndoView();
-
-     QMenu *fileMenu;
-     QMenu *editMenu;
-     QMenu *itemMenu;
-     QMenu *helpMenu;
-
-     UndoView *undoView;
- };
- 
- */
+class UndoWidget: public QWidget{
+public:
+    
+    UndoWidget(UndoView * undoView);
+    ~UndoWidget();
+    
+private:
+    QVBoxLayout * dockLayout;
+    QPushButton * addButton;
+    QPushButton * dltButton;
+    UndoView* undoView;
+};
  
 #endif	/* UNDOVIEW_HPP */
 

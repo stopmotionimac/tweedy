@@ -52,14 +52,18 @@ int main(int argc, char *argv[]){
     
     QApplication app(argc, argv);
     
+
+    QWidget * undoWidget = new QWidget();
+    
     UndoView* undoView = new UndoView(&cmdMan);
     undoView->setWindowTitle("Command List");
     
     undoView->fillStringStack();
     undoView->fill();
     
-    undoView->show();
-    undoView->setAttribute(Qt::WA_QuitOnClose, true);
+    undoWidget->show();
+    
+    //undoView->setAttribute(Qt::WA_QuitOnClose, true);
     
     
     

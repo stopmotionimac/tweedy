@@ -38,12 +38,21 @@ std::stack<IUndoRedoCommand *>& UndoView::stack() const{
 
 
 void UndoView::fillStringStack(){
-            std::stack<IUndoRedoCommand*>& copyStack = this->cmdMan->getUndoStack();
-            while(!copyStack.empty()){
-                std::cout << (*copyStack.top()).getText() << std::endl;
+            std::stack<IUndoRedoCommand*>& copyUndoStack = this->cmdMan->getUndoStack();
+            std::stack<IUndoRedoCommand*>& copyRedoStack = this->cmdMan->getRedoStack();
+            
+            while(!copyUndoStack.empty()){
+                std::cout << (*copyUndoStack.top()).getText() << std::endl;
                 QString q;
-                pileString.push(q.fromStdString((*copyStack.top()).getText()));
-                copyStack.pop();
+                pileString.push(q.fromStdString((*copyUndoStack.top()).getText()));
+                copyUndoStack.pop();
+                
+            }
+            while(!copyRedoStack.empty()){
+                std::cout << (*copyRedoStack.top()).getText() << std::endl;
+                QString q;
+                pileString.push(q.fromStdString((*copyRedoStack.top()).getText()));
+                copyRedoStack.pop();
                 
             }
 }
@@ -54,29 +63,33 @@ void UndoView::fill(){
         pileString.pop();
     }
 }
-/*
-MainWindow::MainWindow()
- {
-
-     createUndoView();
-
-     setWindowTitle("Undo Framework");
 
 
- }
 
- void MainWindow::createUndoView()
- {
-     CommandManager cmdMan ;
+UndoWidget::UndoWidget( UndoView * undoView){
+    
+    dockLayout = new QVBoxLayout();
+    
+    addButton = new QPushButton("Ajouter");
+    dltButton = new QPushButton("Retirer");
+    
+    this->undoView = undoView;
     
     
-    std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
+    undoView->fillStringStack();
+    undoView->fill();
     
-    cmdMan.pushNewCommand(new AddCommand(2,"command +2", cmdMan.getSomme()));
+    dockLayout->addWidget(addButton);
+    dockLayout->addWidget(dltButton);
+    dockLayout->addWidget(undoView);
     
-     undoView = new UndoView(&cmdMan);
-     undoView->setWindowTitle(tr("Command List"));
-     undoView->show();
-     undoView->setAttribute(Qt::WA_QuitOnClose, false);
- }
- */
+    this->setLayout(dockLayout);
+    
+}
+
+UndoWidget::~UndoWidget(){
+    
+    delete dockLayout;
+    delete addButton;
+    delete dltButton;
+}
