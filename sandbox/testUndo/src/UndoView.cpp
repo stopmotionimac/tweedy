@@ -38,7 +38,7 @@ std::stack<IUndoRedoCommand *>& UndoView::stack() const{
 }
 
 
-void UndoView::fillStringStack(){
+void UndoView::fillStringUndoStack(){
             std::stack<IUndoRedoCommand*> copyUndoStack(this->cmdMan->getUndoStack());
             std::stack<IUndoRedoCommand*> copyRedoStack(this->cmdMan->getRedoStack());
             
@@ -49,6 +49,11 @@ void UndoView::fillStringStack(){
                 copyUndoStack.pop();
                 
             }
+}
+
+void UndoView::fillStringRedoStack(){
+            std::stack<IUndoRedoCommand*> copyRedoStack(this->cmdMan->getRedoStack());
+            
             while(!copyRedoStack.empty()){
                 std::cout << (*copyRedoStack.top()).getText() << std::endl;
                 QString q;
@@ -58,8 +63,22 @@ void UndoView::fillStringStack(){
             }
 }
 
+
+
 void UndoView::fill(){
-    this->fillStringStack();
+    this->clear();
+    this->fillStringUndoStack();
+    
+    while(!pileString.empty()){
+        this->addItem(pileString.top());
+        pileString.pop();
+    }
+    
+    std::cout << this->count() << std::endl;
+    
+    this->setCurrentItem(this->item(this->count()-1));
+    
+    this->fillStringRedoStack();
     
     while(!pileString.empty()){
         this->addItem(pileString.top());
@@ -109,6 +128,7 @@ UndoWidget::UndoWidget( UndoView * nundoView){
     
     connect(undoButton, SIGNAL(clicked()), this, SLOT(updateUndoLabelValue()));
     connect(redoButton, SIGNAL(clicked()), this, SLOT(updateRedoLabelValue()));
+    connect(addButton, SIGNAL(clicked()), this, SLOT(addCmdInStack()));
     
 }
 
@@ -129,6 +149,8 @@ void UndoWidget::updateUndoLabelValue(){
     
     
     labelSomme->setText("Somme :" + tempValue->toString());
+    
+    
 }
 
 
@@ -136,6 +158,22 @@ void UndoWidget::updateRedoLabelValue(){
     
     undoView->getCmdMan()->redo();
     
+    
+    QVariant* tempValue = new QVariant(undoView->getCmdMan()->getSomme().getSommeValue());
+    
+    
+    labelSomme->setText("Somme :" + tempValue->toString());
+    
+    
+}
+
+
+void UndoWidget::addCmdInStack(){
+    
+    IUndoRedoCommand * cmd = new AddCommand(4000,"AddCommand +4000",undoView->getCmdMan()->getSomme());
+    
+    undoView->getCmdMan()->pushNewCommand(cmd);
+    undoView->fill();
     
     QVariant* tempValue = new QVariant(undoView->getCmdMan()->getSomme().getSommeValue());
     

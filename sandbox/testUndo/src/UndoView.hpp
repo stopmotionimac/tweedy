@@ -36,7 +36,8 @@ public:
         
         std::stack<IUndoRedoCommand*>& stack() const;
         
-        void fillStringStack();
+        void fillStringUndoStack();
+        void fillStringRedoStack();
         void fill();
 
         CommandManager* getCmdMan();
@@ -65,6 +66,7 @@ public:
 private Q_SLOTS:
     void updateUndoLabelValue();
     void updateRedoLabelValue();
+    void addCmdInStack();
     
     
 private:
