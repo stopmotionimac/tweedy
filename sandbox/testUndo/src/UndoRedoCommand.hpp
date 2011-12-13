@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <stack>
 #include <boost/ptr_container/ptr_vector.hpp>
 
 class Somme{
@@ -105,7 +106,7 @@ class AddCommand : public IUndoRedoCommand
 class CommandManager
 {
 public:
-    CommandManager(): somme(0){}
+    CommandManager(): somme(0),undoStack(), redoStack(){}
     
     ~CommandManager() {}
     
@@ -137,7 +138,7 @@ public:
     size_t countRedo() const;
     
     IUndoRedoCommand* getCommandToUndo();
-    IUndoRedoCommand& getCommandToRedo();
+    IUndoRedoCommand* getCommandToRedo();
     
     void pushNewCommand(IUndoRedoCommand * newCommand);
     
@@ -146,13 +147,13 @@ public:
 
     Somme& getSomme();
     
-    boost::ptr_vector<IUndoRedoCommand>* getUndoStack();
-    boost::ptr_vector<IUndoRedoCommand>* getRedoStack();
+    std::stack<IUndoRedoCommand*>& getUndoStack();
+    std::stack<IUndoRedoCommand*>& getRedoStack();
     
     
 private:
-    boost::ptr_vector<IUndoRedoCommand> undoStack;
-    boost::ptr_vector<IUndoRedoCommand> redoStack;
+    std::stack<IUndoRedoCommand *> undoStack;
+    std::stack<IUndoRedoCommand *> redoStack;
     
     bool active;
     
