@@ -73,7 +73,6 @@ private:
     QVBoxLayout * dockLayout;
     
     QPushButton * addButton;
-    QPushButton * dltButton;
     QPushButton * undoButton;
     QPushButton * redoButton;
     
