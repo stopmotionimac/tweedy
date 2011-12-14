@@ -1,5 +1,4 @@
-#include "UndoRedoCommand.hpp"
-#include "UndoView.hpp"
+#include "UndoWidget.hpp"
 #include <QT/QtGui>
 #include <cstdlib>
 #include <iostream>

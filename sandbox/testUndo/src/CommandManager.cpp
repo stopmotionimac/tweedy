@@ -1,84 +1,4 @@
-#include "UndoRedoCommand.hpp"
-
-#include <cstdlib>
-#include <iostream>
-#include <boost/ptr_container/ptr_vector.hpp>
-#include <string>
-
-
-
-int Somme::getSommeValue() const{
-    return value;
-}
-
-void Somme::setSommeValue(int newValue){
-    value = newValue;
-}
-
-/* ---- Interface UndoRedoCommand ----*/
-
-//IUndoRedoCommand::~IUndoRedoCommand() {}
-
-
-
-/* ------ AddCommand ------ */
-
-
-void AddCommand::undo(){
-    target.setSommeValue(target.getSommeValue()-value);
-}
-
-void AddCommand::runDo(){
-    target.setSommeValue(target.getSommeValue()+value);
-}
-
-void AddCommand::redo(){
-    this->runDo();
-}
-
-void AddCommand::getName() const{
-    std::cout<<text<<std::endl;
-}
-
-void AddCommand::setText(const std::string & newText){
-    text = newText;
-}
-
-std::string AddCommand::getText(){
-    return text;
-}
-
-/* ------ DeleteCommand ------ */
-
-
-void DeleteCommand::undo(){
-    target.setSommeValue(target.getSommeValue()+value);
-}
-
-void DeleteCommand::runDo(){
-    target.setSommeValue(target.getSommeValue()-value);
-}
-
-void DeleteCommand::redo(){
-    this->runDo();
-}
-
-void DeleteCommand::getName() const{
-    std::cout<<text<<std::endl;
-}
-
-void DeleteCommand::setText(const std::string & newText){
-    text = newText;
-}
-
-std::string DeleteCommand::getText(){
-    return text;
-}
-/* ##############    CommandManager   ############ */
-
-
-
-/* Getters and setters */
+#include "CommandManager.hpp"
 
 bool CommandManager::isActive() const{
     return active;
@@ -186,6 +106,10 @@ void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
     /* pusher the new command into the undoStack and execute it*/
     this->getUndoStack().push(newCommand);
     newCommand->runDo();         //will be modified
+    /* clear the redoStack*/
+    while(!redoStack.empty()){
+        redoStack.pop();
+    }
 }
 
 
@@ -230,3 +154,4 @@ Somme& CommandManager::getSomme(){
  std::stack<IUndoRedoCommand*>& CommandManager::getRedoStack(){
      return this->redoStack;
  }
+
