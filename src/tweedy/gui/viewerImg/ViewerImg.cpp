@@ -1,7 +1,7 @@
 /*
  * File:   ViewerImg.cpp
  * Author: julien
- *
+ * 
  * Created on 13 décembre 2011, 23:05
  */
 
