@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>608</width>
-    <height>426</height>
+    <width>882</width>
+    <height>640</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,173 +26,203 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QHBoxLayout" name="horizontalLayout_2">
-    <item>
-     <widget class="QDockWidget" name="widgetImport">
-      <property name="minimumSize">
-       <size>
-        <width>79</width>
-        <height>300</height>
-       </size>
+   <widget class="QDockWidget" name="widgetVisualEffect">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>0</y>
+      <width>291</width>
+      <height>300</height>
+     </rect>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="allowedAreas">
+     <set>Qt::NoDockWidgetArea</set>
+    </property>
+    <widget class="QWidget" name="contentVisualEffect">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <widget class="QScrollArea" name="viewer">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>261</width>
+        <height>201</height>
+       </rect>
       </property>
-      <property name="acceptDrops">
-       <bool>false</bool>
+      <property name="widgetResizable">
+       <bool>true</bool>
       </property>
-      <property name="floating">
-       <bool>false</bool>
-      </property>
-      <property name="allowedAreas">
-       <set>Qt::NoDockWidgetArea</set>
-      </property>
-      <widget class="QWidget" name="contentImport">
-       <widget class="QTabWidget" name="tabWidget">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>291</width>
-          <height>251</height>
-         </rect>
-        </property>
-        <property name="currentIndex">
-         <number>2</number>
-        </property>
-        <widget class="QWidget" name="photos">
-         <attribute name="title">
-          <string>Photos</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="importPhoto">
-         <attribute name="title">
-          <string>Images importees</string>
-         </attribute>
-        </widget>
-        <widget class="QWidget" name="importSons">
-         <attribute name="title">
-          <string>Sons</string>
-         </attribute>
-        </widget>
-       </widget>
-       <widget class="QWidget" name="layoutWidget">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>248</y>
-          <width>269</width>
-          <height>31</height>
-         </rect>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QPushButton" name="ImportButton">
-           <property name="text">
-            <string>Import</string>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>13</width>
-             <height>13</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="newFileButton">
-           <property name="text">
-            <string>New File</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="deleteButton">
-           <property name="text">
-            <string>Delete</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
+      <widget class="QWidget" name="viewerImageWidget">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>259</width>
+         <height>199</height>
+        </rect>
+       </property>
       </widget>
      </widget>
-    </item>
-    <item>
-     <widget class="QDockWidget" name="widgetVisualEffect">
-      <property name="acceptDrops">
-       <bool>false</bool>
+     <widget class="QLabel" name="labelFrameSeconde">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>220</y>
+        <width>201</width>
+        <height>17</height>
+       </rect>
       </property>
-      <property name="allowedAreas">
-       <set>Qt::NoDockWidgetArea</set>
+      <property name="text">
+       <string>Nombre de frame / seconde : </string>
       </property>
-      <widget class="QWidget" name="contentVisualEffect">
-       <property name="enabled">
-        <bool>true</bool>
+     </widget>
+     <widget class="QSlider" name="sliderFrameSeconde">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>240</y>
+        <width>141</width>
+        <height>20</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </widget>
+   </widget>
+   <widget class="QDockWidget" name="widgetImport">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-3</y>
+      <width>231</width>
+      <height>621</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>79</width>
+      <height>300</height>
+     </size>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="floating">
+     <bool>false</bool>
+    </property>
+    <property name="allowedAreas">
+     <set>Qt::NoDockWidgetArea</set>
+    </property>
+    <widget class="QWidget" name="contentImport">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>231</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="photos">
+       <attribute name="title">
+        <string>Photos</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="importPhoto">
+       <attribute name="title">
+        <string>Images importees</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="importSons">
+       <attribute name="title">
+        <string>Sons</string>
+       </attribute>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="layoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>250</y>
+        <width>231</width>
+        <height>29</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
        </property>
-       <property name="mouseTracking">
-        <bool>false</bool>
-       </property>
-       <property name="acceptDrops">
-        <bool>false</bool>
-       </property>
-       <widget class="QScrollArea" name="viewer">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>10</y>
-          <width>261</width>
-          <height>201</height>
-         </rect>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="viewerImageWidget">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>259</width>
-           <height>199</height>
-          </rect>
+       <item>
+        <widget class="QPushButton" name="ImportButton">
+         <property name="text">
+          <string>Import</string>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>13</width>
+           <height>13</height>
+          </size>
          </property>
         </widget>
-       </widget>
-       <widget class="QLabel" name="labelFrameSeconde">
-        <property name="geometry">
-         <rect>
-          <x>20</x>
-          <y>220</y>
-          <width>201</width>
-          <height>17</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Nombre de frame / seconde : </string>
-        </property>
-       </widget>
-       <widget class="QSlider" name="sliderFrameSeconde">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>240</y>
-          <width>141</width>
-          <height>20</height>
-         </rect>
-        </property>
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="newFileButton">
+         <property name="text">
+          <string>New File</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="deleteButton">
+         <property name="text">
+          <string>Delete</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
-    </item>
-   </layout>
+    </widget>
+   </widget>
+   <widget class="QDockWidget" name="widgetFlux">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>0</y>
+      <width>361</width>
+      <height>300</height>
+     </rect>
+    </property>
+    <property name="acceptDrops">
+     <bool>false</bool>
+    </property>
+    <property name="allowedAreas">
+     <set>Qt::NoDockWidgetArea</set>
+    </property>
+    <widget class="QWidget" name="contentFlux"/>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>608</width>
+     <width>882</width>
      <height>25</height>
     </rect>
    </property>
@@ -200,6 +230,12 @@
     <property name="title">
      <string>Edit</string>
     </property>
+    <addaction name="actionUndo"/>
+    <addaction name="actionRedo"/>
+    <addaction name="separator"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionPaste"/>
    </widget>
    <widget class="QMenu" name="menuView">
     <property name="title">
@@ -227,6 +263,9 @@
     </property>
     <addaction name="actionNew"/>
     <addaction name="actionOpen"/>
+    <addaction name="separator"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_as"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -252,7 +291,7 @@
   <action name="actionNew">
    <property name="icon">
     <iconset>
-     <normaloff>images/nouveau.png</normaloff>images/nouveau.png</iconset>
+     <normaloff>../../../../../../../../img/nouveau.png</normaloff>../../../../../../../../img/nouveau.png</iconset>
    </property>
    <property name="text">
     <string>New</string>
@@ -264,13 +303,48 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>images/ouvrir.png</normaloff>images/ouvrir.png</iconset>
+     <normaloff>../../../../../../../../img/ouvrir.png</normaloff>../../../../../../../../img/ouvrir.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save as</string>
+   </property>
+  </action>
+  <action name="actionUndo">
+   <property name="text">
+    <string>Undo</string>
+   </property>
+  </action>
+  <action name="actionRedo">
+   <property name="text">
+    <string>Redo</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="text">
+    <string>Copy</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="text">
+    <string>Cut</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="text">
+    <string>Paste</string>
    </property>
   </action>
  </widget>
