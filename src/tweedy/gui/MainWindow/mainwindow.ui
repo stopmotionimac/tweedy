@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <property name="iconSize">
    <size>
     <width>25</width>
@@ -113,7 +116,7 @@
     </property>
     <property name="minimumSize">
      <size>
-      <width>79</width>
+      <width>82</width>
       <height>300</height>
      </size>
     </property>
@@ -160,8 +163,8 @@
        <rect>
         <x>0</x>
         <y>250</y>
-        <width>231</width>
-        <height>29</height>
+        <width>269</width>
+        <height>40</height>
        </rect>
       </property>
       <layout class="QHBoxLayout" name="horizontalLayout">
@@ -198,23 +201,6 @@
       </layout>
      </widget>
     </widget>
-   </widget>
-   <widget class="QDockWidget" name="widgetFlux">
-    <property name="geometry">
-     <rect>
-      <x>520</x>
-      <y>0</y>
-      <width>361</width>
-      <height>300</height>
-     </rect>
-    </property>
-    <property name="acceptDrops">
-     <bool>false</bool>
-    </property>
-    <property name="allowedAreas">
-     <set>Qt::NoDockWidgetArea</set>
-    </property>
-    <widget class="QWidget" name="contentFlux"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -303,7 +289,7 @@
   <action name="actionOpen">
    <property name="icon">
     <iconset>
-     <normaloff>../../../../../../../../img/ouvrir.png</normaloff>../../../../../../../../img/ouvrir.png</iconset>
+     <normaloff>../../../../../../../../../../../../img/ouvrir.png</normaloff>../../../../../../../../../../../../img/ouvrir.png</iconset>
    </property>
    <property name="text">
     <string>Open</string>

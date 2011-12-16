@@ -31,6 +31,7 @@ private:
     QLabel *imageLabel;
     TimeSheet* timesheet;
     QListWidget * listWidget;
+
 };
 
 #endif // MAINWINDOW_H

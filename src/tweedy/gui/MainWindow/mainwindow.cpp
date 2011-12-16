@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "styleTweedy.css"
 
 
 #include <QtGui/QWidget>
@@ -18,23 +19,29 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    QLatin1String cssContent( QFile("styleTweedy.css").readAll() );
+    this->setStyleSheet(cssContent);
+
     //QDir * currentDir = new QDir("img/");
 
-    QString * image1 = new QString("img/example.jpg");
-    QString * image2 = new QString("img/full.jpg");
+    QString image1("img/tweedy0.jpg");
+    QString image2("img/tweedy1.jpg");
+    QString image3("img/tweedy2.jpg");
 
     listWidget = new QListWidget(ui->photos);
 
-    QListWidgetItem *item = new QListWidgetItem(QIcon(*image1), *image1, listWidget);
-    QListWidgetItem *item2 = new QListWidgetItem(QIcon(*image2),*image2, listWidget);
+    QListWidgetItem *item = new QListWidgetItem(QIcon(image1), image1, listWidget);
+    QListWidgetItem *item2 = new QListWidgetItem(QIcon(image2),image2, listWidget);
+    QListWidgetItem *item3 = new QListWidgetItem(QIcon(image3),image3, listWidget);
     listWidget->addItem(item);
     listWidget->addItem(item2);
+    listWidget->addItem(item3);
 
     imageLabel = new QLabel;
     ui->viewer->setBackgroundRole(QPalette::Dark);
     //ui->viewer->setWidget(imageLabel);
 
-    imageLabel->setPixmap(*image1);
+    //imageLabel->setPixmap(image1);
     imageLabel->adjustSize();
 
     connect(listWidget, SIGNAL(itemActivated(QListWidgetItem*)), this, SLOT(on_photo_selected(QListWidgetItem*)));
