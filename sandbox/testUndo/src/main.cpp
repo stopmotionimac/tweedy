@@ -1,5 +1,4 @@
-#include "UndoRedoCommand.hpp"
-#include "UndoView.hpp"
+#include "UndoWidget.hpp"
 #include <QT/QtGui>
 #include <cstdlib>
 #include <iostream>
@@ -23,7 +22,6 @@ int main(int argc, char *argv[]){
     cmdMan.pushNewCommand(dltCmd1);
     cmdMan.pushNewCommand(addCmd2);
     
-    
     std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
 
     cmdMan.undo();
@@ -42,7 +40,7 @@ int main(int argc, char *argv[]){
     
     std::cout << "It's gonna redooooing" << std::endl;
     
-    for(int i = 0; i <3;++i)    cmdMan.redo();
+    for(int i = 0; i < 4;++i)    cmdMan.redo();
     
     
     std::cout << cmdMan.getSomme().getSommeValue() << std::endl;

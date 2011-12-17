@@ -2,12 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
-#include <QtGui/QLabel>
-#include <QtGui/QListWidgetItem>
 #include <QtGui/QListWidget>
-
-
+#include <QtGui/QLabel>
 #include "../timesheet/TimeSheet.h"
+#include "../viewerImg/ViewerImg.h"
 
 namespace Ui {
     class MainWindow;
@@ -21,16 +19,16 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private Q_SLOTS:
+public Q_SLOTS:
     void on_photo_selected(QListWidgetItem * item);
-
-    void on_ImportButton_clicked();
 
 private:
     Ui::MainWindow *ui;
-    QLabel *imageLabel;
     TimeSheet* timesheet;
+
     QListWidget * listWidget;
+    QLabel *imageLabel;
+    ViewerImg* viewerImg;
 
 };
 
