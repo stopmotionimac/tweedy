@@ -1,71 +1,114 @@
 #include "mainwindow.h"
 
-#include "ui_mainwindow.h"
-#include "styleTweedy.css"
-
-#include "ui_mainwindow.h"
-
 #include <QtGui/QWidget>
+#include <QtGui/QDockWidget>
 #include <QtGui/QScrollArea>
 #include <QtGui/QLabel>
 #include <QtGui/QPixmap>
+#include <QtGui/QAction>
+#include <QtGui/QMenuBar>
 #include <QtCore/QFile>
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+
+
+MainWindow::MainWindow()
 {
-    ui->setupUi(this);
+    setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
-    QLatin1String cssContent( QFile("styleTweedy.css").readAll() );
-    this->setStyleSheet(cssContent);
+    createActions();
+    createMenuBar();
+    createWidgets();
+    createStatusBar();
 
-    //QDir * currentDir = new QDir("img/");
+    resize(900,700);
 
-    QString image1("img/tweedy0.jpg");
-    QString image2("img/tweedy1.jpg");
-    QString image3("img/tweedy2.jpg");
+}
 
-    listWidget = new QListWidget(ui->photos);
+void MainWindow::createActions(){
 
-    QListWidgetItem *item = new QListWidgetItem(QIcon(image1), image1, listWidget);
-    QListWidgetItem *item2 = new QListWidgetItem(QIcon(image2),image2, listWidget);
-    QListWidgetItem *item3 = new QListWidgetItem(QIcon(image3),image3, listWidget);
-    listWidget->addItem(item);
-    listWidget->addItem(item2);
-    listWidget->addItem(item3);
+    newAction = new QAction("Nouveau Projet", this);
+    newAction->setShortcut(QKeySequence("Ctrl+N"));
+    newAction->setStatusTip("Creer un nouveau projet");
 
-    QPixmap *pixmap_img = new QPixmap("/images/example.jpg");
+    openAction = new QAction("Ouvrir",this);
+    openAction->setShortcut(QKeySequence("Ctrl+O"));
+    openAction->setStatusTip("Ouvrir un projet");
 
-    imageLabel = new QLabel;
+    saveAction = new QAction("Enregistrer", this);
+    saveAction->setShortcut(QKeySequence("Ctrl+S"));
+    saveAction->setStatusTip("Enregistrer votre projet");
 
-    ui->viewer->setBackgroundRole(QPalette::Dark);
-    ui->viewer->setWidget(imageLabel);
+    quitAction = new QAction("&Quitter", this);
+    quitAction->setShortcut(QKeySequence("Ctrl+Q"));
+    quitAction->setStatusTip("Quitter Tweedy");
+    connect(quitAction, SIGNAL(triggered()), qApp,SLOT(quit()));
 
+    undoAction = new QAction("Undo",this);
+    undoAction->setShortcut(QKeySequence("Ctrl+Z"));
 
-    //imageLabel->setPixmap(image1);
-    imageLabel->adjustSize();
+    doAction = new QAction("Redo",this);
+    doAction->setShortcut(QKeySequence("Shift+Ctrl+Z"));
 
-  
+    aboutAction = new QAction("A propos de Tweedy",this);
+
+    aboutQtAction = new QAction("A propos de Qt",this);
+    connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+
+}
+
+void MainWindow::createMenuBar(){
+
+    fileMenu = menuBar()->addMenu(tr("&Fichier"));
+    fileMenu->addAction(newAction);
+    fileMenu->addAction(openAction);
+    menuBar()->addSeparator();
+    fileMenu->addAction(saveAction);
+    fileMenu->addAction(quitAction);
+
+    editMenu = menuBar()->addMenu(tr("&Edition"));
+    editMenu->addAction(undoAction);
+    editMenu->addAction(doAction);
+
+    viewMenu = menuBar()->addMenu(tr("Affichage"));
+
+    timelineMenu = menuBar()->addMenu(tr("Timeline"));
+
+    helpMenu = menuBar()->addMenu(tr("Aide"));
+    helpMenu->addAction(aboutAction);
+    helpMenu->addAction(aboutQtAction);
+
+}
+
+void MainWindow::createWidgets(){
+
+    QDockWidget * chutierDock = new QDockWidget(this);
+    chutier = new Chutier();
+    chutierDock->setWidget(chutier);
+    addDockWidget(Qt::TopDockWidgetArea, chutierDock);
+
     viewerImg = new ViewerImg();
     //ajout de viewerImg a la mainwindow
-    addDockWidget(Qt::RightDockWidgetArea, viewerImg);
-    
-     timesheet = new TimeSheet(viewerImg);
+    viewerImg->setFixedSize(300, 300);
+    addDockWidget(Qt::TopDockWidgetArea, viewerImg);
+
+    timesheet = new TimeSheet(viewerImg);
     //ajout de timesheet a la mainwindow
     addDockWidget(Qt::BottomDockWidgetArea, timesheet);
 
-    connect(listWidget, SIGNAL(itemActivated(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
 }
 
-void MainWindow::on_photo_selected(QListWidgetItem * item) {
+void MainWindow::createStatusBar(){
 
-    imageLabel->setPixmap(item->text());
-    ui->viewer->setWidget(imageLabel);
+    myStatusBar = statusBar();
+    myStatusBar->showMessage("Pret");
+
 }
 
+MainWindow::~MainWindow(){
 
-MainWindow::~MainWindow()
-{
-    delete ui;
+    delete chutier;
+    delete viewerImg;
+    delete timesheet;
+
 }
+
