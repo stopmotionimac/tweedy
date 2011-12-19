@@ -17,6 +17,7 @@ MainWindow::MainWindow()
 
     createActions();
     createMenuBar();
+    createToolBar();
     createWidgets();
     createStatusBar();
 
@@ -26,28 +27,28 @@ MainWindow::MainWindow()
 
 void MainWindow::createActions(){
 
-    newAction = new QAction("Nouveau Projet", this);
+    newAction = new QAction(QIcon("img/icones/nouveau.png"),"Nouveau Projet", this);
     newAction->setShortcut(QKeySequence("Ctrl+N"));
     newAction->setStatusTip("Creer un nouveau projet");
 
-    openAction = new QAction("Ouvrir",this);
+    openAction = new QAction(QIcon("img/icones/ouvrir.png"),"Ouvrir",this);
     openAction->setShortcut(QKeySequence("Ctrl+O"));
     openAction->setStatusTip("Ouvrir un projet");
 
-    saveAction = new QAction("Enregistrer", this);
+    saveAction = new QAction(QIcon("img/icones/enregistrer.png"),"Enregistrer", this);
     saveAction->setShortcut(QKeySequence("Ctrl+S"));
     saveAction->setStatusTip("Enregistrer votre projet");
 
-    quitAction = new QAction("&Quitter", this);
+    quitAction = new QAction(QIcon("img/icones/quitter.png"),"&Quitter", this);
     quitAction->setShortcut(QKeySequence("Ctrl+Q"));
     quitAction->setStatusTip("Quitter Tweedy");
     connect(quitAction, SIGNAL(triggered()), qApp,SLOT(quit()));
 
-    undoAction = new QAction("Undo",this);
+    undoAction = new QAction(QIcon("img/icones/undo.png"),"Undo",this);
     undoAction->setShortcut(QKeySequence("Ctrl+Z"));
 
-    doAction = new QAction("Redo",this);
-    doAction->setShortcut(QKeySequence("Shift+Ctrl+Z"));
+    redoAction = new QAction(QIcon("img/icones/redo.png"),"Redo",this);
+    redoAction->setShortcut(QKeySequence("Shift+Ctrl+Z"));
 
     aboutAction = new QAction("A propos de Tweedy",this);
 
@@ -67,7 +68,7 @@ void MainWindow::createMenuBar(){
 
     editMenu = menuBar()->addMenu(tr("&Edition"));
     editMenu->addAction(undoAction);
-    editMenu->addAction(doAction);
+    editMenu->addAction(redoAction);
 
     viewMenu = menuBar()->addMenu(tr("Affichage"));
 
@@ -76,6 +77,19 @@ void MainWindow::createMenuBar(){
     helpMenu = menuBar()->addMenu(tr("Aide"));
     helpMenu->addAction(aboutAction);
     helpMenu->addAction(aboutQtAction);
+
+}
+
+void MainWindow::createToolBar(){
+
+    fileToolBar = addToolBar("File");
+    fileToolBar->addAction(newAction);
+    fileToolBar->addAction(saveAction);
+    fileToolBar->addAction(quitAction);
+
+    editToolBar = addToolBar("Edit");
+    editToolBar->addAction(undoAction);
+    editToolBar->addAction(redoAction);
 
 }
 

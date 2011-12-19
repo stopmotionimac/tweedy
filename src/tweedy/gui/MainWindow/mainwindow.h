@@ -7,6 +7,7 @@
 #include <QtGui/QMenu>
 #include <QtGui/QAction>
 #include <QtGui/QStatusBar>
+#include <QtGui/QToolBar>
 #include "../timesheet/TimeSheet.h"
 #include "../viewerImg/ViewerImg.h"
 #include "../chutier/chutier.h"
@@ -23,6 +24,7 @@ class MainWindow : public QMainWindow
     private:
         void createActions();
         void createMenuBar();
+        void createToolBar();
         void createWidgets();
         void createStatusBar();
 
@@ -37,9 +39,12 @@ class MainWindow : public QMainWindow
         QAction * saveAction;
         QAction * quitAction;
         QAction * undoAction;
-        QAction * doAction;
+        QAction * redoAction;
         QAction * aboutAction;
         QAction * aboutQtAction;
+
+        QToolBar * fileToolBar;
+        QToolBar * editToolBar;
 
         QStatusBar * myStatusBar;
 

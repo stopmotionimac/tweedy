@@ -23,6 +23,7 @@ public Q_SLOTS:
 private:
     Ui::Chutier *ui;
     QListWidget * listWidget;
+    QListWidget * listImport;
 };
 
 #endif // CHUTIER_H

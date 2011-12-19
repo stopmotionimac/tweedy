@@ -7,11 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>517</width>
-    <height>343</height>
+    <height>317</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
@@ -19,7 +22,7 @@
      <x>0</x>
      <y>0</y>
      <width>241</width>
-     <height>341</height>
+     <height>311</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -35,7 +38,7 @@
       </widget>
       <widget class="QWidget" name="importImage">
        <attribute name="title">
-        <string>Image Importées</string>
+        <string>Images Importées</string>
        </attribute>
       </widget>
      </widget>
@@ -66,7 +69,7 @@
      <x>250</x>
      <y>0</y>
      <width>261</width>
-     <height>341</height>
+     <height>311</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -88,7 +91,7 @@
       <property name="sizeHint" stdset="0">
        <size>
         <width>10</width>
-        <height>150</height>
+        <height>120</height>
        </size>
       </property>
      </spacer>

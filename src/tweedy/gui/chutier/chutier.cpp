@@ -15,6 +15,7 @@ Chutier::Chutier(QWidget *parent) :
     QString image3("img/tweedy2.jpg");
 
     listWidget = new QListWidget(ui->capture);
+    listImport = new QListWidget(ui->importImage);
 
     QListWidgetItem *item = new QListWidgetItem(QIcon(image1), image1, listWidget);
     QListWidgetItem *item2 = new QListWidgetItem(QIcon(image2),image2, listWidget);
