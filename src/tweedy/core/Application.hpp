@@ -6,10 +6,10 @@
 class Application
 {
 private:
-    static Application application;
+    static Application* application;
 
 public:
-    static Application getApplication();
+    static Application& getApplication();
 
 private:
     Application();

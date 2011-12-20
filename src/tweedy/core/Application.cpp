@@ -1,18 +1,23 @@
 #include "Application.hpp"
 
-Application::application = NULL;
+Application* Application::application = NULL;
 
 /*Application::Application()
 {
 }
 */
 
-Application::getApplication() {
-    if (application == NULL) {
-        static Application application;
+Application& Application::getApplication()
+{
+    if( application == NULL )
+    {
+        application = new Application();
     }
-    else {
+    else
+    {
         std::cout<<"The application's instance already exist"<<std::endl;
     }
-    return application;
+    return *application;
 }
+
+
