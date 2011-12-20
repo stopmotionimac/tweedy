@@ -8,27 +8,22 @@
 #ifndef _VIEWERIMG_H
 #define	_VIEWERIMG_H
 
-
+#include <QtGui/QLabel>
 #include <QtGui/QDockWidget>
-#include "ui_ViewerImg.h"
 
-namespace Ui{
-    class ViewerImg;
-}
 
 class ViewerImg : public QDockWidget {
     Q_OBJECT
 public:
     ViewerImg();
     ~ViewerImg();
-    
-    Ui::ViewerImg* getUi()
-    {
-        return ui;
-    }
+
+    QLabel* labelImg(){ return _labelImg; }
+   
 private:
-    Ui::ViewerImg* ui;
+    QLabel* _labelImg;
 };
 
 #endif	/* _VIEWERIMG_H */
 
+       

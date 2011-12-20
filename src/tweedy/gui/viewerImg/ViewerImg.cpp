@@ -7,14 +7,16 @@
 
 #include "ViewerImg.h"
 
-ViewerImg::ViewerImg() : ui(new Ui::ViewerImg)
+ViewerImg::ViewerImg() : QDockWidget(), _labelImg(new QLabel)
 
 {
-    ui->setupUi(this);
+    setWindowTitle("Visualisation");
+    this->setWidget(_labelImg);
+    _labelImg->setFixedSize(300, 300);
 }
 
-ViewerImg::~ViewerImg() {
-    
-    delete ui;
+ViewerImg::~ViewerImg() 
+{
+   delete _labelImg; 
 }
 

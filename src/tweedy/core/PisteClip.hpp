@@ -5,17 +5,21 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <vector>
+#include <list>
 
 class PisteClip {
 private :
-        std::vector<Clip> listClip;
-        unsigned int idPisteClip;
-        std::string name;
+    std::string name;
+    std::list<Clip> listClip;
+    static unsigned int idPisteClip;
+    
 public :
-        void getlistClip();
-        void addCilp(Clip & clip);
-        void supprClip(Clip & clip);
+    PisteClip(std::string n);
+    ~PisteClip(){}
+    std::list<Clip> getlistClip(){ return listClip;}
+    void addCilp(Clip & clip, unsigned int index);
+    //void supprClip(Clip & clip){ listClip.remove(clip); }
+     
 };
 
 

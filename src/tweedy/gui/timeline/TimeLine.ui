@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TimeLine</class>
+ <widget class="QDockWidget" name="TimeLine">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>666</width>
+    <height>371</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>666</width>
+    <height>362</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>666</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>666</width>
+    <height>271</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Timeline</string>
+  </property>
+  <widget class="QWidget" name="dockWidgetContents">
+   <layout class="QHBoxLayout" name="horizontalLayout_4">
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <property name="leftMargin">
+         <number>250</number>
+        </property>
+        <property name="rightMargin">
+         <number>250</number>
+        </property>
+        <item>
+         <widget class="QLabel" name="time">
+          <property name="minimumSize">
+           <size>
+            <width>50</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>50</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="zeroButton">
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>back to 0</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <layout class="QVBoxLayout" name="verticalLayout_2">
+          <property name="topMargin">
+           <number>80</number>
+          </property>
+          <property name="bottomMargin">
+           <number>80</number>
+          </property>
+          <item>
+           <widget class="QToolButton" name="addButton">
+            <property name="minimumSize">
+             <size>
+              <width>120</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Ajouter piste</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="delButton">
+            <property name="minimumSize">
+             <size>
+              <width>120</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Supprimer piste</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QTableWidget" name="table">
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>80</number>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>80</number>
+          </attribute>
+          <attribute name="verticalHeaderDefaultSectionSize">
+           <number>80</number>
+          </attribute>
+          <attribute name="verticalHeaderMinimumSectionSize">
+           <number>80</number>
+          </attribute>
+          <row>
+           <property name="text">
+            <string>piste 1</string>
+           </property>
+          </row>
+          <column>
+           <property name="text">
+            <string>1</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>2</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>3</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>4</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>5</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>6</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>7</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>8</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>9</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>10</string>
+           </property>
+          </column>
+          <item row="0" column="0">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="1">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>30</pointsize>
+            </font>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="2">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="3">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="4">
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="5">
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="6">
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="7">
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="8">
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+          <item row="0" column="9">
+           <property name="icon">
+            <iconset>
+             <normaloff>../../../../img/tweedy0.jpg</normaloff>../../../../img/tweedy0.jpg</iconset>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <property name="leftMargin">
+         <number>250</number>
+        </property>
+        <property name="rightMargin">
+         <number>250</number>
+        </property>
+        <item>
+         <widget class="QToolButton" name="playButton">
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>play</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="pauseButton">
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>pause</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <property name="leftMargin">
+         <number>250</number>
+        </property>
+        <property name="rightMargin">
+         <number>250</number>
+        </property>
+        <item>
+         <widget class="QToolButton" name="nextButton_2">
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>next</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="prevButton_2">
+          <property name="minimumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>70</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>previous</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

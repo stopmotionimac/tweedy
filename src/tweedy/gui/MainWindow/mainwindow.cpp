@@ -104,10 +104,13 @@ void MainWindow::createWidgets(){
     //ajout de viewerImg a la mainwindow
     viewerImg->setFixedSize(300, 300);
     addDockWidget(Qt::TopDockWidgetArea, viewerImg);
-
+    
     timesheet = new TimeSheet(viewerImg);
-    //ajout de timesheet a la mainwindow
-    addDockWidget(Qt::BottomDockWidgetArea, timesheet);
+    
+    //ajout de la timeline a la mainwindow
+    timeline = new TimeLine();
+    //timeline->setFixedSize(670, 300);
+    addDockWidget(Qt::BottomDockWidgetArea, timeline);
 
 }
 
