@@ -1,16 +1,13 @@
 #include "PisteClip.hpp"
 
 
-
+unsigned int PisteClip::idPisteClip = 0;
 
 PisteClip::PisteClip(std::string n)
         : name(n)
 {
     ++ idPisteClip; 
 }
-
-unsigned int PisteClip::idPisteClip = 0;
-
 
 void PisteClip::addCilp(Clip & clip, unsigned int index)
 {
