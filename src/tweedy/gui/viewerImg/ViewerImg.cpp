@@ -8,11 +8,10 @@
 #include "ViewerImg.h"
 
 
-ViewerImg::ViewerImg() : QDockWidget(), _labelImg(new QLabel)
+ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
 
 {
     setWindowTitle("Visualisation");
-    this->setWidget(_labelImg);
     _labelImg->setFixedSize(300, 300);
 }
 

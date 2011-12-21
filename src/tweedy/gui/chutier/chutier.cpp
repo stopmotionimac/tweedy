@@ -3,6 +3,8 @@
 
 #include <QtGui/QListWidget>
 #include <QtGui/QListWidgetItem>
+#include <QtCore/QLibraryInfo>
+#include <QtCore/QAbstractListModel>
 
 Chutier::Chutier(QWidget *parent) :
     QWidget(parent),
@@ -15,7 +17,14 @@ Chutier::Chutier(QWidget *parent) :
     QString image3("img/tweedy2.jpg");
 
     listWidget = new QListWidget(ui->capture);
+    listWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    listWidget->setDragEnabled(true);
+    listWidget->viewport()->setAcceptDrops(true);
+    listWidget->setDropIndicatorShown(true);
+    listWidget->setDragDropMode(QAbstractItemView::InternalMove);
+    
     listImport = new QListWidget(ui->importImage);
+   
 
     QListWidgetItem *item = new QListWidgetItem(QIcon(image1), image1, listWidget);
     QListWidgetItem *item2 = new QListWidgetItem(QIcon(image2),image2, listWidget);

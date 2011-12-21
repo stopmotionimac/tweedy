@@ -9,11 +9,11 @@
 #define	_VIEWERIMG_H
 
 #include <QtGui/QLabel>
-#include <QtGui/QDockWidget>
+#include <QtGui/QWidget>
 #include "../timeline/TimeLine.h"
 
 
-class ViewerImg : public QDockWidget {
+class ViewerImg : public QWidget {
     Q_OBJECT
 public:
     ViewerImg();

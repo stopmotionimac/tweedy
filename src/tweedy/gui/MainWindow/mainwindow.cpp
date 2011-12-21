@@ -108,18 +108,17 @@ void MainWindow::createWidgets(){
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
 
+    //ajout du viewer
+    QDockWidget * contentViewerDock = new QDockWidget(this);	
     viewerImg = new ViewerImg();
-    //ajout de viewerImg a la mainwindow
-    viewerImg->setFixedSize(300, 300);
-    addDockWidget(Qt::TopDockWidgetArea, viewerImg);
-    
-    timesheet = new TimeSheet(viewerImg);
+    viewerImg->setFixedSize(400, 300);
+    contentViewerDock->setWidget(viewerImg);
+    addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
     
     //ajout de la timeline a la mainwindow
     timeline = new TimeLine();
     //timeline->setFixedSize(670, 300);
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
-
 }
 
 void MainWindow::createStatusBar(){
