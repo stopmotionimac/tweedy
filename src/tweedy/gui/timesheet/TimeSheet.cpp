@@ -60,8 +60,8 @@ void TimeSheet::on_playButton_clicked()
            QPixmap current(ui->maTable->item(1,i)->text());
            current = current.scaled(300,200);
            
-           viewerImg->getUi()->labelImg->setPixmap(current);
-           viewerImg->getUi()->labelImg->adjustSize();
+           viewerImg->labelImg()->setPixmap(current);
+           viewerImg->labelImg()->adjustSize();
                       
             break;
        }
@@ -69,7 +69,7 @@ void TimeSheet::on_playButton_clicked()
        if( !found )
        {
            ui->element->setText("none");
-           viewerImg->getUi()->labelImg->clear();
+           viewerImg->labelImg()->clear();
        }
    }
 }
