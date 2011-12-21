@@ -63,6 +63,7 @@ void TimeLine::increaseTime()
         ++ _time;
         Q_EMIT valueChanged(_time);
         Q_EMIT displayChanged(_time, _clips);
+
     }
 
 }
@@ -102,6 +103,7 @@ void TimeLine::on_nextButton_clicked()
             _time = (*it).timeIn();
             Q_EMIT valueChanged(_time);
             Q_EMIT displayChanged(_time, _clips);
+
             break;
         }
     }
@@ -116,6 +118,7 @@ void TimeLine::on_prevButton_clicked()
             _time = (*it).timeIn();
             Q_EMIT valueChanged(_time);
             Q_EMIT displayChanged(_time, _clips);
+
             break;
         }
     }
