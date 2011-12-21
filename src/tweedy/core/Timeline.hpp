@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <vector>
 
-class Timeline {
+class Timeline : public Imedia{
 private :
         std::vector<PisteClip> listPiste;
 

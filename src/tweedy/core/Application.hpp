@@ -66,6 +66,11 @@ public:
   void setValue (int val) { _value = val; }
   int getValue () { return _value; }
 
+  static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
+  Imedia getImedia(int idMedia) { return listMedia[idMedia]; }
+  void addImedia(Imedia & media);
+  void supprImedia(int idMedia);
+
 private:
   int _value;
   static boost::ptr_vector<Imedia> listMedia;
