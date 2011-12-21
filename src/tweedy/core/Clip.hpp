@@ -1,12 +1,14 @@
 #ifndef __CLIP_HPP__
 #define __CLIP_HPP__
 
+#include "Imedia.hpp"
+
 #include <iostream>
 #include <cstdlib>
 #include <string>
 #include <vector>
 
-class Clip {
+class Clip : public Imedia {
 public:
     Clip(char* url)
         : _imgPath(url),

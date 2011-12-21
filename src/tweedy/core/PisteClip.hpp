@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <list>
 
-class PisteClip {
+class PisteClip : public Imedia{
 private :
     std::string name;
     std::list<Clip> listClip;

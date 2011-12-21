@@ -1,14 +1,10 @@
 #ifndef APPLCIATION_HPP
 #define APPLICATION_HPP
 
+#include "Imedia.hpp"
+
 #include<iostream>
 #include <boost/ptr_container/ptr_vector.hpp>
-
-/*??*/
-enum Imedia {
-
-};
-
 
 //
 //Singleton to any class
@@ -75,4 +71,4 @@ private:
   static boost::ptr_vector<Imedia> listMedia;
 };
 
-#endif
+#endif  // APPLICATION_HPP
