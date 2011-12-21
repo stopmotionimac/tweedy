@@ -22,6 +22,14 @@ MainWindow::MainWindow()
     createStatusBar();
 
     resize(900,700);
+    
+    
+    if ( (*timeline->clips().begin()).timeIn() == 0 )
+        viewerImg->labelImg()->setPixmap( QPixmap((*timeline->clips().begin()).imgPath()) );
+    else    
+        viewerImg->labelImg()->setPixmap( QPixmap("img/none.jpg") );
+    
+    connect(this->timeline, SIGNAL( displayChanged(unsigned int, listC) ), this->viewerImg, SLOT(displayImg(unsigned int, listC)) );
 
 }
 

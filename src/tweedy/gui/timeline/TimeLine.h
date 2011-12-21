@@ -48,13 +48,15 @@ private Q_SLOTS:
     void on_playButton_clicked();
     void on_pauseButton_clicked();
     void on_zeroButton_clicked();
-    //void on_nextButton_clicked();
-    //void on_previousButton_clicked();
+    void on_nextButton_clicked();
+    void on_prevButton_clicked();
     void on_addButton_clicked();
     void on_delButton_clicked();
+    void on_addTimeButton_clicked();
        
 Q_SIGNALS:
     void valueChanged(unsigned int newValue);
+    void displayChanged(unsigned int newValue, listC clips);
     
 private:
     QTableWidget* _table;
@@ -62,6 +64,7 @@ private:
     QTimer* _timer;
     Ui::TimeLine* _ui;
     listC _clips;
+    QIcon _defautIcon;
     
 };
 

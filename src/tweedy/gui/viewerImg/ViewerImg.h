@@ -10,6 +10,7 @@
 
 #include <QtGui/QLabel>
 #include <QtGui/QDockWidget>
+#include "../timeline/TimeLine.h"
 
 
 class ViewerImg : public QDockWidget {
@@ -19,7 +20,10 @@ public:
     ~ViewerImg();
 
     QLabel* labelImg(){ return _labelImg; }
-   
+
+private Q_SLOTS:
+    void displayImg(unsigned int newValue, listC clips);    
+    
 private:
     QLabel* _labelImg;
 };
