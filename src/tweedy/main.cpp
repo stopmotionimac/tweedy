@@ -12,8 +12,6 @@
 
 int main(int argc, char *argv[])
 {
-<<<<<<< HEAD
-
     //init the Application's singleton
 
     // pointeurs sur l'unique instance de la classe UniqueObject
@@ -54,4 +52,3 @@ int main(int argc, char *argv[])
 	mainWin.show();
 	return app.exec();
 }
-
