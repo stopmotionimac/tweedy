@@ -4,7 +4,7 @@
 #include <iostream>
 #include <qt4/QtGui/qtablewidget.h>
 #include <iostream>
-#include <QtGui/qlabel.h>
+#include <qt4/QtGui/qlabel.h>
 
 
 TimeSheet::TimeSheet(ViewerImg* vi, QDockWidget *parent) :
