@@ -2,10 +2,8 @@
 #include <QtGui/QTableView>
 #include <QtGui/QIcon>
 #include <iostream>
-//#include <qt4/QtGui/qtablewidget.h>
-#include <QtGui/qtablewidget.h>
+#include <qt4/QtGui/qtablewidget.h>
 #include <iostream>
-//#include <qt4/QtGui/qlabel.h>
 #include <QtGui/qlabel.h>
 
 
