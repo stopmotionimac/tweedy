@@ -1,10 +1,69 @@
 Import('project', 'libs')
 
-project.Program(
-	target='testGPhoto',
-	dirs=['src'],
+src_common = [
+	'src/autodetect.cpp',
+	'src/context.cpp',
+	'src/config.cpp',
+	]
+project.StaticLibrary(
+	target='tweedy_gphoto_common',
+	sources=src_common,
 	libraries=[
 		libs.gphoto2,
+		]
+	)
+
+
+project.Program(
+	target='testGPhoto',
+	sources=['src/main.cpp'],
+	libraries=[
+		libs.gphoto2,
+		]
+	)
+project.Program(
+	target='gp_autodetect',
+	sources=['src/main_autodetect.cpp'],
+	libraries=[
+		libs.tweedy_gphoto_common,
+		]
+	)
+
+project.Program(
+	target='gp_lunkwill',
+	sources=['src/main_lunkwill.cpp'],
+	libraries=[
+		libs.tweedy_gphoto_common,
+		]
+	)
+
+project.Program(
+	target='gp_preview',
+	sources=['src/main_preview.cpp'],
+	libraries=[
+		libs.tweedy_gphoto_common,
+		]
+	)
+
+project.Program(
+	target='gp_capture',
+	sources=['src/main_capture.cpp'],
+	libraries=[
+		libs.tweedy_gphoto_common,
+		]
+	)
+project.Program(
+	target='gp_owner',
+	sources=['src/main_owner.cpp'],
+	libraries=[
+		libs.tweedy_gphoto_common,
+		]
+	)
+project.Program(
+	target='gp_triggercapture',
+	sources=['src/main_triggercapture.cpp'],
+	libraries=[
+		libs.tweedy_gphoto_common,
 		]
 	)
 
