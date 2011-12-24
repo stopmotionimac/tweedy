@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	MainWindow mainWin;
 
 	// Load css stylesheet
-	const QString appCss( QCoreApplication::applicationDirPath() + "/styleSheet.css" );
+	const QString appCss( QCoreApplication::applicationDirPath() + "/resources/tweedy.css" );
 	QFile appCssFile( appCss );
 	if( ! appCssFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
 	{

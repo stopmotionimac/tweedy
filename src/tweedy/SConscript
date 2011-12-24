@@ -18,7 +18,7 @@ project.StaticLibrary(
 		]
 	)
 
-project.Program(
+tweedyApp = project.Program(
 	target='tweedy',
 	sources=['main.cpp'],
 	includes=['..'],
@@ -27,4 +27,11 @@ project.Program(
 		libs.tweedyGui,
 		]
 	)
+
+
+tweedyResources = Command( project.inOutputBin('resources'), '#resources', Copy('$TARGET', '$SOURCE') )
+
+# tweedy application needs its resources
+Depends( tweedyApp, tweedyResources )
+
 
