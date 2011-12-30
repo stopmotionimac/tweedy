@@ -2,12 +2,13 @@
 #define CHUTIER_H
 
 #include <QtGui/QWidget>
+#include <QtGui/QPushButton>
+#include <QtGui/QLabel>
 #include <QtGui/QListWidget>
 #include <QtGui/QListWidgetItem>
+#include <QtGui/QAction>
 
-namespace Ui {
-    class Chutier;
-}
+#include "listwidget.h"
 
 class Chutier : public QWidget
 {
@@ -19,11 +20,16 @@ public:
 
 public Q_SLOTS:
     void on_photo_selected(QListWidgetItem * item);
+    void on_importButton_clicked();
 
 private:
-    Ui::Chutier *ui;
-    QListWidget * listWidget;
-    QListWidget * listImport;
+    ListWidget * listWidget;
+
+    QPushButton * importButton;
+    QPushButton * deleteButton;
+
+    QLabel * viewerChutier;
+
 };
 
 #endif // CHUTIER_H
