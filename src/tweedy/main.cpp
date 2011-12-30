@@ -1,6 +1,7 @@
 #include "core/Application.hpp"
 #include "core/UndoRedoCommand.hpp"
 
+
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 #include <QtCore/QFile>
@@ -19,6 +20,10 @@ int main(int argc, char *argv[])
 
       // initialisation des pointeurs
       application =Application::getInstance ();
+
+      //FOR TEST create a timeline
+      Timeline timeline01;
+      //application->mapTimeline.insert(iterator before, const key_type $key,, std::auto_ptr<U>x)
 
       // affectation de la valeur 15 à l'objet pointé par obj1
       application->setValue (15);

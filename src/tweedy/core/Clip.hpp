@@ -2,6 +2,7 @@
 #define __CLIP_HPP__
 
 #include <tweedy/core/Imedia.hpp>
+#include <tweedy/core/PisteClip.hpp>
 
 #include <iostream>
 #include <cstdlib>
@@ -34,6 +35,8 @@ protected :
     unsigned int _imgreduction;
     unsigned int _timeIn;
     unsigned int _timeOut;
+
+    //PisteClip piste;  /*??? compile pas ???*/
 };
 
 #endif
