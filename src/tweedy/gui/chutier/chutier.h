@@ -21,6 +21,7 @@ public:
 public Q_SLOTS:
     void on_photo_selected(QListWidgetItem * item);
     void on_importButton_clicked();
+    void on_deleteButton_clicked();
 
 private:
     ListWidget * listWidget;

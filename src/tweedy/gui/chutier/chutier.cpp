@@ -41,8 +41,6 @@ Chutier::Chutier(QWidget *parent) :
     QString image2("img/tweedy1.jpg");
     QString image3("img/tweedy2.jpg");
 
-    viewerChutier->setPixmap(image1);
-
     /*liste des items*/
     QListWidgetItem *item = new QListWidgetItem(QIcon(image1), image1, listWidget);
     QListWidgetItem *item2 = new QListWidgetItem(QIcon(image2),image2, listWidget);
@@ -55,6 +53,7 @@ Chutier::Chutier(QWidget *parent) :
 
     connect(listWidget, SIGNAL(itemActivated(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
     connect(importButton, SIGNAL(clicked()), this, SLOT(on_importButton_clicked()));
+    connect(deleteButton, SIGNAL(clicked()), this, SLOT(on_deleteButton_clicked()));
 }
 
 void Chutier::on_photo_selected(QListWidgetItem * item)
@@ -69,6 +68,10 @@ void Chutier::on_importButton_clicked()
     QListWidgetItem *item = new QListWidgetItem(QIcon(fileName), fileName, listWidget);
 
     listWidget->addItem(item);
+
+}
+
+void Chutier::on_deleteButton_clicked(){
 
 }
 
