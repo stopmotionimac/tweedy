@@ -1,4 +1,4 @@
-#include "UndoRedoCommand.hpp"
+#include <tweedy/core/UndoRedoCommand.hpp>
 
 #include <cstdlib>
 #include <iostream>

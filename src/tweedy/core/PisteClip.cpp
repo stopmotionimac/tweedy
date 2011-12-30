@@ -1,4 +1,4 @@
-#include "PisteClip.hpp"
+#include <tweedy/core/PisteClip.hpp>
 
 
 unsigned int PisteClip::idPisteClip = 0;

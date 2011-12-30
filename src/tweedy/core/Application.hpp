@@ -1,8 +1,8 @@
 #ifndef APPLCIATION_HPP
 #define APPLICATION_HPP
 
-#include "Singleton.hpp"
-#include "Imedia.hpp"
+#include <tweedy/core/Singleton.hpp>
+#include <tweedy/core/Imedia.hpp>
 
 #include<iostream>
 #include <boost/ptr_container/ptr_vector.hpp>

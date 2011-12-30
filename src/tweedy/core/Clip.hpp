@@ -1,7 +1,7 @@
 #ifndef __CLIP_HPP__
 #define __CLIP_HPP__
 
-#include "Imedia.hpp"
+#include <tweedy/core/Imedia.hpp>
 
 #include <iostream>
 #include <cstdlib>

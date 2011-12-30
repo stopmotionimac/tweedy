@@ -1,4 +1,4 @@
-#include "Imedia.hpp"
+#include <tweedy/core/Imedia.hpp>
 
 Imedia::Imedia()
 {

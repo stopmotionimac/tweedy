@@ -1,7 +1,7 @@
 #ifndef __PISTECLIP_HPP__
 #define __PISTECLIP_HPP__
 
-#include "Clip.hpp"
+#include <tweedy/core/Clip.hpp>
 
 #include <iostream>
 #include <cstdlib>

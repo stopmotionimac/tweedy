@@ -1,7 +1,7 @@
 #ifndef __TIMELINE_HPP__
 #define __TIMELINE_HPP__
 
-#include "PisteClip.hpp"
+#include <tweedy/core/PisteClip.hpp>
 
 #include <iostream>
 #include <cstdlib>
