@@ -1,4 +1,5 @@
 #include "CommandManager.hpp"
+#include "IUndoRedoCommand.hpp"
 
 bool CommandManager::isActive() const{
     return active;
@@ -41,14 +42,14 @@ void CommandManager::setRedoLimit(int limit){
 
 
 
-
+//si l'indice de la commande courante est superieur à 0
 bool CommandManager::canUndo() const{
-    return !undoStack.empty();
+    return m_index!=0;
 }
 
 
 bool CommandManager::canRedo() const{
-    return !redoStack.empty();
+    return m_index!= m_undoRedoVector.size();
 }
 
 
@@ -57,69 +58,70 @@ bool CommandManager::canRedo() const{
 
 
 void CommandManager::clean(){
-    while(!this->getUndoStack().empty())
-        this->getUndoStack().pop();
-    while(!this->getRedoStack().empty())
-        this->getRedoStack().pop();
+    m_undoRedoVector.clear();
+    m_index = 0;
 }
 
 bool CommandManager::isClean() const{           /* a verifier */
-    return (undoStack.empty() && redoStack.empty());
+    return (m_undoRedoVector.empty());
 }
 
 
 
 
 size_t CommandManager::countUndo() const{
-    return undoStack.size();
+    return m_index;
 }
 
 size_t CommandManager::countRedo() const{
-    return redoStack.size();
+    return (m_undoRedoVector.size() - m_index);
 }
 
 
 size_t CommandManager::count() const{
-    return countUndo() + countRedo();
+    return m_undoRedoVector.size();
 }
 
 
 
 
 
-IUndoRedoCommand* CommandManager::getCommandToUndo(){
-    IUndoRedoCommand* cmd = this->getUndoStack().top();
-    this->getUndoStack().pop();
-    return cmd;
+size_t CommandManager::getCommandToUndo(){
+    
+    --m_index;
+    
+    return m_index;
 }
 
-IUndoRedoCommand* CommandManager::getCommandToRedo(){
-    IUndoRedoCommand* cmd = this->getRedoStack().top();
-    this->getRedoStack().pop();
-    return cmd;
+size_t CommandManager::getCommandToRedo(){
+    
+    ++m_index;
+    
+    return m_index;
 }
 
 
 
 void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
-    
-    /* pusher the new command into the undoStack and execute it*/
-    this->getUndoStack().push(newCommand);
-    newCommand->runDo();         //will be modified
-    /* clear the redoStack*/
-    while(!redoStack.empty()){
-        redoStack.pop();
+        
+    /* clear the redo part of undoRedoVector*/
+    for(unsigned int i = m_index; i<m_undoRedoVector.size() ; ++i){
+        m_undoRedoVector.pop_back();
     }
+    
+    /* push the new command into the undo part and execute it*/
+    m_undoRedoVector.push_back(newCommand);
+    newCommand->runDo();
+    
 }
 
 
 void CommandManager::undo(){
     
     if (this->canUndo()){
-        IUndoRedoCommand* cmd = this->getCommandToUndo();
-        cmd->getName();
-        cmd->undo();
-        this->getRedoStack().push(cmd);
+        size_t indexUndoCommand = this->getCommandToUndo();
+        m_undoRedoVector[indexUndoCommand].getName();
+        m_undoRedoVector[indexUndoCommand].undo();
     }
     else
         std::cout << "No command to undo" << std::endl; /* case of no command to undo will be implement
@@ -130,10 +132,9 @@ void CommandManager::undo(){
 void CommandManager::redo(){
     
     if (this->canRedo()){
-        IUndoRedoCommand* cmd = this->getCommandToRedo();
-        cmd->getName();
-        cmd->redo();
-        this->getUndoStack().push(cmd);
+        size_t indexUndoCommand = this->getCommandToRedo();
+        m_undoRedoVector[indexUndoCommand].getName();
+        m_undoRedoVector[indexUndoCommand].redo();
     }
     else
         std::cout << "No command to redo" << std::endl; /* case of no command to undo will be implement
@@ -155,3 +156,11 @@ Somme& CommandManager::getSomme(){
      return this->redoStack;
  }
 
+
+ boost::ptr_vector<IUndoRedoCommand> CommandManager::getUndoRedoVector(){
+     return m_undoRedoVector;
+ }
+ 
+ size_t CommandManager::getIndex(){
+     return m_index;
+ }

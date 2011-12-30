@@ -1,9 +1,13 @@
 #ifndef COMMANDMANAGER_HPP
 #define	COMMANDMANAGER_HPP
 
-#include "Somme.hpp"
-#include "AddCommand.hpp"
-#include "DeleteCommand.hpp"
+#include "../../../tests/tweedy/undo/Somme.hpp"
+#include "../../../tests/tweedy/undo/AddCommand.hpp"
+#include "../../../tests/tweedy/undo/DeleteCommand.hpp"
+
+#include <tweedy/core/IUndoRedoCommand.hpp>
+
+#include <boost/ptr_container/ptr_vector.hpp>
 
 #include <cstdlib>
 #include <iostream>
@@ -14,7 +18,7 @@ class CommandManager
 {
 public:
     
-    CommandManager(): somme(0),undoStack(), redoStack(){}
+    CommandManager(): somme(0),m_undoRedoVector(sizeof(IUndoRedoCommand)){}
     
     ~CommandManager() {}
     
@@ -45,8 +49,8 @@ public:
     size_t countUndo() const;
     size_t countRedo() const;
     
-    IUndoRedoCommand* getCommandToUndo();
-    IUndoRedoCommand* getCommandToRedo();
+    size_t getCommandToUndo();
+    size_t getCommandToRedo();
     
     void pushNewCommand(IUndoRedoCommand * newCommand);
     
@@ -55,13 +59,23 @@ public:
 
     Somme& getSomme();
     
+    ///#### useless
     std::stack<IUndoRedoCommand*>& getUndoStack();
     std::stack<IUndoRedoCommand*>& getRedoStack();
+    ///####
+    
+    boost::ptr_vector<IUndoRedoCommand> getUndoRedoVector();
+    
+    size_t getIndex();
     
     
 private:
     std::stack<IUndoRedoCommand *> undoStack;
     std::stack<IUndoRedoCommand *> redoStack;
+    
+    boost::ptr_vector<IUndoRedoCommand> m_undoRedoVector;
+    
+    size_t m_index;
     
     bool active;
     

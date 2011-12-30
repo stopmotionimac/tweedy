@@ -2,7 +2,7 @@
 #define	ADDCOMMAND_HPP
 
 #include "Somme.hpp"
-#include "IUndoRedoCommand.hpp"
+#include <tweedy/core/IUndoRedoCommand.hpp>
 
 class AddCommand : public IUndoRedoCommand
  {

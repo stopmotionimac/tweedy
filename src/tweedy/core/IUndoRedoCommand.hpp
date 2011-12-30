@@ -7,6 +7,7 @@ class IUndoRedoCommand{
 public:
     virtual ~IUndoRedoCommand(){};
     
+    
     virtual void undo()= 0;
     virtual void runDo()=0;
     virtual void redo()= 0;

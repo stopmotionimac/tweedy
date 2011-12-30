@@ -2,7 +2,7 @@
 #define	DELETECOMMAND_HPP
 
 #include "Somme.hpp"
-#include "IUndoRedoCommand.hpp"
+#include <tweedy/core/IUndoRedoCommand.hpp>
 
  class DeleteCommand : public IUndoRedoCommand
  {

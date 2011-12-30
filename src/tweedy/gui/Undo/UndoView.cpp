@@ -6,7 +6,7 @@
 
 
 UndoView::~UndoView(){
-    delete this->cmdMan;
+    delete this->p_cmdMan;
     delete this->undoGroup;
 }
 
@@ -32,7 +32,7 @@ QUndoGroup * UndoView::group() const{
     return this->undoGroup;
 }
 
-
+/*
 std::stack<IUndoRedoCommand *>& UndoView::stack() const{
     return this->cmdMan->getUndoStack();
 }
@@ -40,7 +40,6 @@ std::stack<IUndoRedoCommand *>& UndoView::stack() const{
 
 void UndoView::fillStringUndoStack(){
             std::stack<IUndoRedoCommand*> copyUndoStack(this->cmdMan->getUndoStack());
-            std::stack<IUndoRedoCommand*> copyRedoStack(this->cmdMan->getRedoStack());
             
             while(!copyUndoStack.empty()){
                 std::cout << (*copyUndoStack.top()).getText() << std::endl;
@@ -62,10 +61,29 @@ void UndoView::fillStringRedoStack(){
                 
             }
 }
-
-
+*/
 
 void UndoView::fill(){
+    //on vide la pile
+    this->clear();
+    
+    for(unsigned int i = 0; i < p_cmdMan->getUndoRedoVector().size() ; ++i){
+        
+        ///on recupere le texte de la commande courante que l'on convertit en QString
+        QString q;
+        q.fromStdString(p_cmdMan->getUndoRedoVector()[i].getText());
+        
+        ///on ajoute cette QString comme item de la UndoView
+        this->addItem(q);
+    }
+    
+    ///l'item courant est la derniere commande executee
+    this->setCurrentItem(this->item(p_cmdMan->getIndex()-1));
+    
+}
+
+/*
+void UndoView::fill1(){
     this->clear();
     this->fillStringUndoStack();
     
@@ -86,7 +104,7 @@ void UndoView::fill(){
     }
 }
 
-
+*/
 CommandManager* UndoView::getCmdMan(){
-    return cmdMan;
+    return p_cmdMan;
 }
