@@ -45,14 +45,15 @@ public:
 private Q_SLOTS:
     void increaseTime();
     void writeTime(unsigned int newValue);
+    void getCurrentTime(int row,int column);
     void on_playButton_clicked();
     void on_pauseButton_clicked();
     void on_zeroButton_clicked();
     void on_nextButton_clicked();
     void on_prevButton_clicked();
-    void on_addButton_clicked();
-    void on_delButton_clicked();
     void on_addTimeButton_clicked();
+    void on_plusButton_clicked();
+    void on_minusButton_clicked();
        
 Q_SIGNALS:
     void valueChanged(unsigned int newValue);

@@ -23,7 +23,9 @@ public:
     
     char* imgPath(){ return _imgPath; }
     unsigned int timeIn(){ return _timeIn; }
+    void setTimeIn(int value){ _timeIn += value; }
     unsigned int timeOut(){ return _timeOut; }
+    void setTimeOut(int value){ _timeOut += value; }
     void setPosition(unsigned int ti, unsigned int to){ _timeIn = ti; _timeOut = to; }
     
 protected :
