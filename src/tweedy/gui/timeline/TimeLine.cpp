@@ -57,12 +57,12 @@ void TimeLine::drawMiniatures()
 
             _ui->table->insertColumn(j);
             //gestion new/delete ?
-            QTableWidgetItem *newItem = new QTableWidgetItem(QIcon((*it).imgPath()),"");
+            //QTableWidgetItem *newItem = new QTableWidgetItem(QIcon((*it).imgPath().string()),"");
             
             sprintf (str, "%d", j);
             _ui->table->setHorizontalHeaderItem(j, new QTableWidgetItem( QString(str) ) );
             
-            _ui->table->setItem(0, j, newItem);
+           // _ui->table->setItem(0, j, newItem);
           }
 }
 
@@ -190,8 +190,8 @@ void TimeLine::on_plusButton_clicked()
        (*it).setTimeOut(1);
        
        
-       QTableWidgetItem *newItem = new QTableWidgetItem(QIcon((*it).imgPath()),"");
-       _ui->table->setItem(0, current+1, newItem);
+       //QTableWidgetItem *newItem = new QTableWidgetItem(QIcon((*it).imgPath().string()),"");
+       //_ui->table->setItem(0, current+1, newItem);
    }
    
 }
