@@ -1,6 +1,0 @@
-
-jobs=2
-ccache = True
-ccachedir = '/media/DATA/IMAC2/ProjetStopMotion/tweedy-cache'
-
-
