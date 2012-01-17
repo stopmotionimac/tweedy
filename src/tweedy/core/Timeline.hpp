@@ -15,6 +15,7 @@ private :
         boost::ptr_unordered_map<std::string, Clip> mapClip;
 
 public :
+        Timeline(ImediaType i) : Imedia(i){};
         //void getlistPiste ();
         //void addPiste (PisteClip & pisteClip);
         //void supprPiste (PisteClip & pisteClip);

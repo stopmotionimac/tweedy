@@ -3,14 +3,23 @@
 
 #include<string>
 
-class Imedia
-{
+enum ImediaType {
+    ImediaTypeClip,
+    ImediaTypePisteClip,
+    ImediaTypeMediaExt,
+    ImediaTypeTimeline
+};
+
+class Imedia {
 public:
-    Imedia();
+    Imedia(ImediaType i):mediaType(i) {};
+    //Imedia() {};
 
 protected:
     int IdMedia;
     std::string name;
+
+    ImediaType mediaType;
 };
 
 

@@ -23,7 +23,7 @@ TimeLine::TimeLine(QDockWidget* parent):
     
     writeTime(0);
         
-    Clip c1( "img/tweedy0.jpg" );
+    Clip c1("img/tweedy0.jpg" );
     c1.setPosition(0,2);
     Clip c2( "img/tweedy1.jpg" );
     c2.setPosition(3,4);
@@ -50,7 +50,7 @@ void TimeLine::drawMiniatures()
     for (It it=_clips.begin(); it!=_clips.end(); ++it)
         for (int j=(*it).timeIn(); j<(*it).timeOut(); ++j)
         {
-            QIcon icon((*it).imgPath());
+            QIcon icon( QString::fromStdString((*it).imgPath().string()) );
             _ui->table->item(0,j)->setIcon(icon);
         }
 }

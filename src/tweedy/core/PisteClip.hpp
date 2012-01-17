@@ -13,7 +13,7 @@ private :
     static unsigned int idPisteClip;
     
 public :
-    PisteClip(std::string n);
+    PisteClip(const std::string& n );
     ~PisteClip(){}
      
 };

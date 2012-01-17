@@ -3,8 +3,9 @@
 
 unsigned int PisteClip::idPisteClip = 0;
 
-PisteClip::PisteClip(std::string n)
-        : name(n)
+PisteClip::PisteClip( const std::string& n )
+        : Imedia(ImediaTypePisteClip),
+        name(n)
 {
     ++ idPisteClip; 
 }

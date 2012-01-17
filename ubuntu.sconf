@@ -1,0 +1,8 @@
+
+
+#lib_qt4 = ['QtCore-mt', 'Plop']
+incdir_qt4 = '/usr/include/qt4'
+#libdir_qt4 = '/path/to/qt4/lib'
+
+dir_gphoto2 = '/home/solvejg/gphoto_svn/gphoto-suite-install'
+

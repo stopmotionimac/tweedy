@@ -5,7 +5,7 @@
 
 class MediaExt : public Imedia {
 public:
-    MediaExt();
+    MediaExt(const ImediaType i) : Imedia(i){}
 };
 
 #endif // MEDIAEXT_HPP

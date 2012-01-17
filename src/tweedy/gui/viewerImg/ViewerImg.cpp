@@ -22,7 +22,7 @@ void ViewerImg::displayImg(unsigned int newValue, listC clips)
     {
         if ( (*it).timeIn() <= newValue && (*it).timeOut() > newValue )
         {
-            _labelImg->setPixmap( QPixmap((*it).imgPath()) );
+            _labelImg->setPixmap( QPixmap( QString::fromStdString( (*it).imgPath().string() ) ) );
             break;
         }
     }

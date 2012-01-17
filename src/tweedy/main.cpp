@@ -22,8 +22,9 @@ int main(int argc, char *argv[])
       application =Application::getInstance ();
 
       //FOR TEST create a timeline
-      Timeline timeline01;
+      //Timeline timeline01;
       //application->mapTimeline.insert(iterator before, const key_type $key,, std::auto_ptr<U>x)
+      //application->mapTimeline.end()
 
       // affectation de la valeur 15 à l'objet pointé par obj1
       application->setValue (15);
