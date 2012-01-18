@@ -126,6 +126,11 @@
               <string>Séquence</string>
              </property>
             </row>
+            <column>
+             <property name="text">
+              <string>real time</string>
+             </property>
+            </column>
            </widget>
           </item>
          </layout>

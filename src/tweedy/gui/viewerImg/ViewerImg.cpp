@@ -17,14 +17,20 @@ ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
 
 void ViewerImg::displayImg(unsigned int newValue, listC clips)
 {
-    for (It it=clips.begin(); it!=clips.end(); ++it)
-    {
-        if ( (*it).timeIn() <= newValue && (*it).timeOut() > newValue )
+    //if (newValue == -1)
+      //  _labelImg->setPixmap( QPixmap( QString::fromStdString("img/none.jpg") ) );
+    
+    //else
+    //{
+        for (It it=clips.begin(); it!=clips.end(); ++it)
         {
-            _labelImg->setPixmap( QPixmap( QString::fromStdString( (*it).imgPath().string() ) ) );
-            break;
+            if ( (*it).timeIn() <= newValue && (*it).timeOut() > newValue )
+            {
+                _labelImg->setPixmap( QPixmap( QString::fromStdString( (*it).imgPath().string() ) ) );
+                break;
+            }
         }
-    }
+    //}
 
 }  
 
