@@ -14,7 +14,7 @@ class CommandManager
 {
 public:
     
-    CommandManager(): m_undoRedoVector(){}
+    CommandManager(): m_undoRedoVector(),m_index(0){}
     
     ~CommandManager() {}
     
@@ -45,28 +45,18 @@ public:
     size_t countUndo() const;
     size_t countRedo() const;
     
-    size_t getCommandToUndo();
-    size_t getCommandToRedo();
-    
     void pushNewCommand(IUndoRedoCommand * newCommand);
     
-    void undo();        /* will be implemented as slots */
+    void undo();        
     void redo();
 
-    
-    ///#### useless
-    std::stack<IUndoRedoCommand*>& getUndoStack();
-    std::stack<IUndoRedoCommand*>& getRedoStack();
-    ///####
-    
+ 
     boost::ptr_vector<IUndoRedoCommand> getUndoRedoVector();
     
     size_t getIndex();
     
     
 private:
-    std::stack<IUndoRedoCommand *> undoStack;
-    std::stack<IUndoRedoCommand *> redoStack;
     
     boost::ptr_vector<IUndoRedoCommand> m_undoRedoVector;
     

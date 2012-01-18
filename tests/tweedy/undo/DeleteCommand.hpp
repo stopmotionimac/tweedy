@@ -25,7 +25,7 @@
      virtual void getName() const;
      virtual void setText(const std::string &text);
      
-     virtual std::string getText();
+     const std::string& getText() const;
 
      /*
      bool operator==(const DeleteCommand& o)const;

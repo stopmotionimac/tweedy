@@ -20,7 +20,7 @@ class AddCommand : public IUndoRedoCommand
      
      void getName() const;
      void setText(const std::string &text);
-     std::string getText();
+     const std::string& getText() const;
 
  private:
      int value;

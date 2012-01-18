@@ -21,7 +21,7 @@ UndoWidget::UndoWidget( UndoView * undoView){
     
     /* A modifier/cleaner */
     
-    QVariant* tempValue = new QVariant();
+    //QVariant* tempValue = new QVariant();
     
     //labelSomme = new QLabel("Somme :" + tempValue->toString(),this);
     
@@ -47,6 +47,8 @@ UndoWidget::~UndoWidget(){
 
 void UndoWidget::updateUndoLabelValue(){
     
+    std::cout << "undo action" << std::endl;
+    
     _undoView->getCmdMan()->undo();
     _undoView->fill();
     
@@ -60,6 +62,9 @@ void UndoWidget::updateUndoLabelValue(){
 
 
 void UndoWidget::updateRedoLabelValue(){
+    
+    std::cout << "redo action" << std::endl;
+
     
     _undoView->getCmdMan()->redo();
     _undoView->fill();

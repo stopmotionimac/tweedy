@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <QtCore/QVariant>
+#include <boost/foreach.hpp>
 
 
 UndoView::~UndoView(){
@@ -35,16 +36,19 @@ QUndoGroup * UndoView::group() const{
 void UndoView::fill(){
     //on vide la pile
     this->clear();
+
     
-    for(unsigned int i = 0; i < p_cmdMan->getUndoRedoVector().size() ; ++i){
-        
+    BOOST_FOREACH( const IUndoRedoCommand& command, p_cmdMan->getUndoRedoVector() )
+    {
         ///on recupere le texte de la commande courante que l'on convertit en QString
-        QString q;
-        q.fromStdString(p_cmdMan->getUndoRedoVector()[i].getText());
+        const std::string& undoRedoComment = command.getText();
         
+        std::cout << undoRedoComment << std::endl;
+
         ///on ajoute cette QString comme item de la UndoView
-        this->addItem(q);
+        this->addItem( QString::fromStdString(undoRedoComment) );
     }
+
     
     ///l'item courant est la derniere commande executee
     this->setCurrentItem(this->item(p_cmdMan->getIndex()-1));

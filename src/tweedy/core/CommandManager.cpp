@@ -10,16 +10,9 @@ void CommandManager::setActive(bool active){
 }
 
 
-
-
-
-
 int CommandManager::getCleanIndex() const{
     return cleanIndex;
 }
-
-
-
 
 
 int CommandManager::getUndoLimit() const{
@@ -84,42 +77,23 @@ size_t CommandManager::count() const{
 
 
 
-
-
-size_t CommandManager::getCommandToUndo(){
-    
-    --m_index;
-    
-    return m_index;
-}
-
-size_t CommandManager::getCommandToRedo(){
-    
-    ++m_index;
-    
-    return m_index;
-}
-
-
-
 void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
+    
         
     /* clear the redo part of undoRedoVector*/
-    for(unsigned int i = m_index; i<m_undoRedoVector.size() ; ++i){
-        m_undoRedoVector.pop_back();
-    }
-    
+    m_undoRedoVector.erase( m_undoRedoVector.begin()+m_index, m_undoRedoVector.end() );
+            
     /* push the new command into the undo part and execute it*/
     m_undoRedoVector.push_back(newCommand);
     newCommand->runDo();
-    
+    ++m_index;
 }
 
 
 void CommandManager::undo(){
     
     if (this->canUndo()){
-        size_t indexUndoCommand = this->getCommandToUndo();
+        size_t indexUndoCommand = --m_index;
         m_undoRedoVector[indexUndoCommand].getName();
         m_undoRedoVector[indexUndoCommand].undo();
     }
@@ -132,26 +106,15 @@ void CommandManager::undo(){
 void CommandManager::redo(){
     
     if (this->canRedo()){
-        size_t indexUndoCommand = this->getCommandToRedo();
+        size_t indexUndoCommand = m_index++;
         m_undoRedoVector[indexUndoCommand].getName();
         m_undoRedoVector[indexUndoCommand].redo();
+
     }
     else
         std::cout << "No command to redo" << std::endl; /* case of no command to undo will be implement
                                                       * with the slot */
 }
-
-
-/*renvoyer un const ptr vers les stacks ?*/
-
- std::stack<IUndoRedoCommand *>& CommandManager::getUndoStack(){   
-     return this->undoStack;
- }
- 
- std::stack<IUndoRedoCommand*>& CommandManager::getRedoStack(){
-     return this->redoStack;
- }
-
 
  boost::ptr_vector<IUndoRedoCommand> CommandManager::getUndoRedoVector(){
      return m_undoRedoVector;

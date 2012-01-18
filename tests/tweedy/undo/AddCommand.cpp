@@ -35,7 +35,7 @@ void AddCommand::setText(const std::string & newText){
     text = newText;
 }
 
-std::string AddCommand::getText(){
+const std::string& AddCommand::getText() const {
     return text;
 }
 
