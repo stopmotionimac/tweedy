@@ -142,10 +142,6 @@ void CommandManager::redo(){
 }
 
 
-Somme& CommandManager::getSomme(){
-    return somme;
-}
-
 /*renvoyer un const ptr vers les stacks ?*/
 
  std::stack<IUndoRedoCommand *>& CommandManager::getUndoStack(){   

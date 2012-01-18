@@ -6,23 +6,21 @@
 
 class AddCommand : public IUndoRedoCommand
  {
-    
  public:
-     AddCommand(int i, std::string s, Somme& somme): value(i), text(s), target(somme){
-         
-     }
      
-     ~AddCommand(){};
+     AddCommand(int i, const std::string& s, Somme& somme): value(i), text(s), target(somme){}
      
-     virtual AddCommand* clone() const;
+     ~AddCommand();
      
-     virtual void undo();
-     virtual void runDo();
-     virtual void redo();
+     AddCommand* clone() const;
      
-     virtual void getName() const;
-     virtual void setText(const std::string &text);
-     virtual std::string getText();
+     void undo();
+     void runDo();
+     void redo();
+     
+     void getName() const;
+     void setText(const std::string &text);
+     std::string getText();
 
  private:
      int value;

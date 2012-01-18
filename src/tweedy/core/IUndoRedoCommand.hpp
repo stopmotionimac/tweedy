@@ -5,9 +5,14 @@
 
 #include <string>
 
-class IUndoRedoCommand : private boost::noncopyable{
+class IUndoRedoCommand : private boost::noncopyable
+{
+protected:
+    IUndoRedoCommand(){}
+    IUndoRedoCommand( const IUndoRedoCommand& ){}
+    
 public:
-    virtual ~IUndoRedoCommand(){};
+    virtual ~IUndoRedoCommand()=0;
     
     virtual IUndoRedoCommand* clone() const = 0;
     
@@ -19,6 +24,7 @@ public:
     virtual std::string getText() =0;
 };
 
+inline IUndoRedoCommand::~IUndoRedoCommand(){}
 
 inline IUndoRedoCommand* new_clone(const IUndoRedoCommand& i){
     return i.clone();

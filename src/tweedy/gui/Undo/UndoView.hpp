@@ -1,8 +1,11 @@
 #ifndef UNDOVIEW_HPP
 #define	UNDOVIEW_HPP
 
-#include <tweedy/core/IUndoRedoCommand.hpp>
 #include <tweedy/core/CommandManager.hpp>
+#include "../tests/tweedy/undo/Somme.hpp"
+#include "../tests/tweedy/undo/AddCommand.hpp"
+#include "../tests/tweedy/undo/DeleteCommand.hpp"
+
 
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <QtGui/QListView>
@@ -23,7 +26,7 @@ public:
                 : QListWidget(parent), p_cmdMan(cmdManager){
         }
         
-        UndoView(QUndoGroup * group, QWidget * parent = 0): undoGroup(group){}
+        UndoView(QUndoGroup * group, QWidget * parent = 0):undoGroup(group){}
         
         ~UndoView();
 
@@ -34,14 +37,6 @@ public:
         void setEmptyLabel( const QString & label );
         
         QUndoGroup * group() const;
-       
-        ///###useless
-        //std::stack<IUndoRedoCommand*>& stack() const;
-        
-        
-        //void fillStringUndoStack();
-        //void fillStringRedoStack();
-        ///###
         
         void fill();
 
@@ -58,6 +53,7 @@ private:
     CommandManager* p_cmdMan;
     QUndoGroup * undoGroup;
     std::stack<QString> pileString;
+    
         
 };
 #endif	/* UNDOVIEW_HPP */

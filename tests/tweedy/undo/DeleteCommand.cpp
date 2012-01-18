@@ -30,3 +30,7 @@ std::string DeleteCommand::getText(){
 DeleteCommand* DeleteCommand::clone() const{
     return DeleteCommand(*this);
 }
+
+DeleteCommand::~DeleteCommand(){
+    std::cout << "Dtor DeleteCommand" << std::endl;
+}

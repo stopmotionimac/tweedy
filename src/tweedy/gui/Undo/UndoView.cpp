@@ -32,6 +32,54 @@ QUndoGroup * UndoView::group() const{
     return this->undoGroup;
 }
 
+void UndoView::fill(){
+    //on vide la pile
+    this->clear();
+    
+    for(unsigned int i = 0; i < p_cmdMan->getUndoRedoVector().size() ; ++i){
+        
+        ///on recupere le texte de la commande courante que l'on convertit en QString
+        QString q;
+        q.fromStdString(p_cmdMan->getUndoRedoVector()[i].getText());
+        
+        ///on ajoute cette QString comme item de la UndoView
+        this->addItem(q);
+    }
+    
+    ///l'item courant est la derniere commande executee
+    this->setCurrentItem(this->item(p_cmdMan->getIndex()-1));
+    
+}
+
+CommandManager* UndoView::getCmdMan(){
+    return p_cmdMan;
+}
+
+
+/*
+void UndoView::fill1(){
+    this->clear();
+    this->fillStringUndoStack();
+    
+    while(!pileString.empty()){
+        this->addItem(pileString.top());
+        pileString.pop();
+    }
+    
+    std::cout << this->count() << std::endl;
+    
+    this->setCurrentItem(this->item(this->count()-1));
+    
+    this->fillStringRedoStack();
+    
+    while(!pileString.empty()){
+        this->addItem(pileString.top());
+        pileString.pop();
+    }
+}
+
+*/
+
 /*
 std::stack<IUndoRedoCommand *>& UndoView::stack() const{
     return this->cmdMan->getUndoStack();
@@ -62,49 +110,3 @@ void UndoView::fillStringRedoStack(){
             }
 }
 */
-
-void UndoView::fill(){
-    //on vide la pile
-    this->clear();
-    
-    for(unsigned int i = 0; i < p_cmdMan->getUndoRedoVector().size() ; ++i){
-        
-        ///on recupere le texte de la commande courante que l'on convertit en QString
-        QString q;
-        q.fromStdString(p_cmdMan->getUndoRedoVector()[i].getText());
-        
-        ///on ajoute cette QString comme item de la UndoView
-        this->addItem(q);
-    }
-    
-    ///l'item courant est la derniere commande executee
-    this->setCurrentItem(this->item(p_cmdMan->getIndex()-1));
-    
-}
-
-/*
-void UndoView::fill1(){
-    this->clear();
-    this->fillStringUndoStack();
-    
-    while(!pileString.empty()){
-        this->addItem(pileString.top());
-        pileString.pop();
-    }
-    
-    std::cout << this->count() << std::endl;
-    
-    this->setCurrentItem(this->item(this->count()-1));
-    
-    this->fillStringRedoStack();
-    
-    while(!pileString.empty()){
-        this->addItem(pileString.top());
-        pileString.pop();
-    }
-}
-
-*/
-CommandManager* UndoView::getCmdMan(){
-    return p_cmdMan;
-}

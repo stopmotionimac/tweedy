@@ -1,10 +1,6 @@
 #ifndef COMMANDMANAGER_HPP
 #define	COMMANDMANAGER_HPP
 
-#include "../../../tests/tweedy/undo/Somme.hpp"
-#include "../../../tests/tweedy/undo/AddCommand.hpp"
-#include "../../../tests/tweedy/undo/DeleteCommand.hpp"
-
 #include <tweedy/core/IUndoRedoCommand.hpp>
 
 #include <boost/ptr_container/ptr_vector.hpp>
@@ -18,7 +14,7 @@ class CommandManager
 {
 public:
     
-    CommandManager(): somme(0),m_undoRedoVector(){}
+    CommandManager(): m_undoRedoVector(){}
     
     ~CommandManager() {}
     
@@ -57,7 +53,6 @@ public:
     void undo();        /* will be implemented as slots */
     void redo();
 
-    Somme& getSomme();
     
     ///#### useless
     std::stack<IUndoRedoCommand*>& getUndoStack();
@@ -83,8 +78,6 @@ private:
     
     int undoLimit;
     int redoLimit;
-    
-    Somme somme; /* pour le test , il faudra ensuite le placer dans un autre objet */
     
 };
 

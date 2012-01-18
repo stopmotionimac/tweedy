@@ -8,11 +8,12 @@
  {
     
  public:
+     
      DeleteCommand(int i, std::string s, Somme& somme): value(i), text(s), target(somme){
          
      }
      
-     ~DeleteCommand(){}
+     ~DeleteCommand();
      
      virtual DeleteCommand* clone() const;
      
