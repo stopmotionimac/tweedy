@@ -1,4 +1,4 @@
-#include "tweedy/gui/Undo/UndoWidget.hpp"
+#include <tweedy/gui/Undo/UndoWidget.hpp>
 #include <QT/QtGui>
 #include <cstdlib>
 #include <iostream>

@@ -14,6 +14,7 @@ class AddCommand : public IUndoRedoCommand
      
      ~AddCommand(){};
      
+     virtual AddCommand* clone() const;
      
      virtual void undo();
      virtual void runDo();

@@ -25,3 +25,8 @@ void AddCommand::setText(const std::string & newText){
 std::string AddCommand::getText(){
     return text;
 }
+
+
+AddCommand* AddCommand::clone() const{
+    return  new AddCommand(*this);
+}

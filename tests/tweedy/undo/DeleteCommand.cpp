@@ -26,5 +26,7 @@ void DeleteCommand::setText(const std::string & newText){
 std::string DeleteCommand::getText(){
     return text;
 }
-/* ##############    CommandManager   ############ */
 
+DeleteCommand* DeleteCommand::clone() const{
+    return DeleteCommand(*this);
+}

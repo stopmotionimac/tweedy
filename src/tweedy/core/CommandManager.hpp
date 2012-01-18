@@ -18,7 +18,7 @@ class CommandManager
 {
 public:
     
-    CommandManager(): somme(0),m_undoRedoVector(sizeof(IUndoRedoCommand)){}
+    CommandManager(): somme(0),m_undoRedoVector(){}
     
     ~CommandManager() {}
     

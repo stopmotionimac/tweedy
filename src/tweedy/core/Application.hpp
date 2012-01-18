@@ -2,6 +2,7 @@
 #define APPLICATION_HPP
 
 #include "Imedia.hpp"
+#include "CommandManager.hpp"
 
 #include<iostream>
 #include <boost/ptr_container/ptr_vector.hpp>
@@ -74,6 +75,7 @@ public:
 private:
   int _value;
   static boost::ptr_vector<Imedia> listMedia;
+  CommandManager m_cmdManager;
 };
 
 #endif  // APPLICATION_HPP

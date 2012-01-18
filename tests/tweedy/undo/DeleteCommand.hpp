@@ -14,6 +14,8 @@
      
      ~DeleteCommand(){}
      
+     virtual DeleteCommand* clone() const;
+     
      
      virtual void undo();
      virtual void runDo();

@@ -1,5 +1,6 @@
 #include "core/Application.hpp"
-#include "core/UndoRedoCommand.hpp"
+
+#include <tweedy/gui/Undo/UndoWidget.hpp>
 
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
@@ -48,6 +49,31 @@ int main(int argc, char *argv[])
 		//std::cout << "cssContent: " << cssContent.toStdString() << std::endl;
 		qApp->setStyleSheet(cssContent);
 	}
+        
+        
+        //test undo redo
+        
+        CommandManager cmdMan ;
+    
+        IUndoRedoCommand* addCmd1 = new AddCommand(2,"AddCommand1(+2)",cmdMan.getSomme());
+        IUndoRedoCommand* dltCmd1 = new DeleteCommand(4,"DeleteCommand1(-4)",cmdMan.getSomme());
+        IUndoRedoCommand* addCmd2 = new AddCommand(20,"AddCommand2(+20)",cmdMan.getSomme());
+        IUndoRedoCommand* dltCmd2 = new DeleteCommand(1,"DeleteCommand2(-1)",cmdMan.getSomme());
+        
+        
+        cmdMan.pushNewCommand(addCmd1);
+        cmdMan.pushNewCommand(dltCmd1);
+        cmdMan.pushNewCommand(addCmd2);
+        
+        cmdMan.undo();
+    
+        cmdMan.pushNewCommand(dltCmd2);
+        
+        UndoView* undoView = new UndoView(&cmdMan);
+    
+        QWidget * undoWidget = new UndoWidget(undoView);
+        undoWidget->setWindowTitle("Command List");
+        undoWidget->show();
 
 	mainWin.show();
 	return app.exec();

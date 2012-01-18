@@ -1,12 +1,15 @@
 #ifndef IUNDOREDOCOMMAND_HPP
 #define	IUNDOREDOCOMMAND_HPP
 
+#include <boost/noncopyable.hpp>
+
 #include <string>
 
-class IUndoRedoCommand{
+class IUndoRedoCommand : private boost::noncopyable{
 public:
     virtual ~IUndoRedoCommand(){};
     
+    virtual IUndoRedoCommand* clone() const = 0;
     
     virtual void undo()= 0;
     virtual void runDo()=0;
@@ -17,6 +20,9 @@ public:
 };
 
 
+inline IUndoRedoCommand* new_clone(const IUndoRedoCommand& i){
+    return i.clone();
+}
 
 #endif	/* IUNDOREDOCOMMAND_HPP */
 
