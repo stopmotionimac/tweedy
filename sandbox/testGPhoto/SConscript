@@ -18,7 +18,7 @@ project.Program(
 	target='testGPhoto',
 	sources=['src/main.cpp'],
 	libraries=[
-		libs.gphoto2,
+		libs.tweedy_gphoto_common,
 		]
 	)
 project.Program(

@@ -5,8 +5,6 @@ sandbox/testQt/src/HelloForm.cpp
 sandbox/testQt/src/HelloForm.h
 sandbox/testQt/src/HelloForm.ui
 sandbox/testQt/src/main.cpp
-src/tweedy/core/truc.cpp
-src/tweedy/core/truc.hpp
 src/tweedy/gui/timesheet/TimeSheet.cpp
 src/tweedy/gui/timesheet/TimeSheet.h
 src/tweedy/gui/timesheet/TimeSheet.ui
@@ -111,8 +109,6 @@ tools/sconsProject/utils/colors.py
 tools/sconsProject/utils/utils.py
 src/tweedy/gui/MainWindow/mainwindow.cpp
 src/tweedy/gui/MainWindow/mainwindow.h
-src/tweedy/gui/MainWindow/mainwindow.h
-src/tweedy/gui/MainWindow/mainwindow.cpp
 img/tweedy3.jpg
 img/tweedy2.jpg
 img/tweedy1.jpg
@@ -146,3 +142,11 @@ src/tweedy/core/Clip.cpp
 src/tweedy/core/Application.cpp
 src/tweedy/gui/chutier/listwidget.h
 src/tweedy/gui/chutier/listwidget.cpp
+src/tweedy/core/Singleton.hpp
+src/tweedy/core/Singleton.cpp
+src/tweedy/core/MediaExt.hpp
+src/tweedy/core/MediaExt.cpp
+src/tweedy/core/Chutier.hpp
+src/tweedy/core/Chutier.cpp
+src/tweedy/core/Test.hpp
+src/tweedy/core/Test.cpp

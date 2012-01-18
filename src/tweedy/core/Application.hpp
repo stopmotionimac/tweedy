@@ -1,58 +1,16 @@
 #ifndef APPLCIATION_HPP
 #define APPLICATION_HPP
 
-#include "Imedia.hpp"
-#include "CommandManager.hpp"
+#include <tweedy/core/Singleton.hpp>
+#include <tweedy/core/Timeline.hpp>
+#include <tweedy/core/Imedia.hpp>
+#include <tweedy/core/CommandManager.hpp>
+
 
 #include<iostream>
 #include <boost/ptr_container/ptr_vector.hpp>
+#include <boost/ptr_container/ptr_unordered_map.hpp>
 
-//
-//Singleton to any class
-//
-
-template <typename T>
-class Singleton
-{
-protected:
-  // Constructor/destructor
-  Singleton () { }
-  ~Singleton () { std::cout << "destroying singleton." << std::endl; }
-
-public:
-  static T *getInstance ()
-  {
-    if (NULL == _singleton)
-      {
-        std::cout << "creating singleton." << std::endl;
-        _singleton = new T;
-      }
-    else
-      {
-        std::cout << "singleton already exist" << std::endl;
-      }
-
-    return (static_cast<T*> (_singleton));
-  }
-
-  static void kill ()
-  {
-    if (NULL != _singleton)
-      {
-        delete _singleton;
-        _singleton = NULL;
-      }
-  }
-
-private:
-  static T *_singleton;
-};
-
-template <typename T>
-T *Singleton<T>::_singleton = NULL;
-
-//
-//
 
 class Application : public Singleton<Application>
 {
@@ -67,15 +25,19 @@ public:
   void setValue (int val) { _value = val; }
   int getValue () { return _value; }
 
-  static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
-  Imedia getImedia(int idMedia) { return listMedia[idMedia]; }
+  //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
+  static boost::ptr_unordered_map<std::string, Imedia> getMapMedia() {}
+  static boost::ptr_unordered_map<std::string, Timeline> getMapTimeline() {}
+  Imedia getImedia(int idMedia) {  }
   void addImedia(Imedia & media);
   void supprImedia(int idMedia);
 
 private:
   int _value;
   static boost::ptr_vector<Imedia> listMedia;
-  CommandManager m_cmdManager;
+  static boost::ptr_unordered_map<std::string, Imedia> mapMedia;
+  static boost::ptr_unordered_map<std::string, Timeline> mapTimeline;
+  static CommandManager m_cmdManager;
 };
 
 #endif  // APPLICATION_HPP

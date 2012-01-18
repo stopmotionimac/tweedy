@@ -25,7 +25,7 @@ MainWindow::MainWindow()
     
     
     if ( (*timeline->clips().begin()).timeIn() == 0 )
-        viewerImg->labelImg()->setPixmap( QPixmap((*timeline->clips().begin()).imgPath()) );
+        viewerImg->labelImg()->setPixmap( QPixmap( QString::fromStdString((*timeline->clips().begin()).imgPath().string()) ) );
     else    
         viewerImg->labelImg()->setPixmap( QPixmap("img/none.jpg") );
     
