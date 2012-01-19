@@ -10,7 +10,7 @@ class Chutier
 public:
         Chutier();
 private :
-        boost::ptr_unordered_map<std::string, MediaExt> mapMediaExt;
+        boost::ptr_unordered_map<std::string, ImediaType> mapMedia;
 };
 
 #endif // CHUTIER_HPP

@@ -16,7 +16,7 @@ Gphoto::~Gphoto() {
 
 void Gphoto::initContext() {
 #ifdef WITH_GPHOTO2
-    //_context = sample_create_context();
+    _context = sample_create_context();
 #endif //WITH_GPHOTO2
 #ifndef WITH_GPHOTO2
     std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
@@ -55,8 +55,10 @@ void Gphoto::getSummary() {
 #endif //WITH_GPHOTO2
 }
 
-void capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path & fn /*const char * fn*/) {
-#ifdef WITH_GPHOTO2
+void Gphoto::capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path & fn /*const char * fn*/) {
+//#ifdef WITH_GPHOTO2
+
+
         int fd, retval;
         CameraFile *file;
         CameraFilePath camera_file_path;
@@ -66,16 +68,14 @@ void capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path
         /* NOP: This gets overridden in the library to /capt0000.jpg */
         strcpy(camera_file_path.folder, "/");
         strcpy(camera_file_path.name, "foo.jpg");
-
-        retval = gp_camera_capture(camera, GP_CAPTURE_IMAGE, &camera_file_path, context);
+          retval = gp_camera_capture(camera, GP_CAPTURE_IMAGE, &camera_file_path, context);
         //printf("  Retval: %d\n", retval);
 
         //printf("Pathname on the camera: %s/%s\n", camera_file_path.folder, camera_file_path.name);
 
         fn /= camera_file_path.name;
-        //std::cout<<fn<<std::endl;
-        fn = camera_file_path.name;
         const char * fnToOpen = fn.string().data();
+        std::cout<<fnToOpen<<std::endl;
 
         //folder/file on computer
         fd = open(fnToOpen, O_CREAT | O_WRONLY, 0644);
@@ -88,11 +88,15 @@ void capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path
         retval = gp_camera_file_delete(camera, camera_file_path.folder, camera_file_path.name,context);
         //printf("  Retval: %d\n", retval);
 
-        gp_file_free(file);
-#endif //WITH_GPHOTO2
-#ifndef WITH_GPHOTO2
-    std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
-#endif //WITH_GPHOTO2
+//        gp_file_free(file);
+//#endif //WITH_GPHOTO2
+//#ifndef WITH_GPHOTO2
+//    std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
+//#endif //WITH_GPHOTO2
+}
+
+void Gphoto::captureToFile() {
+    capture_to_file(_camera, _context, _fileName);
 }
 
 void Gphoto::exitCamera() {

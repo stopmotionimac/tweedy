@@ -28,16 +28,18 @@ private:
 public:
     Gphoto();
     ~Gphoto();
+#ifdef WITH_GPHOTO2
+    static void capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path & fn /*const char * fn*/);
+    static void errordumper(GPLogLevel level, const char *s, const char *str,void *data);
+#endif //WITH_GPHOTO2
     void initCamera();
     void tryToConnectCamera();
     //sera changé en fonction du choix de l'utilisateur pour son dossier de save
     void setFolderToSavePictures() { _fileName = "/projet/pictures/";}
     void getSummary();
     void exitCamera();
-#ifdef WITH_GPHOTO2
-    static void capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path & fn /*const char * fn*/);
-    static void errordumper(GPLogLevel level, const char *s, const char *str,void *data);
-#endif //WITH_GPHOTO2
+    void captureToFile();
+
 
 private:
     void initContext();

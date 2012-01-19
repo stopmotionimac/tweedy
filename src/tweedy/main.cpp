@@ -19,9 +19,9 @@ int main(int argc, char *argv[])
       Application * application;
 
       // initialisation des pointeurs
-      application =Application::getInstance ();
+      application = Application::getInstance ();
 
-      application->setGphotoInstance();
+      //application->setGphotoInstance();
 
       //FOR TEST create a timeline
       //Timeline timeline01;

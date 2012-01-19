@@ -22,7 +22,7 @@ MainWindow::MainWindow()
     createWidgets();
     createStatusBar();
 
-   // gPhotoInstance = Gphoto::getInstance ();
+    gPhotoInstance = Gphoto::getInstance ();
 
     resize(900,700);
     
@@ -175,7 +175,10 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_capture_clicked()
 {
-
+    gPhotoInstance->tryToConnectCamera();
+    //gPhotoInstance->initCamera();
+    gPhotoInstance->setFolderToSavePictures();
+    gPhotoInstance->captureToFile();
 }
 
 
