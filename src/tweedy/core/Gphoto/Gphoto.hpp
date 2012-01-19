@@ -20,9 +20,9 @@ class Gphoto : public Singleton<Gphoto>
 private:
     Camera * _camera;
     GPContext * _context;
+    bool _cameraIsInit;
     //const char ** ptr;
     //unsigned long int * size;
-    //OK si depuis tweedy
     boost::filesystem::path _fileName;
 
 public:
@@ -30,6 +30,7 @@ public:
     ~Gphoto();
     void initCamera();
     void tryToConnectCamera();
+    //sera changé en fonction du choix de l'utilisateur pour son dossier de save
     void setFolderToSavePictures() { _fileName = "/projet/pictures/";}
     void getSummary();
     void exitCamera();
@@ -45,5 +46,12 @@ private:
 
 
 };
+
+void Gphoto::tryToConnectCamera() {
+    if (_cameraIsInit) {
+
+    }
+    else initCamera();
+}
 
 #endif // GPHOTO_HPP

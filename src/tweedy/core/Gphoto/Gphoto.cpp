@@ -2,6 +2,7 @@
 
 Gphoto::Gphoto()
 {
+   _cameraIsInit = false;
 }
 
 Gphoto::~Gphoto() {
@@ -23,6 +24,7 @@ void Gphoto::initCamera() {
         //printf("No camera auto detected.\n");
         gp_camera_free (_camera);
     }
+    _cameraIsInit = true;
 #endif //WITH_GPHOTO2
 #ifndef WITH_GPHOTO2
     std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
@@ -87,6 +89,7 @@ void capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path
 void Gphoto::exitCamera() {
 #ifdef WITH_GPHOTO2
     gp_camera_exit(_camera, _context);
+    _cameraIsInit = false;
 #endif //WITH_GPHOTO2
 #ifndef WITH_GPHOTO2
     std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
