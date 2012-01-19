@@ -15,6 +15,7 @@ ListWidget::ListWidget(QWidget *parent) :
     setAcceptDrops(true);
     setDropIndicatorShown(true);
     setDragDropMode(QAbstractItemView::InternalMove);
+    setSelectionMode(QAbstractItemView::ContiguousSelection);
 }
 
 

@@ -1,10 +1,3 @@
-/*
- * File:   ViewerImg.cpp
- * Author: julien
- * 
- * Created on 13 décembre 2011, 23:05
- */
-
 #include <QtGui/QPushButton>
 
 #include "ViewerImg.h"
@@ -24,23 +17,10 @@ ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
 
 }
 
-void ViewerImg::displayImg(unsigned int newValue, listC clips)
+void ViewerImg::displayImg(std::string filename)
 {
-    //if (newValue == -1)
-      //  _labelImg->setPixmap( QPixmap( QString::fromStdString("img/none.jpg") ) );
+    _labelImg->setPixmap( QString::fromStdString(filename) );
     
-    //else
-    //{
-        for (It it=clips.begin(); it!=clips.end(); ++it)
-        {
-            if ( (*it).timeIn() <= newValue && (*it).timeOut() > newValue )
-            {
-                _labelImg->setPixmap( QPixmap( QString::fromStdString( (*it).imgPath().string() ) ) );
-                break;
-            }
-        }
-    //}
-
 }  
 
 
@@ -49,4 +29,3 @@ ViewerImg::~ViewerImg()
     delete _labelImg;
     delete _capture;
 }
-

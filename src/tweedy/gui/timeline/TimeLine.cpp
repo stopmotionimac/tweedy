@@ -1,11 +1,3 @@
-/*
- * File:   TimeLine.cpp
- * Author: julien
- *
- * Created on 19 décembre 2011, 17:51
- */
-
-
 #include "TimeLine.h"
 
 
@@ -265,4 +257,3 @@ TimeLine::~TimeLine()
     delete _ui;
     delete _timer;
 }
-

@@ -8,10 +8,12 @@
 #include <QtGui/QAction>
 #include <QtGui/QStatusBar>
 #include <QtGui/QToolBar>
-#include "../timesheet/TimeSheet.h"
-#include "../viewerImg/ViewerImg.h"
-#include "../chutier/chutier.h"
-#include "../timeline/TimeLine.h"
+#include <tweedy/gui/timesheet/TimeSheet.h>
+#include <tweedy/gui/viewerImg/ViewerImg.h>
+#include <tweedy/gui/chutier/chutier.h>
+#include <tweedy/gui/timeline/TimeLine.h>
+#include <tweedy/gui/timeline/TimeLineUi.h>
+
 #include<tweedy/core/Gphoto/Gphoto.hpp>
 
 
@@ -62,7 +64,7 @@ class MainWindow : public QMainWindow
         TimeSheet* timesheet;
         ViewerImg* viewerImg;
         Chutier* chutier;
-        TimeLine* timeline;
+        TimeLineUi* timeline;
 
         Gphoto * gPhotoInstance;
 

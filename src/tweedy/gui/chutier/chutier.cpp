@@ -8,6 +8,7 @@
 #include <QtGui/QFileDialog>
 #include <QtCore/QDir>
 
+#include <iostream>
 
 Chutier::Chutier(QWidget *parent) :
     QWidget(parent)
@@ -73,11 +74,22 @@ void Chutier::on_importButton_clicked()
 
 void Chutier::on_deleteButton_clicked(){
 
+    QList<QListWidgetItem *> fileSelected= listWidget->selectedItems();
+    if(fileSelected.size())
+    {
+        for (int i = 0; i < listWidget->count(); ++i)
+        {
+            if(listWidget->item(i)->isSelected())
+            {
+                QListWidgetItem * item = listWidget->takeItem(i);
+                delete item;
+            }
+        }
+    }
+
 }
 
 Chutier::~Chutier()
 {
 
 }
-
-
