@@ -120,7 +120,6 @@ img/example.jpg
 img/capture.png
 src/tweedy/gui/viewerImg/ViewerImg.h
 src/tweedy/gui/viewerImg/ViewerImg.cpp
-src/tweedy/gui/viewerImg/ViewerImg.ui
 src/tweedy/gui/chutier/chutier.h
 src/tweedy/gui/chutier/chutier.cpp
 src/tweedy/gui/timeline/TimeLine.h
@@ -150,3 +149,6 @@ src/tweedy/core/Chutier.hpp
 src/tweedy/core/Chutier.cpp
 src/tweedy/core/Test.hpp
 src/tweedy/core/Test.cpp
+src/tweedy/core/Gphoto/samples.h
+src/tweedy/core/Gphoto/Gphoto.hpp
+src/tweedy/core/Gphoto/Gphoto.cpp

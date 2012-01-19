@@ -21,6 +21,8 @@ class MainWindow : public QMainWindow
         MainWindow();
         ~MainWindow();
 
+    public Q_SLOTS:
+        void on_capture_clicked();
 
     private:
         void createActions();
@@ -28,6 +30,8 @@ class MainWindow : public QMainWindow
         void createToolBar();
         void createWidgets();
         void createStatusBar();
+
+        void createWidgetViewer();
 
         QMenu * fileMenu;
         QMenu * editMenu;
@@ -44,6 +48,8 @@ class MainWindow : public QMainWindow
         QAction * redoAction;
         QAction * aboutAction;
         QAction * aboutQtAction;
+
+        QAction * _captureAction;
 
         QToolBar * fileToolBar;
         QToolBar * editToolBar;

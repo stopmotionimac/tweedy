@@ -10,6 +10,7 @@
 
 #include <QtGui/QLabel>
 #include <QtGui/QWidget>
+#include <QtGui/QPushButton>
 #include "../timeline/TimeLine.h"
 
 
@@ -26,6 +27,11 @@ private Q_SLOTS:
     
 private:
     QLabel* _labelImg;
+
+public:
+    QPushButton * _capture;
+    //QAction * _captureAction;
+
 };
 
 #endif	/* _VIEWERIMG_H */
