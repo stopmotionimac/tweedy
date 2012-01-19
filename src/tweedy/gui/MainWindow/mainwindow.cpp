@@ -29,7 +29,7 @@ MainWindow::MainWindow()
     else    
         viewerImg->labelImg()->setPixmap( QPixmap("img/none.jpg") );
     
-    connect(this->timeline, SIGNAL( displayChanged(unsigned int, listC) ), this->viewerImg, SLOT(displayImg(unsigned int, listC)) );
+    connect(this->timeline, SIGNAL( displayChanged(std::string) ), this->viewerImg, SLOT(displayImg(std::string)) );
 
 }
 
@@ -116,7 +116,7 @@ void MainWindow::createWidgets(){
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
     
     //ajout de la timeline a la mainwindow
-    timeline = new TimeLine();
+    timeline = new TimeLineUi();
     //timeline->setFixedSize(670, 300);
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
 }

@@ -22,6 +22,14 @@ public:
         _imgreduction(0), 
         _timeIn(0), 
         _timeOut(0){/*Imedia(type);*/}
+    Clip()
+        : Imedia(ImediaTypeMediaExt),
+        _imgLength(0.0), 
+        _imgwidth(0), 
+        _imgHeight(0), 
+        _imgreduction(0), 
+        _timeIn(0), 
+        _timeOut(0){/*Imedia(type);*/}
         
     ~Clip(){}
     

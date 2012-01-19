@@ -10,7 +10,7 @@
 
 #include <QtGui/QLabel>
 #include <QtGui/QWidget>
-#include "../timeline/TimeLine.h"
+#include "../timeline/TimeLineUi.h"
 
 
 class ViewerImg : public QWidget {
@@ -22,7 +22,7 @@ public:
     QLabel* labelImg(){ return _labelImg; }
 
 private Q_SLOTS:
-    void displayImg(unsigned int newValue, listC clips);    
+    void displayImg(std::string filename);    
     
 private:
     QLabel* _labelImg;
