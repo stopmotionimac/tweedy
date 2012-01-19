@@ -14,6 +14,19 @@ project.StaticLibrary(
 	)
 
 
+
+project.Program(
+	target='gp_module',
+	sources=['src/main_module.cpp'],
+	libraries=[
+		libs.tweedy_gphoto_common,
+		libs.boost_filesystem,
+		]
+	)
+
+
+
+
 project.Program(
 	target='testGPhoto',
 	sources=['src/main.cpp'],

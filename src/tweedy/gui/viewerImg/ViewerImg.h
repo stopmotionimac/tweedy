@@ -11,6 +11,8 @@
 #include <QtGui/QLabel>
 #include <QtGui/QWidget>
 #include "../timeline/TimeLineUi.h"
+#include <QtGui/QPushButton>
+
 
 
 class ViewerImg : public QWidget {
@@ -26,6 +28,11 @@ private Q_SLOTS:
     
 private:
     QLabel* _labelImg;
+
+public:
+    QPushButton * _capture;
+    //QAction * _captureAction;
+
 };
 
 #endif	/* _VIEWERIMG_H */

@@ -13,6 +13,8 @@
 #include "../chutier/chutier.h"
 #include "../timeline/TimeLineUi.h"
 
+//#include<tweedy/core/Gphoto/Gphoto.hpp>
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -21,6 +23,8 @@ class MainWindow : public QMainWindow
         MainWindow();
         ~MainWindow();
 
+    public Q_SLOTS:
+        void on_capture_clicked();
 
     private:
         void createActions();
@@ -29,10 +33,13 @@ class MainWindow : public QMainWindow
         void createWidgets();
         void createStatusBar();
 
+        void createWidgetViewer();
+
         QMenu * fileMenu;
         QMenu * editMenu;
         QMenu * viewMenu;
         QMenu * timelineMenu;
+        QMenu * paramsMenu;
         QMenu * helpMenu;
 
         QAction * newAction;
@@ -44,6 +51,8 @@ class MainWindow : public QMainWindow
         QAction * aboutAction;
         QAction * aboutQtAction;
 
+        QAction * _captureAction;
+
         QToolBar * fileToolBar;
         QToolBar * editToolBar;
 
@@ -54,6 +63,8 @@ class MainWindow : public QMainWindow
         ViewerImg* viewerImg;
         Chutier* chutier;
         TimeLineUi* timeline;
+
+        //Gphoto * gPhotoInstance;
 
 };
 

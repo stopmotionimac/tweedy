@@ -18,7 +18,8 @@
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
 
-#include "../../core/Clip.hpp"
+//#include "../../core/Clip.hpp"
+#include <tweedy/core/Clip.hpp>
 
 #include "ui_TimeLine.h"
 

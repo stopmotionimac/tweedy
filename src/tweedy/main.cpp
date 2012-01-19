@@ -1,14 +1,14 @@
 #include "core/Application.hpp"
 #include "core/UndoRedoCommand.hpp"
-
+#include "gui/timesheet/TimeSheet.h"
+#include "gui/MainWindow/mainwindow.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 #include <QtCore/QFile>
 #include <iostream>
 
-#include "gui/timesheet/TimeSheet.h"
-#include "gui/MainWindow/mainwindow.h"
+
 
 
 int main(int argc, char *argv[])
@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
       // initialisation des pointeurs
       application =Application::getInstance ();
 
+      application->setGphotoInstance();
+
       //FOR TEST create a timeline
       //Timeline timeline01;
       //application->mapTimeline.insert(iterator before, const key_type $key,, std::auto_ptr<U>x)
@@ -31,9 +33,6 @@ int main(int argc, char *argv[])
 
       // affichage de _value
       std::cout << "obj1::_value = " << application->getValue () << std::endl;
-
-      // destruction de l'instance unique
-      application->kill ();
 
 	// initialize resources, if needed
 	// Q_INIT_RESOURCE(resfile);
@@ -57,4 +56,7 @@ int main(int argc, char *argv[])
 
 	mainWin.show();
 	return app.exec();
+
+        // destruction de l'instance unique
+        application->kill ();
 }

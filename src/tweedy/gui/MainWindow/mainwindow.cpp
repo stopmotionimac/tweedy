@@ -9,6 +9,7 @@
 #include <QtGui/QMenuBar>
 #include <QtCore/QFile>
 
+#include <iostream>
 
 
 MainWindow::MainWindow()
@@ -20,6 +21,8 @@ MainWindow::MainWindow()
     createToolBar();
     createWidgets();
     createStatusBar();
+
+   // gPhotoInstance = Gphoto::getInstance ();
 
     resize(900,700);
     
@@ -33,6 +36,11 @@ MainWindow::MainWindow()
 
 }
 
+
+
+/*
+  Creer toutes les actions de l'application
+*/
 void MainWindow::createActions(){
 
     newAction = new QAction(QIcon("img/icones/nouveau.png"),"Nouveau Projet", this);
@@ -65,6 +73,12 @@ void MainWindow::createActions(){
 
 }
 
+
+
+
+/*
+  Creer la barre de menu
+*/
 void MainWindow::createMenuBar(){
 
     fileMenu = menuBar()->addMenu(tr("&Fichier"));
@@ -82,12 +96,22 @@ void MainWindow::createMenuBar(){
 
     timelineMenu = menuBar()->addMenu(tr("Timeline"));
 
+    paramsMenu = menuBar()->addMenu(tr("Configuration"));
+
     helpMenu = menuBar()->addMenu(tr("Aide"));
     helpMenu->addAction(aboutAction);
     helpMenu->addAction(aboutQtAction);
 
 }
 
+
+
+
+
+
+/*
+    Creer la barre d'outils
+*/
 void MainWindow::createToolBar(){
 
     fileToolBar = addToolBar("File");
@@ -101,38 +125,76 @@ void MainWindow::createToolBar(){
 
 }
 
+
+
+
+
+/*
+  Creer tous les widgets
+*/
 void MainWindow::createWidgets(){
+
+    //Dock Chutier
 
     QDockWidget * chutierDock = new QDockWidget(this);
     chutier = new Chutier();
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
 
-    //ajout du viewer
-    QDockWidget * contentViewerDock = new QDockWidget(this);	
+
+    createWidgetViewer();
+
+
+    //Dock Timeline
+
+    timeline = new TimeLineUi();
+    addDockWidget(Qt::BottomDockWidgetArea, timeline);
+
+}
+
+
+
+void MainWindow::createWidgetViewer()
+{
+
+    QDockWidget * contentViewerDock = new QDockWidget(this);
     viewerImg = new ViewerImg();
     viewerImg->setFixedSize(400, 300);
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
     
-    //ajout de la timeline a la mainwindow
-    timeline = new TimeLineUi();
-    //timeline->setFixedSize(670, 300);
-    addDockWidget(Qt::BottomDockWidgetArea, timeline);
+    _captureAction = new QAction(this);
+    _captureAction->setShortcut(QKeySequence("Retour"));
+    viewerImg->_capture->addAction(_captureAction);
+    connect(viewerImg->_capture, SIGNAL(clicked()), this,SLOT(on_capture_clicked()));
 }
 
+
+void MainWindow::on_capture_clicked()
+{
+
+}
+
+
+
+/*
+  Creer la barre de statut
+*/
 void MainWindow::createStatusBar(){
 
     myStatusBar = statusBar();
+    //'Pret' par défaut
     myStatusBar->showMessage("Pret");
 
 }
+
+
 
 MainWindow::~MainWindow(){
 
     delete chutier;
     delete viewerImg;
-    delete timesheet;
+    delete timeline;
 
 }
 
