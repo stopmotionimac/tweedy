@@ -35,7 +35,7 @@ public:
     void initCamera();
     void tryToConnectCamera();
     //sera changé en fonction du choix de l'utilisateur pour son dossier de save
-    void setFolderToSavePictures() { _fileName = "/projet/pictures/";}
+    void setFolderToSavePictures() { _fileName = "projet/pictures/";}
     void getSummary();
     void exitCamera();
     void captureToFile();
