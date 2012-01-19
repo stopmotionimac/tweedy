@@ -32,9 +32,6 @@ int main(int argc, char *argv[])
       // affichage de _value
       std::cout << "obj1::_value = " << application->getValue () << std::endl;
 
-      // destruction de l'instance unique
-      application->kill ();
-
 	// initialize resources, if needed
 	// Q_INIT_RESOURCE(resfile);
 
@@ -57,4 +54,7 @@ int main(int argc, char *argv[])
 
 	mainWin.show();
 	return app.exec();
+
+        // destruction de l'instance unique
+        application->kill ();
 }
