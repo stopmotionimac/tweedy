@@ -9,6 +9,7 @@
 #include <QtGui/QMenuBar>
 #include <QtCore/QFile>
 
+#include <iostream>
 
 
 MainWindow::MainWindow()
@@ -69,9 +70,6 @@ void MainWindow::createActions(){
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
 }
-
-
-
 
 
 
@@ -142,14 +140,9 @@ void MainWindow::createWidgets(){
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
 
 
-    //Dock Viewer
+    createWidgetViewer();
 
-    QDockWidget * contentViewerDock = new QDockWidget(this);	
-    viewerImg = new ViewerImg();
-    viewerImg->setFixedSize(400, 300);
-    contentViewerDock->setWidget(viewerImg);
-    addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
-    
+
     //Dock Timeline
 
     timeline = new TimeLine();
@@ -157,6 +150,31 @@ void MainWindow::createWidgets(){
 
 }
 
+
+
+void MainWindow::createWidgetViewer()
+{
+
+    QDockWidget * contentViewerDock = new QDockWidget(this);
+    viewerImg = new ViewerImg();
+    viewerImg->setFixedSize(400, 300);
+    contentViewerDock->setWidget(viewerImg);
+    addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
+
+
+    _captureAction = new QAction(this);
+    _captureAction->setShortcut(QKeySequence("Retour"));
+    viewerImg->_capture->addAction(_captureAction);
+    connect(viewerImg->_capture, SIGNAL(clicked()), this,SLOT(on_capture_clicked()));
+
+
+}
+
+
+void MainWindow::on_capture_clicked()
+{
+
+}
 
 
 
@@ -177,7 +195,7 @@ MainWindow::~MainWindow(){
 
     delete chutier;
     delete viewerImg;
-    delete timesheet;
+    delete timeline;
 
 }
 

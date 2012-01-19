@@ -5,6 +5,8 @@
  * Created on 13 décembre 2011, 23:05
  */
 
+#include <QtGui/QPushButton>
+
 #include "ViewerImg.h"
 
 
@@ -12,7 +14,14 @@ ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
 
 {
     setWindowTitle("Visualisation");
-    _labelImg->setFixedSize(300, 300);
+
+    _capture = new QPushButton("Capture",this);
+
+    QVBoxLayout * layout = new QVBoxLayout();
+    layout->addWidget(_labelImg);
+    layout->addWidget(_capture);
+    setLayout(layout);
+
 }
 
 void ViewerImg::displayImg(unsigned int newValue, listC clips)
@@ -37,6 +46,7 @@ void ViewerImg::displayImg(unsigned int newValue, listC clips)
 
 ViewerImg::~ViewerImg() 
 {
-   delete _labelImg; 
+    delete _labelImg;
+    delete _capture;
 }
 

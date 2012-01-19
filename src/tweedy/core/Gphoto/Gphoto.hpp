@@ -48,10 +48,9 @@ private:
 };
 
 void Gphoto::tryToConnectCamera() {
-    if (_cameraIsInit) {
-
+    if (!_cameraIsInit) {
+        initCamera();
     }
-    else initCamera();
 }
 
 #endif // GPHOTO_HPP
