@@ -33,7 +33,13 @@ TimeLine::TimeLine(QDockWidget* parent):
     _clips.push_back(c2);
     _clips.push_back(c3);
     _clips.push_back(c4);
+
+    _ui->table->setAcceptDrops(true);
     
+    /*QIcon icon( QString::fromStdString("img/none.jpg") );
+    QTableWidgetItem *realTime = new QTableWidgetItem(icon,"");
+    _ui->table->setItem(0, 0, realTime);*/
+
     drawMiniatures();
     
     connect(this, SIGNAL( valueChanged(unsigned int) ), this, SLOT(writeTime(unsigned int)) );
@@ -52,17 +58,13 @@ void TimeLine::drawMiniatures()
     for (It it=_clips.begin(); it!=_clips.end(); ++it)
         for (int j=(*it).timeIn(); j<(*it).timeOut(); ++j)
         {
-            //QIcon icon( QString::fromStdString((*it).imgPath().string()) );
-            //_ui->table->item(0,j)->setIcon(icon);
-
             _ui->table->insertColumn(j);
-            //gestion new/delete ?
-            //QTableWidgetItem *newItem = new QTableWidgetItem(QIcon((*it).imgPath().string()),"");
-            
             sprintf (str, "%d", j);
             _ui->table->setHorizontalHeaderItem(j, new QTableWidgetItem( QString(str) ) );
             
-           // _ui->table->setItem(0, j, newItem);
+            QIcon icon( QString::fromStdString((*it).imgPath().string()) );
+            QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
+            _ui->table->setItem(0, j, newItem);
           }
 }
 
@@ -91,6 +93,8 @@ void TimeLine::writeTime(unsigned int newValue)
 void TimeLine::getCurrentTime(int row,int column)
 {
     _time = column;
+    //if (_time ==  _ui->table->columnCount() -1 )
+    //  _time = -1;
     Q_EMIT valueChanged(_time);
     Q_EMIT displayChanged(_time, _clips);
 }
@@ -164,18 +168,19 @@ void TimeLine::on_plusButton_clicked()
 { 
    if ( _ui->table->currentColumn() > -1 )
    {
+       //add a column in current column
        int current = _ui->table->currentColumn();
        _ui->table->insertColumn( current+1 );
        
+       //actualize horizontal header
        char str[3];
-       
        for (int i=current ; i< _ui->table->columnCount(); ++i)
        {
            sprintf (str, "%d", i+1);
            _ui->table->setHorizontalHeaderItem(i+1, new QTableWidgetItem( QString(str) ) );
        }
        
-       
+       //actualize time in and time out of each clip following the current one
        It it;
        for (it=_clips.end(); it!=_clips.begin(); --it)
        {
@@ -187,11 +192,14 @@ void TimeLine::on_plusButton_clicked()
                (*it).setTimeOut(1);
            }
        }
+       //increase time in of current clip
        (*it).setTimeOut(1);
        
+       //add the icon in the new column
+       QIcon icon( QString::fromStdString((*it).imgPath().string()) );
+       QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
+       _ui->table->setItem(0, current+1, newItem);
        
-       //QTableWidgetItem *newItem = new QTableWidgetItem(QIcon((*it).imgPath().string()),"");
-       //_ui->table->setItem(0, current+1, newItem);
    }
    
 }
@@ -204,18 +212,21 @@ void TimeLine::on_minusButton_clicked()
 { 
      if ( _ui->table->currentColumn() > -1 )
        {
+           //remove the current column
            int current = _ui->table->currentColumn();
+           //if (_ui->table->columnCount() > 1)
            _ui->table->removeColumn( current );
-
+                    
            char str[3];
 
+           //actualize horizontal header after removing the current one
            for (int i=current ; i< _ui->table->columnCount(); ++i)
            {
                sprintf (str, "%d", i);
                _ui->table->setHorizontalHeaderItem(i, new QTableWidgetItem( QString(str) ) );
            }
 
-
+           //actualize time in and time out of each clip following the current one
            It it;
            for (it=_clips.end(); it!=_clips.begin(); --it)
            {
@@ -227,10 +238,23 @@ void TimeLine::on_minusButton_clicked()
                    (*it).setTimeOut(-1);
                }
            }
-           
+                      
+           //dicrease time out of current clip
            (*it).setTimeOut(-1);
+           
+           //delete clip if its length is 0 and signal a change of display           
            if ( (*it).timeIn() == (*it).timeOut() )
-               _clips.erase(it);
+                _clips.erase(it);
+                     
+           //fix new selected item
+           if (current < _clips.rbegin()->timeOut()-1)
+                _ui->table->setCurrentCell(0,current);
+           
+           else
+                _ui->table->setCurrentCell(0,_clips.rbegin()->timeOut()-1);
+           
+           
+           Q_EMIT displayChanged(_time, _clips);
            
        }
 }

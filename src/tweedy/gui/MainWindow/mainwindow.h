@@ -33,6 +33,7 @@ class MainWindow : public QMainWindow
         QMenu * editMenu;
         QMenu * viewMenu;
         QMenu * timelineMenu;
+        QMenu * paramsMenu;
         QMenu * helpMenu;
 
         QAction * newAction;
