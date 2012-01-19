@@ -20,7 +20,7 @@
 
 #include "../../core/Timeline.hpp"
 
-#include "ui_TimeLine.h"
+#include "ui_TimeLineUi.h"
 
 typedef std::list<Clip> listC;
 typedef std::list<Clip>::iterator It;

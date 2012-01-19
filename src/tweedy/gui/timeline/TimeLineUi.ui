@@ -34,62 +34,49 @@
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QHBoxLayout" name="horizontalLayout_4">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <widget class="QTableWidget" name="table">
+        <property name="minimumSize">
+         <size>
+          <width>600</width>
+          <height>120</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>800</width>
+          <height>120</height>
+         </size>
+        </property>
+        <attribute name="horizontalHeaderDefaultSectionSize">
+         <number>80</number>
+        </attribute>
+        <attribute name="horizontalHeaderMinimumSectionSize">
+         <number>80</number>
+        </attribute>
+        <attribute name="verticalHeaderDefaultSectionSize">
+         <number>80</number>
+        </attribute>
+        <attribute name="verticalHeaderMinimumSectionSize">
+         <number>80</number>
+        </attribute>
+        <row>
+         <property name="text">
+          <string>Séquence</string>
+         </property>
+        </row>
+        <column>
+         <property name="text">
+          <string>real time</string>
+         </property>
+        </column>
+       </widget>
+      </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <widget class="QTableWidget" name="table">
-          <property name="minimumSize">
-           <size>
-            <width>621</width>
-            <height>120</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>621</width>
-            <height>120</height>
-           </size>
-          </property>
-          <attribute name="horizontalHeaderDefaultSectionSize">
-           <number>80</number>
-          </attribute>
-          <attribute name="horizontalHeaderMinimumSectionSize">
-           <number>80</number>
-          </attribute>
-          <attribute name="verticalHeaderDefaultSectionSize">
-           <number>80</number>
-          </attribute>
-          <attribute name="verticalHeaderMinimumSectionSize">
-           <number>80</number>
-          </attribute>
-          <row>
-           <property name="text">
-            <string>Séquence</string>
-           </property>
-          </row>
-          <column>
-           <property name="text">
-            <string>real time</string>
-           </property>
-          </column>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="leftMargin">
-           <number>120</number>
-          </property>
-          <property name="rightMargin">
-           <number>50</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
           <item>
            <widget class="QLabel" name="labelDuration">
             <property name="text">
@@ -98,7 +85,10 @@
            </widget>
           </item>
           <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <property name="rightMargin">
+             <number>100</number>
+            </property>
             <item>
              <widget class="QToolButton" name="plusButton">
               <property name="minimumSize">
@@ -142,13 +132,7 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="leftMargin">
-           <number>0</number>
-          </property>
-          <property name="rightMargin">
-           <number>50</number>
-          </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
            <widget class="QToolButton" name="playButton">
             <property name="minimumSize">
@@ -228,9 +212,9 @@
          </layout>
         </item>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
+         <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="leftMargin">
-           <number>25</number>
+           <number>90</number>
           </property>
           <item>
            <widget class="QLabel" name="time">
