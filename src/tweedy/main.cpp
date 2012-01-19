@@ -21,6 +21,8 @@ int main(int argc, char *argv[])
       // initialisation des pointeurs
       application =Application::getInstance ();
 
+      application->setGphotoInstance();
+
       //FOR TEST create a timeline
       //Timeline timeline01;
       //application->mapTimeline.insert(iterator before, const key_type $key,, std::auto_ptr<U>x)
