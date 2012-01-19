@@ -33,7 +33,9 @@ TimeLine::TimeLine(QDockWidget* parent):
     _clips.push_back(c2);
     _clips.push_back(c3);
     _clips.push_back(c4);
-    
+
+    _ui->table->setAcceptDrops(true);
+
     drawMiniatures();
     
     connect(this, SIGNAL( valueChanged(unsigned int) ), this, SLOT(writeTime(unsigned int)) );
