@@ -6,8 +6,8 @@
 #include <boost/filesystem.hpp>
 
 #ifdef WITH_GPHOTO2
-#include <gphoto2/gphoto2.h>
 #include "samples.h"
+#include <gphoto2/gphoto2.h>
 #endif //WITH_GPHOTO2
 
 #include <fcntl.h>
@@ -40,17 +40,9 @@ public:
 #endif //WITH_GPHOTO2
 
 private:
-#ifdef WITH_GPHOTO2
-    void initContext(){_context = sample_create_context();}
-#endif //WITH_GPHOTO2
+    void initContext();
 
 
 };
-
-void Gphoto::tryToConnectCamera() {
-    if (!_cameraIsInit) {
-        initCamera();
-    }
-}
 
 #endif // GPHOTO_HPP

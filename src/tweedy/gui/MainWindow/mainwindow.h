@@ -11,7 +11,9 @@
 #include "../timesheet/TimeSheet.h"
 #include "../viewerImg/ViewerImg.h"
 #include "../chutier/chutier.h"
-#include "../timeline/TimeLine.h"
+#include "../timeline/TimeLineUi.h"
+
+//#include<tweedy/core/Gphoto/Gphoto.hpp>
 
 class MainWindow : public QMainWindow
 {
@@ -60,7 +62,9 @@ class MainWindow : public QMainWindow
         TimeSheet* timesheet;
         ViewerImg* viewerImg;
         Chutier* chutier;
-        TimeLine* timeline;
+        TimeLineUi* timeline;
+
+        //Gphoto * gPhotoInstance;
 
 };
 

@@ -22,6 +22,8 @@ MainWindow::MainWindow()
     createWidgets();
     createStatusBar();
 
+   // gPhotoInstance = Gphoto::getInstance ();
+
     resize(900,700);
     
     
@@ -30,7 +32,7 @@ MainWindow::MainWindow()
     else    
         viewerImg->labelImg()->setPixmap( QPixmap("img/none.jpg") );
     
-    connect(this->timeline, SIGNAL( displayChanged(unsigned int, listC) ), this->viewerImg, SLOT(displayImg(unsigned int, listC)) );
+    connect(this->timeline, SIGNAL( displayChanged(std::string) ), this->viewerImg, SLOT(displayImg(std::string)) );
 
 }
 
@@ -145,7 +147,7 @@ void MainWindow::createWidgets(){
 
     //Dock Timeline
 
-    timeline = new TimeLine();
+    timeline = new TimeLineUi();
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
 
 }
@@ -160,14 +162,11 @@ void MainWindow::createWidgetViewer()
     viewerImg->setFixedSize(400, 300);
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
-
-
+    
     _captureAction = new QAction(this);
     _captureAction->setShortcut(QKeySequence("Retour"));
     viewerImg->_capture->addAction(_captureAction);
     connect(viewerImg->_capture, SIGNAL(clicked()), this,SLOT(on_capture_clicked()));
-
-
 }
 
 

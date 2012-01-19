@@ -14,6 +14,15 @@ Gphoto::~Gphoto() {
 #endif //WITH_GPHOTO2
 }
 
+void Gphoto::initContext() {
+#ifdef WITH_GPHOTO2
+    //_context = sample_create_context();
+#endif //WITH_GPHOTO2
+#ifndef WITH_GPHOTO2
+    std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
+#endif //WITH_GPHOTO2
+}
+
 void Gphoto::initCamera() {
 #ifdef WITH_GPHOTO2
     initContext();
@@ -103,4 +112,10 @@ void Gphoto::errordumper(GPLogLevel level, const char *domain, const char *str,v
 #ifndef WITH_GPHOTO2
     std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
 #endif //WITH_GPHOTO2
+}
+
+void Gphoto::tryToConnectCamera() {
+    if (!_cameraIsInit) {
+        initCamera();
+    }
 }

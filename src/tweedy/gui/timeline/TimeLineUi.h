@@ -11,15 +11,14 @@
 #include <stdlib.h>
 #include <list>
 #include<cstdio>
-
+#include<boost/format.hpp>
 #include <QtCore/QTimer>
 
 #include <QtGui/QDockWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
 
-//#include "../../core/Clip.hpp"
-#include <tweedy/core/Clip.hpp>
+#include "../../core/Timeline.hpp"
 
 #include "ui_TimeLine.h"
 
@@ -30,19 +29,19 @@ namespace Ui {
     class TimeLine;
 }
 
-class TimeLine : public QDockWidget {
+class TimeLineUi : public QDockWidget {
     Q_OBJECT
 public:
-    TimeLine(QDockWidget* parent=0);
-    ~TimeLine();
+    TimeLineUi(QDockWidget* parent=0);
+    ~TimeLineUi();
     
     unsigned int time(){ return _time; }
     Ui::TimeLine* ui(){ return _ui; }
     listC clips(){ return _clips; }
     
-    void drawMiniatures();
-    
-            
+    void updateTable();
+    void emitDisplayChanged();
+                
 private Q_SLOTS:
     void increaseTime();
     void writeTime(unsigned int newValue);
@@ -52,19 +51,20 @@ private Q_SLOTS:
     void on_zeroButton_clicked();
     void on_nextButton_clicked();
     void on_prevButton_clicked();
-    void on_addTimeButton_clicked();
+    
     void on_plusButton_clicked();
     void on_minusButton_clicked();
        
 Q_SIGNALS:
-    void valueChanged(unsigned int newValue);
-    void displayChanged(unsigned int newValue, listC clips);
+    void timeChanged(unsigned int newValue);
+    void displayChanged(std::string filename);
     
 private:
     QTableWidget* _table;
     unsigned int _time;
     QTimer* _timer;
     Ui::TimeLine* _ui;
+    Timeline* _timeline;
     listC _clips;
     QIcon _defautIcon;
     

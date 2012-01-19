@@ -38,102 +38,42 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <property name="topMargin">
-           <number>0</number>
+         <widget class="QTableWidget" name="table">
+          <property name="minimumSize">
+           <size>
+            <width>621</width>
+            <height>120</height>
+           </size>
           </property>
-          <property name="bottomMargin">
-           <number>50</number>
+          <property name="maximumSize">
+           <size>
+            <width>621</width>
+            <height>120</height>
+           </size>
           </property>
-          <item>
-           <widget class="QLabel" name="labelAddTime">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>10</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>20</height>
-             </size>
-            </property>
-            <property name="sizeIncrement">
-             <size>
-              <width>0</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Ajouter temps :</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_9">
-            <item>
-             <widget class="QSpinBox" name="spin">
-              <property name="minimum">
-               <number>1</number>
-              </property>
-              <property name="maximum">
-               <number>10</number>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QToolButton" name="addTimeButton">
-              <property name="text">
-               <string>Ok</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_10">
-          <item>
-           <widget class="QTableWidget" name="table">
-            <property name="minimumSize">
-             <size>
-              <width>621</width>
-              <height>120</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>621</width>
-              <height>120</height>
-             </size>
-            </property>
-            <attribute name="horizontalHeaderDefaultSectionSize">
-             <number>80</number>
-            </attribute>
-            <attribute name="horizontalHeaderMinimumSectionSize">
-             <number>80</number>
-            </attribute>
-            <attribute name="verticalHeaderDefaultSectionSize">
-             <number>80</number>
-            </attribute>
-            <attribute name="verticalHeaderMinimumSectionSize">
-             <number>80</number>
-            </attribute>
-            <row>
-             <property name="text">
-              <string>Séquence</string>
-             </property>
-            </row>
-            <column>
-             <property name="text">
-              <string>real time</string>
-             </property>
-            </column>
-           </widget>
-          </item>
-         </layout>
+          <attribute name="horizontalHeaderDefaultSectionSize">
+           <number>80</number>
+          </attribute>
+          <attribute name="horizontalHeaderMinimumSectionSize">
+           <number>80</number>
+          </attribute>
+          <attribute name="verticalHeaderDefaultSectionSize">
+           <number>80</number>
+          </attribute>
+          <attribute name="verticalHeaderMinimumSectionSize">
+           <number>80</number>
+          </attribute>
+          <row>
+           <property name="text">
+            <string>Séquence</string>
+           </property>
+          </row>
+          <column>
+           <property name="text">
+            <string>real time</string>
+           </property>
+          </column>
+         </widget>
         </item>
        </layout>
       </item>

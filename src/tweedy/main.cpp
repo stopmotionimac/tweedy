@@ -1,14 +1,14 @@
 #include "core/Application.hpp"
 #include "core/UndoRedoCommand.hpp"
-
+#include "gui/timesheet/TimeSheet.h"
+#include "gui/MainWindow/mainwindow.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 #include <QtCore/QFile>
 #include <iostream>
 
-#include "gui/timesheet/TimeSheet.h"
-#include "gui/MainWindow/mainwindow.h"
+
 
 
 int main(int argc, char *argv[])
@@ -20,6 +20,8 @@ int main(int argc, char *argv[])
 
       // initialisation des pointeurs
       application =Application::getInstance ();
+
+      application->setGphotoInstance();
 
       //FOR TEST create a timeline
       //Timeline timeline01;
