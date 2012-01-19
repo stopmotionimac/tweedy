@@ -56,7 +56,7 @@ Gphoto::~Gphoto() {
 void Gphoto::initCamera() {
 #ifdef WITH_GPHOTO2
     initContext();
-    gp_log_add_func(GP_LOG_ERROR, Gphoto::errordumper, NULL);
+    //gp_log_add_func(GP_LOG_ERROR, Gphoto::errordumper, NULL);
     gp_camera_new(& _camera);
     int retval = gp_camera_init (_camera, _context);
     if (retval < GP_OK) {
