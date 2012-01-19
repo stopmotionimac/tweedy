@@ -12,6 +12,8 @@
 #include "../viewerImg/ViewerImg.h"
 #include "../chutier/chutier.h"
 #include "../timeline/TimeLine.h"
+#include<tweedy/core/Gphoto/Gphoto.hpp>
+
 
 class MainWindow : public QMainWindow
 {
@@ -61,6 +63,8 @@ class MainWindow : public QMainWindow
         ViewerImg* viewerImg;
         Chutier* chutier;
         TimeLine* timeline;
+
+        Gphoto * gPhotoInstance;
 
 };
 

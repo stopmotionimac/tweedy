@@ -22,6 +22,8 @@ MainWindow::MainWindow()
     createWidgets();
     createStatusBar();
 
+    gPhotoInstance = Gphoto::getInstance ();
+
     resize(900,700);
     
     

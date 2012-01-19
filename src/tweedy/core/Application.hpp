@@ -2,6 +2,7 @@
 #define APPLICATION_HPP
 
 #include <tweedy/core/Singleton.hpp>
+//#include "tweedy/core/Gphoto/Gphoto.hpp"
 #include <tweedy/core/Timeline.hpp>
 #include <tweedy/core/Imedia.hpp>
 
@@ -34,6 +35,7 @@ private:
   int _value;
   static boost::ptr_unordered_map<std::string, Imedia> mapMedia;
   static boost::ptr_unordered_map<std::string, Timeline> mapTimeline;
+  //Gphoto gPhoto;
 };
 
 #endif  // APPLICATION_HPP
