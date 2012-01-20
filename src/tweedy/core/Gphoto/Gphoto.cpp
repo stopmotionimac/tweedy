@@ -56,7 +56,7 @@ void Gphoto::getSummary() {
 }
 
 void Gphoto::capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path & fn /*const char * fn*/) {
-//#ifdef WITH_GPHOTO2
+#ifdef WITH_GPHOTO2
 
 
         int fd, retval;
@@ -88,11 +88,11 @@ void Gphoto::capture_to_file(Camera *camera, GPContext *context, boost::filesyst
         retval = gp_camera_file_delete(camera, camera_file_path.folder, camera_file_path.name,context);
         //printf("  Retval: %d\n", retval);
 
-//        gp_file_free(file);
-//#endif //WITH_GPHOTO2
-//#ifndef WITH_GPHOTO2
-//    std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
-//#endif //WITH_GPHOTO2
+        gp_file_free(file);
+#endif //WITH_GPHOTO2
+#ifndef WITH_GPHOTO2
+    std::cout<<"PAS DE LIB GPHOTO2"<<std::endl;
+#endif //WITH_GPHOTO2
 }
 
 void Gphoto::captureToFile() {
