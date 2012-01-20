@@ -66,6 +66,25 @@ void Timeline::addTimeToClip(const std::string& clipName, double time, bool blan
         
 }
 
+
+//__________________ Find corresponding clip of current time ___________________
+
+
+bool Timeline::findCurrentClip(std::string & filename, int time)
+{
+    OMapClip orderedClips = getOrderedClips();
+    BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
+    {
+        if (s.first <= time && (*s.second)->timeOut() > time)
+        {
+            filename = (*s.second)->imgPath().string();
+            return true;
+        }
+    }
+    return false;
+}
+
+
 void Timeline::setMaxTime()
 {
     unsigned int max = 0;
@@ -76,4 +95,18 @@ void Timeline::setMaxTime()
     }
     _maxTime = max;
 
+}
+
+void Timeline::deleteBlank(int time)
+{
+    OMapClip orderedClips = getOrderedClips();
+    BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
+    {
+        if (s.first > time)
+        {
+            (*s.second)->setTimeIn(-1);
+            (*s.second)->setTimeOut(-1);
+        }
+    }
+    --_maxTime;
 }

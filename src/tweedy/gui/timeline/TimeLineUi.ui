@@ -30,14 +30,17 @@
     <item>
      <layout class="QHBoxLayout" name="widgetLayout">
       <item>
-       <layout class="QVBoxLayout" name="modifsClipLayout">
+       <layout class="QVBoxLayout" name="modifsClipLayout"/>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QVBoxLayout" name="dureeClipLayout">
           <property name="topMargin">
-           <number>35</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>10</number>
+           <number>20</number>
           </property>
           <item>
            <widget class="QLabel" name="labelDuration">
@@ -115,7 +118,7 @@
            <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>40</number>
+           <number>20</number>
           </property>
           <item>
            <widget class="QLabel" name="labelBlank">
@@ -167,6 +170,13 @@
            </layout>
           </item>
          </layout>
+        </item>
+        <item>
+         <widget class="QToolButton" name="deleteButton">
+          <property name="text">
+           <string>Supprimer</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>
@@ -264,7 +274,7 @@
             </row>
             <column>
              <property name="text">
-              <string>real time</string>
+              <string>Flux vidéo</string>
              </property>
             </column>
            </widget>
