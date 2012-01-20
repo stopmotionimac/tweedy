@@ -41,7 +41,7 @@ public :
         
         void addCilp(Clip & clip, const std::string id);
         void supprClip(Clip & clip){}
-        void addTimeToClip(double time, const std::string& clipName);
+        void addTimeToClip(const std::string& clipName, double time, bool blankBefore=false, bool blankAfter=false);
         
 
 };

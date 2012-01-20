@@ -11,7 +11,6 @@
 #include <tweedy/gui/timesheet/TimeSheet.h>
 #include <tweedy/gui/viewerImg/ViewerImg.h>
 #include <tweedy/gui/chutier/chutier.h>
-#include <tweedy/gui/timeline/TimeLine.h>
 #include <tweedy/gui/timeline/TimeLineUi.h>
 
 #include<tweedy/core/Gphoto/Gphoto.hpp>

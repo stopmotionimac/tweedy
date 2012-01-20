@@ -19,7 +19,7 @@ typedef std::list<Clip> listC;
 typedef std::list<Clip>::iterator It;
 
 namespace Ui {
-    class TimeLine;
+    class TimeLineUi : public Ui_Timeline {};
 }
 
 class TimeLineUi : public QDockWidget {
@@ -29,7 +29,7 @@ public:
     ~TimeLineUi();
     
     unsigned int time(){ return _time; }
-    Ui::TimeLine* ui(){ return _ui; }
+    Ui::TimeLineUi* ui(){ return _ui; }
     listC clips(){ return _clips; }
     
     void updateTable();
@@ -47,6 +47,8 @@ private Q_SLOTS:
     
     void on_plusButton_clicked();
     void on_minusButton_clicked();
+    void on_blankBeforeButton_clicked();
+    void on_blankAfterButton_clicked();
        
 Q_SIGNALS:
     void timeChanged(unsigned int newValue);
@@ -56,7 +58,7 @@ private:
     QTableWidget* _table;
     unsigned int _time;
     QTimer* _timer;
-    Ui::TimeLine* _ui;
+    Ui::TimeLineUi* _ui;
     Timeline* _timeline;
     listC _clips;
     QIcon _defautIcon;

@@ -146,7 +146,7 @@ void MainWindow::createWidgets(){
 
     timeline = new TimeLineUi();
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
-
+    
 }
 
 

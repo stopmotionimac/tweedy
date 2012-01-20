@@ -34,18 +34,23 @@ Timeline::OMapClip Timeline::getOrderedClips()
 }
 
 
-void Timeline::addTimeToClip(double time, const std::string& clipName)
+void Timeline::addTimeToClip(const std::string& clipName, double time, bool blankBefore, bool blankAfter)
 {
     if (time < 0)
     {
       double dureeClip = _mapClip[clipName].timeOut() - _mapClip[clipName].timeIn();
-      if (dureeClip <= -time)
+      if (-time >= dureeClip)
           time = -dureeClip + 1;
     }
 
     _maxTime += time;
 
-    _mapClip[clipName].setTimeOut(time);
+    if(!blankAfter)
+    {
+        if (blankBefore)
+            _mapClip[clipName].setTimeIn(time);
+        _mapClip[clipName].setTimeOut(time);
+    }
 
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
@@ -56,6 +61,9 @@ void Timeline::addTimeToClip(double time, const std::string& clipName)
       }      
     }
     
+    
+    
+        
 }
 
 void Timeline::setMaxTime()

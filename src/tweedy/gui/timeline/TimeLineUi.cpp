@@ -5,7 +5,7 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     QDockWidget(parent),
     _time(0),
     _timer(new QTimer(this)),
-    _ui(new Ui::TimeLine),
+    _ui(new Ui::TimeLineUi),
     _timeline (new Timeline),
     _defautIcon( QIcon("img/none.jpg") )
  {
@@ -13,11 +13,13 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     _ui->table->setIconSize(QSize(75, 75));
     
     updateTable();
+    writeTime(0);
                
     connect(this, SIGNAL( timeChanged(unsigned int) ), this, SLOT(writeTime(unsigned int)) );
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_ui->table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
     
+       
 }
 
 
@@ -180,7 +182,7 @@ void TimeLineUi::on_plusButton_clicked()
        }
        
        if(isClip)
-           _timeline->addTimeToClip(1,filename);
+           _timeline->addTimeToClip(filename, _ui->spinDuration->value());
        
        updateTable();
        _ui->table->setCurrentCell(0,currentCell);
@@ -199,16 +201,23 @@ void TimeLineUi::on_minusButton_clicked()
        while ( _ui->table->columnCount() > 1 )
             _ui->table->removeColumn(0);
        
+       
        //actualize time in and time out of each clip following the current one
        Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
-       std::string  filename = "img/none.jpg";
+       bool isClip = false;
+       std::string filename;
        BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
        {
            if (s.first <= _time && (*s.second)->timeOut() > _time)
+           {
+               isClip = true;
                filename = (*s.second)->imgPath().string();
+               break;
+           }
        }
        
-       _timeline->addTimeToClip(-1,filename);
+       if (isClip)
+           _timeline->addTimeToClip(filename, - _ui->spinDuration->value());
        
        updateTable();
        _ui->table->setCurrentCell(0,currentCell);
@@ -217,6 +226,84 @@ void TimeLineUi::on_minusButton_clicked()
        
    }
 }
+
+
+void TimeLineUi::on_blankBeforeButton_clicked()
+{
+   int currentCell = _ui->table->currentColumn();
+   if ( currentCell > -1 )
+   {
+      
+       _ui->table->clearContents();
+       while ( _ui->table->columnCount() > 1 )
+       _ui->table->removeColumn(0);
+       
+       //actualize time in and time out of each clip following the current one
+       Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
+       bool isClip = false;
+       std::string filename;
+       BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
+       {
+           if (s.first <= _time && (*s.second)->timeOut() > _time)
+           {
+               isClip = true;
+               filename = (*s.second)->imgPath().string();
+               break;
+           }
+       }
+       
+       if (isClip)
+           _timeline->addTimeToClip(filename, 1, true);
+       
+       updateTable();
+       _ui->table->setCurrentCell(0,currentCell);
+       
+       emitDisplayChanged();
+              
+   }
+
+
+}
+
+
+
+void TimeLineUi::on_blankAfterButton_clicked()
+{
+   int currentCell = _ui->table->currentColumn();
+   if ( currentCell > -1 )
+   {
+      
+       _ui->table->clearContents();
+       while ( _ui->table->columnCount() > 1 )
+       _ui->table->removeColumn(0);
+       
+       //actualize time in and time out of each clip following the current one
+       Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
+       bool isClip = false;
+       std::string filename;
+       BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
+       {
+           if (s.first <= _time && (*s.second)->timeOut() > _time)
+           {
+               isClip = true;
+               filename = (*s.second)->imgPath().string();
+               break;
+           }
+       }
+       
+       if (isClip)
+           _timeline->addTimeToClip(filename, 1, false, true);
+       
+       updateTable();
+       _ui->table->setCurrentCell(0,currentCell);
+       
+              
+   }
+    
+}
+
+
+
 
 
 TimeLineUi::~TimeLineUi() 
