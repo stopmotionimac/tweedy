@@ -26,11 +26,21 @@ MainWindow::MainWindow()
 
     resize(900,700);
     
+    std::string filename = "img/none.jpg";
     
-    if ( (*timeline->clips().begin()).timeIn() == 0 )
-        viewerImg->labelImg()->setPixmap( QPixmap( QString::fromStdString((*timeline->clips().begin()).imgPath().string()) ) );
-    else    
-        viewerImg->labelImg()->setPixmap( QPixmap("img/none.jpg") );
+    Timeline::UOMapClip clips = timeline->timeline()->mapClip();
+    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, clips )
+    {
+        if (s.second->timeIn() == 0)
+        {
+            filename = s.first;
+            break;
+        }
+    }
+    
+    QPixmap firstPic( QString::fromStdString(filename) );
+       
+    viewerImg->labelImg()->setPixmap( firstPic );
     
     connect(this->timeline, SIGNAL( displayChanged(std::string) ), this->viewerImg, SLOT(displayImg(std::string)) );
 

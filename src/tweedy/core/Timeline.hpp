@@ -13,19 +13,10 @@
 #include <boost/foreach.hpp>
 
 class Timeline : public Imedia{
-private :
-        //std::vector<PisteClip> listPiste;
-        typedef boost::ptr_unordered_map<std::string, Clip> UOMapClip;
-        
-        
-        unsigned int _maxTime;
-        UOMapClip _mapClip;
 
 public :
 
-        //Timeline(ImediaType i) : Imedia(i){};
-        //boost::ptr_unordered_map<std::string, Clip> getMapClip(){ return mapClip;}
-
+        typedef boost::ptr_unordered_map<std::string, Clip> UOMapClip;
         typedef boost::ptr_map<unsigned int, Clip*> OMapClip;
         
         Timeline(ImediaType i): Imedia(i), _maxTime(0) {}
@@ -34,7 +25,7 @@ public :
         //void getlistPiste ();
         //void addPiste (PisteClip & pisteClip);
         //void supprPiste (PisteClip & pisteClip);
-        UOMapClip getMapClip(){ return _mapClip;}
+        UOMapClip mapClip(){ return _mapClip;}
         unsigned int maxTime(){ return _maxTime;}
         void setMaxTime();
         OMapClip getOrderedClips();
@@ -44,6 +35,11 @@ public :
         void deleteBlank(int time);
         void addTimeToClip(const std::string& clipName, double time, bool blankBefore=false, bool blankAfter=false);
         bool findCurrentClip(std::string & filename, int time);
+
+        
+private :
+        unsigned int _maxTime;
+        UOMapClip _mapClip;
         
 
 };

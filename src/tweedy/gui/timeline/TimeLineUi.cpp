@@ -16,13 +16,13 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     _ui->table->setIconSize(QSize(75, 75));
     
     updateTable();
-    writeTime(0);
-               
+                   
     connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_ui->table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
     
-       
+    Q_EMIT timeChanged(_time);
+        
 }
 
 
@@ -88,10 +88,10 @@ void TimeLineUi::emitDisplayChanged()
 
 void TimeLineUi::increaseTime()
 {
-    if (_time < _timeline->maxTime() - 1)
+    if (_time>-1 && _time < _timeline->maxTime())
         ++ _time;
-    else
-       _time = 0; 
+    if (_time == _timeline->maxTime())
+        _time = 0; 
         
     Q_EMIT timeChanged(_time);
     emitDisplayChanged(); 
@@ -313,6 +313,7 @@ void TimeLineUi::on_deleteButton_clicked()
        updateTable();
        _ui->table->setCurrentCell(0,currentCell);
        
+       Q_EMIT timeChanged(_time);
        emitDisplayChanged();
    }
 

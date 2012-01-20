@@ -15,8 +15,6 @@
 
 #include "ui_TimeLineUi.h"
 
-typedef std::list<Clip> listC;
-typedef std::list<Clip>::iterator It;
 
 namespace Ui {
     class TimeLineUi : public Ui_Timeline {};
@@ -30,8 +28,9 @@ public:
     
     unsigned int time(){ return _time; }
     Ui::TimeLineUi* ui(){ return _ui; }
-    listC clips(){ return _clips; }
-    
+    Timeline* timeline(){return _timeline;}
+    QIcon defautIcon(){return _defautIcon;}
+        
     void updateTable();
     void emitDisplayChanged();
     
@@ -57,12 +56,10 @@ Q_SIGNALS:
     void displayChanged(std::string filename);
     
 private:
-    QTableWidget* _table;
     int _time;
     QTimer* _timer;
     Ui::TimeLineUi* _ui;
     Timeline* _timeline;
-    listC _clips;
     QIcon _defautIcon;
     
 };
