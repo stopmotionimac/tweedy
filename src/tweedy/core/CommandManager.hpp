@@ -1,9 +1,9 @@
 #ifndef COMMANDMANAGER_HPP
 #define	COMMANDMANAGER_HPP
 
-#include "Somme.hpp"
-#include "AddCommand.hpp"
-#include "DeleteCommand.hpp"
+#include <tweedy/core/command/IUndoRedoCommand.hpp>
+
+#include <boost/ptr_container/ptr_vector.hpp>
 
 #include <cstdlib>
 #include <iostream>
@@ -14,7 +14,7 @@ class CommandManager
 {
 public:
     
-    CommandManager(): somme(0),undoStack(), redoStack(){}
+    CommandManager(): m_undoRedoVector(),m_index(0){}
     
     ~CommandManager() {}
     
@@ -45,23 +45,22 @@ public:
     size_t countUndo() const;
     size_t countRedo() const;
     
-    IUndoRedoCommand* getCommandToUndo();
-    IUndoRedoCommand* getCommandToRedo();
-    
     void pushNewCommand(IUndoRedoCommand * newCommand);
     
-    void undo();        /* will be implemented as slots */
+    void undo();        
     void redo();
 
-    Somme& getSomme();
+ 
+    boost::ptr_vector<IUndoRedoCommand> getUndoRedoVector();
     
-    std::stack<IUndoRedoCommand*>& getUndoStack();
-    std::stack<IUndoRedoCommand*>& getRedoStack();
+    size_t getIndex();
     
     
 private:
-    std::stack<IUndoRedoCommand *> undoStack;
-    std::stack<IUndoRedoCommand *> redoStack;
+    
+    boost::ptr_vector<IUndoRedoCommand> m_undoRedoVector;
+    
+    size_t m_index;
     
     bool active;
     
@@ -69,8 +68,6 @@ private:
     
     int undoLimit;
     int redoLimit;
-    
-    Somme somme; /* pour le test , il faudra ensuite le placer dans un autre objet */
     
 };
 

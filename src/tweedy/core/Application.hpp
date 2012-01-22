@@ -5,6 +5,8 @@
 #include "tweedy/core/Gphoto/Gphoto.hpp"
 #include <tweedy/core/Timeline.hpp>
 #include <tweedy/core/Imedia.hpp>
+#include <tweedy/core/CommandManager.hpp>
+
 
 #include<iostream>
 #include <boost/ptr_container/ptr_vector.hpp>
@@ -35,8 +37,10 @@ public:
 private:
   //Gphoto * gPhotoInstance;
   int _value;
+  static boost::ptr_vector<Imedia> listMedia;
   static boost::ptr_unordered_map<std::string, Imedia> mapMedia;
   static boost::ptr_unordered_map<std::string, Timeline> mapTimeline;
+  static CommandManager m_cmdManager;
 };
 
 #endif  // APPLICATION_HPP

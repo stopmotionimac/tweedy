@@ -2,17 +2,20 @@
 #define	DELETECOMMAND_HPP
 
 #include "Somme.hpp"
-#include "IUndoRedoCommand.hpp"
+#include <tweedy/core/IUndoRedoCommand.hpp>
 
  class DeleteCommand : public IUndoRedoCommand
  {
     
  public:
+     
      DeleteCommand(int i, std::string s, Somme& somme): value(i), text(s), target(somme){
          
      }
      
-     ~DeleteCommand(){}
+     ~DeleteCommand();
+     
+     virtual DeleteCommand* clone() const;
      
      
      virtual void undo();
@@ -22,7 +25,7 @@
      virtual void getName() const;
      virtual void setText(const std::string &text);
      
-     virtual std::string getText();
+     const std::string& getText() const;
 
      /*
      bool operator==(const DeleteCommand& o)const;

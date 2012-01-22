@@ -1,91 +1,68 @@
-#include <tweedy/core/Icommand.hpp>
-
+#include <tweedy/gui/Undo/UndoWidget.hpp>
+#include <QT/QtGui>
+#include <cstdlib>
 #include <iostream>
-#include <queue>
-#include <vector>
-
-#include <boost/ptr_container/ptr_vector.hpp>
-
-#define BOOST_TEST_MODULE tweedy_undo
-#include <boost/test/unit_test.hpp>
-using namespace boost::unit_test;
-
-BOOST_AUTO_TEST_SUITE( tweedy_undo_suite01 )
-
-BOOST_AUTO_TEST_CASE( undo_integers )
-{
-	// simple example to manipulate a stack of undo/redo commands
-	// with basic commands to manipulate integer, strings, ...
-	std::queue<int> q;
-        
-	q.push(5);
-	q.push(51);
-	q.push(52);
-	q.push(53);
-
-	BOOST_CHECK_EQUAL( q.front(), 5 );
-
-	q.pop();
-	
-	BOOST_CHECK_EQUAL( q.size(), 3 );
-	BOOST_CHECK_EQUAL( q.front(), 51 );
-	BOOST_CHECK_EQUAL( q.back(), 53 );
-	
-}
 
 
 
-BOOST_AUTO_TEST_CASE( undo_floats )
-{
-	// simple example to manipulate a stack of undo/redo commands
-	// with basic commands to manipulate integer, strings, ...
-        std::vector<int> v;
-	
-	v.push_back(5);
-	v.push_back(51);
-	v.push_back(52);
-	v.push_back(53);
-
-	BOOST_CHECK_EQUAL( v.front(), 5 );
-
-	v.pop_back();
-	
-	BOOST_CHECK_EQUAL( v.size(), 3 );
-	BOOST_CHECK_EQUAL( v.front(), 5 );
-	BOOST_CHECK_EQUAL( v.back(), 52 );
-	
-}
-
-
-BOOST_AUTO_TEST_CASE( undo_command )
-{
-	//2 types de commandes, l'une contenant un int, l'autre
-        //contenant un char
+int main(int argc, char *argv[]){
+    
+    /* simple test on CommandManager */
+   
+    CommandManager cmdMan ;
+    
+    IUndoRedoCommand* addCmd1 = new AddCommand(2,"AddCommand1(+2)",cmdMan.getSomme());
+    IUndoRedoCommand* dltCmd1 = new DeleteCommand(4,"DeleteCommand1(-4)",cmdMan.getSomme());
+    IUndoRedoCommand* addCmd2 = new AddCommand(20,"AddCommand2(+20)",cmdMan.getSomme());
+    IUndoRedoCommand* dltCmd2 = new DeleteCommand(1,"DeleteCommand2(-1)",cmdMan.getSomme());
+    
+    std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
+    
+    cmdMan.pushNewCommand(addCmd1);
+    cmdMan.pushNewCommand(dltCmd1);
+    cmdMan.pushNewCommand(addCmd2);
     
     
-        boost::ptr_vector<ICommand> v;
-        
-        ICommand* ci1 = new CommandInt(1);
-        ICommand* ci2 = new CommandInt(500);
-        ICommand* cc1 = new CommandChar('o');
-        ICommand* cc2 = new CommandChar('M');
-	
-        
-        v.push_back(ci1);
-        v.push_back(cc2);
-        v.push_back(cc1);
-        v.push_back(ci2);
-        
-        
-	BOOST_CHECK_EQUAL( v.front(), *ci1 );
-        BOOST_CHECK_EQUAL( v.size(), 4 );
+    std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
 
-	v.pop_back();
-	
-	BOOST_CHECK_EQUAL( v.size(), 3 );
-	BOOST_CHECK_EQUAL( v.front(), *ci1 );
-	BOOST_CHECK_EQUAL( v.back(), *cc1 );
-	
+    cmdMan.undo();
+    
+    std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
+    
+    cmdMan.pushNewCommand(dltCmd2);
+    
+    std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
+    
+    std::cout << "It's gonna undooooing" << std::endl;
+    
+    for(int i = 0; i <3;++i)    cmdMan.undo();
+    
+    std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
+    
+    std::cout << "It's gonna redooooing" << std::endl;
+    
+    for(int i = 0; i <3;++i)    cmdMan.redo();
+    
+    
+    std::cout << cmdMan.getSomme().getSommeValue() << std::endl;
+   
+    
+    
+    
+    QApplication app(argc, argv);
+    
+
+    
+    UndoView* undoView = new UndoView(&cmdMan);
+    
+    QWidget * undoWidget = new UndoWidget(undoView);
+    undoWidget->setWindowTitle("Command List");
+    undoWidget->show();
+    
+    
+    
+    return app.exec();
+    
+    //return EXIT_SUCCESS;
 }
 
-BOOST_AUTO_TEST_SUITE_END()

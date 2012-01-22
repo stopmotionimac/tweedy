@@ -23,8 +23,14 @@ void DeleteCommand::setText(const std::string & newText){
     text = newText;
 }
 
-std::string DeleteCommand::getText(){
+const std::string& DeleteCommand::getText() const {
     return text;
 }
-/* ##############    CommandManager   ############ */
 
+DeleteCommand* DeleteCommand::clone() const{
+    return DeleteCommand(*this);
+}
+
+DeleteCommand::~DeleteCommand(){
+    std::cout << "Dtor DeleteCommand" << std::endl;
+}

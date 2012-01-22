@@ -18,20 +18,20 @@ public:
 private Q_SLOTS:
     void updateUndoLabelValue();
     void updateRedoLabelValue();
-    void addCmdInStack();
+    //void addCmdInStack();
     
     
 private:
     
     QVBoxLayout * dockLayout;
     
-    QPushButton * addButton;
+    //QPushButton * addButton;
     QPushButton * undoButton;
     QPushButton * redoButton;
     
-    QLabel * labelSomme;
+    //QLabel * labelSomme;
     
-    UndoView* undoView;
+    UndoView* _undoView;
 };
 
 #endif	/* UNDOWIDGET_HPP */
