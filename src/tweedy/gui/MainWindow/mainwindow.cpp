@@ -178,10 +178,17 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_capture_clicked()
 {
-    gPhotoInstance->tryToConnectCamera();
-    //gPhotoInstance->initCamera();
-    gPhotoInstance->setFolderToSavePictures();
-    gPhotoInstance->captureToFile();
+    int isConnected = gPhotoInstance->tryToConnectCamera();
+    if (isConnected == 0)
+    {
+        std::cout<<"No camera connected to the computer"<<std::endl;
+    }
+    else
+    {
+        gPhotoInstance->setFolderToSavePictures();
+        gPhotoInstance->captureToFile();
+    }
+
 }
 
 

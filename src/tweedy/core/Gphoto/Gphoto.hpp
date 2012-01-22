@@ -33,8 +33,8 @@ public:
     Gphoto();
     ~Gphoto();
 
-    void initCamera();
-    void tryToConnectCamera();
+    int initCamera();
+    int tryToConnectCamera();
     //sera changé en fonction du choix de l'utilisateur pour son dossier de save
     void setFolderToSavePictures() { _fileName = "projet/pictures/";}
     void getSummary();

@@ -99,8 +99,7 @@ void Gphoto::initContext()
 #endif
 }
 
-void Gphoto::initCamera()
-{
+int Gphoto::initCamera() {
 #ifdef WITH_GPHOTO2
 	initContext();
 //	gp_log_add_func( GP_LOG_ERROR, errordumper, (void*)this );
@@ -110,8 +109,11 @@ void Gphoto::initCamera()
 	{
 		//printf("No camera auto detected.\n");
 		gp_camera_free( _camera );
+                _cameraIsInit = false;
+                return 0;
 	}
 	_cameraIsInit = true;
+        return 1;
 #else
 	std::cout << "Error: Not compiled with gphoto2." << std::endl;
 #endif
@@ -152,12 +154,18 @@ void Gphoto::exitCamera()
 #endif
 }
 
-void Gphoto::tryToConnectCamera()
+int Gphoto::tryToConnectCamera()
 {
 	if( !_cameraIsInit )
 	{
-		initCamera();
+                int isInit = initCamera();
+                if (isInit == 0)
+                {
+                  return 0;
+                }
+
 	}
+        return 1;
 }
 
 
