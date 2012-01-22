@@ -1,4 +1,5 @@
 #include "core/Application.hpp"
+#include "core/command/GroupeUndoRedoCmd.hpp"
 
 #include <tweedy/gui/Undo/UndoWidget.hpp>
 
@@ -63,15 +64,29 @@ int main(int argc, char *argv[])
         CommandManager cmdMan;
         Clip c1("img/tweedy0.jpg" );
     
-        IUndoRedoCommand * cmd1 = new CmdClipSetTimeRange(c1,"Time Out + 2", 2);      
+        //test pour une commande
+        IUndoRedoCommand * cmd1 = new CmdClipSetTimeRange(c1,"Time Out + 2", 2);
         
+        //test pour un groupe de commandes
+        IUndoRedoCommand * cmd2 = new CmdClipSetTimeRange(c1,"Time Out - 2", -2);
+        IUndoRedoCommand * cmd3 = new CmdClipSetTimeRange(c1,"Time Out + 10", 10);
+    
+        boost::ptr_vector<IUndoRedoCommand> cmdGr1;
+        cmdGr1.push_back(cmd2);
+        cmdGr1.push_back(cmd3);
+        
+        IUndoRedoCommand * grCmd1 = new GroupeUndoRedoCmd(cmdGr1, " Groupe de cmd 1");
+        
+        //ajout des commandes au command manager
         cmdMan.pushNewCommand(cmd1);
-        
+        cmdMan.pushNewCommand(grCmd1);
+               
         UndoView* undoView = new UndoView(&cmdMan);
     
         QWidget * undoWidget = new UndoWidget(undoView);
         undoWidget->setWindowTitle("Command List");
         undoWidget->show();
+        
 
 	mainWin.show();
 	return app.exec();

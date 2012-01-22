@@ -1,7 +1,7 @@
 #ifndef COMMANDMANAGER_HPP
 #define	COMMANDMANAGER_HPP
 
-#include <tweedy/core/IUndoRedoCommand.hpp>
+#include <tweedy/core/command/IUndoRedoCommand.hpp>
 
 #include <boost/ptr_container/ptr_vector.hpp>
 

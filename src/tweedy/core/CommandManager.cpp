@@ -1,5 +1,5 @@
-#include "CommandManager.hpp"
-#include "IUndoRedoCommand.hpp"
+#include <tweedy/core/CommandManager.hpp>
+#include <tweedy/core/command/IUndoRedoCommand.hpp>
 
 bool CommandManager::isActive() const{
     return active;

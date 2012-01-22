@@ -2,11 +2,6 @@
 #define	UNDOVIEW_HPP
 
 #include <tweedy/core/CommandManager.hpp>
-#include "../tests/tweedy/undo/Somme.hpp"
-#include "../tests/tweedy/undo/AddCommand.hpp"
-#include "../tests/tweedy/undo/DeleteCommand.hpp"
-
-
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <QtGui/QListView>
 #include <QtGui/QUndoGroup>
