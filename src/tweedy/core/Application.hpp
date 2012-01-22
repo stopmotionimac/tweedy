@@ -33,6 +33,8 @@ public:
   Imedia getImedia(int idMedia) {  }
   void addImedia(Imedia & media);
   void supprImedia(int idMedia);
+  
+  static CommandManager& getCommandManager();
 
 private:
   //Gphoto * gPhotoInstance;
@@ -40,7 +42,7 @@ private:
   static boost::ptr_vector<Imedia> listMedia;
   static boost::ptr_unordered_map<std::string, Imedia> mapMedia;
   static boost::ptr_unordered_map<std::string, Timeline> mapTimeline;
-  static CommandManager m_cmdManager;
+  static CommandManager _cmdManager;
 };
 
 #endif  // APPLICATION_HPP
