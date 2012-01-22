@@ -1,16 +1,11 @@
-/* 
- * File:   ViewerImg.h
- * Author: julien
- *
- * Created on 13 décembre 2011, 23:05
- */
-
 #ifndef _VIEWERIMG_H
 #define	_VIEWERIMG_H
 
 #include <QtGui/QLabel>
 #include <QtGui/QWidget>
-#include "../timeline/TimeLine.h"
+#include <tweedy/gui/timeline/TimeLineUi.h>
+#include <QtGui/QPushButton>
+
 
 
 class ViewerImg : public QWidget {
@@ -22,12 +17,14 @@ public:
     QLabel* labelImg(){ return _labelImg; }
 
 private Q_SLOTS:
-    void displayImg(unsigned int newValue, listC clips);    
+    void displayImg(std::string filename);    
     
 private:
     QLabel* _labelImg;
+
+public:
+    QPushButton * _capture;
+    //QAction * _captureAction;
 };
 
 #endif	/* _VIEWERIMG_H */
-
-       

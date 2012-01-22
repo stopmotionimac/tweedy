@@ -2,6 +2,7 @@
 #define APPLICATION_HPP
 
 #include <tweedy/core/Singleton.hpp>
+#include "tweedy/core/Gphoto/Gphoto.hpp"
 #include <tweedy/core/Timeline.hpp>
 #include <tweedy/core/Imedia.hpp>
 #include <tweedy/core/CommandManager.hpp>
@@ -24,6 +25,7 @@ private:
 public:
   void setValue (int val) { _value = val; }
   int getValue () { return _value; }
+  //void setGphotoInstance () { Gphoto::getInstance ();};
 
   //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
   static boost::ptr_unordered_map<std::string, Imedia> getMapMedia() {}
@@ -33,6 +35,7 @@ public:
   void supprImedia(int idMedia);
 
 private:
+  //Gphoto * gPhotoInstance;
   int _value;
   static boost::ptr_vector<Imedia> listMedia;
   static boost::ptr_unordered_map<std::string, Imedia> mapMedia;

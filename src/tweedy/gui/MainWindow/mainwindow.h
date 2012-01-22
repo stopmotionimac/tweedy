@@ -8,10 +8,13 @@
 #include <QtGui/QAction>
 #include <QtGui/QStatusBar>
 #include <QtGui/QToolBar>
-#include "../timesheet/TimeSheet.h"
-#include "../viewerImg/ViewerImg.h"
-#include "../chutier/chutier.h"
-#include "../timeline/TimeLine.h"
+#include <tweedy/gui/timesheet/TimeSheet.h>
+#include <tweedy/gui/viewerImg/ViewerImg.h>
+#include <tweedy/gui/chutier/chutier.h>
+#include <tweedy/gui/timeline/TimeLineUi.h>
+
+#include<tweedy/core/Gphoto/Gphoto.hpp>
+
 
 class MainWindow : public QMainWindow
 {
@@ -21,6 +24,8 @@ class MainWindow : public QMainWindow
         MainWindow();
         ~MainWindow();
 
+    public Q_SLOTS:
+        void on_capture_clicked();
 
     private:
         void createActions();
@@ -29,10 +34,13 @@ class MainWindow : public QMainWindow
         void createWidgets();
         void createStatusBar();
 
+        void createWidgetViewer();
+
         QMenu * fileMenu;
         QMenu * editMenu;
         QMenu * viewMenu;
         QMenu * timelineMenu;
+        QMenu * paramsMenu;
         QMenu * helpMenu;
 
         QAction * newAction;
@@ -44,6 +52,8 @@ class MainWindow : public QMainWindow
         QAction * aboutAction;
         QAction * aboutQtAction;
 
+        QAction * _captureAction;
+
         QToolBar * fileToolBar;
         QToolBar * editToolBar;
 
@@ -53,7 +63,9 @@ class MainWindow : public QMainWindow
         TimeSheet* timesheet;
         ViewerImg* viewerImg;
         Chutier* chutier;
-        TimeLine* timeline;
+        TimeLineUi* timeline;
+
+        Gphoto * gPhotoInstance;
 
 };
 

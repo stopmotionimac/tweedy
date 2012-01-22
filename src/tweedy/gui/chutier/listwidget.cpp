@@ -15,7 +15,9 @@ ListWidget::ListWidget(QWidget *parent) :
     setAcceptDrops(true);
     setDropIndicatorShown(true);
     setDragDropMode(QAbstractItemView::InternalMove);
+    setSelectionMode(QAbstractItemView::ContiguousSelection);
 }
+
 
 void ListWidget::dragEnterEvent(QDragEnterEvent *event)
 {
@@ -27,7 +29,7 @@ void ListWidget::dropEvent(QDropEvent *event)
     const QMimeData *mimeData = event->mimeData();
 
     QList<QUrl> urlList = mimeData->urls();
-    for (int i = 0; i < urlList.size() && i < 32; ++i)
+    for (int i = 0; i < urlList.size(); ++i)
     {
         QString text = urlList.at(i).path();
         QListWidgetItem *item = new QListWidgetItem(QIcon(text), text, this);

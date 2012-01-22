@@ -44,8 +44,6 @@ void UndoView::fill(){
             
         ///on recupere le texte de la commande courante que l'on convertit en QString
         const std::string& undoRedoComment = command.getText();
-        
-        std::cout << undoRedoComment << std::endl;
 
         ///on ajoute cette QString comme item de la UndoView
         this->addItem( QString::fromStdString(undoRedoComment) );

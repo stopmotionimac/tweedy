@@ -1,12 +1,6 @@
-/*
- * File:   TimeLine.cpp
- * Author: julien
- *
- * Created on 19 décembre 2011, 17:51
- */
-
-
 #include "TimeLine.h"
+
+#include "ui_TimeLine.h"
 
 
 TimeLine::TimeLine(QDockWidget* parent): 
@@ -33,11 +27,13 @@ TimeLine::TimeLine(QDockWidget* parent):
     _clips.push_back(c2);
     _clips.push_back(c3);
     _clips.push_back(c4);
+
+    _ui->table->setAcceptDrops(true);
     
     /*QIcon icon( QString::fromStdString("img/none.jpg") );
     QTableWidgetItem *realTime = new QTableWidgetItem(icon,"");
     _ui->table->setItem(0, 0, realTime);*/
-            
+
     drawMiniatures();
     
     connect(this, SIGNAL( valueChanged(unsigned int) ), this, SLOT(writeTime(unsigned int)) );
@@ -263,4 +259,3 @@ TimeLine::~TimeLine()
     delete _ui;
     delete _timer;
 }
-

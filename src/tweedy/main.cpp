@@ -1,17 +1,16 @@
-#include "core/Application.hpp"
-#include "core/command/GroupeUndoRedoCmd.hpp"
+#include <tweedy/core/Application.hpp>
+#include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
+#include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
 
 #include <tweedy/gui/Undo/UndoWidget.hpp>
-
+#include <tweedy/gui/timesheet/TimeSheet.h>
+#include <tweedy/gui/MainWindow/mainwindow.h>
 
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
 #include <QtCore/QFile>
-#include <iostream>
 
-#include "gui/timesheet/TimeSheet.h"
-#include "gui/MainWindow/mainwindow.h"
-#include "core/command/clip/CmdClipSetTimeRange.hpp"
+#include <iostream>
 
 
 int main(int argc, char *argv[])
@@ -22,7 +21,9 @@ int main(int argc, char *argv[])
       Application * application;
 
       // initialisation des pointeurs
-      application =Application::getInstance ();
+      application = Application::getInstance ();
+
+      //application->setGphotoInstance();
 
       //FOR TEST create a timeline
       //Timeline timeline01;
@@ -34,9 +35,6 @@ int main(int argc, char *argv[])
 
       // affichage de _value
       std::cout << "obj1::_value = " << application->getValue () << std::endl;
-
-      // destruction de l'instance unique
-      application->kill ();
 
 	// initialize resources, if needed
 	// Q_INIT_RESOURCE(resfile);
@@ -75,7 +73,7 @@ int main(int argc, char *argv[])
         cmdGr1.push_back(cmd2);
         cmdGr1.push_back(cmd3);
         
-        IUndoRedoCommand * grCmd1 = new GroupeUndoRedoCmd(cmdGr1, " Groupe de cmd 1");
+        IUndoRedoCommand * grCmd1 = new GroupeUndoRedoCmd(cmdGr1, "Groupe de cmd 1");
         
         //ajout des commandes au command manager
         cmdMan.pushNewCommand(cmd1);
@@ -90,4 +88,7 @@ int main(int argc, char *argv[])
 
 	mainWin.show();
 	return app.exec();
+
+        // destruction de l'instance unique
+        application->kill ();
 }

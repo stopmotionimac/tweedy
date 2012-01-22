@@ -5,7 +5,7 @@
 #include <QtGui/QStandardItemModel>
 #include <QtCore/QTimer>
 #include <string>
-#include "../viewerImg/ViewerImg.h"
+#include <tweedy/gui/viewerImg/ViewerImg.h>
 
 #include "ui_TimeSheet.h"
 
