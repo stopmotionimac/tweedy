@@ -6,12 +6,14 @@
 #include <boost/filesystem.hpp>
 
 #ifdef WITH_GPHOTO2
+//#include <tweedy/core/Gphoto/canon/canon.h>
 #include "samples.h"
 #include <gphoto2/gphoto2.h>
 #endif //WITH_GPHOTO2
 
 #include <fcntl.h>
 #include <iostream>
+#include <string>
 
 
 class Gphoto : public Singleton<Gphoto>
@@ -39,6 +41,7 @@ public:
     void getSummary();
     void exitCamera();
     void captureToFile();
+    void setShutterSpeed();
 
 
 private:

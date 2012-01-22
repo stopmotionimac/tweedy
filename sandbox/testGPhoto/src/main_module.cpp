@@ -10,7 +10,6 @@
 #include <string>
 #include <boost/filesystem.hpp>
 #include <gphoto2/gphoto2.h>
-
 #include "samples.h"
 
 static void errordumper(GPLogLevel level, const char *domain, const char *str,
@@ -70,15 +69,14 @@ static void
 
 	/*OK si on est dans tweedy!*/
         fn /= camera_file_path.name;
-        //std::cout<<fn<<std::endl;
-        //fn = camera_file_path.name;
-        //caster fn en string!
+        const char * fnToOpen = fn.string().data();
+        std::cout<<fnToOpen<<std::endl;
 
         //folder/file on computer
-        //fd = open(fn, O_CREAT | O_WRONLY, 0644);
-        //retval = gp_file_new_from_fd(&file, fd);
+        fd = open(fnToOpen, O_CREAT | O_WRONLY, 0644);
+        retval = gp_file_new_from_fd(&file, fd);
 	printf("  Retval: %d\n", retval);
-        //retval = gp_camera_file_get(camera, camera_file_path.folder, camera_file_path.name, GP_FILE_TYPE_NORMAL, file, context);
+        retval = gp_camera_file_get(camera, camera_file_path.folder, camera_file_path.name, GP_FILE_TYPE_NORMAL, file, context);
 	printf("  Retval: %d\n", retval);
 
 	printf("Deleting.\n");
@@ -99,7 +97,7 @@ main(int argc, char **argv) {
 	unsigned long int *  size;
         //const char * fileName;
 
-        boost::filesystem::path fileName( "/sandbox/testGPhoto/pictures/" );
+        boost::filesystem::path fileName( "sandbox/testGPhoto/pictures/" );
 
 	gp_log_add_func(GP_LOG_ERROR, errordumper, NULL);
 	gp_camera_new(&camera);
@@ -110,6 +108,12 @@ main(int argc, char **argv) {
 		printf("  Retval: %d\n", retval);
 		exit (1);
 	}
+        //Change the Speed (TEST)
+        //canonShutterSpeedState shutter_speed = SHUTTER_SPEED_1_20;
+        //canon_int_set_shutter_speed(camera, shutter_speed, context);
+
+        //retval = canon_int_ready(camera, context);
+
 	//capture_to_file(Camera *camera, GPContext *context, char *fn) 
         capture_to_file(camera, context, fileName);
 	//capture_to_memory(camera, context, ptr, size);

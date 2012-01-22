@@ -123,3 +123,10 @@ void Gphoto::tryToConnectCamera() {
         initCamera();
     }
 }
+
+
+//Settings of camera (canon)
+void Gphoto::setShutterSpeed() {
+//    canonShutterSpeedState shutter_speed = 0x5b;
+//    canon_int_set_shutter_speed(_camera, shutter_speed, _context);
+}
