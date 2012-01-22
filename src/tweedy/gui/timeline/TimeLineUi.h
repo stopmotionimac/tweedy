@@ -15,11 +15,9 @@
 
 #include "ui_TimeLineUi.h"
 
-typedef std::list<Clip> listC;
-typedef std::list<Clip>::iterator It;
 
 namespace Ui {
-    class TimeLine;
+    class TimeLineUi : public Ui_Timeline {};
 }
 
 class TimeLineUi : public QDockWidget {
@@ -29,15 +27,17 @@ public:
     ~TimeLineUi();
     
     unsigned int time(){ return _time; }
-    Ui::TimeLine* ui(){ return _ui; }
-    listC clips(){ return _clips; }
-    
+    Ui::TimeLineUi* ui(){ return _ui; }
+    Timeline* timeline(){return _timeline;}
+    QIcon defautIcon(){return _defautIcon;}
+        
     void updateTable();
     void emitDisplayChanged();
+    
                 
 private Q_SLOTS:
     void increaseTime();
-    void writeTime(unsigned int newValue);
+    void writeTime(int newValue);
     void getCurrentTime(int row,int column);
     void on_playButton_clicked();
     void on_pauseButton_clicked();
@@ -47,18 +47,19 @@ private Q_SLOTS:
     
     void on_plusButton_clicked();
     void on_minusButton_clicked();
+    void on_blankBeforeButton_clicked();
+    void on_blankAfterButton_clicked();
+    void on_deleteButton_clicked();
        
 Q_SIGNALS:
-    void timeChanged(unsigned int newValue);
+    void timeChanged(int newValue);
     void displayChanged(std::string filename);
     
 private:
-    QTableWidget* _table;
-    unsigned int _time;
+    int _time;
     QTimer* _timer;
-    Ui::TimeLine* _ui;
+    Ui::TimeLineUi* _ui;
     Timeline* _timeline;
-    listC _clips;
     QIcon _defautIcon;
     
 };

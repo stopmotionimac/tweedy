@@ -1,19 +1,18 @@
 #ifndef _TIMELINE_H
 #define	_TIMELINE_H
 
-#include <stdlib.h>
-#include <list>
-#include<cstdio>
+#include <tweedy/core/Clip.hpp>
+
+#include <QtGui/QDockWidget>
+#include <QtGui/QTableWidget>
+#include <QtGui/QIcon>
 
 #include <QtCore/QTimer>
 
-#include <QtGui/QDockWidget>
-#include <QtGui/QApplication>
-#include <QtGui/QIcon>
+#include <cstdlib>
+#include <list>
+#include <cstdio>
 
-#include <tweedy/core/Clip.hpp>
-
-#include "ui_TimeLine.h"
 
 typedef std::list<Clip> listC;
 typedef std::list<Clip>::iterator It;

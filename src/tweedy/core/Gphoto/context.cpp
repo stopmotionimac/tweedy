@@ -22,8 +22,8 @@ GPContext* sample_create_context() {
 	context = gp_context_new();
 
 	/* All the parts below are optional! */
-        gp_context_set_error_func (context, ctx_error_func, NULL);
-        gp_context_set_status_func (context, ctx_status_func, NULL);
+        //gp_context_set_error_func (context, ctx_error_func, NULL);
+        //gp_context_set_status_func (context, ctx_status_func, NULL);
 
 	/* also:
 	gp_context_set_cancel_func    (p->context, ctx_cancel_func,  p);

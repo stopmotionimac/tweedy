@@ -1,5 +1,7 @@
 #include "TimeLine.h"
 
+#include "ui_TimeLine.h"
+
 
 TimeLine::TimeLine(QDockWidget* parent): 
     QDockWidget(parent),

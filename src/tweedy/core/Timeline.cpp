@@ -34,18 +34,23 @@ Timeline::OMapClip Timeline::getOrderedClips()
 }
 
 
-void Timeline::addTimeToClip(double time, const std::string& clipName)
+void Timeline::addTimeToClip(const std::string& clipName, double time, bool blankBefore, bool blankAfter)
 {
     if (time < 0)
     {
       double dureeClip = _mapClip[clipName].timeOut() - _mapClip[clipName].timeIn();
-      if (dureeClip <= -time)
+      if (-time >= dureeClip)
           time = -dureeClip + 1;
     }
 
     _maxTime += time;
 
-    _mapClip[clipName].setTimeOut(time);
+    if(!blankAfter)
+    {
+        if (blankBefore)
+            _mapClip[clipName].setTimeIn(time);
+        _mapClip[clipName].setTimeOut(time);
+    }
 
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
@@ -56,7 +61,29 @@ void Timeline::addTimeToClip(double time, const std::string& clipName)
       }      
     }
     
+    
+    
+        
 }
+
+
+//__________________ Find corresponding clip of current time ___________________
+
+
+bool Timeline::findCurrentClip(std::string & filename, int time)
+{
+    OMapClip orderedClips = getOrderedClips();
+    BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
+    {
+        if (s.first <= time && (*s.second)->timeOut() > time)
+        {
+            filename = (*s.second)->imgPath().string();
+            return true;
+        }
+    }
+    return false;
+}
+
 
 void Timeline::setMaxTime()
 {
@@ -68,4 +95,18 @@ void Timeline::setMaxTime()
     }
     _maxTime = max;
 
+}
+
+void Timeline::deleteBlank(int time)
+{
+    OMapClip orderedClips = getOrderedClips();
+    BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
+    {
+        if (s.first > time)
+        {
+            (*s.second)->setTimeIn(-1);
+            (*s.second)->setTimeOut(-1);
+        }
+    }
+    --_maxTime;
 }

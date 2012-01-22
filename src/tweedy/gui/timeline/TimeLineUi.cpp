@@ -1,11 +1,14 @@
 #include "TimeLineUi.h"
 
 
+//_________________________________ constructor ________________________________
+
+
 TimeLineUi::TimeLineUi(QDockWidget* parent): 
     QDockWidget(parent),
     _time(0),
     _timer(new QTimer(this)),
-    _ui(new Ui::TimeLine),
+    _ui(new Ui::TimeLineUi),
     _timeline (new Timeline),
     _defautIcon( QIcon("img/none.jpg") )
  {
@@ -13,12 +16,17 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     _ui->table->setIconSize(QSize(75, 75));
     
     updateTable();
-               
-    connect(this, SIGNAL( timeChanged(unsigned int) ), this, SLOT(writeTime(unsigned int)) );
+                   
+    connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_ui->table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
     
+    Q_EMIT timeChanged(_time);
+        
 }
+
+
+//_____________________ Update the table with list of clips ____________________
 
 
 void TimeLineUi::updateTable()
@@ -46,50 +54,78 @@ void TimeLineUi::updateTable()
             _ui->table->setItem(0, j, newItem);
         }
     }
+    
+    //icon for real time
+    QIcon icon( QString::fromStdString("img/realTime.jpg") );
+    QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
+    _ui->table->setItem(0, _timeline->maxTime(), newItem);
    
 }
 
+
+
+
+
+
+//____________________ Let the view display the good picture ___________________
+
+
 void TimeLineUi::emitDisplayChanged()
 {
-    Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
     std::string  filename = "img/none.jpg";
-    BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
-    {
-        if (s.first <= _time && (*s.second)->timeOut() > _time)
-            filename = (*s.second)->imgPath().string();
-    }
+    
+    if (_time == _timeline->maxTime())
+        //afficher le temps reel
+        filename = "img/realTime.jpg";
+    else
+        bool isClip = _timeline->findCurrentClip(filename,_time);
+    
     Q_EMIT displayChanged(filename);
 }
 
 
+//___________ Increase current time or stop timer if last frame ________________
+
 void TimeLineUi::increaseTime()
 {
-    if (_time < _ui->table->columnCount())
-    {
+    if (_time>-1 && _time < _timeline->maxTime())
         ++ _time;
-        Q_EMIT timeChanged(_time);
-        emitDisplayChanged(); 
-
-    }
-    else
-        _timer->stop(); 
+    if (_time == _timeline->maxTime())
+        _time = 0; 
+        
+    Q_EMIT timeChanged(_time);
+    emitDisplayChanged(); 
+        
 
 }
 
-void TimeLineUi::writeTime(unsigned int newValue)
+
+//_______________ Write time in label and select the good cell _________________
+
+void TimeLineUi::writeTime(int newValue)
 {
-    _ui->time->setNum((int)newValue);
-    _ui->table->setCurrentCell(0,(int)newValue);
+    _ui->table->setCurrentCell(0,newValue);
     
+    if (newValue == _timeline->maxTime())
+        newValue = -1;
+    
+    _ui->time->setNum(newValue);   
 }
+
+
+//________________ update current time when a cell is selected _________________
 
 void TimeLineUi::getCurrentTime(int row,int column)
 {
     _time = column;
+       
     Q_EMIT timeChanged(_time);
     emitDisplayChanged();
 }
 
+
+
+//_______________________________ buttons slots ________________________________
 
 
 void TimeLineUi::on_playButton_clicked()
@@ -157,7 +193,7 @@ void TimeLineUi::on_prevButton_clicked()
 void TimeLineUi::on_plusButton_clicked()
 { 
    int currentCell = _ui->table->currentColumn();
-   if ( currentCell > -1 )
+   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
        _ui->table->clearContents();
@@ -165,22 +201,11 @@ void TimeLineUi::on_plusButton_clicked()
             _ui->table->removeColumn(0);
        
        
-       //actualize time in and time out of each clip following the current one
-       Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
-       bool isClip = false;
        std::string filename;
-       BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
-       {
-           if (s.first <= _time && (*s.second)->timeOut() > _time)
-           {
-               isClip = true;
-               filename = (*s.second)->imgPath().string();
-               break;
-           }
-       }
+       bool isClip = _timeline->findCurrentClip(filename,_time);
        
        if(isClip)
-           _timeline->addTimeToClip(1,filename);
+           _timeline->addTimeToClip(filename, _ui->spinDuration->value());
        
        updateTable();
        _ui->table->setCurrentCell(0,currentCell);
@@ -189,26 +214,24 @@ void TimeLineUi::on_plusButton_clicked()
    
 }
 
+
 void TimeLineUi::on_minusButton_clicked()
 { 
    int currentCell = _ui->table->currentColumn();
-   if ( currentCell > -1 )
+   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
        _ui->table->clearContents();
        while ( _ui->table->columnCount() > 1 )
             _ui->table->removeColumn(0);
        
-       //actualize time in and time out of each clip following the current one
-       Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
-       std::string  filename = "img/none.jpg";
-       BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
-       {
-           if (s.first <= _time && (*s.second)->timeOut() > _time)
-               filename = (*s.second)->imgPath().string();
-       }
        
-       _timeline->addTimeToClip(-1,filename);
+       std::string filename;
+       bool isClip = _timeline->findCurrentClip(filename,_time);
+       
+       
+       if (isClip)
+           _timeline->addTimeToClip(filename, - _ui->spinDuration->value());
        
        updateTable();
        _ui->table->setCurrentCell(0,currentCell);
@@ -217,6 +240,86 @@ void TimeLineUi::on_minusButton_clicked()
        
    }
 }
+
+
+void TimeLineUi::on_blankBeforeButton_clicked()
+{
+   int currentCell = _ui->table->currentColumn();
+   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
+   {
+      
+       _ui->table->clearContents();
+       while ( _ui->table->columnCount() > 1 )
+       _ui->table->removeColumn(0);
+       
+       std::string filename;
+       bool isClip = _timeline->findCurrentClip(filename,_time);
+       
+       if (isClip)
+           _timeline->addTimeToClip(filename, 1, true);
+       
+       updateTable();
+       _ui->table->setCurrentCell(0,currentCell);
+       
+       emitDisplayChanged();
+              
+   }
+
+
+}
+
+
+void TimeLineUi::on_blankAfterButton_clicked()
+{
+   int currentCell = _ui->table->currentColumn();
+   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
+   {
+      
+       _ui->table->clearContents();
+       while ( _ui->table->columnCount() > 1 )
+       _ui->table->removeColumn(0);
+       
+       std::string filename;
+       bool isClip = _timeline->findCurrentClip(filename,_time);
+       
+       if (isClip)
+           _timeline->addTimeToClip(filename, 1, false, true);
+       
+       updateTable();
+       _ui->table->setCurrentCell(0,currentCell);
+       
+              
+   }
+    
+}
+
+void TimeLineUi::on_deleteButton_clicked()
+{
+   int currentCell = _ui->table->currentColumn();
+   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
+   {
+       _ui->table->clearContents();
+       while ( _ui->table->columnCount() > 1 )
+       _ui->table->removeColumn(0);
+       
+       std::string filename;
+       bool isClip = _timeline->findCurrentClip(filename,_time);
+       
+       if (isClip)
+           _timeline->deleteClip(filename);
+       else
+           _timeline->deleteBlank(_time);
+              
+       updateTable();
+       _ui->table->setCurrentCell(0,currentCell);
+       
+       Q_EMIT timeChanged(_time);
+       emitDisplayChanged();
+   }
+
+}
+
+//_________________________________ destructor _________________________________
 
 
 TimeLineUi::~TimeLineUi() 

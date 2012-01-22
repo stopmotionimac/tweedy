@@ -3,13 +3,15 @@
 
 #include <tweedy/core/Singleton.hpp>
 
-#include <boost/filesystem.hpp>
-
 #ifdef WITH_GPHOTO2
 //#include <tweedy/core/Gphoto/canon/canon.h>
 #include "samples.h"
 #include <gphoto2/gphoto2.h>
+#include <gphoto2/gphoto2-camera.h>
+#include <gphoto2/gphoto2-context.h>
 #endif //WITH_GPHOTO2
+
+#include <boost/filesystem.hpp>
 
 #include <fcntl.h>
 #include <iostream>
@@ -30,10 +32,7 @@ private:
 public:
     Gphoto();
     ~Gphoto();
-#ifdef WITH_GPHOTO2
-    static void capture_to_file(Camera *camera, GPContext *context, boost::filesystem::path & fn /*const char * fn*/);
-    static void errordumper(GPLogLevel level, const char *s, const char *str,void *data);
-#endif //WITH_GPHOTO2
+
     void initCamera();
     void tryToConnectCamera();
     //sera changé en fonction du choix de l'utilisateur pour son dossier de save
