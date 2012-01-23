@@ -35,13 +35,17 @@ public:
   void supprImedia(int idMedia);
   void makeChutier();
 
+  static CommandManager& getCommandManager();
+
+
 private:
   //Gphoto * gPhotoInstance;
   ChutierMediaExt _chutier;
   int _value;
+
   //static boost::ptr_vector<Imedia> listMedia;
   static boost::ptr_unordered_map<std::string, Imedia> _mapMedia;
-  static CommandManager m_cmdManager;
+  static CommandManager _cmdManager;
 
 };
 
