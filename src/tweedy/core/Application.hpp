@@ -42,6 +42,7 @@ public:
 private:
   //Gphoto * gPhotoInstance;
   ChutierMediaExt _chutier;
+  boost::filesystem::path projectFolder;
   int _value;
 
   //static boost::ptr_vector<Imedia> listMedia;

@@ -27,8 +27,8 @@ void ChutierMediaExt::importMediaToChutier(boost::filesystem::path & urlMedia) {
     //créer le fichier dans le dossier adhéquat
 }
 
-void ChutierMediaExt::deleteMediaFromChutier(MediaExt * media) {
-   //UOMapMediaExt::iterator itr = _mapMediaExt.find( * media);
+void ChutierMediaExt::deleteMediaFromChutier(MediaExt media) {
+   //UOMapMediaExt::iterator itr = _mapMediaExt.find(media);
    // _mapMediaExt.erase(it);
     //UOMapClip::iterator it=_mapClip.find(clipName); _mapClip.erase(it);
 }
