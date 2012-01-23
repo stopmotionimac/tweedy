@@ -30,6 +30,7 @@ int main(int argc, char *argv[])
       Clip clipTest("img/tweedy0.jpg" );
       //application->addImedia(clipTest);
 
+      //make chutier with folder
       application->makeChutier();
 
       //TEST to get name from an Imedia

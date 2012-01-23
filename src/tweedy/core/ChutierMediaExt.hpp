@@ -4,6 +4,7 @@
 #include <iostream>
 #include <tweedy/core/MediaExt.hpp>
 #include <boost/ptr_container/ptr_unordered_map.hpp>
+#include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
 
 
@@ -11,13 +12,12 @@ class ChutierMediaExt
 {
 public:
     ChutierMediaExt() {}
-        //void makeChutier();
         //call if we import a media
         void updateChutierMediaExt() {}
         //n'arrive pas à le mettre dans le .cpp sans erreur...
-        void createChutierMediaExt(){
+        void createChutierMediaExt() {
                 boost::filesystem::path path("projet/mediasExt");
-                std::cout<<"FOLDER : "<<path.string()<<std::endl;
+                //std::cout<<"FOLDER : "<<path.string()<<std::endl;
 
                 if(!boost::filesystem::exists(path))
                 {
@@ -33,21 +33,25 @@ public:
                         if(boost::filesystem::is_directory(it->status()))
                         {
                             std::cout << it->path().filename() << "[DIR]" << std::endl;
-                            //insert
-                            //"projet/medias/Ext" + "/" + it->path().filename()
                         }
                         //if there is a file
                         else if(boost::filesystem::is_regular_file(it->status()))
                         {
+                            MediaExt * mediaE = new MediaExt(it->path().filename());
+                            _mapMediaExt[mediaE->getNameMedia().string()] = mediaE;
                             std::cout << it->path().filename() << std::endl;
                         }
                     }
                 }
+                //std::cout<<"PRINT MAP"<<std::endl;
+                //printMapMediaExt();
         }
-        void addMediaExt(MediaExt & mediaExt);
+        void addMediaExt(MediaExt * mediaExt);
+        void printMapMediaExt ();
 
 private :
-        boost::ptr_unordered_map<std::string, MediaExt> _mapMediaExt;
+        typedef boost::ptr_unordered_map<std::string, MediaExt*> UOMapMediaExt;
+        UOMapMediaExt _mapMediaExt;
 };
 
 
