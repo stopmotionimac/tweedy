@@ -10,7 +10,7 @@
 class ChutierMediaExt
 {
 public:
-        ChutierMediaExt();
+    ChutierMediaExt() {}
         //void makeChutier();
         //call if we import a media
         void updateChutierMediaExt() {}
