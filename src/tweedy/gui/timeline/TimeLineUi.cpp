@@ -20,6 +20,7 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_ui->table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
+    connect( this->_ui->table , SIGNAL( cellChanged(int,int) ), this, SLOT( getCurrentTime(int,int)));
     
     Q_EMIT timeChanged(_time);
         
@@ -159,6 +160,12 @@ void TimeLineUi::on_nextButton_clicked()
             _time = s.first;
             break;
         }
+        if ((*s.second)->timeOut() > _time && (*s.second)->timeOut() < _timeline->maxTime())
+        {
+            lastClip = false;
+            _time = (*s.second)->timeOut();
+            break;
+        }
     }
     
     if (!lastClip)
@@ -170,23 +177,28 @@ void TimeLineUi::on_nextButton_clicked()
 
 void TimeLineUi::on_prevButton_clicked()
 {
-    /*Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
+    Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
+    int currentTime = _time;
     bool firstClip = true;
-    
-    for (Timeline::OMapClip::iterator it=orderedClips.end(); it!=orderedClips.begin(); --it)
-        if (_time >= it->first)
-        {
+    BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
+    {
+        if (s.first < currentTime)
+        {    
             firstClip = false;
-            --it;
-            _time = it->first;
-            break;
+            _time = s.first;
+            if ( (*s.second)->timeOut() < currentTime)
+                _time = (*s.second)->timeOut();
         }
-               
+        else
+            break;
+    }
+    
     if (!firstClip)
     {
         Q_EMIT timeChanged(_time);
         emitDisplayChanged();
-    }*/
+    }
+    
 }
 
 
@@ -208,6 +220,7 @@ void TimeLineUi::on_plusButton_clicked()
            _timeline->addTimeToClip(filename, _ui->spinDuration->value());
        
        updateTable();
+       
        _ui->table->setCurrentCell(0,currentCell);
        
    }
