@@ -2,6 +2,8 @@
 #define NEWPROJECTWINDOW_H
 
 #include <QtGui/QDialog>
+#include <QtGui/QToolButton>
+#include <QtGui/QLineEdit>
 
 namespace Ui {
     class newProjectWindow;
@@ -14,6 +16,9 @@ class newProjectWindow : public QDialog
 public:
     explicit newProjectWindow(QWidget *parent = 0);
     ~newProjectWindow();
+
+    QToolButton * getSearchFolderProjectButton();
+    QLineEdit * getFolderProjectLineEdit();
 
 private:
     Ui::newProjectWindow *ui;

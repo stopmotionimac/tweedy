@@ -14,6 +14,7 @@
 #include <tweedy/gui/timeline/TimeLineUi.h>
 
 #include "startwindow.h"
+#include "newprojectwindow.h"
 
 #include<tweedy/core/Gphoto/Gphoto.hpp>
 
@@ -28,6 +29,8 @@ class MainWindow : public QMainWindow
 
     public Q_SLOTS:
         void on_captureAction_triggered();
+        void on_newProjectAction_triggered();
+        void on_searchFolderProjectButton_clicked();
 
     private:
         void createActions();
@@ -69,6 +72,7 @@ class MainWindow : public QMainWindow
         TimeLineUi* timeline;
 
         StartWindow * startWindowDialog;
+        newProjectWindow * newProjectDialog;
 
         Gphoto * gPhotoInstance;
 

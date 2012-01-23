@@ -8,7 +8,12 @@
 #include <QtGui/QAction>
 #include <QtGui/QMenuBar>
 #include <QtGui/QMessageBox>
+#include <QtGui/QFileDialog>
+#include <QtGui/QLineEdit>
+#include <QtCore/QDir>
 #include <QtCore/QFile>
+
+#include <boost/filesystem.hpp>
 
 #include <iostream>
 
@@ -58,6 +63,7 @@ void MainWindow::createActions(){
     newProjectAction = new QAction(QIcon("img/icones/nouveau.png"),"Nouveau Projet", this);
     newProjectAction->setShortcut(QKeySequence("Ctrl+N"));
     newProjectAction->setStatusTip("Creer un nouveau projet");
+    connect(newProjectAction, SIGNAL(triggered()), this, SLOT(on_newProjectAction_triggered()));
 
     openProjectAction = new QAction(QIcon("img/icones/ouvrir.png"),"Ouvrir",this);
     openProjectAction->setShortcut(QKeySequence("Ctrl+O"));
@@ -96,7 +102,10 @@ void MainWindow::createStartWindow()
     startWindowDialog->show();
 
     startWindowDialog->getNewProjectButton()->setDefaultAction(newProjectAction);
+    startWindowDialog->getNewProjectButton()->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
     startWindowDialog->getOpenProjectButton()->setDefaultAction(openProjectAction);
+    startWindowDialog->getOpenProjectButton()->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
 
 }
 
@@ -201,7 +210,6 @@ void MainWindow::on_captureAction_triggered()
 
         QMessageBox::about(this, tr("Warning"),
                             tr("No camera connected to the computer"));
-                std::cout<<"No camera connected to the computer"<<std::endl;
         std::cout<<"No camera connected to the computer"<<std::endl;
     }
     else
@@ -212,6 +220,24 @@ void MainWindow::on_captureAction_triggered()
 
 }
 
+void MainWindow::on_newProjectAction_triggered()
+{
+    newProjectDialog = new newProjectWindow();
+    newProjectDialog->show();
+    startWindowDialog->hide();
+
+    connect(newProjectDialog->getSearchFolderProjectButton(),SIGNAL(clicked()), this, SLOT(on_searchFolderProjectButton_clicked()));
+}
+
+void MainWindow::on_searchFolderProjectButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Choisir l'emplacement du projet"),QDir::currentPath());
+
+    //QString fileName = QFileDialog::getOpenFileName(this,tr("Choisir l'emplacement du projet"),boost::filesystem::initial_path());
+
+    newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
+
+}
 
 /*
   Creer la barre de statut
