@@ -1,4 +1,5 @@
 #include "TimeLineUi.h"
+#include <tweedy/core/action/ActClipSetTimeRange.hpp>
 
 
 //_________________________________ constructor ________________________________
@@ -31,6 +32,11 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
 
 void TimeLineUi::updateTable()
 {
+    //vide la timeline
+    _ui->table->clearContents();
+    while ( _ui->table->columnCount() > 1 )
+        _ui->table->removeColumn(0);
+    
     //fill the whole table with blanks
     for (unsigned int i=0; i<_timeline->maxTime(); ++i)
     {
@@ -59,6 +65,8 @@ void TimeLineUi::updateTable()
     QIcon icon( QString::fromStdString("img/realTime.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _ui->table->setItem(0, _timeline->maxTime(), newItem);
+    
+    _ui->table->setCurrentCell(0,_time);
    
 }
 
@@ -192,14 +200,14 @@ void TimeLineUi::on_prevButton_clicked()
 
 void TimeLineUi::on_plusButton_clicked()
 { 
+    
+    // création d'une action ActClipSetTimeRange
+    //IAction * action = new ActClipSetTimeRange()
+   
+    
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
-      
-       _ui->table->clearContents();
-       while ( _ui->table->columnCount() > 1 )
-            _ui->table->removeColumn(0);
-       
        
        std::string filename;
        bool isClip = _timeline->findCurrentClip(filename,_time);
@@ -208,7 +216,6 @@ void TimeLineUi::on_plusButton_clicked()
            _timeline->addTimeToClip(filename, _ui->spinDuration->value());
        
        updateTable();
-       _ui->table->setCurrentCell(0,currentCell);
        
    }
    
@@ -220,10 +227,6 @@ void TimeLineUi::on_minusButton_clicked()
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
-      
-       _ui->table->clearContents();
-       while ( _ui->table->columnCount() > 1 )
-            _ui->table->removeColumn(0);
        
        
        std::string filename;
@@ -234,7 +237,7 @@ void TimeLineUi::on_minusButton_clicked()
            _timeline->addTimeToClip(filename, - _ui->spinDuration->value());
        
        updateTable();
-       _ui->table->setCurrentCell(0,currentCell);
+
        
        emitDisplayChanged();
        
@@ -248,9 +251,6 @@ void TimeLineUi::on_blankBeforeButton_clicked()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
-       _ui->table->clearContents();
-       while ( _ui->table->columnCount() > 1 )
-       _ui->table->removeColumn(0);
        
        std::string filename;
        bool isClip = _timeline->findCurrentClip(filename,_time);
@@ -259,7 +259,6 @@ void TimeLineUi::on_blankBeforeButton_clicked()
            _timeline->addTimeToClip(filename, 1, true);
        
        updateTable();
-       _ui->table->setCurrentCell(0,currentCell);
        
        emitDisplayChanged();
               
@@ -275,9 +274,6 @@ void TimeLineUi::on_blankAfterButton_clicked()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
-       _ui->table->clearContents();
-       while ( _ui->table->columnCount() > 1 )
-       _ui->table->removeColumn(0);
        
        std::string filename;
        bool isClip = _timeline->findCurrentClip(filename,_time);
@@ -286,7 +282,6 @@ void TimeLineUi::on_blankAfterButton_clicked()
            _timeline->addTimeToClip(filename, 1, false, true);
        
        updateTable();
-       _ui->table->setCurrentCell(0,currentCell);
        
               
    }
@@ -298,9 +293,7 @@ void TimeLineUi::on_deleteButton_clicked()
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
-       _ui->table->clearContents();
-       while ( _ui->table->columnCount() > 1 )
-       _ui->table->removeColumn(0);
+
        
        std::string filename;
        bool isClip = _timeline->findCurrentClip(filename,_time);
@@ -311,7 +304,6 @@ void TimeLineUi::on_deleteButton_clicked()
            _timeline->deleteBlank(_time);
               
        updateTable();
-       _ui->table->setCurrentCell(0,currentCell);
        
        Q_EMIT timeChanged(_time);
        emitDisplayChanged();
