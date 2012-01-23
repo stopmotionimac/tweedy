@@ -1,5 +1,5 @@
-#ifndef APPLCIATION_HPP
-#define APPLICATION_HPP
+#ifndef PROJET_HPP
+#define PROJET_HPP
 
 #include <tweedy/core/Singleton.hpp>
 #include "tweedy/core/Gphoto/Gphoto.hpp"
@@ -14,14 +14,14 @@
 #include <boost/ptr_container/ptr_unordered_map.hpp>
 
 
-class Application : public Singleton<Application>
+class Projet : public Singleton<Projet>
 {
-  friend class Singleton<Application>;
+  friend class Singleton<Projet>;
 
 private:
-  Application ()
+  Projet ()
       : _value (0) { }
-  ~Application () { }
+  ~Projet () { }
 
 public:
   void setValue (int val) { _value = val; }
@@ -51,20 +51,20 @@ private:
 
 };
 //to add any media (except MediaExt)
-void Application::addImedia(Imedia * media) {
+void Projet::addImedia(Imedia * media) {
     std::cout<<media->getNameMedia().string()<<std::endl;
     //ImediaType type = media->getImediaType(media);
     _mapMedia[media->getNameMedia().string()] = media;
 }
 
-void Application::makeChutier() {
+void Projet::makeChutier() {
     _chutier.createChutierMediaExt();
     //test import to chutier
     boost::filesystem::path url("projet/mediasExt/test.jpg");
     _chutier.importMediaToChutier(url);
 }
 
-void Application::printAllMedia() {
+void Projet::printAllMedia() {
     boost::ptr_unordered_map<std::string, Imedia*>::iterator iter;
     std::cout<<"PRINT MAP APPLI"<<std::endl;
         for (iter = this->_mapMedia.begin(); iter != _mapMedia.end(); ++iter) {
@@ -73,4 +73,4 @@ void Application::printAllMedia() {
 
 }
 
-#endif  // APPLICATION_HPP
+#endif  // PROJET_HPP

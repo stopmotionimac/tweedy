@@ -1,6 +1,6 @@
 #include <tweedy/core/action/ActClipSetTimeRange.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
-#include <tweedy/core/Application.hpp>
+#include <tweedy/core/Projet.hpp>
 
 #include <string>
 #include <iostream>
@@ -17,9 +17,9 @@ ActClipSetTimeRange::ActClipSetTimeRange(Clip& clip, const std::string name, dou
     IUndoRedoCommand* cmd = new CmdClipSetTimeRange(_clip,"Commande Clip Set Time Range"+oss.str()
             , _value);
     
-    //trouver le command Manager par l'application
+    //trouver le command Manager par l'projet
     
-    CommandManager cmdMng = Application::getCommandManager();
+    CommandManager cmdMng = Projet::getCommandManager();
     
     //ajouter la commande au commande manager
     cmdMng.pushNewCommand(cmd);
