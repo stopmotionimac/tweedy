@@ -1,16 +1,24 @@
-#ifndef CHUTIER_HPP
-#define CHUTIER_HPP
+#ifndef CHUTIERMEDIAEXT_HPP
+#define CHUTIERMEDIAEXT_HPP
 
+#include <iostream>
 #include <tweedy/core/MediaExt.hpp>
 #include <boost/ptr_container/ptr_unordered_map.hpp>
+#include <boost/filesystem.hpp>
 
 
-class Chutier
+class ChutierMediaExt
 {
 public:
-        Chutier();
+        ChutierMediaExt();
+        void addMediaExt(MediaExt & mediaExt);
+
 private :
-        boost::ptr_unordered_map<std::string, ImediaType> mapMedia;
+        boost::ptr_unordered_map<std::string, MediaExt> _mapMediaExt;
 };
+
+void ChutierMediaExt::addMediaExt(MediaExt & mediaExt) {
+    _mapMediaExt[mediaExt.getNameMedia().string()] = mediaExt;
+}
 
 #endif // CHUTIER_HPP

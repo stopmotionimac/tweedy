@@ -14,16 +14,16 @@
 class Clip : public Imedia {
 public:
     Clip(const boost::filesystem::path& url)
-        : Imedia(ImediaTypeMediaExt),
+        : Imedia(ImediaTypeClip),
         _imgPath(url),
         _imgLength(0.0), 
         _imgwidth(0), 
         _imgHeight(0), 
         _imgreduction(0), 
         _timeIn(0), 
-        _timeOut(0){/*Imedia(type);*/}
+        _timeOut(0){ this->_name = url.filename();}
     Clip()
-        : Imedia(ImediaTypeMediaExt),
+        : Imedia(ImediaTypeClip),
         _imgLength(0.0), 
         _imgwidth(0), 
         _imgHeight(0), 

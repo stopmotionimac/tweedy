@@ -1,4 +1,5 @@
 #include <tweedy/core/Application.hpp>
+
 #include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
 
@@ -25,10 +26,14 @@ int main(int argc, char *argv[])
 
       //application->setGphotoInstance();
 
-      //FOR TEST create a timeline
-      //Timeline timeline01;
-      //application->mapTimeline.insert(iterator before, const key_type $key,, std::auto_ptr<U>x)
-      //application->mapTimeline.end()
+      //Add a Imedia in application._mapMedia
+      Clip clipTest("img/tweedy0.jpg" );
+      //application->addImedia(clipTest);
+
+     // application->makeChutier();
+
+      //TEST to get name from an Imedia
+
 
       // affectation de la valeur 15 à l'objet pointé par obj1
       application->setValue (15);

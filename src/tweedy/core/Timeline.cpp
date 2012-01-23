@@ -1,7 +1,5 @@
 #include <tweedy/core/Timeline.hpp>
 
-
-
 Timeline::Timeline(): Imedia(ImediaTypeTimeline), _maxTime(0)
 {
     Clip c1("img/tweedy0.jpg" );
@@ -33,6 +31,9 @@ Timeline::OMapClip Timeline::getOrderedClips()
     return orderedClips;
 }
 
+void Timeline::addCilp(Clip & clip) {
+    _mapClip[clip.imgPath().string()] = clip;
+}
 
 void Timeline::addTimeToClip(const std::string& clipName, double time, bool blankBefore, bool blankAfter)
 {
