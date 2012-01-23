@@ -55,6 +55,7 @@ void Timeline::addTimeToClip(const std::string& clipName, double time, bool blan
         _mapClip[clipName].setTimeOut(time);
     }
 
+    //décale les clips suivants
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
       if (s.second->timeIn() > _mapClip[clipName].timeIn())
