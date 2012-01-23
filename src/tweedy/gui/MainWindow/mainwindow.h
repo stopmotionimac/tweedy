@@ -13,6 +13,8 @@
 #include <tweedy/gui/chutier/chutier.h>
 #include <tweedy/gui/timeline/TimeLineUi.h>
 
+#include "startwindow.h"
+
 #include<tweedy/core/Gphoto/Gphoto.hpp>
 
 
@@ -25,10 +27,11 @@ class MainWindow : public QMainWindow
         ~MainWindow();
 
     public Q_SLOTS:
-        void on_capture_clicked();
+        void on_captureAction_triggered();
 
     private:
         void createActions();
+        void createStartWindow();
         void createMenuBar();
         void createToolBar();
         void createWidgets();
@@ -64,6 +67,8 @@ class MainWindow : public QMainWindow
         ViewerImg* viewerImg;
         Chutier* chutier;
         TimeLineUi* timeline;
+
+        StartWindow * startWindowDialog;
 
         Gphoto * gPhotoInstance;
 
