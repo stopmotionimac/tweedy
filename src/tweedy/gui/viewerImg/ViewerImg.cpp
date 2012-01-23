@@ -8,7 +8,7 @@ ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
 {
     setWindowTitle("Visualisation");
 
-    _capture = new QPushButton("Capture",this);
+    _capture = new QToolButton(this);
 
     QVBoxLayout * layout = new QVBoxLayout();
     layout->addWidget(_labelImg);

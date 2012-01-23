@@ -7,6 +7,7 @@
 #include <QtGui/QPixmap>
 #include <QtGui/QAction>
 #include <QtGui/QMenuBar>
+#include <QtGui/QMessageBox>
 #include <QtCore/QFile>
 
 #include <iostream>
@@ -17,6 +18,7 @@ MainWindow::MainWindow()
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
     createActions();
+    createStartWindow();
     createMenuBar();
     createToolBar();
     createWidgets();
@@ -85,6 +87,18 @@ void MainWindow::createActions(){
 
 
 
+void MainWindow::createStartWindow()
+{
+
+    //creation fenetre de demarrage
+    startWindowDialog = new StartWindow();
+    startWindowDialog->setWindowFlags(Qt::WindowStaysOnTopHint);
+    startWindowDialog->show();
+
+    startWindowDialog->getNewProjectButton()->setDefaultAction(newAction);
+
+}
+
 
 /*
   Creer la barre de menu
@@ -147,6 +161,7 @@ void MainWindow::createWidgets(){
     chutier = new Chutier();
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
+    viewMenu->addAction(chutier->viewerChutierDock->toggleViewAction());
 
 
     createWidgetViewer();
@@ -163,24 +178,29 @@ void MainWindow::createWidgets(){
 void MainWindow::createWidgetViewer()
 {
 
-    QDockWidget * contentViewerDock = new QDockWidget(this);
+    QDockWidget * contentViewerDock = new QDockWidget("Viewer",this);
     viewerImg = new ViewerImg();
     viewerImg->setFixedSize(400, 300);
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
+    viewMenu->addAction(contentViewerDock->toggleViewAction());
     
-    _captureAction = new QAction(this);
+    _captureAction = new QAction("Capture",this);
     _captureAction->setShortcut(QKeySequence("Retour"));
-    viewerImg->_capture->addAction(_captureAction);
-    connect(viewerImg->_capture, SIGNAL(clicked()), this,SLOT(on_capture_clicked()));
+    viewerImg->_capture->setDefaultAction(_captureAction);
+    connect(_captureAction, SIGNAL(triggered()), this,SLOT(on_captureAction_triggered()));
 }
 
 
-void MainWindow::on_capture_clicked()
+void MainWindow::on_captureAction_triggered()
 {
     int isConnected = gPhotoInstance->tryToConnectCamera();
     if (isConnected == 0)
     {
+
+        QMessageBox::about(this, tr("Warning"),
+                            tr("No camera connected to the computer"));
+                std::cout<<"No camera connected to the computer"<<std::endl;
         std::cout<<"No camera connected to the computer"<<std::endl;
     }
     else
@@ -209,5 +229,6 @@ MainWindow::~MainWindow(){
     delete chutier;
     delete viewerImg;
     delete timeline;
+    delete startWindowDialog;
 
 }

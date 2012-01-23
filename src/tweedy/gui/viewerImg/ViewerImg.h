@@ -4,7 +4,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QWidget>
 #include <tweedy/gui/timeline/TimeLineUi.h>
-#include <QtGui/QPushButton>
+#include <QtGui/QToolButton>
 
 
 
@@ -23,8 +23,8 @@ private:
     QLabel* _labelImg;
 
 public:
-    QPushButton * _capture;
-    //QAction * _captureAction;
+    QToolButton * _capture;
+
 };
 
 #endif	/* _VIEWERIMG_H */

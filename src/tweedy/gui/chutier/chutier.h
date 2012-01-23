@@ -2,11 +2,13 @@
 #define CHUTIER_H
 
 #include <QtGui/QWidget>
-#include <QtGui/QPushButton>
+#include <QtGui/QToolButton>
 #include <QtGui/QLabel>
 #include <QtGui/QListWidget>
 #include <QtGui/QListWidgetItem>
 #include <QtGui/QAction>
+#include <QtGui/QDockWidget>
+#include <QtGui/QContextMenuEvent>
 
 #include "listwidget.h"
 
@@ -18,18 +20,26 @@ public:
     explicit Chutier(QWidget *parent = 0);
     ~Chutier();
 
+    void contextMenuEvent(QContextMenuEvent *event);
+
 public Q_SLOTS:
     void on_photo_selected(QListWidgetItem * item);
-    void on_importButton_clicked();
-    void on_deleteButton_clicked();
+    void on_importAction_triggered();
+    void on_deleteAction_triggered();
 
 private:
     ListWidget * listWidget;
 
-    QPushButton * importButton;
-    QPushButton * deleteButton;
+    QToolButton * importButton;
+    QToolButton * deleteButton;
+
+    QAction * importAction;
+    QAction * deleteAction;
 
     QLabel * viewerChutier;
+
+public:
+    QDockWidget * viewerChutierDock;
 
 };
 
