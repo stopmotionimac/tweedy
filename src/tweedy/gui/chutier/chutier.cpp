@@ -65,6 +65,10 @@ Chutier::Chutier(QWidget *parent) :
     listWidget->addItem(item2);
     listWidget->addItem(item3);
 
+    //image par defaut
+    QString defaultImage("img/noPhotoSelected.jpg");
+    viewerChutier->setPixmap(defaultImage);
+
     connect(listWidget, SIGNAL(itemActivated(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
     connect(importAction, SIGNAL(triggered()), this, SLOT(on_importAction_triggered()));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
