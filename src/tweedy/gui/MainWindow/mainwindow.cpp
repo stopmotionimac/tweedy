@@ -55,17 +55,17 @@ MainWindow::MainWindow()
 */
 void MainWindow::createActions(){
 
-    newAction = new QAction(QIcon("img/icones/nouveau.png"),"Nouveau Projet", this);
-    newAction->setShortcut(QKeySequence("Ctrl+N"));
-    newAction->setStatusTip("Creer un nouveau projet");
+    newProjectAction = new QAction(QIcon("img/icones/nouveau.png"),"Nouveau Projet", this);
+    newProjectAction->setShortcut(QKeySequence("Ctrl+N"));
+    newProjectAction->setStatusTip("Creer un nouveau projet");
 
-    openAction = new QAction(QIcon("img/icones/ouvrir.png"),"Ouvrir",this);
-    openAction->setShortcut(QKeySequence("Ctrl+O"));
-    openAction->setStatusTip("Ouvrir un projet");
+    openProjectAction = new QAction(QIcon("img/icones/ouvrir.png"),"Ouvrir",this);
+    openProjectAction->setShortcut(QKeySequence("Ctrl+O"));
+    openProjectAction->setStatusTip("Ouvrir un projet");
 
-    saveAction = new QAction(QIcon("img/icones/enregistrer.png"),"Enregistrer", this);
-    saveAction->setShortcut(QKeySequence("Ctrl+S"));
-    saveAction->setStatusTip("Enregistrer votre projet");
+    saveProjectAction = new QAction(QIcon("img/icones/enregistrer.png"),"Enregistrer", this);
+    saveProjectAction->setShortcut(QKeySequence("Ctrl+S"));
+    saveProjectAction->setStatusTip("Enregistrer votre projet");
 
     quitAction = new QAction(QIcon("img/icones/quitter.png"),"&Quitter", this);
     quitAction->setShortcut(QKeySequence("Ctrl+Q"));
@@ -95,7 +95,8 @@ void MainWindow::createStartWindow()
     startWindowDialog->setWindowFlags(Qt::WindowStaysOnTopHint);
     startWindowDialog->show();
 
-    startWindowDialog->getNewProjectButton()->setDefaultAction(newAction);
+    startWindowDialog->getNewProjectButton()->setDefaultAction(newProjectAction);
+    startWindowDialog->getOpenProjectButton()->setDefaultAction(openProjectAction);
 
 }
 
@@ -106,10 +107,10 @@ void MainWindow::createStartWindow()
 void MainWindow::createMenuBar(){
 
     fileMenu = menuBar()->addMenu(tr("&Fichier"));
-    fileMenu->addAction(newAction);
-    fileMenu->addAction(openAction);
+    fileMenu->addAction(newProjectAction);
+    fileMenu->addAction(openProjectAction);
     menuBar()->addSeparator();
-    fileMenu->addAction(saveAction);
+    fileMenu->addAction(saveProjectAction);
     fileMenu->addAction(quitAction);
 
     editMenu = menuBar()->addMenu(tr("&Edition"));
@@ -139,8 +140,8 @@ void MainWindow::createMenuBar(){
 void MainWindow::createToolBar(){
 
     fileToolBar = addToolBar("File");
-    fileToolBar->addAction(newAction);
-    fileToolBar->addAction(saveAction);
+    fileToolBar->addAction(newProjectAction);
+    fileToolBar->addAction(saveProjectAction);
     fileToolBar->addAction(quitAction);
 
     editToolBar = addToolBar("Edit");

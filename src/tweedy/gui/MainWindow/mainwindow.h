@@ -46,9 +46,9 @@ class MainWindow : public QMainWindow
         QMenu * paramsMenu;
         QMenu * helpMenu;
 
-        QAction * newAction;
-        QAction * openAction;
-        QAction * saveAction;
+        QAction * newProjectAction;
+        QAction * openProjectAction;
+        QAction * saveProjectAction;
         QAction * quitAction;
         QAction * undoAction;
         QAction * redoAction;
