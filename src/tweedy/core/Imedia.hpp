@@ -16,6 +16,7 @@ public:
     //Imedia() {};
     void setNameMedia(boost::filesystem::path pathMedia) { _name = pathMedia;};
     boost::filesystem::path getNameMedia() {return _name;};
+    ImediaType getImediaType(Imedia * media) { return mediaType; }
 
 protected:
     int _idMedia;

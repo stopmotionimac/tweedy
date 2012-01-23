@@ -26,12 +26,17 @@ int main(int argc, char *argv[])
 
       //application->setGphotoInstance();
 
+
+      /*________TEST AREA_________*/
       //Add a Imedia in application._mapMedia
-      Clip clipTest("img/tweedy0.jpg" );
-      //application->addImedia(clipTest);
+      Imedia * clipTest = new Clip("IMAGE.jpg" );
+      application->addImedia(clipTest);
 
       //make chutier with folder
       application->makeChutier();
+
+      //print all media on application
+      application->printAllMedia();
 
       //TEST to get name from an Imedia
 
@@ -41,6 +46,10 @@ int main(int argc, char *argv[])
 
       // affichage de _value
       std::cout << "obj1::_value = " << application->getValue () << std::endl;
+
+
+      /*________TEST AREA_________*/
+
 
 	// initialize resources, if needed
 	// Q_INIT_RESOURCE(resfile);

@@ -6,6 +6,7 @@
 #include <boost/ptr_container/ptr_unordered_map.hpp>
 #include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
+#include <boost/filesystem/path.hpp>
 
 
 class ChutierMediaExt
@@ -13,7 +14,8 @@ class ChutierMediaExt
 public:
     ChutierMediaExt() {}
         //call if we import a media
-        void updateChutierMediaExt() {}
+        void importMediaToChutier(boost::filesystem::path & urlMedia);
+        void deleteMediaFromChutier(MediaExt * media);
         //n'arrive pas à le mettre dans le .cpp sans erreur...
         void createChutierMediaExt() {
                 boost::filesystem::path path("projet/mediasExt");
@@ -38,15 +40,15 @@ public:
                         else if(boost::filesystem::is_regular_file(it->status()))
                         {
                             MediaExt * mediaE = new MediaExt(it->path().filename());
+                            //add to chutier
                             _mapMediaExt[mediaE->getNameMedia().string()] = mediaE;
-                            std::cout << it->path().filename() << std::endl;
+                            //std::cout << it->path().filename() << std::endl;
                         }
                     }
                 }
-                //std::cout<<"PRINT MAP"<<std::endl;
                 //printMapMediaExt();
         }
-        void addMediaExt(MediaExt * mediaExt);
+        //void addMediaExt(MediaExt * mediaExt);
         void printMapMediaExt ();
 
 private :
