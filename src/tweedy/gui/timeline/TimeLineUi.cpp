@@ -4,6 +4,10 @@
 #include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
 #include <tweedy/core/action/ActAddBlankAfterClip.hpp>
 
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QDragMoveEvent>
+
 
 //_________________________________ constructor ________________________________
 
@@ -23,8 +27,7 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     
     createActions();
     linkButtonsWithActions();
-    
-    
+
     updateTable();
                    
     connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
