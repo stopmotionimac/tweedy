@@ -2,6 +2,7 @@
 #include <tweedy/core/Projet.hpp>
 #include <tweedy/core/action/ActClipSetTimeRange.hpp>
 #include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
+#include <tweedy/core/action/ActAddBlankAfterClip.hpp>
 
 
 //_________________________________ constructor ________________________________
@@ -221,7 +222,7 @@ void TimeLineUi::on_plusButton_clicked()
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Add time action",_ui->spinDuration->value());
+       IAction * action = new ActClipSetTimeRange(_time,"Add time action ",_ui->spinDuration->value());
        
        updateTable();
        
@@ -239,7 +240,7 @@ void TimeLineUi::on_minusButton_clicked()
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Remove time action",-_ui->spinDuration->value());
+       IAction * action = new ActClipSetTimeRange(_time,"Remove time action ",-_ui->spinDuration->value());
        
        updateTable();
        
@@ -258,23 +259,12 @@ void TimeLineUi::on_blankBeforeButton_clicked()
        
       
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before",_ui->spinDuration->value());
+       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ",_ui->spinDuration->value());
        
        updateTable();
        
        delete action;
      
-       /*
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
-       
-       if (isClip)
-           _timeline->addTimeToClip(filename, 1, true);
-       
-       updateTable();
-       
-       */ 
-       
        emitDisplayChanged();
               
    }
@@ -289,15 +279,13 @@ void TimeLineUi::on_blankAfterButton_clicked()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
-       
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
-       
-       if (isClip)
-           _timeline->addTimeToClip(filename, 1, false, true);
+        // création d'une action ActClipSetTimeRange
+       IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
        
        updateTable();
-                    
+       
+       delete action;
+        
    }
     
 }

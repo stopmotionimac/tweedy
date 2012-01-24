@@ -1,12 +1,13 @@
-#include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
-#include <tweedy/core/command/clip/CmdClipAddBlankBefore.hpp>
+#include <tweedy/core/action/ActAddBlankAfterClip.hpp>
+
+#include <tweedy/core/command/clip/CmdClipAddBlankAfter.hpp>
 #include <tweedy/core/Projet.hpp>
 
 #include <string>
 #include <iostream>
 #include <sstream>
 
-ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string name, int value)
+ActAddBlankAfterClip::ActAddBlankAfterClip(int currentTime, const std::string name, int value)
         : IAction(name), _currentTime(currentTime), _value(value)
 {
     //récupérer le clip à traiter
@@ -26,7 +27,7 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
     if(isClip){
         
         //créer la commande 
-        IUndoRedoCommand* cmd = new CmdClipAddBlankBefore(filename,"Commande Add Blank Before Clip"+filename);
+        IUndoRedoCommand* cmd = new CmdClipAddBlankAfter(filename,"Commande Add Blank Before Clip"+filename);
 
         //trouver le command Manager par le projet
 
@@ -42,8 +43,7 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
     
 }
 
-ActAddBlankBeforeClip::~ActAddBlankBeforeClip()
+ActAddBlankAfterClip::~ActAddBlankAfterClip()
 {
-    std::cout << "Dtor action add blank before clip" << std::endl;
+    std::cout << "Dtor action add blank after clip" << std::endl;
 }
-

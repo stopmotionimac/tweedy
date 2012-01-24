@@ -1,20 +1,19 @@
-#ifndef CMDCLIPADDBLANKBEFORE_HPP
-#define	CMDCLIPADDBLANKBEFORE_HPP
-
+#ifndef CMDCLIPADDBLANKAFTER_HPP
+#define	CMDCLIPADDBLANKAFTER_HPP
 
 #include <tweedy/core/Clip.hpp>
 #include <tweedy/core/command/IUndoRedoCommand.hpp>
 
-class CmdClipAddBlankBefore : public IUndoRedoCommand
+class CmdClipAddBlankAfter : public IUndoRedoCommand
 {
 public:
         
-    CmdClipAddBlankBefore(const std::string& idClip, const std::string& text,
-            double value=1,bool blankb = true, bool blanka = false);
+    CmdClipAddBlankAfter(const std::string& idClip, const std::string& text,
+            double value = 1,bool blankb = false, bool blanka = true);
 
-    ~CmdClipAddBlankBefore();
+    ~CmdClipAddBlankAfter();
     
-    CmdClipAddBlankBefore* clone() const;
+    CmdClipAddBlankAfter* clone() const;
 
 
     void undo();
@@ -39,5 +38,5 @@ private:
 };
 
 
-#endif	/* CMDCLIPADDBLANKBEFORE_HPP */
+#endif	/* CMDCLIPADDBLANKAFTER_HPP */
 
