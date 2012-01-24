@@ -39,22 +39,22 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
 
 void TimeLineUi::createActions(){
 
-    _playAction = new QAction("Play",this);
+    _playAction = new QAction(QIcon("img/icones/play.png"),"Play",this);
     _playAction->setShortcut(QKeySequence("Space"));
     _playAction->setStatusTip("Lancer le montage");
     connect(_playAction, SIGNAL(triggered()), this, SLOT(handle_playAction_triggered()));
 
-    _pauseAction = new QAction("Pause",this);
+    _pauseAction = new QAction(QIcon("img/icones/pause.png"),"Pause",this);
     _pauseAction->setShortcut(QKeySequence("Space"));
     _pauseAction->setStatusTip("Mettre en pause");
     connect(_pauseAction, SIGNAL(triggered()), this, SLOT(handle_pauseAction_triggered()));
 
-    _nextAction = new QAction("Suivant", this);
+    _nextAction = new QAction(QIcon("img/icones/next.png"),"Suivant", this);
     _nextAction->setShortcut(QKeySequence("Alt+Right"));
     _nextAction->setStatusTip("Clip suivant");
     connect(_nextAction, SIGNAL(triggered()), this, SLOT(handle_nextAction_triggered()));
 
-    _prevAction = new QAction("Precedent", this);
+    _prevAction = new QAction(QIcon("img/icones/previous.png"),"Precedent", this);
     _prevAction->setShortcut(QKeySequence("Alt+Left"));
     _prevAction->setStatusTip("Clip precedent");
     connect(_prevAction, SIGNAL(triggered()), this, SLOT(handle_prevAction_triggered()));

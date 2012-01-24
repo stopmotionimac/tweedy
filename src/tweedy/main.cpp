@@ -1,9 +1,5 @@
 #include <tweedy/core/Projet.hpp>
 
-#include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
-#include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
-
-#include <tweedy/gui/Undo/UndoWidget.hpp>
 #include <tweedy/gui/timesheet/TimeSheet.h>
 #include <tweedy/gui/MainWindow/mainwindow.h>
 
@@ -72,15 +68,7 @@ int main(int argc, char *argv[])
 		const QString cssContent( appCssFile.readAll() );
                 //std::cout << "cssContent: " << cssContent.toStdString() << std::endl;
 		qApp->setStyleSheet(cssContent);
-	}
-        
-               
-        UndoView* undoView = new UndoView(&projet->getCommandManager());
-    
-        QWidget * undoWidget = new UndoWidget(undoView);
-        undoWidget->setWindowTitle("Command List");
-        undoWidget->show();
-        
+         }
 
         mainWin.show();
 	return app.exec();

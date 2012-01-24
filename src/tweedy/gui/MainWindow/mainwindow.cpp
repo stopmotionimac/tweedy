@@ -14,6 +14,9 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QDesktopWidget>
 
+#include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
+#include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
+
 #include <boost/filesystem.hpp>
 
 #include <iostream>
@@ -119,10 +122,12 @@ void MainWindow::createStartWindow()
     startWindowDialog->getNewProjectButton()->setDefaultAction(newProjectAction);
     startWindowDialog->getNewProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     startWindowDialog->getNewProjectButton()->setIconSize(QSize(30,30));
+    startWindowDialog->getNewProjectButton()->setMinimumWidth(150);
 
     startWindowDialog->getOpenProjectButton()->setDefaultAction(openProjectAction);
     startWindowDialog->getOpenProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     startWindowDialog->getOpenProjectButton()->setIconSize(QSize(30,30));
+    startWindowDialog->getOpenProjectButton()->setMinimumWidth(150);
 
 }
 
@@ -182,7 +187,7 @@ void MainWindow::createWidgets()
 {
     //Dock Chutier
 
-    QDockWidget * chutierDock = new QDockWidget(this);
+    QDockWidget * chutierDock = new QDockWidget();
     chutier = new Chutier();
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
@@ -195,6 +200,15 @@ void MainWindow::createWidgets()
     timeline = new TimeLineUi();
     timeline->resize(QSize(this->width(), 300));
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
+
+
+    //Dock UndoWidget
+
+    QDockWidget * undoDock = new QDockWidget("Command List");
+    undoView = new UndoView(&(Projet::getInstance())->getCommandManager());
+    undoWidget = new UndoWidget(undoView);
+    undoDock->setWidget(undoWidget);
+    viewMenu->addAction(undoDock->toggleViewAction());
     
 }
 
