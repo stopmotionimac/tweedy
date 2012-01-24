@@ -7,6 +7,8 @@
 #include <QtGui/QToolButton>
 #include <qt4/QtOpenGL/QGLWidget>
 
+#include "glwidgetviewer.h"
+
 
 
 class ViewerImg : public QWidget {
@@ -22,13 +24,13 @@ private Q_SLOTS:
     
 private:
     QLabel* _labelImg;
+    //GlWidgetViewer * _viewerWidget;
 
 public:
     QToolButton * _capture;
     QToolButton * _playButton;
     QToolButton * _nextButton;
     QToolButton * _previousButton;
-    QToolButton * _pauseButton;
 
 };
 

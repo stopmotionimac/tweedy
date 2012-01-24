@@ -17,7 +17,7 @@ ListWidget::ListWidget(QWidget *parent) :
     setDragDropMode(QAbstractItemView::InternalMove);
     setSelectionMode(QAbstractItemView::ContiguousSelection);
 
-    this->setMaximumSize(parent->width()/2, parent->height());
+    this->setMinimumSize(parent->width()/2, parent->height()/2);
 }
 
 

@@ -270,7 +270,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
                                                     QString(boost::filesystem::initial_path().string().c_str()));
 
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
-    newProjectDialog->show();
+    //newProjectDialog->setWindowFlags(Qt::WindowStaysOnTopHint);
 
 }
 

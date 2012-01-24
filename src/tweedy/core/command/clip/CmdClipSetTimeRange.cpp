@@ -38,7 +38,6 @@ void CmdClipSetTimeRange::undo(){
     Projet* projet = Projet::getInstance();
     projet->getTimeline().addTimeToClip(_idClip,-_value);
     
-    std::cout << projet->getTimeline().maxTime() << std::endl;
     std::cout << "undo" << std::endl;
 }
 
