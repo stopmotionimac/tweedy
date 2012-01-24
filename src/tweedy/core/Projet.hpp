@@ -7,6 +7,7 @@
 #include <tweedy/core/ChutierMediaExt.hpp>
 #include <tweedy/core/Imedia.hpp>
 #include <tweedy/core/CommandManager.hpp>
+#include <tweedy/core/Timeline.hpp>
 
 
 #include<iostream>
@@ -38,6 +39,9 @@ public:
 
   /*static */CommandManager& getCommandManager();
 
+  CommandManager& getCommandManager();
+  Timeline& getTimeline();
+
 
 private:
   Gphoto * gPhotoInstance;
@@ -47,8 +51,10 @@ private:
 
   //static boost::ptr_vector<Imedia> listMedia;
   boost::ptr_unordered_map<std::string, Imedia*> _mapMedia;
-  /*static */CommandManager _cmdManager;
+
+  CommandManager _cmdManager;
+  Timeline _timeline;
 
 };
-
+>>>>>>> 1e4cc5ab63b592a80a37efc74f5fe56a6e435e19
 #endif  // PROJET_HPP

@@ -85,6 +85,7 @@ void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
             
     /* push the new command into the undo part and execute it*/
     m_undoRedoVector.push_back(newCommand);
+    
     newCommand->runDo();
     ++m_index;
 }
