@@ -74,9 +74,9 @@ class MainWindow : public QMainWindow
 
         StartWindow * startWindowDialog;
         newProjectWindow * newProjectDialog;
-        //Projet * p2;
+        Projet * _ptrProjet;
 
-        Gphoto * gPhotoInstance;
+        //Gphoto * gPhotoInstance;
 
 };
 

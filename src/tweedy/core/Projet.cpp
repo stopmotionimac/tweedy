@@ -11,8 +11,7 @@ Timeline& Projet::getTimeline(){
 
 //to add any media (except MediaExt)
 void Projet::addImedia(Imedia * media) {
-    std::cout<<media->getNameMedia().string()<<std::endl;
-    //ImediaType type = media->getImediaType(media);
+   //std::cout<<media->getNameMedia().string()<<std::endl;
     _mapMedia[media->getNameMedia().string()] = media;
 }
 
@@ -25,10 +24,20 @@ void Projet::makeChutier() {
 
 void Projet::printAllMedia() {
     boost::ptr_unordered_map<std::string, Imedia*>::iterator iter;
-    std::cout<<"PRINT MAP APPLI"<<std::endl;
+    //std::cout<<"PRINT MAP APPLI"<<std::endl;
         for (iter = this->_mapMedia.begin(); iter != _mapMedia.end(); ++iter) {
-            std::cout<<iter->first<<std::endl;
+            //std::cout<<iter->first<<std::endl;
     }
+}
 
 
+//Functions for gPhotoInstance
+int Projet::tryToConnectCamera() {
+    int retval = gPhotoInstance->tryToConnectCamera();
+    std::cout<<"RETVAL"<<retval<<std::endl;
+    return retval;
+}
+
+void Projet::setFolderToSavePictures() {
+    gPhotoInstance->setFolderToSavePictures();
 }

@@ -29,7 +29,9 @@ MainWindow::MainWindow(Projet * projet)
     createWidgets();
     createStatusBar();
 
-    //gPhotoInstance = Gphoto::getInstance ();
+    _ptrProjet = projet;
+
+    _ptrProjet->setGphotoInstance();
 
     resize(900,700);
     
@@ -204,19 +206,21 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_captureAction_triggered()
 {
-//    int isConnected = gPhotoInstance->tryToConnectCamera();
-//    if (isConnected == 0)
-//    {
-//
-//        QMessageBox::about(this, tr("Warning"),
-//                            tr("No camera connected to the computer"));
-//        std::cout<<"No camera connected to the computer"<<std::endl;
-//    }
-//    else
-//    {
-//        gPhotoInstance->setFolderToSavePictures();
-//        gPhotoInstance->captureToFile();
-//    }
+    int isConnected = _ptrProjet->tryToConnectCamera();
+    std::cout<<"IS CONNECTED"<<isConnected<<std::endl;
+    if (isConnected == 0)
+    {
+
+        QMessageBox::about(this, tr("Warning"),
+                            tr("No camera connected to the computer"));
+        std::cout<<"No camera connected to the computer"<<std::endl;
+    }
+    else
+    {
+	std::cout<<"Camera connected"<<std::endl;
+        _ptrProjet->setFolderToSavePictures();
+        //gPhotoInstance->captureToFile();
+    }
 
 }
 
@@ -257,6 +261,7 @@ MainWindow::~MainWindow(){
     delete viewerImg;
     delete timeline;
     delete startWindowDialog;
+    _ptrProjet->kill ();
     //gPhotoInstance->kill ();
 
 }

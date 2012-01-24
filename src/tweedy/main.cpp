@@ -30,19 +30,19 @@ int main(int argc, char *argv[])
       /*________TEST AREA_________*/
       //Add a Imedia in projet._mapMedia
       Imedia * clipTest = new Clip("IMAGE.jpg" );
-      //projet->addImedia(clipTest);
+      projet->addImedia(clipTest);
 
       //make chutier with folder
-      //projet->makeChutier();
+      projet->makeChutier();
 
       //print all media on projet
-      //projet->printAllMedia();
+      projet->printAllMedia();
 
       //TEST to get name from an Imedia
 
 
       // affectation de la valeur 15 à l'objet pointé par obj1
-      //projet->setValue (15);
+      projet->setValue (15);
 
       // affichage de _value
       //std::cout << "obj1::_value = " << projet->getValue () << std::endl;

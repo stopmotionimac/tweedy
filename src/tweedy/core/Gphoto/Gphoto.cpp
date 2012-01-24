@@ -93,7 +93,7 @@ Gphoto::~Gphoto()
 void Gphoto::initContext()
 {
 #ifdef WITH_GPHOTO2
-	_context = sample_create_context();
+	//_context = sample_create_context();
 #else
 	std::cout << "Error: Not compiled with gphoto2." << std::endl;
 #endif
@@ -101,19 +101,20 @@ void Gphoto::initContext()
 
 int Gphoto::initCamera() {
 #ifdef WITH_GPHOTO2
-	initContext();
+        initContext();
 //	gp_log_add_func( GP_LOG_ERROR, errordumper, (void*)this );
-	gp_camera_new( & _camera );
-	int retval = gp_camera_init( _camera, _context );
-	if( retval < GP_OK )
-	{
-		//printf("No camera auto detected.\n");
-		gp_camera_free( _camera );
-                _cameraIsInit = false;
-                return 0;
-	}
-	_cameraIsInit = true;
-        return 1;
+//	gp_camera_new( & _camera );
+//	int retval = gp_camera_init( _camera, _context );
+//	if( retval < GP_OK )
+//	{
+//		//printf("No camera auto detected.\n");
+//		gp_camera_free( _camera );
+//                _cameraIsInit = false;
+//                return 0;
+//	}
+//	_cameraIsInit = true;
+//        return 1;
+return 0;
 #else
 	std::cout << "Error: Not compiled with gphoto2." << std::endl;
 #endif
@@ -156,16 +157,20 @@ void Gphoto::exitCamera()
 
 int Gphoto::tryToConnectCamera()
 {
+    //std::cout<<this->_cameraIsInit<<std::endl;
 	if( !_cameraIsInit )
 	{
-                int isInit = initCamera();
-                if (isInit == 0)
-                {
-                  return 0;
-                }
+          //std::cout<<"CAMERAISIT à FALSE"<<std::endl;
+               int isInit = initCamera();
+//                if (isInit == 0)
+//                {
+//                  return 0;
+//                }
 
 	}
-        return 1;
+         //std::cout<<"CAMERAISIT à FALSE"<<std::endl;
+//        return 1;
+return 0;
 }
 
 
