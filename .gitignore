@@ -1,9 +1,12 @@
 
 # temporary files
 *~
-.*.swp # vim
-*.flc # xemacs
-.DS_Store # MacOS
+# vim
+.*.swp
+# xemacs
+*.flc
+# MacOS
+.DS_Store
 Thumbs.db # Windows
 
 # removing dist folder : folder receiving the compilation products
