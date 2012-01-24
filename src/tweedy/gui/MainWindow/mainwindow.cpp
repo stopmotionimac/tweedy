@@ -12,6 +12,12 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QDesktopWidget>
 
+#include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
+#include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
+
+#include <tweedy/gui/Undo/UndoWidget.hpp>
+#include <tweedy/gui/Undo/UndoView.hpp>
+
 #include <boost/filesystem.hpp>
 
 #include <iostream>
@@ -31,6 +37,8 @@ MainWindow::MainWindow(Projet * projet)
     this->showMaximized();
 
     gPhotoInstance = Gphoto::getInstance ();
+
+    _ptrProjet = projet;
 
     std::string filename = "img/none.jpg";
     
@@ -113,10 +121,12 @@ void MainWindow::createStartWindow()
     startWindowDialog->getNewProjectButton()->setDefaultAction(newProjectAction);
     startWindowDialog->getNewProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     startWindowDialog->getNewProjectButton()->setIconSize(QSize(30,30));
+    startWindowDialog->getNewProjectButton()->setMinimumWidth(150);
 
     startWindowDialog->getOpenProjectButton()->setDefaultAction(openProjectAction);
     startWindowDialog->getOpenProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     startWindowDialog->getOpenProjectButton()->setIconSize(QSize(30,30));
+    startWindowDialog->getOpenProjectButton()->setMinimumWidth(150);
 
 }
 
@@ -176,7 +186,7 @@ void MainWindow::createWidgets()
 {
     //Dock Chutier
 
-    QDockWidget * chutierDock = new QDockWidget(this);
+    QDockWidget * chutierDock = new QDockWidget();
     chutier = new Chutier();
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
@@ -189,6 +199,16 @@ void MainWindow::createWidgets()
     timeline = new TimeLineUi();
     timeline->resize(QSize(this->width(), 300));
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
+
+
+    //Dock UndoWidget
+
+    QDockWidget * undoDock = new QDockWidget("Command List");
+    UndoView* undoView = new UndoView(&_ptrProjet->getCommandManager());
+    //undoView = new UndoView(&_ptrProjet->getCommandManager());
+    //QWidget * undoWidget = new UndoWidget(undoView);
+    //undoDock->setWidget(undoWidget);
+    viewMenu->addAction(undoDock->toggleViewAction());
     
 }
 

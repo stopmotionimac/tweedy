@@ -3,6 +3,7 @@
 
 #include <QtGui/QMainWindow>
 #include <QtGui/QListWidget>
+#include <QtGui/QWidget>
 #include <QtGui/QLabel>
 #include <QtGui/QMenu>
 #include <QtGui/QAction>
@@ -75,7 +76,7 @@ class MainWindow : public QMainWindow
 
         StartWindow * startWindowDialog;
         newProjectWindow * newProjectDialog;
-        //Projet * p2;
+        Projet * _ptrProjet;
 
         Gphoto * gPhotoInstance;
 
