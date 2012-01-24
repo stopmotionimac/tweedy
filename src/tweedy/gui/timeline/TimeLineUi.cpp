@@ -114,8 +114,8 @@ void TimeLineUi::linkButtonsWithActions()
 
 void TimeLineUi::updateTable()
 {
-    int currentTime = _time;
 
+    int currentTime = _time;
     //clear timeline
     _ui->table->clearContents();
     while ( _ui->table->columnCount() > 1 )
@@ -125,7 +125,6 @@ void TimeLineUi::updateTable()
     //fill the whole table with blanks
     for (unsigned int i=0; i<_timeline->maxTime(); ++i)
     {
-        std::cout << _timeline->maxTime() << std::endl;
         _ui->table->insertColumn(i);
         
         std::string header = ( boost::format("%d") %i ).str();
@@ -154,8 +153,9 @@ void TimeLineUi::updateTable()
     QIcon icon( QString::fromStdString("img/realTime.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _ui->table->setItem(0, _timeline->maxTime(), newItem);
-    
+   
     _ui->table->setCurrentCell(0,currentTime);
+
     
     std::cout<< "update timeline" << std::endl;
    
