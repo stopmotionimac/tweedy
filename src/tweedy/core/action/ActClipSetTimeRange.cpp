@@ -17,12 +17,12 @@ ActClipSetTimeRange::ActClipSetTimeRange(Clip& clip, const std::string name, dou
     IUndoRedoCommand* cmd = new CmdClipSetTimeRange(_clip,"Commande Clip Set Time Range"+oss.str()
             , _value);
     
-    //trouver le command Manager par l'projet
+    //trouver le command Manager par le projet
     
-    CommandManager cmdMng = Projet::getCommandManager();
+    //CommandManager cmdMng = Projet::getCommandManager();
     
     //ajouter la commande au commande manager
-    cmdMng.pushNewCommand(cmd);
+    //cmdMng.pushNewCommand(cmd);
     
     std::cout << "Action done" << std::endl;
     

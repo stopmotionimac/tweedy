@@ -18,7 +18,7 @@
 #include <iostream>
 
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(Projet * projet)
 {
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -257,5 +257,6 @@ MainWindow::~MainWindow(){
     delete viewerImg;
     delete timeline;
     delete startWindowDialog;
+    gPhotoInstance->kill ();
 
 }

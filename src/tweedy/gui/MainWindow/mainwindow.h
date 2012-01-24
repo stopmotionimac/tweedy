@@ -16,6 +16,7 @@
 #include "startwindow.h"
 #include "newprojectwindow.h"
 
+#include <tweedy/core/Projet.hpp>
 #include<tweedy/core/Gphoto/Gphoto.hpp>
 
 
@@ -24,7 +25,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow();
+        MainWindow(Projet * projet);
         ~MainWindow();
 
     public Q_SLOTS:
@@ -73,6 +74,7 @@ class MainWindow : public QMainWindow
 
         StartWindow * startWindowDialog;
         newProjectWindow * newProjectDialog;
+        //Projet * p2;
 
         Gphoto * gPhotoInstance;
 

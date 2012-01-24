@@ -1,4 +1,4 @@
-#include <tweedy/core/Projet.hpp>
+//#include <tweedy/core/Projet.hpp>
 
 #include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
@@ -24,7 +24,8 @@ int main(int argc, char *argv[])
       // initialisation des pointeurs
       projet = Projet::getInstance ();
 
-      //projet->setGphotoInstance();
+
+      projet->setGphotoInstance();
 
 
       /*________TEST AREA_________*/
@@ -45,7 +46,7 @@ int main(int argc, char *argv[])
       projet->setValue (15);
 
       // affichage de _value
-      std::cout << "obj1::_value = " << projet->getValue () << std::endl;
+      //std::cout << "obj1::_value = " << projet->getValue () << std::endl;
 
 
       /*________TEST AREA_________*/
@@ -55,7 +56,7 @@ int main(int argc, char *argv[])
 	// Q_INIT_RESOURCE(resfile);
 
 	QApplication app(argc, argv);
-	MainWindow mainWin;
+        MainWindow mainWin(projet);
 
 	// Load css stylesheet
         const QString appCss( QCoreApplication::applicationDirPath() + "/resources/tweedy.css" );

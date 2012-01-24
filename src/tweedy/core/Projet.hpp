@@ -26,7 +26,7 @@ private:
 public:
   void setValue (int val) { _value = val; }
   int getValue () { return _value; }
-  //void setGphotoInstance () { Gphoto::getInstance ();};
+  void setGphotoInstance () { Gphoto::getInstance ();};
 
   //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
   static boost::ptr_unordered_map<std::string, Imedia*> getMapMedia() {}
@@ -36,41 +36,19 @@ public:
   void printAllMedia();
   void makeChutier();
 
-  static CommandManager& getCommandManager();
+  /*static */CommandManager& getCommandManager();
 
 
 private:
-  //Gphoto * gPhotoInstance;
+  Gphoto * gPhotoInstance;
   ChutierMediaExt _chutier;
   boost::filesystem::path projectFolder;
   int _value;
 
   //static boost::ptr_vector<Imedia> listMedia;
   boost::ptr_unordered_map<std::string, Imedia*> _mapMedia;
-  static CommandManager _cmdManager;
+  /*static */CommandManager _cmdManager;
 
 };
-//to add any media (except MediaExt)
-void Projet::addImedia(Imedia * media) {
-    std::cout<<media->getNameMedia().string()<<std::endl;
-    //ImediaType type = media->getImediaType(media);
-    _mapMedia[media->getNameMedia().string()] = media;
-}
-
-void Projet::makeChutier() {
-    _chutier.createChutierMediaExt();
-    //test import to chutier
-    boost::filesystem::path url("projet/mediasExt/test.jpg");
-    _chutier.importMediaToChutier(url);
-}
-
-void Projet::printAllMedia() {
-    boost::ptr_unordered_map<std::string, Imedia*>::iterator iter;
-    std::cout<<"PRINT MAP APPLI"<<std::endl;
-        for (iter = this->_mapMedia.begin(); iter != _mapMedia.end(); ++iter) {
-            std::cout<<iter->first<<std::endl;
-    }
-
-}
 
 #endif  // PROJET_HPP
