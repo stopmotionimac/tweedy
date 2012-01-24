@@ -16,13 +16,14 @@ ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
     _previousButton = new QToolButton(this);
 
     QHBoxLayout * layoutHPlayer = new QHBoxLayout(this);
+    layoutHPlayer->addWidget(_capture);
     layoutHPlayer->addStretch();
     layoutHPlayer->addWidget(_previousButton);
     layoutHPlayer->addWidget(_playButton);
     layoutHPlayer->addWidget(_nextButton);
-    layoutHPlayer->addStretch();
+    layoutHPlayer->addStretch();*/
 
-    QVBoxLayout * layoutVPlayer = new QVBoxLayout(this);
+    /*QVBoxLayout * layoutVPlayer = new QVBoxLayout(this);
     layoutVPlayer->addStretch();
     layoutVPlayer->addLayout(layoutHPlayer);
     layoutVPlayer->addStretch();

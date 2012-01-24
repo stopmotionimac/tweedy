@@ -6,6 +6,8 @@
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <QtGui/QToolButton>
 
+#include "glwidgetviewer.h"
+
 
 
 class ViewerImg : public QWidget {
@@ -21,6 +23,7 @@ private Q_SLOTS:
     
 private:
     QLabel* _labelImg;
+    //GlWidgetViewer * _viewerWidget;
 
 public:
     QToolButton * _capture;
