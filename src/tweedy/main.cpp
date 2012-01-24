@@ -19,30 +19,26 @@ int main(int argc, char *argv[])
     //init the Projet's singleton
 
     // pointeurs sur l'unique instance de la classe UniqueObject
-      Projet * projet;
-
-      // initialisation des pointeurs
-      projet = Projet::getInstance ();
-
+      Projet& projet = Projet::getInstance();
 
       //projet->setGphotoInstance();
 
       /*________TEST AREA_________*/
       //Add a Imedia in projet._mapMedia
       Imedia * clipTest = new Clip("IMAGE.jpg" );
-      projet->addImedia(clipTest);
+      projet.addImedia(clipTest);
 
       //make chutier with folder
-      projet->makeChutier();
+      projet.makeChutier();
 
       //print all media on projet
-      projet->printAllMedia();
+      projet.printAllMedia();
 
       //TEST to get name from an Imedia
 
 
       // affectation de la valeur 15 à l'objet pointé par obj1
-      projet->setValue (15);
+      projet.setValue (15);
 
       // affichage de _value
       //std::cout << "obj1::_value = " << projet->getValue () << std::endl;
@@ -75,7 +71,7 @@ int main(int argc, char *argv[])
 	}
         
                
-        UndoView* undoView = new UndoView(&projet->getCommandManager());
+        UndoView* undoView = new UndoView(&projet.getCommandManager());
     
         QWidget * undoWidget = new UndoWidget(undoView);
         undoWidget->setWindowTitle("Command List");
@@ -86,5 +82,5 @@ int main(int argc, char *argv[])
 	return app.exec();
 
         // destruction de l'instance unique
-        projet->kill ();
+        projet.kill ();
 }

@@ -22,9 +22,9 @@ CmdClipAddBlankAfter* CmdClipAddBlankAfter::clone() const{
 
 void CmdClipAddBlankAfter::runDo(){
     
-    Projet* projet = Projet::getInstance();
+    Projet& projet = Projet::getInstance();
     std::cout << _idClip << _value << std::endl;
-    projet->getTimeline().addTimeToClip(_idClip,_value,_blankb,_blanka);
+    projet.getTimeline().addTimeToClip(_idClip,_value,_blankb,_blanka);
 
 }
 
@@ -35,9 +35,9 @@ void CmdClipAddBlankAfter::redo(){
 
 void CmdClipAddBlankAfter::undo(){
     
-    Projet* projet = Projet::getInstance();
-    int timeOut =projet->getTimeline().mapClip()[_idClip].timeOut();
-    projet->getTimeline().deleteBlank(timeOut+1);
+    Projet& projet = Projet::getInstance();
+    int timeOut =projet.getTimeline().mapClip()[_idClip].timeOut();
+    projet.getTimeline().deleteBlank(timeOut+1);
     
 
     std::cout << "undo" << std::endl;

@@ -15,7 +15,7 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     _ui(new Ui::TimeLineUi),
     _defautIcon( QIcon("img/none.jpg") )
  {
-    _timeline = &(Projet::getInstance()->getTimeline());
+    _timeline = &(Projet::getInstance().getTimeline());
     _ui->setupUi(this);
     _ui->table->setIconSize(QSize(75, 75));
    

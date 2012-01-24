@@ -43,13 +43,4 @@ private :
 
 };
 
-/*void Timeline::addCilp(Clip & clip, const std::string id)
-{
-//    std::list<Clip>::iterator it;
-//    it = listClip.begin();
-//    for (int i=0; i<index; ++i)
-//        ++ it;
-//    listClip.insert(it, clip);
-}*/
-
 #endif

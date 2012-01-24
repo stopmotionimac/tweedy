@@ -33,19 +33,22 @@ void Projet::printAllMedia() {
 
 //Functions for gPhotoInstance
 int Projet::tryToConnectCamera() {
-    int retval = gPhotoInstance->tryToConnectCamera();
+    int retval = gPhotoInstance().tryToConnectCamera();
     std::cout<<"RETVAL"<<retval<<std::endl;
     return retval;
 }
 
 void Projet::setFolderToSavePictures() {
-    gPhotoInstance->setFolderToSavePictures();
+    gPhotoInstance().setFolderToSavePictures();
 }
 
-bool Projet::getValueCameraIsInit() {
-    return gPhotoInstance->getVarCameraIsInit();
+//bool Projet::getValueCameraIsInit() {
+//    return gPhotoInstance->getVarCameraIsInit();
+//}
+void Projet::setValueCameraIsInit(bool var) {
+    gPhotoInstance().setVarCameraIsInit(var);
 }
 
 void Projet::captureToFile() {
-    gPhotoInstance->captureToFile();
+    gPhotoInstance().captureToFile();
 }

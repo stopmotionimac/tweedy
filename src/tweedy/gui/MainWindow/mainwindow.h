@@ -37,6 +37,7 @@ class MainWindow : public QMainWindow
         void on_redoButton_clicked();
 
     private:
+        Projet& project() { return Projet::getInstance(); }
         void createActions();
         void createStartWindow();
         void createMenuBar();
@@ -77,7 +78,6 @@ class MainWindow : public QMainWindow
 
         StartWindow * startWindowDialog;
         newProjectWindow * newProjectDialog;
-        Projet * _ptrProjet;
 
         //Gphoto * gPhotoInstance;
 

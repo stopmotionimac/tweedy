@@ -30,8 +30,10 @@ MainWindow::MainWindow(/*Projet * projet*/)
     createWidgets();
     createStatusBar();
 
-    (Projet::getInstance())->setGphotoInstance();
+    Projet& projectInstance = project();
     //_ptrProjet->setGphotoInstance();
+    //_ptrProjet->setValueCameraIsInit(0);
+    //std::cout<<"VALUE CAMERA IS INIT A LA CRFEATION"<<_ptrProjet->getValueCameraIsInit()<<std::endl;
 
     this->showMaximized();
 
@@ -126,12 +128,12 @@ void MainWindow::createStartWindow()
 
 }
 
-
 /*
   Creer la barre de menu
 */
 void MainWindow::createMenuBar()
 {
+    Projet& projectInstance = project();
 
     fileMenu = menuBar()->addMenu(tr("&Fichier"));
     fileMenu->addAction(newProjectAction);
@@ -218,23 +220,26 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_captureAction_triggered()
 {
-    bool isInit = _ptrProjet->getValueCameraIsInit();
-    //std::cout<<"VAR CAMERA IS INIT"<<isInit<<std::endl;
+      Projet& projectInstance = project();
 
-    int isConnected = _ptrProjet->tryToConnectCamera();
-    std::cout<<"IS CONNECTED"<<isConnected<<std::endl;
+
+    int isConnected = projectInstance.tryToConnectCamera();
+    std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
     if (isConnected == 0)
     {
-
-        QMessageBox::about(this, tr("Warning"),
-                            tr("No camera connected to the computer"));
+        QMessageBox::about(this, tr("Warning"), tr("No camera connected to the computer"));
         std::cout<<"No camera connected to the computer"<<std::endl;
     }
     else
     {
         std::cout<<"Camera connected"<<std::endl;
-        _ptrProjet->setFolderToSavePictures();
-        //_ptrProjet->captureToFile();
+        projectInstance.setFolderToSavePictures();
+        projectInstance.captureToFile();
+
+        //Give picture to application and timeline
+
+        //Timeline& timeline = projectInstance.getTimeline();
+
     }
 
 }
@@ -263,7 +268,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
 
 void MainWindow::on_undoButton_clicked(){
     
-    CommandManager& cmdMng = (Projet::getInstance())->getCommandManager();
+    CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canUndo()){
         cmdMng.undo();
         timeline->updateTable();
@@ -272,7 +277,7 @@ void MainWindow::on_undoButton_clicked(){
 
 void MainWindow::on_redoButton_clicked(){
     
-    CommandManager& cmdMng = (Projet::getInstance())->getCommandManager();
+    CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canRedo()){
         cmdMng.redo();
         timeline->updateTable();
@@ -300,7 +305,7 @@ MainWindow::~MainWindow()
     delete viewerImg;
     delete timeline;
     delete startWindowDialog;
-    _ptrProjet->kill ();
+    //_ptrProjet->kill ();
     //gPhotoInstance->kill ();
 
 }

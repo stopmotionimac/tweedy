@@ -12,9 +12,9 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
     //récupérer le clip à traiter
     std::string filename = "img/none.jpg";
     
-    Projet* projet = Projet::getInstance();
+    Projet& projet = Projet::getInstance();
     
-    Timeline timeline = projet->getTimeline();
+    Timeline timeline = projet.getTimeline();
 
     bool isClip = timeline.findCurrentClip(filename,_currentTime);
     
@@ -35,7 +35,7 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
 
         //trouver le command Manager par l'application
 
-        CommandManager& cmdMng = projet->getCommandManager();
+        CommandManager& cmdMng = projet.getCommandManager();
 
         //ajouter la commande au commande manager
         cmdMng.pushNewCommand(cmd);
