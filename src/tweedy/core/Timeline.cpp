@@ -26,10 +26,12 @@ Timeline::OMapClip Timeline::getOrderedClips()
     OMapClip orderedClips;
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
-      orderedClips[s.second->timeIn()] = s.second;
+        orderedClips[s.second->timeIn()] = s.second;
     }
     return orderedClips;
 }
+
+
 
 void Timeline::addCilp(Clip & clip) {
     _mapClip[clip.imgPath().string()] = clip;
@@ -53,6 +55,7 @@ void Timeline::addTimeToClip(const std::string& clipName, double time, bool blan
         _mapClip[clipName].setTimeOut(time);
     }
 
+    //décale les clips suivants
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
       if (s.second->timeIn() > _mapClip[clipName].timeIn())

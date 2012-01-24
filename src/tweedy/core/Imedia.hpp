@@ -12,8 +12,8 @@ enum ImediaType {
 
 class Imedia {
 public:
-    Imedia(ImediaType i):mediaType(i) {};
-    //Imedia() {};
+    Imedia(ImediaType i):mediaType(i) {}
+    //Imedia() {}
     void setNameMedia(boost::filesystem::path pathMedia) { _name = pathMedia;};
     boost::filesystem::path getNameMedia() {return _name;};
     ImediaType getImediaType(Imedia * media) { return mediaType; }

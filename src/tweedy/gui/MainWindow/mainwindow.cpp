@@ -17,7 +17,7 @@
 #include <iostream>
 
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(Projet * projet)
 {
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -55,7 +55,7 @@ MainWindow::MainWindow()
 
 
 /*
-  Creer toutes les actions de l'application
+  Creer toutes les actions de l'projet
 */
 void MainWindow::createActions()
 {
@@ -210,19 +210,19 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_captureAction_triggered()
 {
-    int isConnected = gPhotoInstance->tryToConnectCamera();
-    if (isConnected == 0)
-    {
-
-        QMessageBox::about(this, tr("Warning"),
-                            tr("No camera connected to the computer"));
-        std::cout<<"No camera connected to the computer"<<std::endl;
-    }
-    else
-    {
-        gPhotoInstance->setFolderToSavePictures();
-        gPhotoInstance->captureToFile();
-    }
+//    int isConnected = gPhotoInstance->tryToConnectCamera();
+//    if (isConnected == 0)
+//    {
+//
+//        QMessageBox::about(this, tr("Warning"),
+//                            tr("No camera connected to the computer"));
+//        std::cout<<"No camera connected to the computer"<<std::endl;
+//    }
+//    else
+//    {
+//        gPhotoInstance->setFolderToSavePictures();
+//        gPhotoInstance->captureToFile();
+//    }
 
 }
 
@@ -267,5 +267,6 @@ MainWindow::~MainWindow()
     delete viewerImg;
     delete timeline;
     delete startWindowDialog;
+    //gPhotoInstance->kill ();
 
 }
