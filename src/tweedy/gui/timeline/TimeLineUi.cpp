@@ -113,7 +113,7 @@ void TimeLineUi::linkButtonsWithActions()
 
 void TimeLineUi::updateTable()
 {
-    
+    int tempCurrentTime = _time;
     //clear timeline
     _ui->table->clearContents();
     while ( _ui->table->columnCount() > 1 )
@@ -150,7 +150,7 @@ void TimeLineUi::updateTable()
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _ui->table->setItem(0, _timeline->maxTime(), newItem);
     
-    _ui->table->setCurrentCell(0,_time);
+    _ui->table->setCurrentCell(0,tempCurrentTime);
     
     std::cout<< "update timeline" << std::endl;
    
