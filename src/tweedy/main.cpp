@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 
 	QApplication app(argc, argv);
 
-        MainWindow mainWin(projet);
+        MainWindow mainWin/*(projet)*/;
 
 	// Load css stylesheet
         const QString appCss( QCoreApplication::applicationDirPath() + "/resources/tweedy.css" );
@@ -82,7 +82,7 @@ int main(int argc, char *argv[])
         undoWidget->show();
         
 
-	mainWin.show();
+        mainWin.show();
 	return app.exec();
 
         // destruction de l'instance unique

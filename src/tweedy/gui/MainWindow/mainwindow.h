@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(Projet * projet);
+        MainWindow(/*Projet * projet*/);
         ~MainWindow();
 
     public Q_SLOTS:

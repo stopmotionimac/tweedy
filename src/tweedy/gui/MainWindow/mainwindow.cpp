@@ -19,7 +19,7 @@
 #include <iostream>
 
 
-MainWindow::MainWindow(Projet * projet)
+MainWindow::MainWindow(/*Projet * projet*/)
 {
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -30,8 +30,8 @@ MainWindow::MainWindow(Projet * projet)
     createWidgets();
     createStatusBar();
 
-    _ptrProjet = projet;
-    _ptrProjet->setGphotoInstance();
+    (Projet::getInstance())->setGphotoInstance();
+    //_ptrProjet->setGphotoInstance();
 
     this->showMaximized();
 
@@ -216,6 +216,9 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_captureAction_triggered()
 {
+    bool isInit = _ptrProjet->getValueCameraIsInit();
+    //std::cout<<"VAR CAMERA IS INIT"<<isInit<<std::endl;
+
     int isConnected = _ptrProjet->tryToConnectCamera();
     std::cout<<"IS CONNECTED"<<isConnected<<std::endl;
     if (isConnected == 0)
@@ -227,9 +230,9 @@ void MainWindow::on_captureAction_triggered()
     }
     else
     {
-	std::cout<<"Camera connected"<<std::endl;
+        std::cout<<"Camera connected"<<std::endl;
         _ptrProjet->setFolderToSavePictures();
-        //gPhotoInstance->captureToFile();
+        //_ptrProjet->captureToFile();
     }
 
 }

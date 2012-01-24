@@ -41,3 +41,11 @@ int Projet::tryToConnectCamera() {
 void Projet::setFolderToSavePictures() {
     gPhotoInstance->setFolderToSavePictures();
 }
+
+bool Projet::getValueCameraIsInit() {
+    return gPhotoInstance->getVarCameraIsInit();
+}
+
+void Projet::captureToFile() {
+    gPhotoInstance->captureToFile();
+}

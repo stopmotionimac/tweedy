@@ -39,7 +39,9 @@ public:
 
   //function for gPhotoInstance
   int tryToConnectCamera ();
+  bool getValueCameraIsInit();
   void setFolderToSavePictures ();
+  void captureToFile();
 
 
   CommandManager& getCommandManager();
