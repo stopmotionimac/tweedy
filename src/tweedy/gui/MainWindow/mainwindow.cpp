@@ -17,9 +17,6 @@
 #include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
 
-#include <tweedy/gui/Undo/UndoWidget.hpp>
-#include <tweedy/gui/Undo/UndoView.hpp>
-
 #include <boost/filesystem.hpp>
 
 #include <iostream>
@@ -40,8 +37,6 @@ MainWindow::MainWindow(/*Projet * projet*/)
     //_ptrProjet->setGphotoInstance();
 
     this->showMaximized();
-
-    _ptrProjet = projet;
 
     std::string filename = "img/none.jpg";
     
@@ -210,10 +205,9 @@ void MainWindow::createWidgets()
     //Dock UndoWidget
 
     QDockWidget * undoDock = new QDockWidget("Command List");
-    UndoView* undoView = new UndoView(&_ptrProjet->getCommandManager());
-    //undoView = new UndoView(&_ptrProjet->getCommandManager());
-    //QWidget * undoWidget = new UndoWidget(undoView);
-    //undoDock->setWidget(undoWidget);
+    undoView = new UndoView(&(Projet::getInstance())->getCommandManager());
+    undoWidget = new UndoWidget(undoView);
+    undoDock->setWidget(undoWidget);
     viewMenu->addAction(undoDock->toggleViewAction());
     
 }

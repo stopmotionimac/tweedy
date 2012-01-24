@@ -13,6 +13,8 @@
 #include <tweedy/gui/viewerImg/ViewerImg.h>
 #include <tweedy/gui/chutier/chutier.h>
 #include <tweedy/gui/timeline/TimeLineUi.h>
+#include <tweedy/gui/Undo/UndoWidget.hpp>
+#include <tweedy/gui/Undo/UndoView.hpp>
 
 #include "startwindow.h"
 #include "newprojectwindow.h"
@@ -79,6 +81,9 @@ class MainWindow : public QMainWindow
         StartWindow * startWindowDialog;
         newProjectWindow * newProjectDialog;
         Projet * _ptrProjet;
+
+        UndoView * undoView;
+        QWidget * undoWidget;
 
         //Gphoto * gPhotoInstance;
 

@@ -24,6 +24,10 @@ private:
 
 public:
     QToolButton * _capture;
+    QToolButton * _playButton;
+    QToolButton * _nextButton;
+    QToolButton * _previousButton;
+    QToolButton * _pauseButton;
 
 };
 
