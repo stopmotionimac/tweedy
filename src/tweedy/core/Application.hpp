@@ -7,6 +7,7 @@
 #include <tweedy/core/ChutierMediaExt.hpp>
 #include <tweedy/core/Imedia.hpp>
 #include <tweedy/core/CommandManager.hpp>
+#include <tweedy/core/Timeline.hpp>
 
 
 #include<iostream>
@@ -36,7 +37,8 @@ public:
   void printAllMedia();
   void makeChutier();
 
-  static CommandManager& getCommandManager();
+  CommandManager& getCommandManager();
+  Timeline& getTimeline();
 
 
 private:
@@ -46,30 +48,8 @@ private:
 
   //static boost::ptr_vector<Imedia> listMedia;
   boost::ptr_unordered_map<std::string, Imedia*> _mapMedia;
-  static CommandManager _cmdManager;
+  CommandManager _cmdManager;
+  Timeline _timeline;
 
 };
-//to add any media (except MediaExt)
-void Application::addImedia(Imedia * media) {
-    std::cout<<media->getNameMedia().string()<<std::endl;
-    //ImediaType type = media->getImediaType(media);
-    _mapMedia[media->getNameMedia().string()] = media;
-}
-
-void Application::makeChutier() {
-    _chutier.createChutierMediaExt();
-    //test import to chutier
-    boost::filesystem::path url("projet/mediasExt/test.jpg");
-    _chutier.importMediaToChutier(url);
-}
-
-void Application::printAllMedia() {
-    boost::ptr_unordered_map<std::string, Imedia*>::iterator iter;
-    std::cout<<"PRINT MAP APPLI"<<std::endl;
-        for (iter = this->_mapMedia.begin(); iter != _mapMedia.end(); ++iter) {
-            std::cout<<iter->first<<std::endl;
-    }
-
-}
-
 #endif  // APPLICATION_HPP

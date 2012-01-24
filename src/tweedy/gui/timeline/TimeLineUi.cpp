@@ -200,23 +200,25 @@ void TimeLineUi::on_prevButton_clicked()
 
 void TimeLineUi::on_plusButton_clicked()
 { 
-    
-    // création d'une action ActClipSetTimeRange
-    //IAction * action = new ActClipSetTimeRange()
-   
-    
+     
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
+        // création d'une action ActClipSetTimeRange
+       IAction * action = new ActClipSetTimeRange(_time,"Add time action",_ui->spinDuration->value());
+       
+       /*
        std::string filename;
+
        bool isClip = _timeline->findCurrentClip(filename,_time);
        
        if(isClip)
            _timeline->addTimeToClip(filename, _ui->spinDuration->value());
+       */
        
        updateTable();
-       
+       std::cout<< " update timeline" << std::endl;
    }
    
 }
