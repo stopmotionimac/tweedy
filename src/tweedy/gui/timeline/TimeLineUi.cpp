@@ -246,18 +246,6 @@ void TimeLineUi::handle_playPauseAction_triggered()
 
 
 
-/*void TimeLineUi::handle_playAction_triggered()
-{
-   _timer->start(1000);
-}
-
-
-void TimeLineUi::handle_pauseAction_triggered()
-{
-   _timer->stop(); 
-        
-}*/
-
 void TimeLineUi::handle_zeroAction_triggered()
 {
    _time = 0;

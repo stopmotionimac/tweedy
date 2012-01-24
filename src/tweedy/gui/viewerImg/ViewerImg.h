@@ -5,6 +5,7 @@
 #include <QtGui/QWidget>
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <QtGui/QToolButton>
+#include <qt4/QtOpenGL/QGLWidget>
 
 
 
