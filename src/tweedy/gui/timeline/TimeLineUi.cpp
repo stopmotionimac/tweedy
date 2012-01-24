@@ -1,5 +1,8 @@
 #include "TimeLineUi.h"
+#include <tweedy/core/Projet.hpp>
 #include <tweedy/core/action/ActClipSetTimeRange.hpp>
+#include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
+#include <tweedy/core/action/ActAddBlankAfterClip.hpp>
 
 
 //_________________________________ constructor ________________________________
@@ -10,9 +13,9 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     _time(0),
     _timer(new QTimer(this)),
     _ui(new Ui::TimeLineUi),
-    _timeline (new Timeline),
     _defautIcon( QIcon("img/none.jpg") )
  {
+    _timeline = &(Projet::getInstance()->getTimeline());
     _ui->setupUi(this);
     _ui->table->setIconSize(QSize(75, 75));
    
@@ -110,17 +113,17 @@ void TimeLineUi::linkButtonsWithActions()
 
 void TimeLineUi::updateTable()
 {
-    /*
+    
     //clear timeline
     _ui->table->clearContents();
     while ( _ui->table->columnCount() > 1 )
         _ui->table->removeColumn(0);
-    
-    */ 
      
+    //Timeline timeline = Projet::getInstance()->getTimeline();
     //fill the whole table with blanks
     for (unsigned int i=0; i<_timeline->maxTime(); ++i)
     {
+        std::cout << _timeline->maxTime() << std::endl;
         _ui->table->insertColumn(i);
         
         std::string header = ( boost::format("%d") %i ).str();
@@ -148,6 +151,8 @@ void TimeLineUi::updateTable()
     _ui->table->setItem(0, _timeline->maxTime(), newItem);
     
     _ui->table->setCurrentCell(0,_time);
+    
+    std::cout<< "update timeline" << std::endl;
    
     
 }
@@ -289,21 +294,17 @@ void TimeLineUi::handle_prevAction_triggered()
 
 void TimeLineUi::handle_plusAction_triggered()
 { 
-  
-    //clear timeline
-    _ui->table->clearContents();
-    while ( _ui->table->columnCount() > 1 )
-        _ui->table->removeColumn(0);
     
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Add time action",_ui->spinDuration->value());
+       IAction * action = new ActClipSetTimeRange(_time,"Add time action ",_ui->spinDuration->value());
        
        updateTable();
-       std::cout<< " update timeline" << std::endl;
+       
+       delete action;
    }
    
    
@@ -316,15 +317,12 @@ void TimeLineUi::handle_minusAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
-       
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
-       
-       
-       if (isClip)
-           _timeline->addTimeToClip(filename, - _ui->spinDuration->value());
+        // création d'une action ActClipSetTimeRange
+       IAction * action = new ActClipSetTimeRange(_time,"Remove time action ",-_ui->spinDuration->value());
        
        updateTable();
+       
+       delete action;
        emitDisplayChanged();
        
    }
@@ -336,14 +334,15 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
-            
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
        
-       if (isClip)
-           _timeline->addTimeToClip(filename, 1, true);
+      
+        // création d'une action ActClipSetTimeRange
+       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ",_ui->spinDuration->value());
        
        updateTable();
+       
+       delete action;
+     
        emitDisplayChanged();
               
    }
@@ -358,15 +357,13 @@ void TimeLineUi::handle_blankAfterAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
-       
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
-       
-       if (isClip)
-           _timeline->addTimeToClip(filename, 1, false, true);
+        // création d'une action ActClipSetTimeRange
+       IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
        
        updateTable();
-                    
+       
+       delete action;
+        
    }
     
 }
@@ -397,7 +394,7 @@ void TimeLineUi::deleteKey_activated()
 
 TimeLineUi::~TimeLineUi() 
 {
-    delete _timeline;
+    //delete _timeline;
     delete _ui;
     delete _timer;
     delete _deleteKey;
