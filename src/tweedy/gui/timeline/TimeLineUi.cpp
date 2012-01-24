@@ -123,7 +123,6 @@ void TimeLineUi::updateTable()
     //fill the whole table with blanks
     for (unsigned int i=0; i<_timeline->maxTime(); ++i)
     {
-        std::cout << _timeline->maxTime() << std::endl;
         _ui->table->insertColumn(i);
         
         std::string header = ( boost::format("%d") %i ).str();
