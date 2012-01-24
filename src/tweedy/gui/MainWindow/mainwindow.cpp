@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include <tweedy/core/Projet.hpp>
+
 #include <QtGui/QWidget>
 #include <QtGui/QDockWidget>
 #include <QtGui/QScrollArea>
@@ -88,6 +90,9 @@ void MainWindow::createActions(){
 
     aboutQtAction = new QAction("A propos de Qt",this);
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
+    
+    connect(undoAction, SIGNAL(triggered()), this, SLOT(on_undoButton_clicked()));
+    connect(redoAction, SIGNAL(triggered()), this, SLOT(on_redoButton_clicked()));
 
 }
 
@@ -238,6 +243,26 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
 
 }
+
+
+void MainWindow::on_undoButton_clicked(){
+    
+    CommandManager& cmdMng = (Projet::getInstance())->getCommandManager();
+    if(cmdMng.canUndo()){
+        cmdMng.undo();
+        timeline->updateTable();
+    }
+}
+
+void MainWindow::on_redoButton_clicked(){
+    
+    CommandManager& cmdMng = (Projet::getInstance())->getCommandManager();
+    if(cmdMng.canRedo()){
+        cmdMng.redo();
+        timeline->updateTable();
+    }
+}
+
 
 /*
   Creer la barre de statut
