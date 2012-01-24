@@ -37,6 +37,7 @@ public:
   void printAllMedia();
   void makeChutier();
 
+
   CommandManager& getCommandManager();
 
   Timeline& getTimeline();
