@@ -118,11 +118,14 @@ void TimeLineUi::linkButtonsWithActions()
 
 void TimeLineUi::updateTable()
 {
+    /*
     //clear timeline
     _ui->table->clearContents();
     while ( _ui->table->columnCount() > 1 )
         _ui->table->removeColumn(0);
     
+    */ 
+     
     //fill the whole table with blanks
     for (unsigned int i=0; i<_timeline->maxTime(); ++i)
     {
@@ -294,23 +297,21 @@ void TimeLineUi::handle_prevAction_triggered()
 
 void TimeLineUi::handle_plusAction_triggered()
 { 
-    
-    // création d'une action ActClipSetTimeRange
-    //IAction * action = new ActClipSetTimeRange()
-   
+  
+    //clear timeline
+    _ui->table->clearContents();
+    while ( _ui->table->columnCount() > 1 )
+        _ui->table->removeColumn(0);
     
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
-       
-       if(isClip)
-           _timeline->addTimeToClip(filename, _ui->spinDuration->value());
+        // création d'une action ActClipSetTimeRange
+       IAction * action = new ActClipSetTimeRange(_time,"Add time action",_ui->spinDuration->value());
        
        updateTable();
-       
+       std::cout<< " update timeline" << std::endl;
    }
    
    

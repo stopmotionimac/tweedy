@@ -15,7 +15,7 @@ public:
     ChutierMediaExt() {}
         //call if we import a media
         void importMediaToChutier(boost::filesystem::path & urlMedia);
-        void deleteMediaFromChutier(MediaExt * media);
+        void deleteMediaFromChutier(MediaExt media);
         //n'arrive pas à le mettre dans le .cpp sans erreur...
         void createChutierMediaExt() {
                 boost::filesystem::path path("projet/mediasExt");

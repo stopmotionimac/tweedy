@@ -9,15 +9,15 @@ class ActClipSetTimeRange : public IAction
     
 public:
     
-    ActClipSetTimeRange(Clip& clip, const std::string name, double value);
+    ActClipSetTimeRange(int currentTime, const std::string name, int value);
     
     ~ActClipSetTimeRange();
     
     
 private:
 
-    Clip& _clip;
-    double _value;
+    int _currentTime;
+    int _value;
         
 };
 

@@ -10,15 +10,14 @@
 #include <QtGui/QMessageBox>
 #include <QtGui/QFileDialog>
 #include <QtGui/QLineEdit>
-#include <QtCore/QDir>
-#include <QtCore/QFile>
+#include <QtGui/QDesktopWidget>
 
 #include <boost/filesystem.hpp>
 
 #include <iostream>
 
 
-MainWindow::MainWindow()
+MainWindow::MainWindow(Projet * projet)
 {
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -29,10 +28,10 @@ MainWindow::MainWindow()
     createWidgets();
     createStatusBar();
 
+    this->showMaximized();
+
     gPhotoInstance = Gphoto::getInstance ();
 
-    resize(900,700);
-    
     std::string filename = "img/none.jpg";
     
     Timeline::UOMapClip clips = timeline->timeline()->mapClip();
@@ -56,9 +55,10 @@ MainWindow::MainWindow()
 
 
 /*
-  Creer toutes les actions de l'application
+  Creer toutes les actions de l'projet
 */
-void MainWindow::createActions(){
+void MainWindow::createActions()
+{
 
     newProjectAction = new QAction(QIcon("img/icones/nouveau.png"),"Nouveau Projet", this);
     newProjectAction->setShortcut(QKeySequence("Ctrl+N"));
@@ -89,6 +89,10 @@ void MainWindow::createActions(){
     aboutQtAction = new QAction("A propos de Qt",this);
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
 
+    _captureAction = new QAction(QIcon("img/icones/capture.png"),"Capture",this);
+    _captureAction->setShortcut(QKeySequence("Retour"));
+    connect(_captureAction, SIGNAL(triggered()), this,SLOT(on_captureAction_triggered()));
+
 }
 
 
@@ -99,13 +103,20 @@ void MainWindow::createStartWindow()
     //creation fenetre de demarrage
     startWindowDialog = new StartWindow();
     startWindowDialog->setWindowFlags(Qt::WindowStaysOnTopHint);
+    startWindowDialog->setModal(false);
     startWindowDialog->show();
 
+    //mettre la fenetre au centre de l'ecran
+    const QRect screen = QApplication::desktop()->screenGeometry();
+    startWindowDialog->move(screen.center() - startWindowDialog->rect().center());
+
     startWindowDialog->getNewProjectButton()->setDefaultAction(newProjectAction);
-    startWindowDialog->getNewProjectButton()->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    startWindowDialog->getNewProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    startWindowDialog->getNewProjectButton()->setIconSize(QSize(30,30));
 
     startWindowDialog->getOpenProjectButton()->setDefaultAction(openProjectAction);
-    startWindowDialog->getOpenProjectButton()->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    startWindowDialog->getOpenProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+    startWindowDialog->getOpenProjectButton()->setIconSize(QSize(30,30));
 
 }
 
@@ -113,7 +124,8 @@ void MainWindow::createStartWindow()
 /*
   Creer la barre de menu
 */
-void MainWindow::createMenuBar(){
+void MainWindow::createMenuBar()
+{
 
     fileMenu = menuBar()->addMenu(tr("&Fichier"));
     fileMenu->addAction(newProjectAction);
@@ -139,14 +151,11 @@ void MainWindow::createMenuBar(){
 }
 
 
-
-
-
-
 /*
     Creer la barre d'outils
 */
-void MainWindow::createToolBar(){
+void MainWindow::createToolBar()
+{
 
     fileToolBar = addToolBar("File");
     fileToolBar->addAction(newProjectAction);
@@ -163,8 +172,8 @@ void MainWindow::createToolBar(){
 /*
   Creer tous les widgets
 */
-void MainWindow::createWidgets(){
-
+void MainWindow::createWidgets()
+{
     //Dock Chutier
 
     QDockWidget * chutierDock = new QDockWidget(this);
@@ -173,13 +182,12 @@ void MainWindow::createWidgets(){
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
     viewMenu->addAction(chutier->viewerChutierDock->toggleViewAction());
 
-
     createWidgetViewer();
-
 
     //Dock Timeline
 
     timeline = new TimeLineUi();
+    timeline->resize(QSize(this->width(), 300));
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
     
 }
@@ -190,33 +198,31 @@ void MainWindow::createWidgetViewer()
 
     QDockWidget * contentViewerDock = new QDockWidget("Viewer",this);
     viewerImg = new ViewerImg();
-    viewerImg->setFixedSize(400, 300);
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     
-    _captureAction = new QAction("Capture",this);
-    _captureAction->setShortcut(QKeySequence("Retour"));
     viewerImg->_capture->setDefaultAction(_captureAction);
-    connect(_captureAction, SIGNAL(triggered()), this,SLOT(on_captureAction_triggered()));
+    viewerImg->_capture->setIconSize(QSize(40,40));
+
 }
 
 
 void MainWindow::on_captureAction_triggered()
 {
-    int isConnected = gPhotoInstance->tryToConnectCamera();
-    if (isConnected == 0)
-    {
-
-        QMessageBox::about(this, tr("Warning"),
-                            tr("No camera connected to the computer"));
-        std::cout<<"No camera connected to the computer"<<std::endl;
-    }
-    else
-    {
-        gPhotoInstance->setFolderToSavePictures();
-        gPhotoInstance->captureToFile();
-    }
+//    int isConnected = gPhotoInstance->tryToConnectCamera();
+//    if (isConnected == 0)
+//    {
+//
+//        QMessageBox::about(this, tr("Warning"),
+//                            tr("No camera connected to the computer"));
+//        std::cout<<"No camera connected to the computer"<<std::endl;
+//    }
+//    else
+//    {
+//        gPhotoInstance->setFolderToSavePictures();
+//        gPhotoInstance->captureToFile();
+//    }
 
 }
 
@@ -231,18 +237,21 @@ void MainWindow::on_newProjectAction_triggered()
 
 void MainWindow::on_searchFolderProjectButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Choisir l'emplacement du projet"),QDir::currentPath());
-
-    //QString fileName = QFileDialog::getOpenFileName(this,tr("Choisir l'emplacement du projet"),boost::filesystem::initial_path());
+    QFileDialog * fileDialog = new QFileDialog();
+    QString fileName =fileDialog->getExistingDirectory(this,
+                                                    tr("Choisir l'emplacement du projet"),
+                                                    QString(boost::filesystem::initial_path().string().c_str()));
 
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
+    newProjectDialog->show();
 
 }
 
 /*
   Creer la barre de statut
 */
-void MainWindow::createStatusBar(){
+void MainWindow::createStatusBar()
+{
 
     myStatusBar = statusBar();
     //'Pret' par défaut
@@ -251,11 +260,13 @@ void MainWindow::createStatusBar(){
 }
 
 
-MainWindow::~MainWindow(){
+MainWindow::~MainWindow()
+{
 
     delete chutier;
     delete viewerImg;
     delete timeline;
     delete startWindowDialog;
+    //gPhotoInstance->kill ();
 
 }
