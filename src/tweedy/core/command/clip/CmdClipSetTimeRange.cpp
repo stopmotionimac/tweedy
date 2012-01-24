@@ -2,7 +2,7 @@
 
 #include <tweedy/core/Timeline.hpp>
 
-#include <tweedy/core/Application.hpp>
+#include <tweedy/core/Projet.hpp>
 
 CmdClipSetTimeRange::CmdClipSetTimeRange(const std::string& idClip, const std::string& text, double value)
         : _idClip(idClip),_text(text),_value(value)
@@ -20,9 +20,9 @@ CmdClipSetTimeRange* CmdClipSetTimeRange::clone() const{
 
 void CmdClipSetTimeRange::runDo(){
     
-    Application* appli = Application::getInstance();
+    Projet* projet = Projet::getInstance();
     std::cout << _idClip << _value << std::endl;
-    appli->getTimeline().addTimeToClip(_idClip,_value);
+    projet->getTimeline().addTimeToClip(_idClip,_value);
     
     //_clip.setTimeOut(_clip.timeOut()+_value);
 }
@@ -33,8 +33,8 @@ void CmdClipSetTimeRange::redo(){
 
 void CmdClipSetTimeRange::undo(){
     
-    Application* appli = Application::getInstance();
-    appli->getTimeline().addTimeToClip(_idClip,-_value);
+    Projet* projet = Projet::getInstance();
+    projet->getTimeline().addTimeToClip(_idClip,-_value);
     //_clip.setTimeOut(_clip.timeOut()-_value);
 }
 

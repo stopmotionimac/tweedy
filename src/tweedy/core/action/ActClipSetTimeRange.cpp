@@ -12,10 +12,9 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
     //récupérer le clip à traiter
     std::string filename = "img/none.jpg";
     
-    Application* appli = Application::getInstance();
+    Projet* projet = Projet::getInstance();
     
-<<<<<<< HEAD
-    Timeline timeline = appli->getTimeline();
+    Timeline timeline = projet->getTimeline();
 
     bool isClip = timeline.findCurrentClip(filename,_currentTime);
     
@@ -23,16 +22,11 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
     std::cout << isClip << std::endl;
     std::cout << filename << std::endl;
     std::cout << _currentTime << std::endl;
-=======
-    std::ostringstream oss;
-    oss<<_value;
-    IUndoRedoCommand* cmd = new CmdClipSetTimeRange(_clip,"Commande Clip Set Time Range"+oss.str()
-            , _value);
     
     //trouver le command Manager par l'projet
     
-    CommandManager cmdMng = Projet::getCommandManager();
->>>>>>> 186a1c23a9d5acc06c3d3ed2f699962b88f53b80
+
+
     
     if(isClip){
         //créer la commande 
@@ -44,7 +38,7 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
 
         //trouver le command Manager par l'application
 
-        CommandManager& cmdMng = appli->getCommandManager();
+        CommandManager& cmdMng = projet->getCommandManager();
 
         //ajouter la commande au commande manager
         cmdMng.pushNewCommand(cmd);

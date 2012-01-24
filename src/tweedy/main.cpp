@@ -94,7 +94,7 @@ int main(int argc, char *argv[])
         //cmdMan.pushNewCommand(cmd1);
         //cmdMan.pushNewCommand(grCmd1);
                
-        UndoView* undoView = new UndoView(&application->getCommandManager());
+        UndoView* undoView = new UndoView(&projet->getCommandManager());
     
         QWidget * undoWidget = new UndoWidget(undoView);
         undoWidget->setWindowTitle("Command List");
