@@ -33,17 +33,14 @@
        <enum>QLayout::SetMaximumSize</enum>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="modifsClipLayout"/>
-      </item>
-      <item>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <layout class="QVBoxLayout" name="dureeClipLayout">
           <property name="topMargin">
-           <number>0</number>
+           <number>30</number>
           </property>
           <property name="bottomMargin">
-           <number>20</number>
+           <number>0</number>
           </property>
           <item>
            <widget class="QLabel" name="labelDuration">
@@ -127,7 +124,7 @@
            <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>20</number>
+           <number>35</number>
           </property>
           <item>
            <widget class="QLabel" name="labelBlank">
@@ -179,13 +176,6 @@
            </layout>
           </item>
          </layout>
-        </item>
-        <item>
-         <widget class="QToolButton" name="deleteButton">
-          <property name="text">
-           <string>Supprimer</string>
-          </property>
-         </widget>
         </item>
        </layout>
       </item>
@@ -242,7 +232,7 @@
              </size>
             </property>
             <property name="text">
-             <string>back to 0</string>
+             <string/>
             </property>
            </widget>
           </item>
@@ -302,7 +292,7 @@
            <widget class="QToolButton" name="playButton">
             <property name="minimumSize">
              <size>
-              <width>70</width>
+              <width>0</width>
               <height>25</height>
              </size>
             </property>
@@ -313,7 +303,16 @@
              </size>
             </property>
             <property name="text">
-             <string>play</string>
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="shortcut">
+             <string>Ctrl+S</string>
             </property>
            </widget>
           </item>
@@ -321,7 +320,7 @@
            <widget class="QToolButton" name="pauseButton">
             <property name="minimumSize">
              <size>
-              <width>70</width>
+              <width>25</width>
               <height>25</height>
              </size>
             </property>
@@ -332,7 +331,13 @@
              </size>
             </property>
             <property name="text">
-             <string>pause</string>
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -340,7 +345,7 @@
            <widget class="QToolButton" name="prevButton">
             <property name="minimumSize">
              <size>
-              <width>70</width>
+              <width>25</width>
               <height>25</height>
              </size>
             </property>
@@ -351,7 +356,13 @@
              </size>
             </property>
             <property name="text">
-             <string>previous</string>
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -359,7 +370,7 @@
            <widget class="QToolButton" name="nextButton">
             <property name="minimumSize">
              <size>
-              <width>70</width>
+              <width>25</width>
               <height>25</height>
              </size>
             </property>
@@ -370,7 +381,13 @@
              </size>
             </property>
             <property name="text">
-             <string>next</string>
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
             </property>
            </widget>
           </item>
@@ -384,5 +401,22 @@
   </widget>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>zeroButton</sender>
+   <signal>triggered(QAction*)</signal>
+   <receiver>zeroButton</receiver>
+   <slot>setDefaultAction(QAction*)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>508</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>508</x>
+     <y>53</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
