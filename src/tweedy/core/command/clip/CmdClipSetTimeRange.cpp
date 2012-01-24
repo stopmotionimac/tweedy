@@ -4,8 +4,8 @@
 
 #include <tweedy/core/Projet.hpp>
 
-CmdClipSetTimeRange::CmdClipSetTimeRange(const std::string& idClip, const std::string& text, 
-        double value, bool blankb, bool blanka): _idClip(idClip),_text(text),_value(value),_blankb(blankb),_blanka(blanka)
+CmdClipSetTimeRange::CmdClipSetTimeRange(const std::string& idClip, const std::string& text, double value)
+        : _idClip(idClip),_text(text),_value(value)
 {
     
 }

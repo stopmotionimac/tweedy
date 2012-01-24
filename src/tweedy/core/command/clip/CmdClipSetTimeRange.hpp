@@ -8,8 +8,7 @@ class CmdClipSetTimeRange : public IUndoRedoCommand
 {
 public:
         
-    CmdClipSetTimeRange(const std::string& idClip, const std::string& text,
-            double value,bool blankb=false,bool blanka=false);
+    CmdClipSetTimeRange(const std::string& idClip, const std::string& text,double value);
 
     ~CmdClipSetTimeRange();
     
@@ -32,8 +31,6 @@ private:
     std::string _text;
     std::string _idClip;
     double _value;
-    bool _blankb;
-    bool _blanka;
     
 };
 

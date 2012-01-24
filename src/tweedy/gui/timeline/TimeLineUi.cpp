@@ -1,6 +1,7 @@
 #include "TimeLineUi.h"
 #include <tweedy/core/Projet.hpp>
 #include <tweedy/core/action/ActClipSetTimeRange.hpp>
+#include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
 
 
 //_________________________________ constructor ________________________________
@@ -255,14 +256,15 @@ void TimeLineUi::on_blankBeforeButton_clicked()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
-     /*  
+      
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Add blank before",_ui->spinDuration->value());
+       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before",_ui->spinDuration->value());
        
        updateTable();
        
        delete action;
-     */  
+     
+       /*
        std::string filename;
        bool isClip = _timeline->findCurrentClip(filename,_time);
        
@@ -270,6 +272,9 @@ void TimeLineUi::on_blankBeforeButton_clicked()
            _timeline->addTimeToClip(filename, 1, true);
        
        updateTable();
+       
+       */ 
+       
        emitDisplayChanged();
               
    }
