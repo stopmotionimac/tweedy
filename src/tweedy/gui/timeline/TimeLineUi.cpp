@@ -29,6 +29,7 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_ui->table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
+    connect( this->_ui->table , SIGNAL( currentCellChanged ( int , int , int , int  ) ), this, SLOT( getCurrentTime(int,int)));
         
     Q_EMIT timeChanged(_time);
         
@@ -44,7 +45,7 @@ void TimeLineUi::createActions(){
     connect(_playAction, SIGNAL(triggered()), this, SLOT(handle_playAction_triggered()));
 
     _pauseAction = new QAction("Pause",this);
-    //_pauseAction->setShortcut(QKeySequence("Space"));
+    _pauseAction->setShortcut(QKeySequence("Space"));
     _pauseAction->setStatusTip("Mettre en pause");
     connect(_pauseAction, SIGNAL(triggered()), this, SLOT(handle_pauseAction_triggered()));
 
@@ -69,24 +70,22 @@ void TimeLineUi::createActions(){
     connect(_plusAction, SIGNAL(triggered()), this, SLOT(handle_plusAction_triggered()));
 
     _minusAction = new QAction("-", this);
-    //_minusAction->setShortcut(QKeySequence("Alt+Right"));
     _minusAction->setStatusTip("Diminuer la duree du clip");
     connect(_minusAction, SIGNAL(triggered()), this, SLOT(handle_minusAction_triggered()));
 
     _blankBeforeAction = new QAction("Avant", this);
-    //_blankBeforeAction->setShortcut(QKeySequence("Alt+Left"));
     _blankBeforeAction->setStatusTip("Frame vide avant le clip");
     connect(_blankBeforeAction, SIGNAL(triggered()), this, SLOT(handle_blankBeforeAction_triggered()));
     
     _blankAfterAction = new QAction("Apres", this);
-    //_blankAfterAction->setShortcut(QKeySequence("Alt+Left"));
     _blankAfterAction->setStatusTip("Frame vide après le clip");
     connect(_blankAfterAction, SIGNAL(triggered()), this, SLOT(handle_blankAfterAction_triggered()));
     
-    _deleteAction = new QAction("Supprimer", this);
-    _deleteAction->setShortcut(QKeySequence("Del"));
-    _deleteAction->setStatusTip("Supprimer le clip");
-    connect(_deleteAction, SIGNAL(triggered()), this, SLOT(handle_deleteAction_triggered()));
+    _deleteKey = new QShortcut(this);  
+    _deleteKey->setKey(QKeySequence("DEL"));  
+    connect ( _deleteKey , SIGNAL( activated() ) , this , SLOT( deleteKey_activated() ) );  
+    
+    
 }
 
 
@@ -103,13 +102,6 @@ void TimeLineUi::linkButtonsWithActions()
     _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
     _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
     
-    _ui->deleteButton->setDefaultAction(_deleteAction);
-    
-    
-   /* _ui->playButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    _ui->pauseButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    _ui->nextButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-    _ui->prevButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);*/
     
 }
 
@@ -376,7 +368,7 @@ void TimeLineUi::handle_blankAfterAction_triggered()
     
 }
 
-void TimeLineUi::handle_deleteAction_triggered()
+void TimeLineUi::deleteKey_activated()
 {
   
    int currentCell = _ui->table->currentColumn();
@@ -405,7 +397,7 @@ TimeLineUi::~TimeLineUi()
     //delete _timeline;
     delete _ui;
     delete _timer;
-    delete _deleteAction;
+    delete _deleteKey;
     delete _blankAfterAction;
     delete _blankBeforeAction;
     delete _minusAction;

@@ -206,6 +206,8 @@ void MainWindow::createWidgetViewer()
     viewerImg = new ViewerImg();
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
+    viewerImg->setFixedSize(400,400);
+    
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     
     viewerImg->_capture->setDefaultAction(_captureAction);
