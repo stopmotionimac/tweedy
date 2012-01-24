@@ -234,12 +234,15 @@ void MainWindow::on_captureAction_triggered()
     {
         std::cout<<"Camera connected"<<std::endl;
         projectInstance.setFolderToSavePictures();
-        projectInstance.captureToFile();
 
         //Give picture to application and timeline
-
-        //Timeline& timeline = projectInstance.getTimeline();
-
+        boost::filesystem::path fn = projectInstance.captureToFile();
+        Clip clipFromPicture (fn);
+        Timeline& timeline = projectInstance.getTimeline();
+        clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );
+        projectInstance.addImedia( clipFromPicture );
+        timeline.addClip(clipFromPicture);
+        timeline.setMaxTime();
     }
 
 }

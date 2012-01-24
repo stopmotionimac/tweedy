@@ -10,7 +10,7 @@
 
 #ifdef WITH_GPHOTO2
 
-static void capture_to_file( Camera *camera, GPContext *context, boost::filesystem::path & fn /*const char * fn*/ )
+static boost::filesystem::path capture_to_file( Camera *camera, GPContext *context, boost::filesystem::path & fn )
 {
 	int fd, retval;
 	CameraFile *file;
@@ -42,6 +42,7 @@ static void capture_to_file( Camera *camera, GPContext *context, boost::filesyst
 	//printf("  Retval: %d\n", retval);
 
 	gp_file_free( file );
+        return fn;
 }
 
 
@@ -147,10 +148,11 @@ void Gphoto::getSummary()
 #endif
 }
 
-void Gphoto::captureToFile()
+boost::filesystem::path Gphoto::captureToFile()
 {
 #ifdef WITH_GPHOTO2
-	capture_to_file( _camera, _context, _fileName );
+        boost::filesystem::path fn = capture_to_file( _camera, _context, _fileName );
+        return fn;
 #else
 	std::cout << "Error: Not compiled with gphoto2." << std::endl;
 #endif

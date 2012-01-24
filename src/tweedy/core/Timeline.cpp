@@ -33,7 +33,7 @@ Timeline::OMapClip Timeline::getOrderedClips()
 
 
 
-void Timeline::addCilp(Clip & clip) {
+void Timeline::addClip(Clip & clip) {
     _mapClip[clip.imgPath().string()] = clip;
 }
 
@@ -63,11 +63,7 @@ void Timeline::addTimeToClip(const std::string& clipName, double time, bool blan
           s.second->setTimeIn(time);
           s.second->setTimeOut(time);
       }      
-    }
-    
-    
-    
-        
+    }        
 }
 
 

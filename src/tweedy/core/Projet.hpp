@@ -31,9 +31,9 @@ public:
   void setValueCameraIsInit (bool val);
 
   //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
-  static boost::ptr_unordered_map<std::string, Imedia*> getMapMedia() {}
+  static boost::ptr_unordered_map<std::string, Imedia> getMapMedia() {}
   Imedia getImedia(int idMedia) { }
-  void addImedia(Imedia * media);
+  void addImedia(Imedia & media);
   void supprImedia(int idMedia);
   void printAllMedia();
   void makeChutier();
@@ -42,7 +42,9 @@ public:
   int tryToConnectCamera ();
   //bool getValueCameraIsInit();
   void setFolderToSavePictures ();
-  void captureToFile();
+  boost::filesystem::path captureToFile();
+
+
   Gphoto& gPhotoInstance() { return Gphoto::getInstance(); }
 
   CommandManager& getCommandManager();
@@ -57,7 +59,7 @@ private:
   int _value;
 
   //static boost::ptr_vector<Imedia> listMedia;
-  boost::ptr_unordered_map<std::string, Imedia*> _mapMedia;
+  boost::ptr_unordered_map<std::string, Imedia> _mapMedia;
 
   CommandManager _cmdManager;
   Timeline _timeline;

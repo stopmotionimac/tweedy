@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
 
       /*________TEST AREA_________*/
       //Add a Imedia in projet._mapMedia
-      Imedia * clipTest = new Clip("IMAGE.jpg" );
-      projet.addImedia(clipTest);
+      //Imedia * clipTest = new Clip("IMAGE.jpg" );
+      //projet.addImedia(clipTest);
 
       //make chutier with folder
       projet.makeChutier();
