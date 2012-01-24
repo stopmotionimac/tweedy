@@ -1,4 +1,4 @@
-#include <tweedy/core/Application.hpp>
+#include <tweedy/core/Projet.hpp>
 
 #include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
@@ -16,36 +16,36 @@
 
 int main(int argc, char *argv[])
 {
-    //init the Application's singleton
+    //init the Projet's singleton
 
     // pointeurs sur l'unique instance de la classe UniqueObject
-      Application * application;
+      Projet * projet;
 
       // initialisation des pointeurs
-      application = Application::getInstance ();
+      projet = Projet::getInstance ();
 
-      //application->setGphotoInstance();
+      //projet->setGphotoInstance();
 
 
       /*________TEST AREA_________*/
-      //Add a Imedia in application._mapMedia
+      //Add a Imedia in projet._mapMedia
       Imedia * clipTest = new Clip("IMAGE.jpg" );
-      application->addImedia(clipTest);
+      projet->addImedia(clipTest);
 
       //make chutier with folder
-      application->makeChutier();
+      projet->makeChutier();
 
-      //print all media on application
-      application->printAllMedia();
+      //print all media on projet
+      projet->printAllMedia();
 
       //TEST to get name from an Imedia
 
 
       // affectation de la valeur 15 à l'objet pointé par obj1
-      application->setValue (15);
+      projet->setValue (15);
 
       // affichage de _value
-      std::cout << "obj1::_value = " << application->getValue () << std::endl;
+      std::cout << "obj1::_value = " << projet->getValue () << std::endl;
 
 
       /*________TEST AREA_________*/
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
 	MainWindow mainWin;
 
 	// Load css stylesheet
-	const QString appCss( QCoreApplication::applicationDirPath() + "/resources/tweedy.css" );
+        const QString appCss( QCoreApplication::applicationDirPath() + "/resources/tweedy.css" );
 	QFile appCssFile( appCss );
 	if( ! appCssFile.open( QIODevice::ReadOnly | QIODevice::Text ) )
 	{
@@ -105,5 +105,5 @@ int main(int argc, char *argv[])
 	return app.exec();
 
         // destruction de l'instance unique
-        application->kill ();
+        projet->kill ();
 }

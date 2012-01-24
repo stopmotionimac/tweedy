@@ -56,7 +56,7 @@ MainWindow::MainWindow()
 
 
 /*
-  Creer toutes les actions de l'application
+  Creer toutes les actions de l'projet
 */
 void MainWindow::createActions(){
 
