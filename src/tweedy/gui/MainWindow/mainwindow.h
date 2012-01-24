@@ -16,8 +16,9 @@
 #include "startwindow.h"
 #include "newprojectwindow.h"
 
+#include <tweedy/core/Gphoto/Gphoto.hpp>
+
 #include <tweedy/core/Projet.hpp>
-#include<tweedy/core/Gphoto/Gphoto.hpp>
 
 
 class MainWindow : public QMainWindow
@@ -32,6 +33,8 @@ class MainWindow : public QMainWindow
         void on_captureAction_triggered();
         void on_newProjectAction_triggered();
         void on_searchFolderProjectButton_clicked();
+        void on_undoButton_clicked();
+        void on_redoButton_clicked();
 
     private:
         void createActions();

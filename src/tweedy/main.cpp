@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 	// Q_INIT_RESOURCE(resfile);
 
 	QApplication app(argc, argv);
+
         MainWindow mainWin(projet);
 
 	// Load css stylesheet
@@ -69,7 +70,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		const QString cssContent( appCssFile.readAll() );
-		//std::cout << "cssContent: " << cssContent.toStdString() << std::endl;
+                //std::cout << "cssContent: " << cssContent.toStdString() << std::endl;
 		qApp->setStyleSheet(cssContent);
 	}
         

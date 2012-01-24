@@ -10,7 +10,10 @@ ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
 
     _capture = new QToolButton(this);
 
-    QVBoxLayout * layout = new QVBoxLayout();
+    //QGridLayout * layoutGrid = new QGridLayout(this);
+    //layoutGrid->addWidget(_capture);
+
+    QVBoxLayout * layout = new QVBoxLayout(this);
     layout->addWidget(_labelImg);
     layout->addWidget(_capture);
     setLayout(layout);
