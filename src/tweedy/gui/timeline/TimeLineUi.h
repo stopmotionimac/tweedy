@@ -10,7 +10,7 @@
 #include <QtGui/QDockWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
-#include <QtGui/QToolBar>
+#include <QtGui/QShortcut>
 
 #include <tweedy/core/Timeline.hpp>
 
@@ -50,8 +50,6 @@ public Q_SLOTS:
     void handle_pauseAction_triggered();
     
     void handle_zeroAction_triggered();
-    //void on_nextButton_clicked();
-    //void on_prevButton_clicked();
     
     void handle_nextAction_triggered();
     void handle_prevAction_triggered();
@@ -60,7 +58,7 @@ public Q_SLOTS:
     void handle_minusAction_triggered();
     void handle_blankBeforeAction_triggered();
     void handle_blankAfterAction_triggered();
-    void handle_deleteAction_triggered();
+    void deleteKey_activated();
        
 Q_SIGNALS:
     void timeChanged(int newValue);
@@ -83,9 +81,8 @@ private:
     QAction * _minusAction;
     QAction * _blankBeforeAction;
     QAction * _blankAfterAction;
-    QAction * _deleteAction;
     
-   
+    QShortcut * _deleteKey;  
     
     
 };

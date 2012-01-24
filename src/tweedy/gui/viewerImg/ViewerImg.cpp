@@ -7,7 +7,7 @@ ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
 
 {
     setWindowTitle("Visualisation");
-
+    _labelImg->setScaledContents(true);
     _capture = new QToolButton(this);
 
     //QGridLayout * layoutGrid = new QGridLayout(this);
