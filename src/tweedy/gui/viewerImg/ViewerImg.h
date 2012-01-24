@@ -27,7 +27,6 @@ public:
     QToolButton * _playButton;
     QToolButton * _nextButton;
     QToolButton * _previousButton;
-    QToolButton * _pauseButton;
 
 };
 

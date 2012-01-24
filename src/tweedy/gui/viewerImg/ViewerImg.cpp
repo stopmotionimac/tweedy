@@ -8,24 +8,33 @@ ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
 {
     setWindowTitle("Visualisation");
     _labelImg->setScaledContents(true);
+
+    //creation des boutons du viewer
     _capture = new QToolButton(this);
     /*_playButton = new QToolButton(this);
     _nextButton = new QToolButton(this);
     _previousButton = new QToolButton(this);
-    _pauseButton = new QToolButton(this);*/
 
-    /*QHBoxLayout * layoutPlayer = new QHBoxLayout(this);
-    layoutPlayer->addStretch();
+    QHBoxLayout * layoutHPlayer = new QHBoxLayout(this);
+    layoutHPlayer->addStretch();
+    layoutHPlayer->addWidget(_previousButton);
+    layoutHPlayer->addWidget(_playButton);
+    layoutHPlayer->addWidget(_nextButton);
+    layoutHPlayer->addStretch();
 
-    QGridLayout * layoutGrid = new QGridLayout(this);
-    layoutGrid->addWidget(_capture, 0, 0, 3, 3);
-    layoutGrid->addLayout(layoutPlayer);*/
+    QVBoxLayout * layoutVPlayer = new QVBoxLayout(this);
+    layoutVPlayer->addStretch();
+    layoutVPlayer->addLayout(layoutHPlayer);
+    layoutVPlayer->addStretch();
 
+    QHBoxLayout * layoutBoutons = new QHBoxLayout(this);
+    layoutBoutons->addWidget(_capture);
+    layoutBoutons->addLayout(layoutVPlayer);*/
 
-    QVBoxLayout * layout = new QVBoxLayout(this);
-    layout->addWidget(_labelImg);
-    layout->addWidget(_capture);
-    setLayout(layout);
+    QVBoxLayout * layoutWidget = new QVBoxLayout(this);
+    layoutWidget->addWidget(_labelImg);
+    layoutWidget->addWidget(_capture);
+    setLayout(layoutWidget);
 
 }
 
