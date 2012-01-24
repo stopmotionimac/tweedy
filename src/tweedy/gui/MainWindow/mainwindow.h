@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(Projet * projet);
+        MainWindow(/*Projet * projet*/);
         ~MainWindow();
 
     public Q_SLOTS:
@@ -77,9 +77,9 @@ class MainWindow : public QMainWindow
 
         StartWindow * startWindowDialog;
         newProjectWindow * newProjectDialog;
-        //Projet * p2;
+        Projet * _ptrProjet;
 
-        Gphoto * gPhotoInstance;
+        //Gphoto * gPhotoInstance;
 
 };
 

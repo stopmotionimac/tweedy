@@ -19,7 +19,7 @@
 #include <iostream>
 
 
-MainWindow::MainWindow(Projet * projet)
+MainWindow::MainWindow(/*Projet * projet*/)
 {
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -30,9 +30,10 @@ MainWindow::MainWindow(Projet * projet)
     createWidgets();
     createStatusBar();
 
-    this->showMaximized();
+    (Projet::getInstance())->setGphotoInstance();
+    //_ptrProjet->setGphotoInstance();
 
-    gPhotoInstance = Gphoto::getInstance ();
+    this->showMaximized();
 
     std::string filename = "img/none.jpg";
     
@@ -217,19 +218,24 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_captureAction_triggered()
 {
-//    int isConnected = gPhotoInstance->tryToConnectCamera();
-//    if (isConnected == 0)
-//    {
-//
-//        QMessageBox::about(this, tr("Warning"),
-//                            tr("No camera connected to the computer"));
-//        std::cout<<"No camera connected to the computer"<<std::endl;
-//    }
-//    else
-//    {
-//        gPhotoInstance->setFolderToSavePictures();
-//        gPhotoInstance->captureToFile();
-//    }
+    bool isInit = _ptrProjet->getValueCameraIsInit();
+    //std::cout<<"VAR CAMERA IS INIT"<<isInit<<std::endl;
+
+    int isConnected = _ptrProjet->tryToConnectCamera();
+    std::cout<<"IS CONNECTED"<<isConnected<<std::endl;
+    if (isConnected == 0)
+    {
+
+        QMessageBox::about(this, tr("Warning"),
+                            tr("No camera connected to the computer"));
+        std::cout<<"No camera connected to the computer"<<std::endl;
+    }
+    else
+    {
+        std::cout<<"Camera connected"<<std::endl;
+        _ptrProjet->setFolderToSavePictures();
+        //_ptrProjet->captureToFile();
+    }
 
 }
 
@@ -294,6 +300,7 @@ MainWindow::~MainWindow()
     delete viewerImg;
     delete timeline;
     delete startWindowDialog;
+    _ptrProjet->kill ();
     //gPhotoInstance->kill ();
 
 }
