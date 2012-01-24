@@ -16,7 +16,7 @@
 #include "startwindow.h"
 #include "newprojectwindow.h"
 
-#include<tweedy/core/Gphoto/Gphoto.hpp>
+#include <tweedy/core/Gphoto/Gphoto.hpp>
 
 
 class MainWindow : public QMainWindow

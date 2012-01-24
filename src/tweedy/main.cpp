@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 	// Q_INIT_RESOURCE(resfile);
 
 	QApplication app(argc, argv);
-	MainWindow mainWin;
+        MainWindow mainWin;
 
 	// Load css stylesheet
 	const QString appCss( QCoreApplication::applicationDirPath() + "/resources/tweedy.css" );
@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 	else
 	{
 		const QString cssContent( appCssFile.readAll() );
-		//std::cout << "cssContent: " << cssContent.toStdString() << std::endl;
+                //std::cout << "cssContent: " << cssContent.toStdString() << std::endl;
 		qApp->setStyleSheet(cssContent);
 	}
         

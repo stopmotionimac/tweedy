@@ -21,7 +21,7 @@ QPushButton:default {
     }
 
 .MainWindow {
-    background-color:#E8F9CF;
+    background-color:#000000;
     }
 
 QStatusBar::item {
