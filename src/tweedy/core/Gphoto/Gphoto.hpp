@@ -41,6 +41,7 @@ public:
     void exitCamera();
     void captureToFile();
     void setShutterSpeed();
+    bool getVarCameraIsInit();
 
 
 private:
