@@ -16,6 +16,7 @@ Chutier::Chutier(QWidget *parent) :
 
     //creation des widgets
     listWidget = new ListWidget(this);
+    listWidget->setMaximumSize(this->width()/2,this->height());
     importButton = new QToolButton(this);
     deleteButton = new QToolButton(this);
 
@@ -29,9 +30,9 @@ Chutier::Chutier(QWidget *parent) :
 
     viewerChutier = new QLabel(this);
     viewerChutier->setBackgroundRole(QPalette::Dark);
-    viewerChutier->setFixedSize(300, 200);
+    viewerChutier->setFixedSize(this->width()/2, this->height()/2);
 
-    //creation du widget dockable su viewer
+    //creation du widget dockable du viewer
     viewerChutierDock = new QDockWidget("Visualisation du chutier",this);
     viewerChutierDock->setWidget(viewerChutier);
 
@@ -68,6 +69,7 @@ Chutier::Chutier(QWidget *parent) :
     //image par defaut
     QString defaultImage("img/noPhotoSelected.jpg");
     viewerChutier->setPixmap(defaultImage);
+    viewerChutier->setScaledContents(true); //centrer l'image dans le QLabel
 
     connect(listWidget, SIGNAL(itemActivated(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
     connect(importAction, SIGNAL(triggered()), this, SLOT(on_importAction_triggered()));

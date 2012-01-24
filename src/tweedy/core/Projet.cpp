@@ -4,6 +4,7 @@ CommandManager& Projet::getCommandManager(){
     return _cmdManager; 
 }
 
+
 Timeline& Projet::getTimeline(){
     return _timeline;
 }
@@ -28,5 +29,6 @@ void Projet::printAllMedia() {
         for (iter = this->_mapMedia.begin(); iter != _mapMedia.end(); ++iter) {
             std::cout<<iter->first<<std::endl;
     }
+
 
 }

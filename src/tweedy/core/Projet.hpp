@@ -27,7 +27,7 @@ private:
 public:
   void setValue (int val) { _value = val; }
   int getValue () { return _value; }
-  //void setGphotoInstance () { Gphoto::getInstance ();};
+  void setGphotoInstance () { Gphoto::getInstance ();};
 
   //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
   static boost::ptr_unordered_map<std::string, Imedia*> getMapMedia() {}
@@ -37,18 +37,21 @@ public:
   void printAllMedia();
   void makeChutier();
 
+
   CommandManager& getCommandManager();
+
   Timeline& getTimeline();
 
 
 private:
-  //Gphoto * gPhotoInstance;
+  Gphoto * gPhotoInstance;
   ChutierMediaExt _chutier;
   boost::filesystem::path projectFolder;
   int _value;
 
   //static boost::ptr_vector<Imedia> listMedia;
   boost::ptr_unordered_map<std::string, Imedia*> _mapMedia;
+
   CommandManager _cmdManager;
   Timeline _timeline;
 

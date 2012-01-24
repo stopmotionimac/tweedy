@@ -10,6 +10,7 @@
 #include <QtGui/QDockWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
+#include <QtGui/QToolBar>
 
 #include <tweedy/core/Timeline.hpp>
 
@@ -31,25 +32,35 @@ public:
     Timeline* timeline(){return _timeline;}
     QIcon defautIcon(){return _defautIcon;}
         
+    void createActions();
+    void toolBar();
+    void linkButtonsWithActions();
+    
     void updateTable();
     void emitDisplayChanged();
     
                 
-private Q_SLOTS:
+public Q_SLOTS:
     void increaseTime();
     void writeTime(int newValue);
     void getCurrentTime(int row,int column);
-    void on_playButton_clicked();
-    void on_pauseButton_clicked();
-    void on_zeroButton_clicked();
-    void on_nextButton_clicked();
-    void on_prevButton_clicked();
     
-    void on_plusButton_clicked();
-    void on_minusButton_clicked();
-    void on_blankBeforeButton_clicked();
-    void on_blankAfterButton_clicked();
-    void on_deleteButton_clicked();
+    
+    void handle_playAction_triggered();
+    void handle_pauseAction_triggered();
+    
+    void handle_zeroAction_triggered();
+    //void on_nextButton_clicked();
+    //void on_prevButton_clicked();
+    
+    void handle_nextAction_triggered();
+    void handle_prevAction_triggered();
+    
+    void handle_plusAction_triggered();
+    void handle_minusAction_triggered();
+    void handle_blankBeforeAction_triggered();
+    void handle_blankAfterAction_triggered();
+    void handle_deleteAction_triggered();
        
 Q_SIGNALS:
     void timeChanged(int newValue);
@@ -61,6 +72,21 @@ private:
     Ui::TimeLineUi* _ui;
     Timeline* _timeline;
     QIcon _defautIcon;
+    
+    QAction * _playAction;
+    QAction * _pauseAction;
+    QAction * _nextAction;
+    QAction * _prevAction;
+    QAction * _zeroAction;
+    
+    QAction * _plusAction;
+    QAction * _minusAction;
+    QAction * _blankBeforeAction;
+    QAction * _blankAfterAction;
+    QAction * _deleteAction;
+    
+   
+    
     
 };
 

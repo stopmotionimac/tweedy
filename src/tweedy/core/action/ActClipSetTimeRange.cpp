@@ -23,10 +23,7 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
     std::cout << filename << std::endl;
     std::cout << _currentTime << std::endl;
     
-    //trouver le command Manager par l'projet
-    
-
-
+    //trouver le command Manager par le projet
     
     if(isClip){
         //créer la commande 

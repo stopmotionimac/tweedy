@@ -18,6 +18,11 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     _timeline = &(Projet::getInstance()->getTimeline());
     _ui->setupUi(this);
     _ui->table->setIconSize(QSize(75, 75));
+   
+    
+    createActions();
+    linkButtonsWithActions();
+    
     
     updateTable();
                    
@@ -28,6 +33,87 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     Q_EMIT timeChanged(_time);
         
 }
+
+
+
+void TimeLineUi::createActions(){
+
+    _playAction = new QAction("Play",this);
+    _playAction->setShortcut(QKeySequence("Space"));
+    _playAction->setStatusTip("Lancer le montage");
+    connect(_playAction, SIGNAL(triggered()), this, SLOT(handle_playAction_triggered()));
+
+    _pauseAction = new QAction("Pause",this);
+    //_pauseAction->setShortcut(QKeySequence("Space"));
+    _pauseAction->setStatusTip("Mettre en pause");
+    connect(_pauseAction, SIGNAL(triggered()), this, SLOT(handle_pauseAction_triggered()));
+
+    _nextAction = new QAction("Suivant", this);
+    _nextAction->setShortcut(QKeySequence("Alt+Right"));
+    _nextAction->setStatusTip("Clip suivant");
+    connect(_nextAction, SIGNAL(triggered()), this, SLOT(handle_nextAction_triggered()));
+
+    _prevAction = new QAction("Precedent", this);
+    _prevAction->setShortcut(QKeySequence("Alt+Left"));
+    _prevAction->setStatusTip("Clip precedent");
+    connect(_prevAction, SIGNAL(triggered()), this, SLOT(handle_prevAction_triggered()));
+    
+    _zeroAction = new QAction("Zero",this);
+    _zeroAction->setShortcut(QKeySequence("0"));
+    _zeroAction->setStatusTip("Remise a zero");
+    connect(_zeroAction, SIGNAL(triggered()), this, SLOT(handle_zeroAction_triggered()));
+
+    _plusAction = new QAction("+",this);
+    //_plusAction->setShortcut(QKeySequence("Space"));
+    _plusAction->setStatusTip("Augmenter la duree du clip");
+    connect(_plusAction, SIGNAL(triggered()), this, SLOT(handle_plusAction_triggered()));
+
+    _minusAction = new QAction("-", this);
+    //_minusAction->setShortcut(QKeySequence("Alt+Right"));
+    _minusAction->setStatusTip("Diminuer la duree du clip");
+    connect(_minusAction, SIGNAL(triggered()), this, SLOT(handle_minusAction_triggered()));
+
+    _blankBeforeAction = new QAction("Avant", this);
+    //_blankBeforeAction->setShortcut(QKeySequence("Alt+Left"));
+    _blankBeforeAction->setStatusTip("Frame vide avant le clip");
+    connect(_blankBeforeAction, SIGNAL(triggered()), this, SLOT(handle_blankBeforeAction_triggered()));
+    
+    _blankAfterAction = new QAction("Apres", this);
+    //_blankAfterAction->setShortcut(QKeySequence("Alt+Left"));
+    _blankAfterAction->setStatusTip("Frame vide après le clip");
+    connect(_blankAfterAction, SIGNAL(triggered()), this, SLOT(handle_blankAfterAction_triggered()));
+    
+    _deleteAction = new QAction("Supprimer", this);
+    _deleteAction->setShortcut(QKeySequence("Del"));
+    _deleteAction->setStatusTip("Supprimer le clip");
+    connect(_deleteAction, SIGNAL(triggered()), this, SLOT(handle_deleteAction_triggered()));
+}
+
+
+void TimeLineUi::linkButtonsWithActions()
+{
+    _ui->playButton->setDefaultAction(_playAction);
+    _ui->pauseButton->setDefaultAction(_pauseAction);
+    _ui->nextButton->setDefaultAction(_nextAction);
+    _ui->prevButton->setDefaultAction(_prevAction);
+    
+    _ui->zeroButton->setDefaultAction(_zeroAction);
+    _ui->plusButton->setDefaultAction(_plusAction);
+    _ui->minusButton->setDefaultAction(_minusAction);
+    _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
+    _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
+    
+    _ui->deleteButton->setDefaultAction(_deleteAction);
+    
+    
+   /* _ui->playButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    _ui->pauseButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    _ui->nextButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    _ui->prevButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);*/
+    
+}
+
+
 
 
 //_____________________ Update the table with list of clips ____________________
@@ -146,26 +232,26 @@ void TimeLineUi::getCurrentTime(int row,int column)
 //_______________________________ buttons slots ________________________________
 
 
-void TimeLineUi::on_playButton_clicked()
+void TimeLineUi::handle_playAction_triggered()
 {
    _timer->start(1000);
 }
 
 
-void TimeLineUi::on_pauseButton_clicked()
+void TimeLineUi::handle_pauseAction_triggered()
 {
    _timer->stop(); 
         
 }
 
-void TimeLineUi::on_zeroButton_clicked()
+void TimeLineUi::handle_zeroAction_triggered()
 {
    _time = 0;
    Q_EMIT timeChanged(_time);
    
 }
 
-void TimeLineUi::on_nextButton_clicked()
+void TimeLineUi::handle_nextAction_triggered()
 {
     Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
     bool lastClip = true;
@@ -190,7 +276,7 @@ void TimeLineUi::on_nextButton_clicked()
         
 }   
 
-void TimeLineUi::on_prevButton_clicked()
+void TimeLineUi::handle_prevAction_triggered()
 {
     Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
     int currentTime = _time;
@@ -214,7 +300,7 @@ void TimeLineUi::on_prevButton_clicked()
 }
 
 
-void TimeLineUi::on_plusButton_clicked()
+void TimeLineUi::handle_plusAction_triggered()
 { 
     
    int currentCell = _ui->table->currentColumn();
@@ -233,7 +319,7 @@ void TimeLineUi::on_plusButton_clicked()
 }
 
 
-void TimeLineUi::on_minusButton_clicked()
+void TimeLineUi::handle_minusAction_triggered()
 { 
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
@@ -251,7 +337,7 @@ void TimeLineUi::on_minusButton_clicked()
 }
 
 
-void TimeLineUi::on_blankBeforeButton_clicked()
+void TimeLineUi::handle_blankBeforeAction_triggered()
 {
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
@@ -273,7 +359,7 @@ void TimeLineUi::on_blankBeforeButton_clicked()
 }
 
 
-void TimeLineUi::on_blankAfterButton_clicked()
+void TimeLineUi::handle_blankAfterAction_triggered()
 {
    int currentCell = _ui->table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
@@ -290,7 +376,7 @@ void TimeLineUi::on_blankAfterButton_clicked()
     
 }
 
-void TimeLineUi::on_deleteButton_clicked()
+void TimeLineUi::handle_deleteAction_triggered()
 {
   
    int currentCell = _ui->table->currentColumn();
@@ -319,4 +405,14 @@ TimeLineUi::~TimeLineUi()
     //delete _timeline;
     delete _ui;
     delete _timer;
+    delete _deleteAction;
+    delete _blankAfterAction;
+    delete _blankBeforeAction;
+    delete _minusAction;
+    delete _plusAction;
+    delete _zeroAction;
+    delete _prevAction;
+    delete _nextAction;
+    delete _pauseAction;
+    delete _playAction;
 }
