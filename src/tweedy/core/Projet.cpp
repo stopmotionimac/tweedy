@@ -4,13 +4,11 @@ CommandManager& Projet::getCommandManager(){
     return _cmdManager; 
 }
 
-<<<<<<< HEAD
-=======
+
 Timeline& Projet::getTimeline(){
     return _timeline;
 }
 
->>>>>>> 1e4cc5ab63b592a80a37efc74f5fe56a6e435e19
 //to add any media (except MediaExt)
 void Projet::addImedia(Imedia * media) {
     std::cout<<media->getNameMedia().string()<<std::endl;
@@ -32,8 +30,5 @@ void Projet::printAllMedia() {
             std::cout<<iter->first<<std::endl;
     }
 
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 1e4cc5ab63b592a80a37efc74f5fe56a6e435e19

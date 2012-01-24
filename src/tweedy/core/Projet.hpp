@@ -37,9 +37,8 @@ public:
   void printAllMedia();
   void makeChutier();
 
-  /*static */CommandManager& getCommandManager();
-
   CommandManager& getCommandManager();
+
   Timeline& getTimeline();
 
 
@@ -56,5 +55,4 @@ private:
   Timeline _timeline;
 
 };
->>>>>>> 1e4cc5ab63b592a80a37efc74f5fe56a6e435e19
 #endif  // PROJET_HPP
