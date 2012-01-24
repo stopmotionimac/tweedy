@@ -205,7 +205,7 @@ void MainWindow::createWidgets()
     //Dock UndoWidget
 
     QDockWidget * undoDock = new QDockWidget("Command List");
-    undoView = new UndoView(&(Projet::getInstance())->getCommandManager());
+    undoView = new UndoView(Projet::getInstance()->getCommandManager());
     undoWidget = new UndoWidget(undoView);
     undoDock->setWidget(undoWidget);
     viewMenu->addAction(undoDock->toggleViewAction());

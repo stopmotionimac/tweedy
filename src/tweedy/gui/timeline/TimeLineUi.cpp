@@ -9,6 +9,25 @@
 #include <QtGui/QDragMoveEvent>
 
 
+struct TimeLineUiUpdater
+{
+    TimeLineUiUpdater(TimeLineUi& timeline): _timelineUi(timeline)
+    {
+
+    }
+    
+    void operator()()
+    {
+        _timelineUi.updateTable();
+    }
+    
+    TimeLineUi& _timelineUi;
+};
+
+
+
+
+
 //_________________________________ constructor ________________________________
 
 
@@ -24,6 +43,12 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
     _ui->setupUi(this);
     _ui->table->setIconSize(QSize(75, 75));
    
+    
+    //connecter l'update de la timelineUi au signalChanged de la timeline
+    TimeLineUiUpdater upd(*this);
+
+    Projet::getInstance()->getTimeline().getSignalChanged().connect(upd);
+    
     
     createActions();
     linkButtonsWithActions();
@@ -115,6 +140,7 @@ void TimeLineUi::linkButtonsWithActions()
 void TimeLineUi::updateTable()
 {
 
+    std::cout << "updaaaaaaaate" << std::endl;
     int currentTime = _time;
     //clear timeline
     _ui->table->clearContents();
@@ -327,8 +353,6 @@ void TimeLineUi::handle_plusAction_triggered()
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActClipSetTimeRange(_time,"Add time action ",_ui->spinDuration->value());
        
-       updateTable();
-       
        delete action;
    }
    
@@ -344,8 +368,6 @@ void TimeLineUi::handle_minusAction_triggered()
        
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActClipSetTimeRange(_time,"Remove time action ",-_ui->spinDuration->value());
-       
-       updateTable();
        
        delete action;
        emitDisplayChanged();
@@ -363,8 +385,6 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
       
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ",_ui->spinDuration->value());
-       
-       updateTable();
        
        delete action;
      
@@ -384,8 +404,6 @@ void TimeLineUi::handle_blankAfterAction_triggered()
       
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
-       
-       updateTable();
        
        delete action;
         

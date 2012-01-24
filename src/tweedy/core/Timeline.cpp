@@ -20,6 +20,11 @@ Timeline::Timeline(): Imedia(ImediaTypeTimeline), _maxTime(0)
     setMaxTime();
 }
 
+Timeline::Timeline(const Timeline& timeline) : Imedia(timeline)
+{
+    _maxTime = timeline._maxTime;
+    _mapClip = timeline._mapClip;
+}
 
 Timeline::OMapClip Timeline::getOrderedClips()
 {
@@ -65,7 +70,7 @@ void Timeline::addTimeToClip(const std::string& clipName, double time, bool blan
       }      
     }
     
-    
+    _signalChanged();
     
         
 }
@@ -113,4 +118,10 @@ void Timeline::deleteBlank(int time)
         }
     }
     --_maxTime;
+    _signalChanged();
 }
+
+
+boost::signal0<void>& Timeline::getSignalChanged(){
+     return _signalChanged;
+ }
