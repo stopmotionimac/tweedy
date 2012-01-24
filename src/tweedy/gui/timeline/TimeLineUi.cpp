@@ -11,6 +11,7 @@
 TimeLineUi::TimeLineUi(QDockWidget* parent): 
     QDockWidget(parent),
     _time(0),
+    _isPlaying(false),
     _timer(new QTimer(this)),
     _ui(new Ui::TimeLineUi),
     _defautIcon( QIcon("img/none.jpg") )
@@ -39,22 +40,17 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
 
 void TimeLineUi::createActions(){
 
-    _playAction = new QAction("Play",this);
-    _playAction->setShortcut(QKeySequence("Space"));
-    _playAction->setStatusTip("Lancer le montage");
-    connect(_playAction, SIGNAL(triggered()), this, SLOT(handle_playAction_triggered()));
+    _playPauseAction = new QAction(QIcon("img/icones/play.png"),"",this);
+    _playPauseAction->setShortcut(QKeySequence("Space"));
+    _playPauseAction->setStatusTip("Lancer le montage");
+    connect(_playPauseAction, SIGNAL(triggered()), this, SLOT(handle_playPauseAction_triggered()));
 
-    _pauseAction = new QAction("Pause",this);
-    _pauseAction->setShortcut(QKeySequence("Space"));
-    _pauseAction->setStatusTip("Mettre en pause");
-    connect(_pauseAction, SIGNAL(triggered()), this, SLOT(handle_pauseAction_triggered()));
-
-    _nextAction = new QAction("Suivant", this);
+    _nextAction = new QAction(QIcon("img/icones/next.png"),"Suivant", this);
     _nextAction->setShortcut(QKeySequence("Alt+Right"));
     _nextAction->setStatusTip("Clip suivant");
     connect(_nextAction, SIGNAL(triggered()), this, SLOT(handle_nextAction_triggered()));
 
-    _prevAction = new QAction("Precedent", this);
+    _prevAction = new QAction(QIcon("img/icones/prev.png"),"Precedent", this);
     _prevAction->setShortcut(QKeySequence("Alt+Left"));
     _prevAction->setStatusTip("Clip precedent");
     connect(_prevAction, SIGNAL(triggered()), this, SLOT(handle_prevAction_triggered()));
@@ -91,8 +87,7 @@ void TimeLineUi::createActions(){
 
 void TimeLineUi::linkButtonsWithActions()
 {
-    _ui->playButton->setDefaultAction(_playAction);
-    _ui->pauseButton->setDefaultAction(_pauseAction);
+    _ui->playPauseButton->setDefaultAction(_playPauseAction);
     _ui->nextButton->setDefaultAction(_nextAction);
     _ui->prevButton->setDefaultAction(_prevAction);
     
@@ -113,7 +108,8 @@ void TimeLineUi::linkButtonsWithActions()
 
 void TimeLineUi::updateTable()
 {
-    
+    int currentTime = _time;
+
     //clear timeline
     _ui->table->clearContents();
     while ( _ui->table->columnCount() > 1 )
@@ -130,6 +126,8 @@ void TimeLineUi::updateTable()
         _ui->table->setHorizontalHeaderItem(i, new QTableWidgetItem(QString::fromStdString(header) ) );
         
         QTableWidgetItem *newItem = new QTableWidgetItem(_defautIcon,"");
+        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+
         _ui->table->setItem(0, i, newItem);
     }
     
@@ -141,6 +139,7 @@ void TimeLineUi::updateTable()
         {
             QIcon icon( QString::fromStdString((*s.second)->imgPath().string()) );
             QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
+            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
             _ui->table->setItem(0, j, newItem);
         }
     }
@@ -150,7 +149,7 @@ void TimeLineUi::updateTable()
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _ui->table->setItem(0, _timeline->maxTime(), newItem);
     
-    _ui->table->setCurrentCell(0,_time);
+    _ui->table->setCurrentCell(0,currentTime);
     
     std::cout<< "update timeline" << std::endl;
    
@@ -224,7 +223,27 @@ void TimeLineUi::getCurrentTime(int row,int column)
 //_______________________________ buttons slots ________________________________
 
 
-void TimeLineUi::handle_playAction_triggered()
+void TimeLineUi::handle_playPauseAction_triggered()
+{
+    if (!_isPlaying)
+    {
+        _timer->start(1000);
+        _isPlaying = true;
+        _playPauseAction->setIcon(QIcon("img/icones/pause.png"));
+        _playPauseAction->setStatusTip("Mettre en pause");
+    }
+    else
+    {
+        _timer->stop();
+        _isPlaying = false;
+        _playPauseAction->setIcon(QIcon("img/icones/play.png"));
+        _playPauseAction->setStatusTip("Lancer le montage");
+    }
+}
+
+
+
+/*void TimeLineUi::handle_playAction_triggered()
 {
    _timer->start(1000);
 }
@@ -234,7 +253,7 @@ void TimeLineUi::handle_pauseAction_triggered()
 {
    _timer->stop(); 
         
-}
+}*/
 
 void TimeLineUi::handle_zeroAction_triggered()
 {
@@ -405,6 +424,5 @@ TimeLineUi::~TimeLineUi()
     delete _zeroAction;
     delete _prevAction;
     delete _nextAction;
-    delete _pauseAction;
-    delete _playAction;
+    delete _playPauseAction;
 }

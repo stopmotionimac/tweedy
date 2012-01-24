@@ -283,64 +283,11 @@
         <item>
          <layout class="QHBoxLayout" name="navigationLayout">
           <property name="leftMargin">
-           <number>130</number>
+           <number>180</number>
           </property>
           <property name="rightMargin">
-           <number>130</number>
+           <number>180</number>
           </property>
-          <item>
-           <widget class="QToolButton" name="playButton">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>70</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>25</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+S</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QToolButton" name="pauseButton">
-            <property name="minimumSize">
-             <size>
-              <width>25</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>70</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="text">
-             <string/>
-            </property>
-            <property name="iconSize">
-             <size>
-              <width>25</width>
-              <height>25</height>
-             </size>
-            </property>
-           </widget>
-          </item>
           <item>
            <widget class="QToolButton" name="prevButton">
             <property name="minimumSize">
@@ -351,7 +298,32 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>70</width>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="playPauseButton">
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>25</width>
               <height>25</height>
              </size>
             </property>
@@ -376,7 +348,7 @@
             </property>
             <property name="maximumSize">
              <size>
-              <width>70</width>
+              <width>25</width>
               <height>25</height>
              </size>
             </property>

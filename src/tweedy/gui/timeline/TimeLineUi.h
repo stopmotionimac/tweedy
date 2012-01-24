@@ -3,8 +3,8 @@
 
 #include <stdlib.h>
 #include <list>
-#include<cstdio>
-#include<boost/format.hpp>
+#include <cstdio>
+#include <boost/format.hpp>
 #include <QtCore/QTimer>
 
 #include <QtGui/QDockWidget>
@@ -46,9 +46,8 @@ public Q_SLOTS:
     void getCurrentTime(int row,int column);
     
     
-    void handle_playAction_triggered();
-    void handle_pauseAction_triggered();
-    
+    void handle_playPauseAction_triggered();
+        
     void handle_zeroAction_triggered();
     
     void handle_nextAction_triggered();
@@ -66,13 +65,13 @@ Q_SIGNALS:
     
 private:
     int _time;
+    bool _isPlaying;
     QTimer* _timer;
     Ui::TimeLineUi* _ui;
     Timeline* _timeline;
     QIcon _defautIcon;
     
-    QAction * _playAction;
-    QAction * _pauseAction;
+    QAction * _playPauseAction;
     QAction * _nextAction;
     QAction * _prevAction;
     QAction * _zeroAction;
