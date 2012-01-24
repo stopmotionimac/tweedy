@@ -37,6 +37,12 @@ public:
   void printAllMedia();
   void makeChutier();
 
+  //function for gPhotoInstance
+  int tryToConnectCamera ();
+  bool getValueCameraIsInit();
+  void setFolderToSavePictures ();
+  void captureToFile();
+
 
   CommandManager& getCommandManager();
 

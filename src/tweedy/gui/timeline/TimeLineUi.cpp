@@ -40,10 +40,13 @@ TimeLineUi::TimeLineUi(QDockWidget* parent):
 
 void TimeLineUi::createActions(){
 
+
     _playPauseAction = new QAction(QIcon("img/icones/play.png"),"",this);
     _playPauseAction->setShortcut(QKeySequence("Space"));
     _playPauseAction->setStatusTip("Lancer le montage");
     connect(_playPauseAction, SIGNAL(triggered()), this, SLOT(handle_playPauseAction_triggered()));
+
+
 
     _nextAction = new QAction(QIcon("img/icones/next.png"),"Suivant", this);
     _nextAction->setShortcut(QKeySequence("Alt+Right"));

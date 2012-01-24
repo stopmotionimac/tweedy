@@ -14,12 +14,15 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QDesktopWidget>
 
+#include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
+#include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
+
 #include <boost/filesystem.hpp>
 
 #include <iostream>
 
 
-MainWindow::MainWindow(Projet * projet)
+MainWindow::MainWindow(/*Projet * projet*/)
 {
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -30,9 +33,10 @@ MainWindow::MainWindow(Projet * projet)
     createWidgets();
     createStatusBar();
 
-    this->showMaximized();
+    (Projet::getInstance())->setGphotoInstance();
+    //_ptrProjet->setGphotoInstance();
 
-    gPhotoInstance = Gphoto::getInstance ();
+    this->showMaximized();
 
     std::string filename = "img/none.jpg";
     
@@ -118,10 +122,12 @@ void MainWindow::createStartWindow()
     startWindowDialog->getNewProjectButton()->setDefaultAction(newProjectAction);
     startWindowDialog->getNewProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     startWindowDialog->getNewProjectButton()->setIconSize(QSize(30,30));
+    startWindowDialog->getNewProjectButton()->setMinimumWidth(150);
 
     startWindowDialog->getOpenProjectButton()->setDefaultAction(openProjectAction);
     startWindowDialog->getOpenProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     startWindowDialog->getOpenProjectButton()->setIconSize(QSize(30,30));
+    startWindowDialog->getOpenProjectButton()->setMinimumWidth(150);
 
 }
 
@@ -181,7 +187,7 @@ void MainWindow::createWidgets()
 {
     //Dock Chutier
 
-    QDockWidget * chutierDock = new QDockWidget(this);
+    QDockWidget * chutierDock = new QDockWidget();
     chutier = new Chutier();
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
@@ -194,6 +200,15 @@ void MainWindow::createWidgets()
     timeline = new TimeLineUi();
     timeline->resize(QSize(this->width(), 300));
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
+
+
+    //Dock UndoWidget
+
+    QDockWidget * undoDock = new QDockWidget("Command List");
+    undoView = new UndoView(&(Projet::getInstance())->getCommandManager());
+    undoWidget = new UndoWidget(undoView);
+    undoDock->setWidget(undoWidget);
+    viewMenu->addAction(undoDock->toggleViewAction());
     
 }
 
@@ -217,19 +232,24 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_captureAction_triggered()
 {
-//    int isConnected = gPhotoInstance->tryToConnectCamera();
-//    if (isConnected == 0)
-//    {
-//
-//        QMessageBox::about(this, tr("Warning"),
-//                            tr("No camera connected to the computer"));
-//        std::cout<<"No camera connected to the computer"<<std::endl;
-//    }
-//    else
-//    {
-//        gPhotoInstance->setFolderToSavePictures();
-//        gPhotoInstance->captureToFile();
-//    }
+    bool isInit = _ptrProjet->getValueCameraIsInit();
+    //std::cout<<"VAR CAMERA IS INIT"<<isInit<<std::endl;
+
+    int isConnected = _ptrProjet->tryToConnectCamera();
+    std::cout<<"IS CONNECTED"<<isConnected<<std::endl;
+    if (isConnected == 0)
+    {
+
+        QMessageBox::about(this, tr("Warning"),
+                            tr("No camera connected to the computer"));
+        std::cout<<"No camera connected to the computer"<<std::endl;
+    }
+    else
+    {
+        std::cout<<"Camera connected"<<std::endl;
+        _ptrProjet->setFolderToSavePictures();
+        //_ptrProjet->captureToFile();
+    }
 
 }
 
@@ -294,6 +314,7 @@ MainWindow::~MainWindow()
     delete viewerImg;
     delete timeline;
     delete startWindowDialog;
+    _ptrProjet->kill ();
     //gPhotoInstance->kill ();
 
 }
