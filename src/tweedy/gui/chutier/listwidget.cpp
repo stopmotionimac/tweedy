@@ -4,6 +4,7 @@
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
 #include <QtGui/QDragMoveEvent>
+#include <QtGui/QDragMoveEvent>
 #include <QtGui/QListWidgetItem>
 #include <QtCore/QUrl>
 
@@ -23,7 +24,9 @@ ListWidget::ListWidget(QWidget *parent) :
 
 void ListWidget::dragEnterEvent(QDragEnterEvent *event)
 {
+
     event->acceptProposedAction();
+
 }
 
 void ListWidget::dropEvent(QDropEvent *event)
@@ -40,4 +43,21 @@ void ListWidget::dropEvent(QDropEvent *event)
 
     event->acceptProposedAction();
 
+}
+
+void ListWidget::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    //const QMimeData *mimeData = event->mimeData();
+
+    event->accept();
+}
+
+void ListWidget::dragMoveEvent(QDragMoveEvent *event)
+{
+    if (event->source() == this) {
+        event->setDropAction(Qt::MoveAction);
+        event->accept();
+    } else {
+        event->acceptProposedAction();
+    }
 }
