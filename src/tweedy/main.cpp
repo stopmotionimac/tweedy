@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
 
       /*________TEST AREA_________*/
       //Add a Imedia in projet._mapMedia
-      //Imedia * clipTest = new Clip("IMAGE.jpg" );
+      //Clip clipTest("IMAGE.jpg" );
       //projet.addImedia(clipTest);
 
       //USELESS//
@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
       //projet.printAllMedia();
 
       //TEST to get name from an Imedia
-
+      //boost::filesystem::path path= projet.getNameImedia(clipTest);
 
       // affectation de la valeur 15 à l'objet pointé par obj1
       projet.setValue (15);
@@ -67,11 +67,11 @@ int main(int argc, char *argv[])
 		qApp->setStyleSheet(cssContent);
 	}
                        
-        UndoView* undoView = new UndoView(&projet.getCommandManager());
-    
-        QWidget * undoWidget = new UndoWidget(undoView);
-        undoWidget->setWindowTitle("Command List");
-        undoWidget->show();
+//        UndoView* undoView = new UndoView(&projet.getCommandManager());
+//
+//        QWidget * undoWidget = new UndoWidget(undoView);
+//        undoWidget->setWindowTitle("Command List");
+//        undoWidget->show();
         
         mainWin.show();
         int res = app.exec();

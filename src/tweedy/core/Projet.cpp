@@ -21,6 +21,11 @@ void Projet::addImedia(Imedia & media)
 //    _mapMedia[] = media;
 }
 
+boost::filesystem::path Projet::getNameImedia(Imedia & imedia) {
+    //std::cout<<imedia.getNameMedia().filename()<<std::endl;
+    return imedia.getNameMedia().filename();
+}
+
 void Projet::makeChutier() {
     _chutier.createChutierMediaExt();
     //test import to chutier
@@ -51,6 +56,7 @@ void Projet::setFolderToSavePictures() {
 //bool Projet::getValueCameraIsInit() {
 //    return gPhotoInstance->getVarCameraIsInit();
 //}
+
 void Projet::setValueCameraIsInit(bool var) {
     gPhotoInstance().setVarCameraIsInit(var);
 }

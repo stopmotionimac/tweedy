@@ -19,6 +19,9 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _timer(new QTimer(this)),
     _defautIcon( QIcon("img/none.jpg") )
  {
+///////////////
+//ERROR PARAM//
+///////////////
     //_ui = new Ui::TimeLineUi(*this);
 
     _timeline = &(Projet::getInstance().getTimeline());
@@ -98,6 +101,10 @@ void TimeLineUi::createActions(){
 
 void TimeLineUi::linkButtonsWithActions()
 {
+
+/////////////
+//SEG FAULT//
+/////////////
 //    _ui->playPauseButton->setDefaultAction(_playPauseAction);
 //    _ui->nextButton->setDefaultAction(_nextAction);
 //    _ui->prevButton->setDefaultAction(_prevAction);
@@ -194,6 +201,10 @@ void TimeLineUi::emitDisplayChanged()
 
 void TimeLineUi::writeTime(int newValue)
 {
+
+/////////////
+//SEG FAULT//
+/////////////
 //    _table->setCurrentCell(0,newValue);
 //
 //    if (newValue == _timeline->maxTime())
