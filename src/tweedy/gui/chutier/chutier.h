@@ -17,7 +17,7 @@ class Chutier : public QWidget
     Q_OBJECT
 
 public:
-    explicit Chutier(QWidget *parent = 0);
+    explicit Chutier(QWidget *parent);
     ~Chutier();
 
     void contextMenuEvent(QContextMenuEvent *event);

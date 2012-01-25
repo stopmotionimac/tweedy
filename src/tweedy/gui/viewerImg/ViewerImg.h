@@ -11,7 +11,7 @@
 class ViewerImg : public QWidget {
     Q_OBJECT
 public:
-    ViewerImg();
+    ViewerImg( QWidget* parent );
     ~ViewerImg();
 
     QLabel* labelImg(){ return _labelImg; }

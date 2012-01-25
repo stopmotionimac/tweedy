@@ -185,7 +185,7 @@ void MainWindow::createWidgets()
     //Dock Chutier
 
     QDockWidget * chutierDock = new QDockWidget(this);
-    chutier = new Chutier();
+    chutier = new Chutier( chutierDock );
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
     viewMenu->addAction(chutier->viewerChutierDock->toggleViewAction());
@@ -194,7 +194,9 @@ void MainWindow::createWidgets()
 
     //Dock Timeline
 
-    timeline = new TimeLineUi();
+    QDockWidget * timelineDock = new QDockWidget(this);
+    timeline = new TimeLineUi( timelineDock );
+    timelineDock->setWidget(timeline);
     timeline->resize(QSize(this->width(), 300));
     addDockWidget(Qt::BottomDockWidgetArea, timeline);
     
@@ -205,7 +207,7 @@ void MainWindow::createWidgetViewer()
 {
 
     QDockWidget * contentViewerDock = new QDockWidget("Viewer",this);
-    viewerImg = new ViewerImg();
+    viewerImg = new ViewerImg( contentViewerDock );
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
     viewerImg->setFixedSize(400,400);
@@ -249,7 +251,7 @@ void MainWindow::on_captureAction_triggered()
 
 void MainWindow::on_newProjectAction_triggered()
 {
-    newProjectDialog = new newProjectWindow();
+    newProjectDialog = new newProjectWindow(this);
     newProjectDialog->show();
     startWindowDialog->hide();
 
@@ -303,12 +305,5 @@ void MainWindow::createStatusBar()
 
 MainWindow::~MainWindow()
 {
-
-    delete chutier;
-    delete viewerImg;
-    delete timeline;
-    delete startWindowDialog;
-    //_ptrProjet->kill ();
-    //gPhotoInstance->kill ();
 
 }

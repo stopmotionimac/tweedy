@@ -28,11 +28,12 @@ int main(int argc, char *argv[])
       //Imedia * clipTest = new Clip("IMAGE.jpg" );
       //projet.addImedia(clipTest);
 
+      //USELESS//
       //make chutier with folder
-      projet.makeChutier();
+      //projet.makeChutier();
 
       //print all media on projet
-      projet.printAllMedia();
+      //projet.printAllMedia();
 
       //TEST to get name from an Imedia
 
@@ -79,8 +80,10 @@ int main(int argc, char *argv[])
         
 
         mainWin.show();
-	return app.exec();
+        int res = app.exec();
 
         // destruction de l'instance unique
         projet.kill ();
+
+        return res;
 }

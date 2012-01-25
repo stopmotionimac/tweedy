@@ -33,6 +33,7 @@ public:
   //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
   static boost::ptr_unordered_map<std::string, Imedia> getMapMedia() {}
   Imedia getImedia(int idMedia) { }
+ // boost::filesystem::path getNameImedia ();
   void addImedia(Imedia & media);
   void supprImedia(int idMedia);
   void printAllMedia();

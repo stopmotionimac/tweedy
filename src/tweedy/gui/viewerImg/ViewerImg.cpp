@@ -3,7 +3,7 @@
 #include "ViewerImg.h"
 
 
-ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))
+ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(this))
 
 {
     setWindowTitle("Visualisation");

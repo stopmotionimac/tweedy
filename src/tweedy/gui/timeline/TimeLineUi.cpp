@@ -8,13 +8,14 @@
 //_________________________________ constructor ________________________________
 
 
-TimeLineUi::TimeLineUi(QDockWidget* parent): 
-    QDockWidget(parent),
+TimeLineUi::TimeLineUi(QWidget* parent):
+    QWidget(parent),
     _time(0),
     _timer(new QTimer(this)),
-    _ui(new Ui::TimeLineUi),
     _defautIcon( QIcon("img/none.jpg") )
  {
+    _ui = new Ui::TimeLineUi(this);
+
     _timeline = &(Projet::getInstance().getTimeline());
     _ui->setupUi(this);
     _ui->table->setIconSize(QSize(75, 75));
