@@ -412,17 +412,4 @@ void TimeLineUi::deleteKey_activated()
 
 TimeLineUi::~TimeLineUi() 
 {
-    //delete _timeline;
-    delete _ui;
-    delete _timer;
-    delete _deleteKey;
-    delete _blankAfterAction;
-    delete _blankBeforeAction;
-    delete _minusAction;
-    delete _plusAction;
-    delete _zeroAction;
-    delete _prevAction;
-    delete _nextAction;
-    delete _playPauseAction;
-    delete _table;
 }
