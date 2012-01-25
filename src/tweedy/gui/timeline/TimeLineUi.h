@@ -7,7 +7,7 @@
 #include <boost/format.hpp>
 #include <QtCore/QTimer>
 
-#include <QtGui/QDockWidget>
+#include <QtGui/QWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
 #include <QtGui/QShortcut>
@@ -16,16 +16,19 @@
 #include <tweedy/core/Timeline.hpp>
 
 #include "ui_TimeLineUi.h"
+#include "tabletimeline.h"
 
 
 namespace Ui {
     class TimeLineUi : public Ui_Timeline {};
 }
 
-class TimeLineUi : public QDockWidget {
+class TimeLineUi : public QWidget
+{
     Q_OBJECT
+
 public:
-    TimeLineUi(QDockWidget* parent=0);
+    TimeLineUi(QWidget* parent=0);
     ~TimeLineUi();
     
     unsigned int time(){ return _time; }
@@ -84,6 +87,7 @@ private:
     
     QShortcut * _deleteKey;  
     
+    TableTimeline * _table;
     
 };
 

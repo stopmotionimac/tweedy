@@ -197,9 +197,10 @@ void MainWindow::createWidgets()
 
     //Dock Timeline
 
+    QDockWidget * timelineDock = new QDockWidget();
     timeline = new TimeLineUi();
-    timeline->resize(QSize(this->width(), 300));
-    addDockWidget(Qt::BottomDockWidgetArea, timeline);
+    timelineDock->setWidget(timeline);
+    addDockWidget(Qt::BottomDockWidgetArea, timelineDock);
 
 
     //Dock UndoWidget

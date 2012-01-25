@@ -2,6 +2,7 @@
 #define VIEWERTWEEDY_H
 
 #include <QtGui/QWidget>
+#include <QtGui/QToolButton>
 
 namespace Ui {
     class ViewerTweedy;
@@ -14,9 +15,13 @@ class ViewerTweedy : public QWidget
 public:
     explicit ViewerTweedy(QWidget *parent = 0);
     ~ViewerTweedy();
+    QToolButton * getPlayPauseButton();
+    QToolButton * getNextButton();
+    QToolButton * getPreviousButton();
+    QToolButton * getCaptureButton();
 
 private:
-    Ui::ViewerTweedy *ui;
+    Ui::ViewerTweedy *_ui;
 };
 
 #endif // VIEWERTWEEDY_H
