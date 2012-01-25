@@ -25,7 +25,7 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     //_ui = new Ui::TimeLineUi(*this);
 
     _timeline = &(Projet::getInstance().getTimeline());
-    //_ui->setupUi(this);
+    _ui->setupUi(this);
 
     _table = new TableTimeline(this);
     _table->setIconSize(QSize(75, 75));
