@@ -29,7 +29,7 @@ public :
         void setMaxTime();
         OMapClip getOrderedClips();
         
-        void addCilp(Clip & clip);
+        void addClip(Clip & clip);
         void deleteClip(const std::string& clipName){ UOMapClip::iterator it=_mapClip.find(clipName); _mapClip.erase(it); }
         void deleteBlank(int time);
         void addTimeToClip(const std::string& clipName, double time, bool blankBefore=false, bool blankAfter=false);
@@ -42,14 +42,5 @@ private :
         
 
 };
-
-/*void Timeline::addCilp(Clip & clip, const std::string id)
-{
-//    std::list<Clip>::iterator it;
-//    it = listClip.begin();
-//    for (int i=0; i<index; ++i)
-//        ++ it;
-//    listClip.insert(it, clip);
-}*/
 
 #endif

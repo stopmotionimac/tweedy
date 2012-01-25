@@ -1,4 +1,4 @@
-#include "glwidgetviewer.h"
+#include "GlWidgetViewer.h"
 
 GlWidgetViewer::GlWidgetViewer(QWidget* parent)
 : QGLWidget(parent)

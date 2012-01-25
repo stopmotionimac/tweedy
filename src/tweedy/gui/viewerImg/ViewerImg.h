@@ -7,14 +7,14 @@
 #include <QtGui/QToolButton>
 #include <qt4/QtOpenGL/QGLWidget>
 
-#include "glwidgetviewer.h"
+#include "GlWidgetViewer.h"
 
 
 
 class ViewerImg : public QWidget {
     Q_OBJECT
 public:
-    ViewerImg();
+    ViewerImg( QWidget* parent );
     ~ViewerImg();
 
     QLabel* labelImg(){ return _labelImg; }

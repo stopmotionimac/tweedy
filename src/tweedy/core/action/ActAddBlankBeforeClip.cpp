@@ -12,9 +12,9 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
     //récupérer le clip à traiter
     std::string filename = "img/none.jpg";
     
-    Projet* projet = Projet::getInstance();
+    Projet& projet = Projet::getInstance();
     
-    Timeline timeline = projet->getTimeline();
+    Timeline timeline = projet.getTimeline();
 
     bool isClip = timeline.findCurrentClip(filename,_currentTime);
     
@@ -30,7 +30,7 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
 
         //trouver le command Manager par le projet
 
-        CommandManager& cmdMng = projet->getCommandManager();
+        CommandManager& cmdMng = projet.getCommandManager();
 
         //ajouter la commande au commande manager
         cmdMng.pushNewCommand(cmd);

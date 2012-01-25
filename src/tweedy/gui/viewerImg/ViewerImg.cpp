@@ -3,8 +3,8 @@
 #include "ViewerImg.h"
 
 
-ViewerImg::ViewerImg() : QWidget(), _labelImg(new QLabel(this))/*, _qGlViewer(new GlWidgetViewer(this))*/
 
+ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(this))/*, _qGlViewer(new GlWidgetViewer(this))*/
 {
     setWindowTitle("Visualisation");
     _labelImg->setScaledContents(true);
