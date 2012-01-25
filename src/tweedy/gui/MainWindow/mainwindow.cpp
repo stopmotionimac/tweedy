@@ -14,6 +14,9 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QDesktopWidget>
 
+#include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
+#include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
+
 #include <boost/filesystem.hpp>
 
 #include <iostream>
@@ -121,10 +124,12 @@ void MainWindow::createStartWindow()
     startWindowDialog->getNewProjectButton()->setDefaultAction(newProjectAction);
     startWindowDialog->getNewProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     startWindowDialog->getNewProjectButton()->setIconSize(QSize(30,30));
+    startWindowDialog->getNewProjectButton()->setMinimumWidth(150);
 
     startWindowDialog->getOpenProjectButton()->setDefaultAction(openProjectAction);
     startWindowDialog->getOpenProjectButton()->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     startWindowDialog->getOpenProjectButton()->setIconSize(QSize(30,30));
+    startWindowDialog->getOpenProjectButton()->setMinimumWidth(150);
 
 }
 
@@ -197,9 +202,21 @@ void MainWindow::createWidgets()
     QDockWidget * timelineDock = new QDockWidget(this);
     timeline = new TimeLineUi( timelineDock );
     timelineDock->setWidget(timeline);
-    timeline->resize(QSize(this->width(), 300));
-    addDockWidget(Qt::BottomDockWidgetArea, timeline);
-    
+    //timeline->resize(QSize(this->width(), 300));
+    //addDockWidget(Qt::BottomDockWidgetArea, timeline);
+    //QDockWidget * timelineDock = new QDockWidget();
+    //timeline = new TimeLineUi();
+    //timelineDock->setWidget(timeline);
+    addDockWidget(Qt::BottomDockWidgetArea, timelineDock);
+
+
+    //Dock UndoWidget
+
+    QDockWidget * undoDock = new QDockWidget("Command List");
+    undoView = new UndoView(&project().getCommandManager());
+    undoWidget = new UndoWidget(undoView);
+    undoDock->setWidget(undoWidget);
+    viewMenu->addAction(undoDock->toggleViewAction());    
 }
 
 
@@ -266,7 +283,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
                                                     QString(boost::filesystem::initial_path().string().c_str()));
 
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
-    newProjectDialog->show();
+    //newProjectDialog->setWindowFlags(Qt::WindowStaysOnTopHint);
 
 }
 

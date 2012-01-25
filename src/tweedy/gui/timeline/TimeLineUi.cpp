@@ -4,6 +4,10 @@
 #include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
 #include <tweedy/core/action/ActAddBlankAfterClip.hpp>
 
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDropEvent>
+#include <QtGui/QDragMoveEvent>
+
 
 //_________________________________ constructor ________________________________
 
@@ -11,26 +15,32 @@
 TimeLineUi::TimeLineUi(QWidget* parent):
     QWidget(parent),
     _time(0),
+    _isPlaying(false),
     _timer(new QTimer(this)),
     _defautIcon( QIcon("img/none.jpg") )
  {
-    _ui = new Ui::TimeLineUi(this);
+    //_ui = new Ui::TimeLineUi(*this);
 
     _timeline = &(Projet::getInstance().getTimeline());
-    _ui->setupUi(this);
-    _ui->table->setIconSize(QSize(75, 75));
+    //_ui->setupUi(this);
+
+    _table = new TableTimeline(this);
+    _table->setIconSize(QSize(75, 75));
+
+    //ajout de la table dans le widget
+    //_ui->widgetContentTable->addWidget(_table);
    
     
+
     createActions();
     linkButtonsWithActions();
-    
-    
+
     updateTable();
                    
     connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
-    connect( this->_ui->table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
-    connect( this->_ui->table , SIGNAL( currentCellChanged ( int , int , int , int  ) ), this, SLOT( getCurrentTime(int,int)));
+    connect( this->_table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
+    connect( this->_table , SIGNAL( currentCellChanged ( int , int , int , int  ) ), this, SLOT( getCurrentTime(int,int)));
         
     Q_EMIT timeChanged(_time);
         
@@ -40,22 +50,18 @@ TimeLineUi::TimeLineUi(QWidget* parent):
 
 void TimeLineUi::createActions(){
 
-    _playAction = new QAction("Play",this);
-    _playAction->setShortcut(QKeySequence("Space"));
-    _playAction->setStatusTip("Lancer le montage");
-    connect(_playAction, SIGNAL(triggered()), this, SLOT(handle_playAction_triggered()));
 
-    _pauseAction = new QAction("Pause",this);
-    _pauseAction->setShortcut(QKeySequence("Space"));
-    _pauseAction->setStatusTip("Mettre en pause");
-    connect(_pauseAction, SIGNAL(triggered()), this, SLOT(handle_pauseAction_triggered()));
+    _playPauseAction = new QAction(QIcon("img/icones/play.png"),"",this);
+    _playPauseAction->setShortcut(QKeySequence("Space"));
+    _playPauseAction->setStatusTip("Lancer le montage");
+    connect(_playPauseAction, SIGNAL(triggered()), this, SLOT(handle_playPauseAction_triggered()));
 
-    _nextAction = new QAction("Suivant", this);
+    _nextAction = new QAction(QIcon("img/icones/next.png"),"Suivant", this);
     _nextAction->setShortcut(QKeySequence("Alt+Right"));
     _nextAction->setStatusTip("Clip suivant");
     connect(_nextAction, SIGNAL(triggered()), this, SLOT(handle_nextAction_triggered()));
 
-    _prevAction = new QAction("Precedent", this);
+    _prevAction = new QAction(QIcon("img/icones/prev.png"),"Precedent", this);
     _prevAction->setShortcut(QKeySequence("Alt+Left"));
     _prevAction->setStatusTip("Clip precedent");
     connect(_prevAction, SIGNAL(triggered()), this, SLOT(handle_prevAction_triggered()));
@@ -92,16 +98,15 @@ void TimeLineUi::createActions(){
 
 void TimeLineUi::linkButtonsWithActions()
 {
-    _ui->playButton->setDefaultAction(_playAction);
-    _ui->pauseButton->setDefaultAction(_pauseAction);
-    _ui->nextButton->setDefaultAction(_nextAction);
-    _ui->prevButton->setDefaultAction(_prevAction);
-    
-    _ui->zeroButton->setDefaultAction(_zeroAction);
-    _ui->plusButton->setDefaultAction(_plusAction);
-    _ui->minusButton->setDefaultAction(_minusAction);
-    _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
-    _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
+//    _ui->playPauseButton->setDefaultAction(_playPauseAction);
+//    _ui->nextButton->setDefaultAction(_nextAction);
+//    _ui->prevButton->setDefaultAction(_prevAction);
+//
+//    _ui->zeroButton->setDefaultAction(_zeroAction);
+//    _ui->plusButton->setDefaultAction(_plusAction);
+//    _ui->minusButton->setDefaultAction(_minusAction);
+//    _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
+//    _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
     
     
 }
@@ -114,24 +119,26 @@ void TimeLineUi::linkButtonsWithActions()
 
 void TimeLineUi::updateTable()
 {
-    
+
+    int currentTime = _time;
     //clear timeline
-    _ui->table->clearContents();
-    while ( _ui->table->columnCount() > 1 )
-        _ui->table->removeColumn(0);
+    _table->clearContents();
+    while ( _table->columnCount() > 1 )
+        _table->removeColumn(0);
      
     //Timeline timeline = Projet::getInstance()->getTimeline();
     //fill the whole table with blanks
     for (unsigned int i=0; i<_timeline->maxTime(); ++i)
     {
-        std::cout << _timeline->maxTime() << std::endl;
-        _ui->table->insertColumn(i);
+        _table->insertColumn(i);
         
         std::string header = ( boost::format("%d") %i ).str();
-        _ui->table->setHorizontalHeaderItem(i, new QTableWidgetItem(QString::fromStdString(header) ) );
+        _table->setHorizontalHeaderItem(i, new QTableWidgetItem(QString::fromStdString(header) ) );
         
         QTableWidgetItem *newItem = new QTableWidgetItem(_defautIcon,"");
-        _ui->table->setItem(0, i, newItem);
+        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+
+        _table->setItem(0, i, newItem);
     }
     
     //fill with icons
@@ -142,16 +149,18 @@ void TimeLineUi::updateTable()
         {
             QIcon icon( QString::fromStdString((*s.second)->imgPath().string()) );
             QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
-            _ui->table->setItem(0, j, newItem);
+            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+            _table->setItem(0, j, newItem);
         }
     }
     
     //icon for real time
     QIcon icon( QString::fromStdString("img/realTime.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
-    _ui->table->setItem(0, _timeline->maxTime(), newItem);
-    
-    _ui->table->setCurrentCell(0,_time);
+    _table->setItem(0, _timeline->maxTime(), newItem);
+   
+    _table->setCurrentCell(0,currentTime);
+
     
     std::cout<< "update timeline" << std::endl;
    
@@ -185,14 +194,14 @@ void TimeLineUi::emitDisplayChanged()
 
 void TimeLineUi::writeTime(int newValue)
 {
-    _ui->table->setCurrentCell(0,newValue);
-    
-    if (newValue == _timeline->maxTime())
-        newValue = -1;
-    
-    _ui->time->setNum(newValue);
-    
-    emitDisplayChanged();
+//    _table->setCurrentCell(0,newValue);
+//
+//    if (newValue == _timeline->maxTime())
+//        newValue = -1;
+//
+//    _ui->time->setNum(newValue);
+//
+//    emitDisplayChanged();
 }
 
 
@@ -225,17 +234,25 @@ void TimeLineUi::getCurrentTime(int row,int column)
 //_______________________________ buttons slots ________________________________
 
 
-void TimeLineUi::handle_playAction_triggered()
+void TimeLineUi::handle_playPauseAction_triggered()
 {
-   _timer->start(1000);
+    if (!_isPlaying)
+    {
+        _timer->start(1000);
+        _isPlaying = true;
+        _playPauseAction->setIcon(QIcon("img/icones/pause.png"));
+        _playPauseAction->setStatusTip("Mettre en pause");
+    }
+    else
+    {
+        _timer->stop();
+        _isPlaying = false;
+        _playPauseAction->setIcon(QIcon("img/icones/play.png"));
+        _playPauseAction->setStatusTip("Lancer le montage");
+    }
 }
 
 
-void TimeLineUi::handle_pauseAction_triggered()
-{
-   _timer->stop(); 
-        
-}
 
 void TimeLineUi::handle_zeroAction_triggered()
 {
@@ -296,7 +313,7 @@ void TimeLineUi::handle_prevAction_triggered()
 void TimeLineUi::handle_plusAction_triggered()
 { 
     
-   int currentCell = _ui->table->currentColumn();
+   int currentCell = _table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
@@ -314,7 +331,7 @@ void TimeLineUi::handle_plusAction_triggered()
 
 void TimeLineUi::handle_minusAction_triggered()
 { 
-   int currentCell = _ui->table->currentColumn();
+   int currentCell = _table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
@@ -332,7 +349,7 @@ void TimeLineUi::handle_minusAction_triggered()
 
 void TimeLineUi::handle_blankBeforeAction_triggered()
 {
-   int currentCell = _ui->table->currentColumn();
+   int currentCell = _table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
@@ -354,7 +371,7 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
 
 void TimeLineUi::handle_blankAfterAction_triggered()
 {
-   int currentCell = _ui->table->currentColumn();
+   int currentCell = _table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
@@ -372,7 +389,7 @@ void TimeLineUi::handle_blankAfterAction_triggered()
 void TimeLineUi::deleteKey_activated()
 {
   
-   int currentCell = _ui->table->currentColumn();
+   int currentCell = _table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        std::string filename;
@@ -406,6 +423,6 @@ TimeLineUi::~TimeLineUi()
     delete _zeroAction;
     delete _prevAction;
     delete _nextAction;
-    delete _pauseAction;
-    delete _playAction;
+    delete _playPauseAction;
+    delete _table;
 }

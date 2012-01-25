@@ -16,7 +16,6 @@ Chutier::Chutier(QWidget *parent) :
 
     //creation des widgets
     listWidget = new ListWidget(this);
-    listWidget->setMaximumSize(this->width()/2,this->height());
     importButton = new QToolButton(this);
     deleteButton = new QToolButton(this);
 

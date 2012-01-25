@@ -5,6 +5,9 @@
 #include <QtGui/QWidget>
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <QtGui/QToolButton>
+#include <qt4/QtOpenGL/QGLWidget>
+
+#include "glwidgetviewer.h"
 
 
 
@@ -21,9 +24,13 @@ private Q_SLOTS:
     
 private:
     QLabel* _labelImg;
+    //GlWidgetViewer * _viewerWidget;
 
 public:
     QToolButton * _capture;
+    QToolButton * _playButton;
+    QToolButton * _nextButton;
+    QToolButton * _previousButton;
 
 };
 
