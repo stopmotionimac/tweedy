@@ -28,21 +28,25 @@ public:
   void setValue (int val) { _value = val; }
   int getValue () { return _value; }
   void setGphotoInstance () { Gphoto::getInstance ();};
+  void setValueCameraIsInit (bool val);
 
   //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
-  static boost::ptr_unordered_map<std::string, Imedia*> getMapMedia() {}
+  static boost::ptr_unordered_map<std::string, Imedia> getMapMedia() {}
   Imedia getImedia(int idMedia) { }
-  void addImedia(Imedia * media);
+  boost::filesystem::path getNameImedia (Imedia & imedia);
+  void addImedia(Imedia & media);
   void supprImedia(int idMedia);
   void printAllMedia();
   void makeChutier();
 
   //function for gPhotoInstance
   int tryToConnectCamera ();
-  bool getValueCameraIsInit();
+  //bool getValueCameraIsInit();
   void setFolderToSavePictures ();
-  void captureToFile();
+  boost::filesystem::path captureToFile();
 
+
+  Gphoto& gPhotoInstance() { return Gphoto::getInstance(); }
 
   CommandManager& getCommandManager();
 
@@ -50,13 +54,13 @@ public:
 
 
 private:
-  Gphoto * gPhotoInstance;
+  //Gphoto * gPhotoInstance;
   ChutierMediaExt _chutier;
   boost::filesystem::path projectFolder;
   int _value;
 
   //static boost::ptr_vector<Imedia> listMedia;
-  boost::ptr_unordered_map<std::string, Imedia*> _mapMedia;
+  boost::ptr_unordered_map<std::string, Imedia> _mapMedia;
 
   CommandManager _cmdManager;
   Timeline _timeline;

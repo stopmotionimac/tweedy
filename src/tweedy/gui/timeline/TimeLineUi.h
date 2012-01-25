@@ -23,12 +23,13 @@ namespace Ui {
     class TimeLineUi : public Ui_Timeline {};
 }
 
-class TimeLineUi : public QWidget
-{
+class TimeLineUi : public QWidget {
+
     Q_OBJECT
 
 public:
-    TimeLineUi(QWidget* parent=0);
+    TimeLineUi(QWidget* parent);
+
     ~TimeLineUi();
     
     unsigned int time(){ return _time; }

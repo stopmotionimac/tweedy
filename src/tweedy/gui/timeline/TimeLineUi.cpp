@@ -17,11 +17,15 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _time(0),
     _isPlaying(false),
     _timer(new QTimer(this)),
-    _ui(new Ui::TimeLineUi),
     _defautIcon( QIcon("img/none.jpg") )
  {
-    _timeline = &(Projet::getInstance()->getTimeline());
-    _ui->setupUi(this);
+///////////////
+//ERROR PARAM//
+///////////////
+    //_ui = new Ui::TimeLineUi(*this);
+
+    _timeline = &(Projet::getInstance().getTimeline());
+    //_ui->setupUi(this);
 
     _table = new TableTimeline(this);
     _table->setIconSize(QSize(75, 75));
@@ -98,15 +102,19 @@ void TimeLineUi::createActions(){
 
 void TimeLineUi::linkButtonsWithActions()
 {
-    _ui->playPauseButton->setDefaultAction(_playPauseAction);
-    _ui->nextButton->setDefaultAction(_nextAction);
-    _ui->prevButton->setDefaultAction(_prevAction);
-    
-    _ui->zeroButton->setDefaultAction(_zeroAction);
-    _ui->plusButton->setDefaultAction(_plusAction);
-    _ui->minusButton->setDefaultAction(_minusAction);
-    _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
-    _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
+
+/////////////
+//SEG FAULT//
+/////////////
+//    _ui->playPauseButton->setDefaultAction(_playPauseAction);
+//    _ui->nextButton->setDefaultAction(_nextAction);
+//    _ui->prevButton->setDefaultAction(_prevAction);
+//
+//    _ui->zeroButton->setDefaultAction(_zeroAction);
+//    _ui->plusButton->setDefaultAction(_plusAction);
+//    _ui->minusButton->setDefaultAction(_minusAction);
+//    _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
+//    _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
     
     
 }
@@ -194,14 +202,18 @@ void TimeLineUi::emitDisplayChanged()
 
 void TimeLineUi::writeTime(int newValue)
 {
-    _table->setCurrentCell(0,newValue);
-    
-    if (newValue == _timeline->maxTime())
-        newValue = -1;
-    
-    _ui->time->setNum(newValue);
-    
-    emitDisplayChanged();
+
+/////////////
+//SEG FAULT//
+/////////////
+//    _table->setCurrentCell(0,newValue);
+//
+//    if (newValue == _timeline->maxTime())
+//        newValue = -1;
+//
+//    _ui->time->setNum(newValue);
+//
+//    emitDisplayChanged();
 }
 
 
@@ -412,17 +424,4 @@ void TimeLineUi::deleteKey_activated()
 
 TimeLineUi::~TimeLineUi() 
 {
-    //delete _timeline;
-    delete _ui;
-    delete _timer;
-    delete _deleteKey;
-    delete _blankAfterAction;
-    delete _blankBeforeAction;
-    delete _minusAction;
-    delete _plusAction;
-    delete _zeroAction;
-    delete _prevAction;
-    delete _nextAction;
-    delete _playPauseAction;
-    delete _table;
 }

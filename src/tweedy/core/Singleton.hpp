@@ -17,7 +17,7 @@ protected:
   ~Singleton () { std::cout << "destroying singleton." << std::endl; }
 
 public:
-  static T *getInstance ()
+  static T& getInstance ()
   {
     if (NULL == _singleton)
       {
@@ -29,7 +29,7 @@ public:
         std::cout << "singleton already exist" << std::endl;
       }
 
-    return (static_cast<T*> (_singleton));
+    return *_singleton;
   }
 
   static void kill ()
