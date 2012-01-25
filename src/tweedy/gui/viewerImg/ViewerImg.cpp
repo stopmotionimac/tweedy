@@ -3,12 +3,12 @@
 #include "ViewerImg.h"
 
 
-ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(this))
 
+ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(this)), _qGlViewer(new GlWidgetViewer(this))
 {
     setWindowTitle("Visualisation");
     _labelImg->setScaledContents(true);
-
+    
     //creation des boutons du viewer
     _capture = new QToolButton(this);
     /*_playButton = new QToolButton(this);
@@ -33,7 +33,9 @@ ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(
     layoutBoutons->addLayout(layoutVPlayer);*/
 
     QVBoxLayout * layoutWidget = new QVBoxLayout(this);
-    layoutWidget->addWidget(_labelImg);
+    //layoutWidget->addWidget(_labelImg);
+    layoutWidget->addWidget(_qGlViewer);
+    
     layoutWidget->addWidget(_capture);
     setLayout(layoutWidget);
 
@@ -41,8 +43,9 @@ ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(
 
 void ViewerImg::displayImg(std::string filename)
 {
-    _labelImg->setPixmap( QString::fromStdString(filename) );
-    
+   _qGlViewer->setImgtoDisplay(QImage(QString::fromStdString(filename)));
+   _qGlViewer->paintGL();
+   _labelImg->setPixmap(QPixmap(QString::fromStdString(filename)));
 }  
 
 

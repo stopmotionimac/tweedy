@@ -7,7 +7,7 @@
 #include <QtGui/QToolButton>
 #include <qt4/QtOpenGL/QGLWidget>
 
-#include "glwidgetviewer.h"
+#include "GlWidgetViewer.h"
 
 
 
@@ -18,13 +18,14 @@ public:
     ~ViewerImg();
 
     QLabel* labelImg(){ return _labelImg; }
+    GlWidgetViewer * viewerWidget(){ return _qGlViewer;}
 
 private Q_SLOTS:
     void displayImg(std::string filename);    
     
 private:
     QLabel* _labelImg;
-    //GlWidgetViewer * _viewerWidget;
+    GlWidgetViewer * _qGlViewer;
 
 public:
     QToolButton * _capture;

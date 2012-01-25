@@ -14,25 +14,23 @@
 
 TimeLineUi::TimeLineUi(QWidget* parent):
     QWidget(parent),
+    _ui (new Ui::Timeline),
     _time(0),
-    _isPlaying(false),
     _timer(new QTimer(this)),
+    _isPlaying(false),
     _defautIcon( QIcon("img/none.jpg") )
  {
-///////////////
-//ERROR PARAM//
-///////////////
-    //_ui = new Ui::TimeLineUi(*this);
 
+    _ui->setupUi(this);
     _timeline = &(Projet::getInstance().getTimeline());
-    //_ui->setupUi(this);
 
     _table = new TableTimeline(this);
     _table->setIconSize(QSize(75, 75));
+    _table->setMinimumSize(100,120);
 
     //ajout de la table dans le widget
-    //_ui->widgetContentTable->addWidget(_table);
-   
+    _ui->widgetContentTable->setMinimumSize(100,120);
+    _table->setParent(_ui->widgetContentTable);
     
 
     createActions();
@@ -105,15 +103,15 @@ void TimeLineUi::linkButtonsWithActions()
 /////////////
 //SEG FAULT//
 /////////////
-//    _ui->playPauseButton->setDefaultAction(_playPauseAction);
-//    _ui->nextButton->setDefaultAction(_nextAction);
-//    _ui->prevButton->setDefaultAction(_prevAction);
-//
-//    _ui->zeroButton->setDefaultAction(_zeroAction);
-//    _ui->plusButton->setDefaultAction(_plusAction);
-//    _ui->minusButton->setDefaultAction(_minusAction);
-//    _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
-//    _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
+    _ui->playPauseButton->setDefaultAction(_playPauseAction);
+    _ui->nextButton->setDefaultAction(_nextAction);
+   _ui->prevButton->setDefaultAction(_prevAction);
+
+    _ui->zeroButton->setDefaultAction(_zeroAction);
+    _ui->plusButton->setDefaultAction(_plusAction);
+   _ui->minusButton->setDefaultAction(_minusAction);
+   _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
+   _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
     
     
 }
@@ -202,17 +200,14 @@ void TimeLineUi::emitDisplayChanged()
 void TimeLineUi::writeTime(int newValue)
 {
 
-/////////////
-//SEG FAULT//
-/////////////
-//    _table->setCurrentCell(0,newValue);
-//
-//    if (newValue == _timeline->maxTime())
-//        newValue = -1;
-//
-//    _ui->time->setNum(newValue);
-//
-//    emitDisplayChanged();
+    _table->setCurrentCell(0,newValue);
+
+    if (newValue == _timeline->maxTime())
+        newValue = -1;
+
+   _ui->time->setNum(newValue);
+
+   emitDisplayChanged();
 }
 
 
