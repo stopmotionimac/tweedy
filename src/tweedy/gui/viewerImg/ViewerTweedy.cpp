@@ -1,5 +1,5 @@
-#include "viewertweedy.h"
-#include "ui_viewertweedy.h"
+#include "ViewerTweedy.h"
+#include "ui_ViewerTweedy.h"
 
 ViewerTweedy::ViewerTweedy(QWidget *parent) :
     QWidget(parent),
