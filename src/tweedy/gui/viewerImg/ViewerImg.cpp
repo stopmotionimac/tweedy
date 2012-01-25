@@ -4,7 +4,7 @@
 
 
 
-ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(this))/*, _qGlViewer(new GlWidgetViewer(this))*/
+ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(this)), _qGlViewer(new GlWidgetViewer(this))
 {
     setWindowTitle("Visualisation");
     _labelImg->setScaledContents(true);
@@ -33,7 +33,9 @@ ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(
     layoutBoutons->addLayout(layoutVPlayer);*/
 
     QVBoxLayout * layoutWidget = new QVBoxLayout(this);
-    layoutWidget->addWidget(_labelImg);
+    //layoutWidget->addWidget(_labelImg);
+    layoutWidget->addWidget(_qGlViewer);
+    
     layoutWidget->addWidget(_capture);
     setLayout(layoutWidget);
 
@@ -41,8 +43,9 @@ ViewerImg::ViewerImg( QWidget* parent ) : QWidget(parent), _labelImg(new QLabel(
 
 void ViewerImg::displayImg(std::string filename)
 {
-   //_qGlViewer->setImgtoDisplay(QPixmap(QString::fromStdString(filename)));
-     _labelImg->setPixmap(QPixmap(QString::fromStdString(filename)));
+   _qGlViewer->setImgtoDisplay(QImage(QString::fromStdString(filename)));
+   _qGlViewer->paintGL();
+   _labelImg->setPixmap(QPixmap(QString::fromStdString(filename)));
 }  
 
 
