@@ -25,10 +25,11 @@ TimeLineUi::TimeLineUi(QWidget* parent):
 
     _table = new TableTimeline(this);
     _table->setIconSize(QSize(75, 75));
+    _table->setMinimumSize(100,120);
 
     //ajout de la table dans le widget
-    //_ui->widgetContentTable->addWidget(_table);
-   
+    _ui->widgetContentTable->setMinimumSize(100,120);
+    _table->setParent(_ui->widgetContentTable);
     
 
     createActions();
