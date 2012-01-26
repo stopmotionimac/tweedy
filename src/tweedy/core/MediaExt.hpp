@@ -7,7 +7,7 @@
 class MediaExt : public Imedia {
 public:
     MediaExt();
-    MediaExt(const boost::filesystem::path & url) : Imedia(ImediaTypeMediaExt){ this->_name = url.filename();};
+    MediaExt(const boost::filesystem::path & url) : Imedia(ImediaTypeMediaExt){ this->_name = url;};
 };
 
 #endif // MEDIAEXT_HPP

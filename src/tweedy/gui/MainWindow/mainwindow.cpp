@@ -22,7 +22,7 @@
 #include <iostream>
 
 
-MainWindow::MainWindow(/*Projet * projet*/)
+MainWindow::MainWindow()
 {
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -53,7 +53,7 @@ MainWindow::MainWindow(/*Projet * projet*/)
        
     viewerImg->getViewerLabel()->setPixmap( firstPic );
     
-    connect(this->timeline, SIGNAL( displayChanged(std::string) ), this->viewerImg, SLOT(displayImg(std::string)) );
+    connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
 
 }
 
@@ -205,7 +205,9 @@ void MainWindow::createWidgets()
     //Dock UndoWidget
 
     QDockWidget * undoDock = new QDockWidget("Command List");
-    undoView = new UndoView(&project().getCommandManager());
+    
+    undoView = new UndoView(Projet::getInstance().getCommandManager());
+
     undoWidget = new UndoWidget(undoView);
     undoDock->setWidget(undoWidget);
     viewMenu->addAction(undoDock->toggleViewAction());    

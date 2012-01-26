@@ -9,6 +9,25 @@
 #include <QtGui/QDragMoveEvent>
 
 
+struct TimeLineUiUpdater
+{
+    TimeLineUiUpdater(TimeLineUi& timeline): _timelineUi(timeline)
+    {
+
+    }
+    
+    void operator()()
+    {
+        _timelineUi.updateTable();
+    }
+    
+    TimeLineUi& _timelineUi;
+};
+
+
+
+
+
 //_________________________________ constructor ________________________________
 
 
@@ -25,13 +44,18 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _timeline = &(Projet::getInstance().getTimeline());
 
     _table = new TableTimeline(this);
-    _table->setIconSize(QSize(75, 75));
-    _table->setMinimumSize(100,120);
-
+    _table->setIconSize(QSize(90, 90));
+    _table->horizontalHeader()->setDefaultSectionSize(100);
+    _table->verticalHeader()->setDefaultSectionSize(100);
+    _table->resize(1000, 140);
     //ajout de la table dans le widget
     _table->setParent(_ui->widgetContentTable);
     
+    //connecter l'update de la timelineUi au signalChanged de la timeline
+    TimeLineUiUpdater upd(*this);
 
+    Projet::getInstance().getTimeline().getSignalChanged().connect(upd);
+    
     createActions();
     linkButtonsWithActions();
 
@@ -99,18 +123,15 @@ void TimeLineUi::createActions(){
 void TimeLineUi::linkButtonsWithActions()
 {
 
-/////////////
-//SEG FAULT//
-/////////////
     _ui->playPauseButton->setDefaultAction(_playPauseAction);
     _ui->nextButton->setDefaultAction(_nextAction);
-   _ui->prevButton->setDefaultAction(_prevAction);
+    _ui->prevButton->setDefaultAction(_prevAction);
 
     _ui->zeroButton->setDefaultAction(_zeroAction);
     _ui->plusButton->setDefaultAction(_plusAction);
-   _ui->minusButton->setDefaultAction(_minusAction);
-   _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
-   _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
+    _ui->minusButton->setDefaultAction(_minusAction);
+    _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
+    _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
     
     
 }
@@ -124,6 +145,7 @@ void TimeLineUi::linkButtonsWithActions()
 void TimeLineUi::updateTable()
 {
 
+    std::cout << "updaaaaaaaate" << std::endl;
     int currentTime = _time;
     //clear timeline
     _table->clearContents();
@@ -176,7 +198,7 @@ void TimeLineUi::updateTable()
 
 
 
-//____________________ Let the view display the good picture ___________________
+/*____________________ Let the view display the good picture ___________________
 
 
 void TimeLineUi::emitDisplayChanged()
@@ -191,7 +213,7 @@ void TimeLineUi::emitDisplayChanged()
     
     Q_EMIT displayChanged(filename);
 }
-
+*/
 
 
 //_______________ Write time in label and select the good cell _________________
@@ -206,7 +228,7 @@ void TimeLineUi::writeTime(int newValue)
 
    _ui->time->setNum(newValue);
 
-   emitDisplayChanged();
+   //emitDisplayChanged();
 }
 
 
@@ -325,8 +347,6 @@ void TimeLineUi::handle_plusAction_triggered()
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActClipSetTimeRange(_time,"Add time action ",_ui->spinDuration->value());
        
-       updateTable();
-       
        delete action;
    }
    
@@ -343,11 +363,8 @@ void TimeLineUi::handle_minusAction_triggered()
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActClipSetTimeRange(_time,"Remove time action ",-_ui->spinDuration->value());
        
-       updateTable();
-       
        delete action;
-       emitDisplayChanged();
-       
+              
    }
 }
 
@@ -362,12 +379,8 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ",_ui->spinDuration->value());
        
-       updateTable();
-       
        delete action;
      
-       emitDisplayChanged();
-              
    }
 
 
@@ -382,8 +395,6 @@ void TimeLineUi::handle_blankAfterAction_triggered()
       
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
-       
-       updateTable();
        
        delete action;
         
@@ -406,8 +417,7 @@ void TimeLineUi::deleteKey_activated()
            _timeline->deleteBlank(_time);
               
        updateTable();
-                     
-       emitDisplayChanged();
+       
     }
 
 }

@@ -17,11 +17,10 @@ class UndoView : public QListWidget{
     Q_OBJECT
 public:
         UndoView(QWidget* parent =0);
-        UndoView(CommandManager * cmdManager, QWidget * parent = 0) 
-                : QListWidget(parent), p_cmdMan(cmdManager){
-        }
+        UndoView(CommandManager& cmdManager, QWidget * parent = 0);
+
         
-        UndoView(QUndoGroup * group, QWidget * parent = 0):undoGroup(group){}
+        //UndoView(QUndoGroup * group, QWidget * parent = 0):undoGroup(group){}
         
         ~UndoView();
 
@@ -35,7 +34,7 @@ public:
         
         void fill();
 
-        CommandManager* getCmdMan();
+        CommandManager& getCmdMan();
 
 private Q_SLOTS:
     //void setGroup ( QUndoGroup * group);
@@ -45,7 +44,7 @@ private:
        
     QIcon icon;
     QString emptyLabel;
-    CommandManager* p_cmdMan;
+    CommandManager& _cmdMan;
     QUndoGroup * undoGroup;
     std::stack<QString> pileString;
     

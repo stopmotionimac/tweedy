@@ -1,6 +1,8 @@
 #include "ViewerTweedy.h"
 #include "ui_ViewerTweedy.h"
 
+#include <tweedy/core/Projet.hpp>
+
 ViewerTweedy::ViewerTweedy(QWidget *parent) :
     QWidget(parent),
     _ui(new Ui::ViewerTweedy)
@@ -24,6 +26,22 @@ void ViewerTweedy::displayImg(std::string filename)
 {
    this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
 }
+
+
+void ViewerTweedy::displayChanged(int time)
+{
+    Timeline* timeline = &(Projet::getInstance().getTimeline());
+    std::string  filename = "img/none.jpg";
+
+    if (time == timeline->maxTime())
+        //afficher le temps reel
+        filename = "img/realTime.jpg";
+    else
+        bool isClip = timeline->findCurrentClip(filename,time);
+
+    this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
+}
+
 
 ViewerTweedy::~ViewerTweedy()
 {

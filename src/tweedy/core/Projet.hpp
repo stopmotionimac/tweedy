@@ -11,6 +11,7 @@
 
 
 #include<iostream>
+#include <boost/assign/ptr_map_inserter.hpp>
 #include <boost/ptr_container/ptr_vector.hpp>
 #include <boost/ptr_container/ptr_unordered_map.hpp>
 
@@ -28,6 +29,9 @@ public:
   void setValue (int val) { _value = val; }
   int getValue () { return _value; }
   void setGphotoInstance () { Gphoto::getInstance ();};
+  ChutierMediaExt& getChutierMediaExt();
+  ChutierMediaExt& getChutierPictures();
+
   void setValueCameraIsInit (bool val);
 
   //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
@@ -37,7 +41,7 @@ public:
   void addImedia(Imedia & media);
   void supprImedia(int idMedia);
   void printAllMedia();
-  void makeChutier();
+  //void makeChutier();
 
   //function for gPhotoInstance
   int tryToConnectCamera ();
@@ -47,15 +51,14 @@ public:
 
 
   Gphoto& gPhotoInstance() { return Gphoto::getInstance(); }
-
   CommandManager& getCommandManager();
-
   Timeline& getTimeline();
 
 
 private:
   //Gphoto * gPhotoInstance;
-  ChutierMediaExt _chutier;
+  ChutierMediaExt _chutierMediaExt;
+  ChutierMediaExt _chutierPictures;
   boost::filesystem::path projectFolder;
   int _value;
 

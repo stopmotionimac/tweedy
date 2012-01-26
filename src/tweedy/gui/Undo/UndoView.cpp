@@ -1,4 +1,4 @@
-#include "UndoView.hpp"
+#include <tweedy/gui/Undo/UndoView.hpp>
 #include "tweedy/core/command/GroupeUndoRedoCmd.hpp"
 #include <QtCore/QString>
 #include <iostream>
@@ -7,8 +7,36 @@
 #include <boost/foreach.hpp>
 
 
-UndoView::~UndoView(){
-    delete this->p_cmdMan;
+struct UndoViewUpdater
+{
+    UndoViewUpdater(UndoView& undoView):m_undoView(undoView)
+    {
+
+    }
+    
+    void operator()()
+    {
+        m_undoView.fill();
+    }
+    
+    UndoView& m_undoView;
+};
+
+
+
+UndoView::UndoView(CommandManager& cmdManager, QWidget * parent)
+        : QListWidget(parent), _cmdMan(cmdManager)
+{
+    //connecter l'update de l'UndoView au signalChanged du commandManager
+    UndoViewUpdater upd(*this);
+
+    _cmdMan.getSignalChanged().connect(upd);
+
+}
+
+
+UndoView::~UndoView()
+{
     delete this->undoGroup;
 }
 
@@ -37,9 +65,8 @@ QUndoGroup * UndoView::group() const{
 void UndoView::fill(){
     //on vide la pile
     this->clear();
-
     
-    BOOST_FOREACH( const IUndoRedoCommand& command, p_cmdMan->getUndoRedoVector() )
+    BOOST_FOREACH( const IUndoRedoCommand& command, _cmdMan.getUndoRedoVector() )
     {
             
         ///on recupere le texte de la commande courante que l'on convertit en QString
@@ -51,10 +78,10 @@ void UndoView::fill(){
 
     
     ///l'item courant est la derniere commande executee
-    this->setCurrentItem(this->item(p_cmdMan->getIndex()-1));
+    this->setCurrentItem(this->item(_cmdMan.getIndex()-1));
     
 }
 
-CommandManager* UndoView::getCmdMan(){
-    return p_cmdMan;
+CommandManager& UndoView::getCmdMan(){
+    return _cmdMan;
 }

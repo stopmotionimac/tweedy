@@ -24,6 +24,7 @@ public:
 
 private Q_SLOTS:
     void displayImg(std::string filename);
+    void displayChanged(int time);
 
 private:
     Ui::ViewerTweedy *_ui;

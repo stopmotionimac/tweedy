@@ -5,9 +5,6 @@
 #include <QtGui/QWidget>
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <QtGui/QToolButton>
-#include <qt4/QtOpenGL/QGLWidget>
-
-#include "GlWidgetViewer.h"
 
 
 
@@ -18,15 +15,15 @@ public:
     ~ViewerImg();
 
     QLabel* labelImg(){ return _labelImg; }
-    GlWidgetViewer * viewerWidget(){ return _qGlViewer;}
+    
 
 private Q_SLOTS:
-    void displayImg(std::string filename);    
+    void displayImg(std::string filename);
+    void displayChanged(int time);
     
 private:
     QLabel* _labelImg;
-    GlWidgetViewer * _qGlViewer;
-
+    
 public:
     QToolButton * _capture;
     QToolButton * _playButton;

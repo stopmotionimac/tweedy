@@ -18,7 +18,9 @@ TableTimeline::TableTimeline(QWidget *parent) :
 {
     this->setRowCount(1);
     this->setColumnCount(1);
-
+    
+    this->setIconSize(QSize(80, 80));
+    
     QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Flux video");
     this->setHorizontalHeaderItem(0,itemColonne1);
 
