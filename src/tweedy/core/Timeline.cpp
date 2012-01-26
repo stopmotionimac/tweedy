@@ -79,6 +79,8 @@ void Timeline::insertClip(const std::string& newClipName, double currentTime)
         
     
     setMaxTime();
+    
+    _signalChanged();
 }
 
 
