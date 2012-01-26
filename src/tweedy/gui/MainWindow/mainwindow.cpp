@@ -192,15 +192,12 @@ void MainWindow::createWidgets()
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
     viewMenu->addAction(chutier->viewerChutierDock->toggleViewAction());
 
-    createWidgetViewer();
-
     //Dock Timeline
 
     QDockWidget * timelineDock = new QDockWidget(this);
     timeline = new TimeLineUi( timelineDock );
     timelineDock->setWidget(timeline);
     addDockWidget(Qt::BottomDockWidgetArea, timelineDock);
-
 
     //Dock UndoWidget
 
@@ -210,7 +207,11 @@ void MainWindow::createWidgets()
 
     undoWidget = new UndoWidget(undoView);
     undoDock->setWidget(undoWidget);
-    viewMenu->addAction(undoDock->toggleViewAction());    
+    viewMenu->addAction(undoDock->toggleViewAction());
+
+    //Dock Viewer
+
+    createWidgetViewer();
 }
 
 
@@ -229,6 +230,18 @@ void MainWindow::createWidgetViewer()
     
     viewerImg->getCaptureButton()->setDefaultAction(_captureAction);
     viewerImg->getCaptureButton()->setIconSize(QSize(40,40));
+
+    //connexions boutons du viewer avec actions de la timeline
+    viewerImg->getNextButton()->setDefaultAction(timeline->getNextAction());
+    viewerImg->getNextButton()->setIconSize(QSize(25,25));
+    viewerImg->getPlayPauseButton()->setDefaultAction(timeline->getPlayPauseAction());
+    viewerImg->getPlayPauseButton()->setIconSize(QSize(25,25));
+    viewerImg->getPreviousButton()->setDefaultAction(timeline->getPreviousAction());
+    viewerImg->getPreviousButton()->setIconSize(QSize(25,25));
+    viewerImg->getRetour0Button()->setDefaultAction(timeline->getRetour0Action());
+    viewerImg->getRetour0Button()->setIconSize(QSize(20,20));
+    //timer
+    connect(timeline, SIGNAL(timeChanged(int)), timeline, SLOT(writeTime(int)));
 
 }
 

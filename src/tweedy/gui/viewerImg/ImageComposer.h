@@ -25,7 +25,7 @@ public:
     
     
 private Q_SLOTS:
-    void recalculateResult(const QImage& sourceImage, const QImage& destinationImage);
+    void recalculateResult(/*const QImage& sourceImage, const QImage& destinationImage*/);
     
 private:
     QSpinBox * _spinBox;

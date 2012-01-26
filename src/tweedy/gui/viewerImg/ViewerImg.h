@@ -4,6 +4,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QWidget>
 #include <tweedy/gui/timeline/TimeLineUi.h>
+#include <ImageComposer.h>
 #include <QtGui/QToolButton>
 
 
@@ -23,6 +24,7 @@ private Q_SLOTS:
     
 private:
     QLabel* _labelImg;
+    ImageComposer* _imgComposer;
     
 public:
     QToolButton * _capture;

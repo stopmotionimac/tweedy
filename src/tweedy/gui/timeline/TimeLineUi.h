@@ -11,6 +11,7 @@
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
 #include <QtGui/QShortcut>
+#include <QtGui/QLabel>
 
 
 #include <tweedy/core/Timeline.hpp>
@@ -43,7 +44,12 @@ public:
     
     void updateTable();
     //void emitDisplayChanged();
-    
+
+    QAction * getPlayPauseAction() { return _playPauseAction; }
+    QAction * getNextAction() { return _nextAction; }
+    QAction * getPreviousAction() { return _prevAction; }
+    QAction * getRetour0Action() { return _zeroAction; }
+
                 
 public Q_SLOTS:
     void increaseTime();

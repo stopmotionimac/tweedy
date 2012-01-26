@@ -9,7 +9,7 @@
 
 ImageComposer::ImageComposer() 
 {
-    _spinBox = new QSpinBox();
+    /*_spinBox = new QSpinBox();
     _spinBox->setMinimum(1);
     _spinBox->setMaximum(5);
     _spinBox->setValue(1);
@@ -24,7 +24,9 @@ ImageComposer::ImageComposer()
     
     _resultImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
     
-    //connect(_operatorComboBox, SIGNAL(activated(int)),this, SLOT(recalculateResult()));
+    connect(_operatorComboBox, SIGNAL(activated(int)),this, SLOT(recalculateResult()));
+    */
+    recalculateResult();
 }
 
 
@@ -32,9 +34,15 @@ ImageComposer::ImageComposer()
 
 
 
-void ImageComposer::recalculateResult(const QImage& sourceImage, const QImage& destinationImage)
+void ImageComposer::recalculateResult(/*const QImage& sourceImage, const QImage& destinationImage*/)
  {
-     QPainter::CompositionMode mode = QPainter::CompositionMode_SoftLight;
+     
+    
+    QImage sourceImage("img/tweedy2.jpg");
+    QImage destinationImage("img/tweedy3.jpg");
+    
+    
+    QPainter::CompositionMode mode = QPainter::CompositionMode_SoftLight;
 
      QPainter painter(&_resultImage);
      painter.setCompositionMode(QPainter::CompositionMode_Source);
