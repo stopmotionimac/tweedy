@@ -42,7 +42,7 @@ public:
     void linkButtonsWithActions();
     
     void updateTable();
-    void emitDisplayChanged();
+    //void emitDisplayChanged();
     
                 
 public Q_SLOTS:

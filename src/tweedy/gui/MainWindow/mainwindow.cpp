@@ -56,7 +56,7 @@ MainWindow::MainWindow(/*Projet * projet*/)
        
     viewerImg->labelImg()->setPixmap( firstPic );
     
-    connect(this->timeline, SIGNAL( displayChanged(std::string) ), this->viewerImg, SLOT(displayImg(std::string)) );
+    connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
 
 }
 

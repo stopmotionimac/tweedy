@@ -25,11 +25,12 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _timeline = &(Projet::getInstance().getTimeline());
 
     _table = new TableTimeline(this);
-    _table->setIconSize(QSize(75, 75));
-    _table->setMinimumSize(100,120);
-
+    _table->setIconSize(QSize(90, 90));
+    _table->horizontalHeader()->setDefaultSectionSize(100);
+    _table->verticalHeader()->setDefaultSectionSize(100);
+    _table->resize(1000, 140);
     //ajout de la table dans le widget
-    _ui->widgetContentTable->setMinimumSize(100,120);
+    //_ui->widgetContentTable->setMinimumSize(100,120);
     _table->setParent(_ui->widgetContentTable);
     
 
@@ -100,18 +101,16 @@ void TimeLineUi::createActions(){
 void TimeLineUi::linkButtonsWithActions()
 {
 
-/////////////
-//SEG FAULT//
-/////////////
+
     _ui->playPauseButton->setDefaultAction(_playPauseAction);
     _ui->nextButton->setDefaultAction(_nextAction);
-   _ui->prevButton->setDefaultAction(_prevAction);
+    _ui->prevButton->setDefaultAction(_prevAction);
 
     _ui->zeroButton->setDefaultAction(_zeroAction);
     _ui->plusButton->setDefaultAction(_plusAction);
-   _ui->minusButton->setDefaultAction(_minusAction);
-   _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
-   _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
+    _ui->minusButton->setDefaultAction(_minusAction);
+    _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
+    _ui->blankAfterButton->setDefaultAction(_blankAfterAction);
     
     
 }
@@ -177,7 +176,7 @@ void TimeLineUi::updateTable()
 
 
 
-//____________________ Let the view display the good picture ___________________
+/*____________________ Let the view display the good picture ___________________
 
 
 void TimeLineUi::emitDisplayChanged()
@@ -192,7 +191,7 @@ void TimeLineUi::emitDisplayChanged()
     
     Q_EMIT displayChanged(filename);
 }
-
+*/
 
 
 //_______________ Write time in label and select the good cell _________________
@@ -207,7 +206,7 @@ void TimeLineUi::writeTime(int newValue)
 
    _ui->time->setNum(newValue);
 
-   emitDisplayChanged();
+   //emitDisplayChanged();
 }
 
 
@@ -347,8 +346,7 @@ void TimeLineUi::handle_minusAction_triggered()
        updateTable();
        
        delete action;
-       emitDisplayChanged();
-       
+              
    }
 }
 
@@ -367,8 +365,6 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
        
        delete action;
      
-       emitDisplayChanged();
-              
    }
 
 
@@ -407,8 +403,7 @@ void TimeLineUi::deleteKey_activated()
            _timeline->deleteBlank(_time);
               
        updateTable();
-                     
-       emitDisplayChanged();
+       
     }
 
 }
