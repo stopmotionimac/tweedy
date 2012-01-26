@@ -9,6 +9,8 @@
 #include <QtGui/QDropEvent>
 #include <QtCore/QUrl>
 
+#include <boost/algorithm/string.hpp>
+
 #include <iostream>
 
 TableTimeline::TableTimeline(QWidget *parent) :
@@ -53,11 +55,26 @@ void TableTimeline::dropEvent(QDropEvent *event)
     //on recupere le mimeData (ce que l'on drag)
     const QMimeData* data = event->mimeData();
 
+    QList<QUrl> urlList = data->urls();
+    for(int i = 0; i < urlList.size() ; ++i)
+    {
+        QString text = urlList.at(i).path();
+        std::string data = text.toStdString();
+
+        std::cout << "TL: " << data << std::endl;
+    }
+
+
+    /*std::vector<std::string> filenames;
+    boost::algorithm::split( filenames, datas, boost::is_any_of(":") );
+    std::cout << "TL: " << filenames.size() << std::endl;*/
+
     //on recupere la position
     QTableWidgetItem * item = itemAt(event->pos());
+    std::cout << "y: " << item->column() << std::endl;
 
 
-    QList<QUrl> urlList = data->urls();
+    /*QList<QUrl> urlList = data->urls();
     for (int i = 0; i < urlList.size(); ++i)
     {
         QString fileName = urlList.at(i).path();
@@ -77,7 +94,7 @@ void TableTimeline::dropEvent(QDropEvent *event)
         //ajout du clip dans la timeline core
         //addClip();
 
-    }
+    }*/
 
     event->acceptProposedAction();
 

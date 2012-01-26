@@ -9,26 +9,21 @@ ViewerTweedy::ViewerTweedy(QWidget *parent) :
 }
 
 
-QToolButton * ViewerTweedy::getPlayPauseButton()
-{
-    return _ui->playPauseButton;
-}
+QToolButton * ViewerTweedy::getPlayPauseButton() { return _ui->playPauseButton; }
 
-QToolButton * ViewerTweedy::getNextButton()
-{
-    return _ui->nextButton;
-}
+QToolButton * ViewerTweedy::getNextButton() { return _ui->nextButton; }
 
-QToolButton * ViewerTweedy::getPreviousButton()
-{
-    return _ui->previousButton;
-}
+QToolButton * ViewerTweedy::getPreviousButton() { return _ui->previousButton; }
 
-QToolButton * ViewerTweedy::getCaptureButton()
-{
-    return _ui->captureButton;
-}
+QToolButton * ViewerTweedy::getCaptureButton() { return _ui->captureButton; }
 
+QLabel * ViewerTweedy::getViewerLabel() { return _ui->viewerLabel; }
+
+
+void ViewerTweedy::displayImg(std::string filename)
+{
+   this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
+}
 
 ViewerTweedy::~ViewerTweedy()
 {

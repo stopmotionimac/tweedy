@@ -8,6 +8,11 @@
 #include <QtGui/QListWidgetItem>
 #include <QtCore/QUrl>
 
+#include <boost/foreach.hpp>
+#include <boost/algorithm/string/join.hpp>
+
+#include <sstream>
+#include <iostream>
 
 ListWidget::ListWidget(QWidget *parent) :
     QListWidget(parent)
@@ -15,8 +20,8 @@ ListWidget::ListWidget(QWidget *parent) :
     setDragEnabled(true);
     setAcceptDrops(true);
     setDropIndicatorShown(true);
-    setDragDropMode(QAbstractItemView::InternalMove);
-    setSelectionMode(QAbstractItemView::ContiguousSelection);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     this->setMinimumSize(parent->width()/2, parent->height()/2);
 }
@@ -45,19 +50,51 @@ void ListWidget::dropEvent(QDropEvent *event)
 
 }
 
-void ListWidget::dragLeaveEvent(QDragLeaveEvent *event)
+void ListWidget::startDrag(Qt::DropActions supportedActions)
 {
-    //const QMimeData *mimeData = event->mimeData();
+    std::cout << "ListWidget::startDrag" << std::endl;
 
-    event->accept();
-}
+    QByteArray itemData;
 
-void ListWidget::dragMoveEvent(QDragMoveEvent *event)
-{
-    if (event->source() == this) {
-        event->setDropAction(Qt::MoveAction);
-        event->accept();
-    } else {
-        event->acceptProposedAction();
+    // drag icon
+    //QPixmap pixmap = qVariantValue<QPixmap>(item->data(Qt::UserRole));
+    //QPoint location = item->data(Qt::UserRole+1).toPoint();
+
+    // data
+    //QDataStream dataStream(&itemData, QIODevice::WriteOnly);
+    //dataStream << item->text() << location;
+
+    QMimeData *mimeData = new QMimeData;
+    //mimeData->setData("tweedy/mediapath", itemData);
+
+    QList<QUrl> urls;
+    BOOST_FOREACH( QModelIndex idx, selectedIndexes() )
+    {
+        QListWidgetItem * item = this->itemFromIndex( idx );
+        urls.push_back(item->text());
     }
+    mimeData->setUrls(urls);
+
+    //QMimeData* mimeData = model()->mimeData( selectedIndexes() );
+    /*
+    std::vector<std::string> filenames;
+    BOOST_FOREACH( QModelIndex idx, selectedIndexes() )
+    {
+        QListWidgetItem * item = this->itemFromIndex( idx );
+        filenames.push_back( item->text().toStdString() );
+    }
+    const std::string enc = boost::algorithm::join( filenames, ":" );
+    mimeData->setText( QString::fromStdString(enc) );
+    */
+
+    std::cout << "size: " << selectedIndexes().size() << std::endl;
+    std::cout << "OOO: " << mimeData->text().toStdString() << std::endl;
+
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+    //drag->setHotSpot(QPoint(pixmap.width()/2, pixmap.height()/2));
+    //drag->setPixmap(pixmap);
+
+    drag->exec();
+
 }

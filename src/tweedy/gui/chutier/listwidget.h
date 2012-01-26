@@ -12,8 +12,7 @@ public:
     explicit ListWidget(QWidget *parent = 0);
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
-    void dragLeaveEvent(QDragLeaveEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
+    void startDrag(Qt::DropActions supportedActions);
 
 
 private:

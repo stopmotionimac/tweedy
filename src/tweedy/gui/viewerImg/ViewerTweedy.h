@@ -3,6 +3,7 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QToolButton>
+#include <QtGui/QLabel>
 
 namespace Ui {
     class ViewerTweedy;
@@ -19,6 +20,10 @@ public:
     QToolButton * getNextButton();
     QToolButton * getPreviousButton();
     QToolButton * getCaptureButton();
+    QLabel * getViewerLabel();
+
+private Q_SLOTS:
+    void displayImg(std::string filename);
 
 private:
     Ui::ViewerTweedy *_ui;

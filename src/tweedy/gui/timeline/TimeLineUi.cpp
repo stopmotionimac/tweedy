@@ -29,7 +29,6 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _table->setMinimumSize(100,120);
 
     //ajout de la table dans le widget
-    _ui->widgetContentTable->setMinimumSize(100,120);
     _table->setParent(_ui->widgetContentTable);
     
 
