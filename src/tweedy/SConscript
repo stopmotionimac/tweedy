@@ -17,7 +17,6 @@ project.StaticLibrary(
 	includes=['..'],
 	libraries=[
 		libs.tweedyCore,
-		libs.glu,
 		libs.qt4(uiFiles=project.scanFiles(['gui'], accept=['*.ui'])),
 		]
 	)

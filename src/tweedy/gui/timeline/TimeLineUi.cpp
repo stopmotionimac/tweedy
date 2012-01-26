@@ -145,7 +145,6 @@ void TimeLineUi::linkButtonsWithActions()
 void TimeLineUi::updateTable()
 {
 
-    std::cout << "updaaaaaaaate" << std::endl;
     int currentTime = _time;
     //clear timeline
     _table->clearContents();
@@ -187,8 +186,6 @@ void TimeLineUi::updateTable()
    
     _table->setCurrentCell(0,currentTime);
 
-    
-    std::cout<< "update timeline" << std::endl;
    
     
 }
