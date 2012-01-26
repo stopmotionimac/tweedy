@@ -9,8 +9,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QStatusBar>
 #include <QtGui/QToolBar>
-//#include <tweedy/gui/timesheet/TimeSheet.h>
-#include <tweedy/gui/viewerImg/ViewerImg.h>
+#include <tweedy/gui/viewerImg/ViewerTweedy.h>
 #include <tweedy/gui/chutier/chutier.h>
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <tweedy/gui/Undo/UndoWidget.hpp>
@@ -29,7 +28,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(/*Projet * projet*/);
+        MainWindow();
         ~MainWindow();
 
     public Q_SLOTS:
@@ -74,8 +73,7 @@ class MainWindow : public QMainWindow
         QStatusBar * myStatusBar;
 
         //Widgets de la fenêtre qu'on ajoute en QDockWidget
-        //TimeSheet* timesheet;
-        ViewerImg* viewerImg;
+        ViewerTweedy* viewerImg;
         Chutier* chutier;
         TimeLineUi* timeline;
 

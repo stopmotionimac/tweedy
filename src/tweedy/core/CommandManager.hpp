@@ -4,6 +4,7 @@
 #include <tweedy/core/command/IUndoRedoCommand.hpp>
 
 #include <boost/ptr_container/ptr_vector.hpp>
+#include <boost/signal.hpp>
 
 #include <cstdlib>
 #include <iostream>
@@ -55,10 +56,14 @@ public:
     
     size_t getIndex();
     
+    boost::signal0<void>& getSignalChanged();
+    
     
 private:
     
     boost::ptr_vector<IUndoRedoCommand> m_undoRedoVector;
+    
+    boost::signal0<void> m_signalChanged;
     
     size_t m_index;
     

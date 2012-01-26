@@ -88,6 +88,7 @@ void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
     
     newCommand->runDo();
     ++m_index;
+    m_signalChanged();
 }
 
 
@@ -97,6 +98,7 @@ void CommandManager::undo(){
         size_t indexUndoCommand = --m_index;
         m_undoRedoVector[indexUndoCommand].getName();
         m_undoRedoVector[indexUndoCommand].undo();
+        m_signalChanged();
     }
     else
         std::cout << "No command to undo" << std::endl; /* case of no command to undo will be implement
@@ -106,15 +108,16 @@ void CommandManager::undo(){
 
 void CommandManager::redo(){
     
-    if (this->canRedo()){
-        size_t indexUndoCommand = m_index++;
-        m_undoRedoVector[indexUndoCommand].getName();
-        m_undoRedoVector[indexUndoCommand].redo();
-
-    }
-    else
+    if( !this->canRedo() )
+    {
         std::cout << "No command to redo" << std::endl; /* case of no command to undo will be implement
                                                       * with the slot */
+        return;
+    }
+    size_t indexUndoCommand = m_index++;
+    m_undoRedoVector[indexUndoCommand].getName();
+    m_undoRedoVector[indexUndoCommand].redo();
+    m_signalChanged();
 }
 
  boost::ptr_vector<IUndoRedoCommand> CommandManager::getUndoRedoVector(){
@@ -123,4 +126,9 @@ void CommandManager::redo(){
  
  size_t CommandManager::getIndex(){
      return m_index;
+ }
+ 
+ 
+ boost::signal0<void>& CommandManager::getSignalChanged(){
+     return m_signalChanged;
  }

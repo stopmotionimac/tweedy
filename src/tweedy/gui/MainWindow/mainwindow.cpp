@@ -22,7 +22,7 @@
 #include <iostream>
 
 
-MainWindow::MainWindow(/*Projet * projet*/)
+MainWindow::MainWindow()
 {
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -34,9 +34,6 @@ MainWindow::MainWindow(/*Projet * projet*/)
     createStatusBar();
 
     Projet& projectInstance = project();
-    //_ptrProjet->setGphotoInstance();
-    //_ptrProjet->setValueCameraIsInit(0);
-    //std::cout<<"VALUE CAMERA IS INIT A LA CRFEATION"<<_ptrProjet->getValueCameraIsInit()<<std::endl;
 
     this->showMaximized();
 
@@ -54,7 +51,7 @@ MainWindow::MainWindow(/*Projet * projet*/)
     
     QPixmap firstPic( QString::fromStdString(filename) );
        
-    viewerImg->labelImg()->setPixmap( firstPic );
+    viewerImg->getViewerLabel()->setPixmap( firstPic );
     
     connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
 
@@ -202,18 +199,15 @@ void MainWindow::createWidgets()
     QDockWidget * timelineDock = new QDockWidget(this);
     timeline = new TimeLineUi( timelineDock );
     timelineDock->setWidget(timeline);
-    //timeline->resize(QSize(this->width(), 300));
-    //addDockWidget(Qt::BottomDockWidgetArea, timeline);
-    //QDockWidget * timelineDock = new QDockWidget();
-    //timeline = new TimeLineUi();
-    //timelineDock->setWidget(timeline);
     addDockWidget(Qt::BottomDockWidgetArea, timelineDock);
 
 
     //Dock UndoWidget
 
     QDockWidget * undoDock = new QDockWidget("Command List");
-    undoView = new UndoView(&project().getCommandManager());
+    
+    undoView = new UndoView(Projet::getInstance().getCommandManager());
+
     undoWidget = new UndoWidget(undoView);
     undoDock->setWidget(undoWidget);
     viewMenu->addAction(undoDock->toggleViewAction());    
@@ -224,23 +218,24 @@ void MainWindow::createWidgetViewer()
 {
 
     QDockWidget * contentViewerDock = new QDockWidget("Viewer",this);
-    viewerImg = new ViewerImg( contentViewerDock );
+    viewerImg = new ViewerTweedy( contentViewerDock );
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
+
     viewerImg->setFixedSize(475,343);
+    viewerImg->setMaximumWidth(500);
     
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     
-    viewerImg->_capture->setDefaultAction(_captureAction);
-    viewerImg->_capture->setIconSize(QSize(40,40));
+    viewerImg->getCaptureButton()->setDefaultAction(_captureAction);
+    viewerImg->getCaptureButton()->setIconSize(QSize(40,40));
 
 }
 
 
 void MainWindow::on_captureAction_triggered()
 {
-      Projet& projectInstance = project();
-
+    Projet& projectInstance = project();
 
     int isConnected = projectInstance.tryToConnectCamera();
     std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;

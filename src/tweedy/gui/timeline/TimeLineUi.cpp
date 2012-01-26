@@ -9,6 +9,25 @@
 #include <QtGui/QDragMoveEvent>
 
 
+struct TimeLineUiUpdater
+{
+    TimeLineUiUpdater(TimeLineUi& timeline): _timelineUi(timeline)
+    {
+
+    }
+    
+    void operator()()
+    {
+        _timelineUi.updateTable();
+    }
+    
+    TimeLineUi& _timelineUi;
+};
+
+
+
+
+
 //_________________________________ constructor ________________________________
 
 
@@ -30,10 +49,13 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _table->verticalHeader()->setDefaultSectionSize(100);
     _table->resize(1000, 140);
     //ajout de la table dans le widget
-    //_ui->widgetContentTable->setMinimumSize(100,120);
     _table->setParent(_ui->widgetContentTable);
     
+    //connecter l'update de la timelineUi au signalChanged de la timeline
+    TimeLineUiUpdater upd(*this);
 
+    Projet::getInstance().getTimeline().getSignalChanged().connect(upd);
+    
     createActions();
     linkButtonsWithActions();
 
@@ -101,7 +123,6 @@ void TimeLineUi::createActions(){
 void TimeLineUi::linkButtonsWithActions()
 {
 
-
     _ui->playPauseButton->setDefaultAction(_playPauseAction);
     _ui->nextButton->setDefaultAction(_nextAction);
     _ui->prevButton->setDefaultAction(_prevAction);
@@ -124,6 +145,7 @@ void TimeLineUi::linkButtonsWithActions()
 void TimeLineUi::updateTable()
 {
 
+    std::cout << "updaaaaaaaate" << std::endl;
     int currentTime = _time;
     //clear timeline
     _table->clearContents();
@@ -325,8 +347,6 @@ void TimeLineUi::handle_plusAction_triggered()
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActClipSetTimeRange(_time,"Add time action ",_ui->spinDuration->value());
        
-       updateTable();
-       
        delete action;
    }
    
@@ -342,8 +362,6 @@ void TimeLineUi::handle_minusAction_triggered()
        
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActClipSetTimeRange(_time,"Remove time action ",-_ui->spinDuration->value());
-       
-       updateTable();
        
        delete action;
               
@@ -361,8 +379,6 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ",_ui->spinDuration->value());
        
-       updateTable();
-       
        delete action;
      
    }
@@ -379,8 +395,6 @@ void TimeLineUi::handle_blankAfterAction_triggered()
       
         // création d'une action ActClipSetTimeRange
        IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
-       
-       updateTable();
        
        delete action;
         
