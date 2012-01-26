@@ -70,20 +70,8 @@ void TableTimeline::dropEvent(QDropEvent *event)
 
         std::cout << "TL: " << data << std::endl;
 
-        //conversion string en boost path
-        boost::filesystem::path pathBoost(data);
-
-        //tranformation de l'image en clip
-        Clip clipDragAndDrop(pathBoost);
-
-        //timeIn = position avec 1 frame par defaut
-        clipDragAndDrop.setPosition(position,position+1);
-
-        std::cout<<"clipDragAndDrop.timeIn : "<<clipDragAndDrop.timeIn()<<std::endl;
-        std::cout<<"clipDragAndDrop.timeOut : "<<clipDragAndDrop.timeOut()<<std::endl;
-
         //ajout du clip dans la timeline core
-        timeline->addClip(clipDragAndDrop);
+        timeline->insertClip(data, position);
     }
 
     /*std::vector<std::string> filenames;
