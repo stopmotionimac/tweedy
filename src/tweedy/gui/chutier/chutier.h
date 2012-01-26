@@ -9,6 +9,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QDockWidget>
 #include <QtGui/QContextMenuEvent>
+#include <QtGui/QTabWidget>
 
 #include "listwidget.h"
 
@@ -28,18 +29,20 @@ public Q_SLOTS:
     void on_deleteAction_triggered();
 
 private:
-    ListWidget * listWidget;
+    ListWidget * _listWidget;
 
-    QToolButton * importButton;
-    QToolButton * deleteButton;
+    QToolButton * _importButton;
+    QToolButton * _deleteButton;
 
-    QAction * importAction;
-    QAction * deleteAction;
+    QAction * _importAction;
+    QAction * _deleteAction;
 
-    QLabel * viewerChutier;
+    QLabel * _viewerChutier;
+
+    QTabWidget * _tabWidget;
 
 public:
-    QDockWidget * viewerChutierDock;
+    QDockWidget * _viewerChutierDock;
 
 };
 
