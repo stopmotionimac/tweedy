@@ -37,22 +37,6 @@ MainWindow::MainWindow()
 
     this->showMaximized();
 
-    std::string filename = "img/none.jpg";
-    
-    Timeline::UOMapClip clips = timeline->timeline()->mapClip();
-    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, clips )
-    {
-        if (s.second->timeIn() == 0)
-        {
-            filename = s.first;
-            break;
-        }
-    }
-    
-    QPixmap firstPic( QString::fromStdString(filename) );
-       
-    //viewerImg->getViewerLabel()->setPixmap( firstPic );
-    
     connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
 
 }
