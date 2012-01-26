@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <tweedy/core/MediaExt.hpp>
+#include <boost/assign/ptr_map_inserter.hpp>
 #include <boost/ptr_container/ptr_unordered_map.hpp>
 #include <boost/foreach.hpp>
 #include <boost/filesystem.hpp>
@@ -13,6 +14,7 @@ class ChutierMediaExt
 {
 public:
     ChutierMediaExt() {}
+        boost::ptr_unordered_map<std::string, MediaExt>& getMapMediaExt();
         //call if we import a media
         void importMediaToChutier(boost::filesystem::path & urlMedia);
         void deleteMediaFromChutier(MediaExt & media);
@@ -52,7 +54,7 @@ public:
         void printMapMediaExt ();
 
 private :
-        typedef boost::ptr_unordered_map<std::string, MediaExt*> UOMapMediaExt;
+        typedef boost::ptr_unordered_map<std::string, MediaExt> UOMapMediaExt;
         UOMapMediaExt _mapMediaExt;
 };
 

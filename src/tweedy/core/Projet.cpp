@@ -1,7 +1,5 @@
 #include <tweedy/core/Projet.hpp>
 
-#include <boost/assign/ptr_map_inserter.hpp>
-
 CommandManager& Projet::getCommandManager(){
     return _cmdManager; 
 }
@@ -16,9 +14,7 @@ void Projet::addImedia(Imedia & media)
 {
     using namespace boost::assign;
    //std::cout<<media->getNameMedia().string()<<std::endl;
-//    _mapMedia.insert( media.getNameMedia().string(), &media );
     ptr_map_insert( _mapMedia )( media.getNameMedia().string(), media );
-//    _mapMedia[] = media;
 }
 
 boost::filesystem::path Projet::getNameImedia(Imedia & imedia) {
@@ -26,12 +22,20 @@ boost::filesystem::path Projet::getNameImedia(Imedia & imedia) {
     return imedia.getNameMedia().filename();
 }
 
-void Projet::makeChutier() {
-    _chutier.createChutierMediaExt();
-    //test import to chutier
-    boost::filesystem::path url("projet/mediasExt/test.jpg");
-    _chutier.importMediaToChutier(url);
+ChutierMediaExt& Projet::getChutierMediaExt() {
+    return _chutierMediaExt;
 }
+
+ChutierMediaExt& Projet::getChutierPictures() {
+    return _chutierPictures;
+}
+
+//void Projet::makeChutier() {
+//    _chutier.createChutierMediaExt();
+//    //test import to chutier
+//    boost::filesystem::path url("projet/mediasExt/test.jpg");
+//    _chutier.importMediaToChutier(url);
+//}
 
 void Projet::printAllMedia() {
     boost::ptr_unordered_map<std::string, Imedia*>::iterator iter;

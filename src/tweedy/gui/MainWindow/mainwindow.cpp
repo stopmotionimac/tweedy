@@ -56,7 +56,7 @@ MainWindow::MainWindow(/*Projet * projet*/)
        
     viewerImg->labelImg()->setPixmap( firstPic );
     
-    connect(this->timeline, SIGNAL( displayChanged(std::string) ), this->viewerImg, SLOT(displayImg(std::string)) );
+    connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
 
 }
 
@@ -214,7 +214,7 @@ void MainWindow::createWidgets()
 
     QDockWidget * undoDock = new QDockWidget("Command List");
     
-    undoView = new UndoView(Projet::getInstance()->getCommandManager());
+    undoView = new UndoView(Projet::getInstance().getCommandManager());
 
     undoWidget = new UndoWidget(undoView);
     undoDock->setWidget(undoWidget);
