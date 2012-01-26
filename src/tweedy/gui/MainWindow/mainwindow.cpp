@@ -51,7 +51,7 @@ MainWindow::MainWindow()
     
     QPixmap firstPic( QString::fromStdString(filename) );
        
-    viewerImg->getViewerLabel()->setPixmap( firstPic );
+    //viewerImg->getViewerLabel()->setPixmap( firstPic );
     
     connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
 

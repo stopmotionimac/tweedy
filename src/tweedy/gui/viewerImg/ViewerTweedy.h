@@ -4,6 +4,7 @@
 #include <QtGui/QWidget>
 #include <QtGui/QToolButton>
 #include <QtGui/QLabel>
+#include <QtGui/QPainter>
 
 namespace Ui {
     class ViewerTweedy;
