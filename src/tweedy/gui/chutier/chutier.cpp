@@ -1,5 +1,7 @@
 #include "chutier.h"
 
+#include <tweedy/core/Projet.hpp>
+#include <tweedy/core/ChutierMediaExt.hpp>
 #include <QtGui/QGridLayout>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QSplitter>
@@ -50,20 +52,32 @@ Chutier::Chutier(QWidget *parent) :
     mainLayout->addLayout(rightLayout);
     setLayout(mainLayout);
 
-    /*liste des chemins -- a changer plus tard*/
-    QString image1("img/tweedy0.jpg");
-    QString image2("img/tweedy1.jpg");
-    QString image3("img/tweedy2.jpg");
 
-    /*liste des items*/
-    QListWidgetItem *item = new QListWidgetItem(QIcon(image1), image1, listWidget);
-    QListWidgetItem *item2 = new QListWidgetItem(QIcon(image2),image2, listWidget);
-    QListWidgetItem *item3 = new QListWidgetItem(QIcon(image3),image3, listWidget);
+    Projet& projectInstance = Projet::getInstance();
 
-    /*ajout des items*/
-    listWidget->addItem(item);
-    listWidget->addItem(item2);
-    listWidget->addItem(item3);
+    /*full chutier to have exemple => no need if save!*/
+    ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
+    boost::filesystem::path pathMediaToAdd("projet/mediasExt/tweedy3.jpg");
+    boost::filesystem::path pathMediaToAdd2("projet/mediasExt/tweedy2.jpg");
+    /*to add media ext to chutier*/
+    chutierMediaExt.importMediaToChutier(pathMediaToAdd);
+    chutierMediaExt.importMediaToChutier(pathMediaToAdd2);
+    //chutierMediaExt.printMapMediaExt();
+            
+    boost::ptr_unordered_map<std::string, MediaExt>::iterator iter;       
+
+    /*to add media ext to chutier*/
+   for (iter = chutierMediaExt.getMapMediaExt().begin(); iter != chutierMediaExt.getMapMediaExt().end(); ++iter)
+    {
+        std::cout<<iter->first<<std::endl;
+        /*path*/
+        QString image(iter->first.data());
+        /*item*/
+        QListWidgetItem *item = new QListWidgetItem(QIcon(image), image, listWidget);
+        /*add item to list*/
+        listWidget->addItem(item);
+    }
+
 
     //image par defaut
     QString defaultImage("img/noPhotoSelected.jpg");
