@@ -61,7 +61,7 @@ TimeLineUi::TimeLineUi(QWidget* parent):
 
     updateTable();
                    
-    connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
+    //connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
     connect( this->_table , SIGNAL( currentCellChanged ( int , int , int , int  ) ), this, SLOT( getCurrentTime(int,int)));
@@ -75,22 +75,22 @@ TimeLineUi::TimeLineUi(QWidget* parent):
 void TimeLineUi::createActions(){
 
 
-    _playPauseAction = new QAction(QIcon("img/icones/play.png"),"",this);
+    _playPauseAction = new QAction(QIcon("img/icones/playS.png"),"",this);
     _playPauseAction->setShortcut(QKeySequence("Space"));
     _playPauseAction->setStatusTip("Lancer le montage");
     connect(_playPauseAction, SIGNAL(triggered()), this, SLOT(handle_playPauseAction_triggered()));
 
-    _nextAction = new QAction(QIcon("img/icones/next.png"),"Suivant", this);
+    _nextAction = new QAction(QIcon("img/icones/nextS.png"),"Suivant", this);
     _nextAction->setShortcut(QKeySequence("Alt+Right"));
     _nextAction->setStatusTip("Clip suivant");
     connect(_nextAction, SIGNAL(triggered()), this, SLOT(handle_nextAction_triggered()));
 
-    _prevAction = new QAction(QIcon("img/icones/prev.png"),"Precedent", this);
+    _prevAction = new QAction(QIcon("img/icones/previousS.png"),"Precedent", this);
     _prevAction->setShortcut(QKeySequence("Alt+Left"));
     _prevAction->setStatusTip("Clip precedent");
     connect(_prevAction, SIGNAL(triggered()), this, SLOT(handle_prevAction_triggered()));
     
-    _zeroAction = new QAction("Zero",this);
+    _zeroAction = new QAction(QIcon("img/icones/retour0.png"),"Zero",this);
     _zeroAction->setShortcut(QKeySequence("0"));
     _zeroAction->setStatusTip("Remise a zero");
     connect(_zeroAction, SIGNAL(triggered()), this, SLOT(handle_zeroAction_triggered()));
@@ -267,14 +267,14 @@ void TimeLineUi::handle_playPauseAction_triggered()
     {
         _timer->start(1000);
         _isPlaying = true;
-        _playPauseAction->setIcon(QIcon("img/icones/pause.png"));
+        _playPauseAction->setIcon(QIcon("img/icones/pauseS.png"));
         _playPauseAction->setStatusTip("Mettre en pause");
     }
     else
     {
         _timer->stop();
         _isPlaying = false;
-        _playPauseAction->setIcon(QIcon("img/icones/play.png"));
+        _playPauseAction->setIcon(QIcon("img/icones/playS.png"));
         _playPauseAction->setStatusTip("Lancer le montage");
     }
 }

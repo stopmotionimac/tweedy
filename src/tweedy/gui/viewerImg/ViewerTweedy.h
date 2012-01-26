@@ -20,10 +20,11 @@ public:
     QToolButton * getNextButton();
     QToolButton * getPreviousButton();
     QToolButton * getCaptureButton();
+    QToolButton * getRetour0Button();
     QLabel * getViewerLabel();
+    QLabel * getTimeLabel();
 
 private Q_SLOTS:
-    void displayImg(std::string filename);
     void displayChanged(int time);
 
 private:

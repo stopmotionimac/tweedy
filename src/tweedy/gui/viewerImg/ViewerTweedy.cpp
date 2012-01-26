@@ -19,13 +19,11 @@ QToolButton * ViewerTweedy::getPreviousButton() { return _ui->previousButton; }
 
 QToolButton * ViewerTweedy::getCaptureButton() { return _ui->captureButton; }
 
+QToolButton * ViewerTweedy::getRetour0Button() { return _ui->retour0Button; }
+
 QLabel * ViewerTweedy::getViewerLabel() { return _ui->viewerLabel; }
 
-
-void ViewerTweedy::displayImg(std::string filename)
-{
-   this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
-}
+QLabel * ViewerTweedy::getTimeLabel() { return _ui->timeLabel; }
 
 
 void ViewerTweedy::displayChanged(int time)
