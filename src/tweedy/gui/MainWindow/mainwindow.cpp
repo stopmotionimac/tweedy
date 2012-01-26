@@ -190,7 +190,7 @@ void MainWindow::createWidgets()
     chutier = new Chutier( chutierDock );
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
-    viewMenu->addAction(chutier->viewerChutierDock->toggleViewAction());
+    viewMenu->addAction(chutier->_viewerChutierDock->toggleViewAction());
 
     //Dock Timeline
 
@@ -229,7 +229,7 @@ void MainWindow::createWidgetViewer()
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     
     viewerImg->getCaptureButton()->setDefaultAction(_captureAction);
-    viewerImg->getCaptureButton()->setIconSize(QSize(40,40));
+    viewerImg->getCaptureButton()->setIconSize(QSize(50,50));
 
     //connexions boutons du viewer avec actions de la timeline
     viewerImg->getNextButton()->setDefaultAction(timeline->getNextAction());

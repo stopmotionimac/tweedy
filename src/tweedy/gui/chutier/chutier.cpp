@@ -17,39 +17,42 @@ Chutier::Chutier(QWidget *parent) :
 {
 
     //creation des widgets
-    listWidget = new ListWidget(this);
-    importButton = new QToolButton(this);
-    deleteButton = new QToolButton(this);
+    _tabWidget = new QTabWidget(this);
+    _listWidget = new ListWidget(this);
+    _importButton = new QToolButton(this);
+    _deleteButton = new QToolButton(this);
 
     //creation des actions
-    importAction = new QAction("Importer",this);
-    deleteAction = new QAction("Supprimer",this);
+    _importAction = new QAction("Importer",this);
+    _deleteAction = new QAction("Supprimer",this);
 
     //affecter actions aux QToolButton
-    importButton->setDefaultAction(importAction);
-    deleteButton->setDefaultAction(deleteAction);
-
-    viewerChutier = new QLabel(this);
-    viewerChutier->setBackgroundRole(QPalette::Dark);
-    viewerChutier->setFixedSize(this->width()/2, this->height()/2);
+    _importButton->setDefaultAction(_importAction);
+    _deleteButton->setDefaultAction(_deleteAction);
 
     //creation du widget dockable du viewer
-    viewerChutierDock = new QDockWidget("Visualisation du chutier",this);
-    viewerChutierDock->setWidget(viewerChutier);
+    _viewerChutierDock = new QDockWidget("Visualisation du chutier",this);
+    _viewerChutier = new QLabel(_viewerChutierDock);
+    _viewerChutier->setBackgroundRole(QPalette::Dark);
+    _viewerChutier->setScaledContents(true);
+    _viewerChutier->setMinimumHeight(this->height()-10);
+    _viewerChutierDock->setWidget(_viewerChutier);
+
+    _listWidget->setMinimumWidth(250);
 
     //disposition des widgets
-    QGridLayout * leftLayout = new QGridLayout();
-    leftLayout->addWidget(listWidget, 0, 0, 1, 2);
-    leftLayout->addWidget(importButton, 1, 0);
-    leftLayout->addWidget(deleteButton, 1, 1);
+    QHBoxLayout * layoutBoutons = new QHBoxLayout();
+    layoutBoutons->addStretch();
+    layoutBoutons->addWidget(_importButton);
+    layoutBoutons->addWidget(_deleteButton);
 
-    QVBoxLayout * rightLayout = new QVBoxLayout();
-    rightLayout->addWidget(viewerChutierDock);
-    rightLayout->addStretch();
+    QVBoxLayout * layoutChutier = new QVBoxLayout();
+    layoutChutier->addWidget(_listWidget);
+    layoutChutier->addLayout(layoutBoutons);
 
     QHBoxLayout *mainLayout = new QHBoxLayout;
-    mainLayout->addLayout(leftLayout);
-    mainLayout->addLayout(rightLayout);
+    mainLayout->addLayout(layoutChutier);
+    mainLayout->addWidget(_viewerChutierDock);
     setLayout(mainLayout);
 
 
@@ -73,48 +76,48 @@ Chutier::Chutier(QWidget *parent) :
         /*path*/
         QString image(iter->first.data());
         /*item*/
-        QListWidgetItem *item = new QListWidgetItem(QIcon(image), image, listWidget);
+        QListWidgetItem *item = new QListWidgetItem(QIcon(image), image, _listWidget);
         /*add item to list*/
-        listWidget->addItem(item);
+        _listWidget->addItem(item);
     }
 
 
     //image par defaut
     QString defaultImage("img/noPhotoSelected.jpg");
-    viewerChutier->setPixmap(defaultImage);
-    viewerChutier->setScaledContents(true); //centrer l'image dans le QLabel
+    _viewerChutier->setPixmap(defaultImage);
+    _viewerChutier->setScaledContents(true); //centrer l'image dans le QLabel
 
-    connect(listWidget, SIGNAL(itemActivated(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
-    connect(importAction, SIGNAL(triggered()), this, SLOT(on_importAction_triggered()));
-    connect(deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
+    connect(_listWidget, SIGNAL(itemActivated(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
+    connect(_importAction, SIGNAL(triggered()), this, SLOT(on_importAction_triggered()));
+    connect(_deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
 }
 
 void Chutier::on_photo_selected(QListWidgetItem * item)
 {
-    viewerChutier->setPixmap(item->text());
+    _viewerChutier->setPixmap(item->text());
 }
 
 void Chutier::on_importAction_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Open Picture"),QDir::currentPath());
 
-    QListWidgetItem *item = new QListWidgetItem(QIcon(fileName), fileName, listWidget);
+    QListWidgetItem *item = new QListWidgetItem(QIcon(fileName), fileName, _listWidget);
 
-    listWidget->addItem(item);
+    _listWidget->addItem(item);
 
 }
 
 void Chutier::on_deleteAction_triggered()
 {
 
-    QList<QListWidgetItem *> fileSelected= listWidget->selectedItems();
+    QList<QListWidgetItem *> fileSelected= _listWidget->selectedItems();
     if(fileSelected.size())
     {
-        for (int i = 0; i < listWidget->count(); ++i)
+        for (int i = 0; i < _listWidget->count(); ++i)
         {
-            if(listWidget->item(i)->isSelected())
+            if(_listWidget->item(i)->isSelected())
             {
-                QListWidgetItem * item = listWidget->takeItem(i);
+                QListWidgetItem * item = _listWidget->takeItem(i);
                 delete item;
             }
         }
@@ -126,7 +129,7 @@ void Chutier::contextMenuEvent(QContextMenuEvent *event)
 {
 
     QMenu menu(this);
-    menu.addAction(importAction);
+    menu.addAction(_importAction);
     menu.exec(event->globalPos());
 
 }

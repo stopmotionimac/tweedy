@@ -23,7 +23,6 @@ ListWidget::ListWidget(QWidget *parent) :
     setDragDropMode(QAbstractItemView::DragDrop);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    this->setMinimumSize(parent->width()/2, parent->height()/2);
 }
 
 
