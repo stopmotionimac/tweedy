@@ -222,6 +222,8 @@ void MainWindow::createWidgetViewer()
     viewerImg = new ViewerTweedy( contentViewerDock );
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
+
+    viewerImg->setFixedSize(475,343);
     viewerImg->setMaximumWidth(500);
     
     viewMenu->addAction(contentViewerDock->toggleViewAction());

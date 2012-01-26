@@ -44,7 +44,7 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _timeline = &(Projet::getInstance().getTimeline());
 
     _table = new TableTimeline(this);
-    _table->setIconSize(QSize(90, 90));
+    _table->setIconSize(QSize(95,68));
     _table->horizontalHeader()->setDefaultSectionSize(100);
     _table->verticalHeader()->setDefaultSectionSize(100);
     _table->resize(1000, 140);
