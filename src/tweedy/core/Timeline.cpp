@@ -61,19 +61,22 @@ void Timeline::insertClip(const std::string& newClipName, double currentTime)
     if (found)
         timeIn = _mapClip[currentFilename].timeIn();
     
-    Clip c(newClipName);
-    c.setPosition(timeIn, timeIn+1);
-    _mapClip[newClipName] = c;
-        
     //décale les clips suivants
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
-      if (s.second->timeOut() > _mapClip[newClipName].timeIn())
+      if (s.second->timeIn() >= timeIn)
       {
           s.second->setTimeIn(1);
           s.second->setTimeOut(1);
       }      
     }
+    
+    
+    
+    Clip c(newClipName);
+    c.setPosition(timeIn, timeIn+1);
+    _mapClip[newClipName] = c;
+        
     
     setMaxTime();
 }
