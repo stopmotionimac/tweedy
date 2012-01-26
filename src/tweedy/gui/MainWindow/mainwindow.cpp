@@ -33,8 +33,10 @@ MainWindow::MainWindow(/*Projet * projet*/)
     createWidgets();
     createStatusBar();
 
-    (Projet::getInstance())->setGphotoInstance();
+    Projet& projectInstance = project();
     //_ptrProjet->setGphotoInstance();
+    //_ptrProjet->setValueCameraIsInit(0);
+    //std::cout<<"VALUE CAMERA IS INIT A LA CRFEATION"<<_ptrProjet->getValueCameraIsInit()<<std::endl;
 
     this->showMaximized();
 
@@ -131,12 +133,12 @@ void MainWindow::createStartWindow()
 
 }
 
-
 /*
   Creer la barre de menu
 */
 void MainWindow::createMenuBar()
 {
+    Projet& projectInstance = project();
 
     fileMenu = menuBar()->addMenu(tr("&Fichier"));
     fileMenu->addAction(newProjectAction);
@@ -187,8 +189,8 @@ void MainWindow::createWidgets()
 {
     //Dock Chutier
 
-    QDockWidget * chutierDock = new QDockWidget();
-    chutier = new Chutier();
+    QDockWidget * chutierDock = new QDockWidget(this);
+    chutier = new Chutier( chutierDock );
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
     viewMenu->addAction(chutier->viewerChutierDock->toggleViewAction());
@@ -197,19 +199,26 @@ void MainWindow::createWidgets()
 
     //Dock Timeline
 
-    timeline = new TimeLineUi();
-    timeline->resize(QSize(this->width(), 300));
-    addDockWidget(Qt::BottomDockWidgetArea, timeline);
+    QDockWidget * timelineDock = new QDockWidget(this);
+    timeline = new TimeLineUi( timelineDock );
+    timelineDock->setWidget(timeline);
+    //timeline->resize(QSize(this->width(), 300));
+    //addDockWidget(Qt::BottomDockWidgetArea, timeline);
+    //QDockWidget * timelineDock = new QDockWidget();
+    //timeline = new TimeLineUi();
+    //timelineDock->setWidget(timeline);
+    addDockWidget(Qt::BottomDockWidgetArea, timelineDock);
 
 
     //Dock UndoWidget
 
     QDockWidget * undoDock = new QDockWidget("Command List");
+    
     undoView = new UndoView(Projet::getInstance()->getCommandManager());
+
     undoWidget = new UndoWidget(undoView);
     undoDock->setWidget(undoWidget);
-    viewMenu->addAction(undoDock->toggleViewAction());
-    
+    viewMenu->addAction(undoDock->toggleViewAction());    
 }
 
 
@@ -217,7 +226,7 @@ void MainWindow::createWidgetViewer()
 {
 
     QDockWidget * contentViewerDock = new QDockWidget("Viewer",this);
-    viewerImg = new ViewerImg();
+    viewerImg = new ViewerImg( contentViewerDock );
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
     viewerImg->setFixedSize(400,400);
@@ -232,30 +241,36 @@ void MainWindow::createWidgetViewer()
 
 void MainWindow::on_captureAction_triggered()
 {
-    bool isInit = _ptrProjet->getValueCameraIsInit();
-    //std::cout<<"VAR CAMERA IS INIT"<<isInit<<std::endl;
+      Projet& projectInstance = project();
 
-    int isConnected = _ptrProjet->tryToConnectCamera();
-    std::cout<<"IS CONNECTED"<<isConnected<<std::endl;
+
+    int isConnected = projectInstance.tryToConnectCamera();
+    std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
     if (isConnected == 0)
     {
-
-        QMessageBox::about(this, tr("Warning"),
-                            tr("No camera connected to the computer"));
+        QMessageBox::about(this, tr("Warning"), tr("No camera connected to the computer"));
         std::cout<<"No camera connected to the computer"<<std::endl;
     }
     else
     {
         std::cout<<"Camera connected"<<std::endl;
-        _ptrProjet->setFolderToSavePictures();
-        //_ptrProjet->captureToFile();
+        projectInstance.setFolderToSavePictures();
+
+        //Give picture to application and timeline
+        boost::filesystem::path fn = projectInstance.captureToFile();
+        Clip clipFromPicture (fn);
+        Timeline& timeline = projectInstance.getTimeline();
+        clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );
+        projectInstance.addImedia( clipFromPicture );
+        timeline.addClip(clipFromPicture);
+        timeline.setMaxTime();
     }
 
 }
 
 void MainWindow::on_newProjectAction_triggered()
 {
-    newProjectDialog = new newProjectWindow();
+    newProjectDialog = new newProjectWindow(this);
     newProjectDialog->show();
     startWindowDialog->hide();
 
@@ -277,7 +292,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
 
 void MainWindow::on_undoButton_clicked(){
     
-    CommandManager& cmdMng = (Projet::getInstance())->getCommandManager();
+    CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canUndo()){
         cmdMng.undo();
         timeline->updateTable();
@@ -286,7 +301,7 @@ void MainWindow::on_undoButton_clicked(){
 
 void MainWindow::on_redoButton_clicked(){
     
-    CommandManager& cmdMng = (Projet::getInstance())->getCommandManager();
+    CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canRedo()){
         cmdMng.redo();
         timeline->updateTable();
@@ -309,12 +324,5 @@ void MainWindow::createStatusBar()
 
 MainWindow::~MainWindow()
 {
-
-    delete chutier;
-    delete viewerImg;
-    delete timeline;
-    delete startWindowDialog;
-    _ptrProjet->kill ();
-    //gPhotoInstance->kill ();
 
 }

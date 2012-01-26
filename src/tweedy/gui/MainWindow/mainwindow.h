@@ -9,7 +9,7 @@
 #include <QtGui/QAction>
 #include <QtGui/QStatusBar>
 #include <QtGui/QToolBar>
-#include <tweedy/gui/timesheet/TimeSheet.h>
+//#include <tweedy/gui/timesheet/TimeSheet.h>
 #include <tweedy/gui/viewerImg/ViewerImg.h>
 #include <tweedy/gui/chutier/chutier.h>
 #include <tweedy/gui/timeline/TimeLineUi.h>
@@ -40,6 +40,7 @@ class MainWindow : public QMainWindow
         void on_redoButton_clicked();
 
     private:
+        Projet& project() { return Projet::getInstance(); }
         void createActions();
         void createStartWindow();
         void createMenuBar();
@@ -73,14 +74,13 @@ class MainWindow : public QMainWindow
         QStatusBar * myStatusBar;
 
         //Widgets de la fenêtre qu'on ajoute en QDockWidget
-        TimeSheet* timesheet;
+        //TimeSheet* timesheet;
         ViewerImg* viewerImg;
         Chutier* chutier;
         TimeLineUi* timeline;
 
         StartWindow * startWindowDialog;
         newProjectWindow * newProjectDialog;
-        Projet * _ptrProjet;
 
         UndoView * undoView;
         QWidget * undoWidget;

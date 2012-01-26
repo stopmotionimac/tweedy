@@ -7,28 +7,33 @@
 #include <boost/format.hpp>
 #include <QtCore/QTimer>
 
-#include <QtGui/QDockWidget>
+#include <QtGui/QWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QIcon>
 #include <QtGui/QShortcut>
 
+
 #include <tweedy/core/Timeline.hpp>
 
 #include "ui_TimeLineUi.h"
+#include "tabletimeline.h"
 
 
-namespace Ui {
+/*namespace Ui {
     class TimeLineUi : public Ui_Timeline {};
-}
+}*/
 
-class TimeLineUi : public QDockWidget {
+class TimeLineUi : public QWidget {
+
     Q_OBJECT
+
 public:
-    TimeLineUi(QDockWidget* parent=0);
+    TimeLineUi(QWidget* parent);
+
     ~TimeLineUi();
     
     unsigned int time(){ return _time; }
-    Ui::TimeLineUi* ui(){ return _ui; }
+    Ui::Timeline* ui(){ return _ui; }
     Timeline* timeline(){return _timeline;}
     QIcon defautIcon(){return _defautIcon;}
         
@@ -64,10 +69,10 @@ Q_SIGNALS:
     void displayChanged(std::string filename);
     
 private:
+    Ui::Timeline* _ui;
     int _time;
-    bool _isPlaying;
     QTimer* _timer;
-    Ui::TimeLineUi* _ui;
+    bool _isPlaying;
     Timeline* _timeline;
     QIcon _defautIcon;
     
@@ -83,6 +88,7 @@ private:
     
     QShortcut * _deleteKey;  
     
+    TableTimeline * _table;
     
 };
 

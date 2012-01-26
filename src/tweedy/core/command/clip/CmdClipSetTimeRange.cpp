@@ -20,10 +20,10 @@ CmdClipSetTimeRange* CmdClipSetTimeRange::clone() const{
 
 void CmdClipSetTimeRange::runDo(){
     
-    Projet* projet = Projet::getInstance();
+    Projet& projet = Projet::getInstance();
     std::cout << _idClip << _value << std::endl;
-    projet->getTimeline().addTimeToClip(_idClip,_value);
-    std::cout << projet->getTimeline().maxTime() << std::endl;
+    projet.getTimeline().addTimeToClip(_idClip,_value);
+    std::cout << projet.getTimeline().maxTime() << std::endl;
     
     //_clip.setTimeOut(_clip.timeOut()+_value);
 }
@@ -35,9 +35,11 @@ void CmdClipSetTimeRange::redo(){
 
 void CmdClipSetTimeRange::undo(){
     
-    Projet* projet = Projet::getInstance();
-    projet->getTimeline().addTimeToClip(_idClip,-_value);
+    Projet& projet = Projet::getInstance();
+    projet.getTimeline().addTimeToClip(_idClip,-_value);
     
+    std::cout << projet.getTimeline().maxTime() << std::endl;
+
     std::cout << "undo" << std::endl;
 }
 

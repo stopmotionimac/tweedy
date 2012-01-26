@@ -14,7 +14,7 @@ class newProjectWindow : public QDialog
     Q_OBJECT
 
 public:
-    explicit newProjectWindow(QWidget *parent = 0);
+    explicit newProjectWindow(QWidget *parent);
     ~newProjectWindow();
 
     QToolButton * getSearchFolderProjectButton();

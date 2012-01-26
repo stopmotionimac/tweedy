@@ -5,22 +5,27 @@
 #include <QtGui/QWidget>
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <QtGui/QToolButton>
+#include <qt4/QtOpenGL/QGLWidget>
+
+#include "GlWidgetViewer.h"
 
 
 
 class ViewerImg : public QWidget {
     Q_OBJECT
 public:
-    ViewerImg();
+    ViewerImg( QWidget* parent );
     ~ViewerImg();
 
     QLabel* labelImg(){ return _labelImg; }
+    GlWidgetViewer * viewerWidget(){ return _qGlViewer;}
 
 private Q_SLOTS:
     void displayImg(std::string filename);    
     
 private:
     QLabel* _labelImg;
+    GlWidgetViewer * _qGlViewer;
 
 public:
     QToolButton * _capture;

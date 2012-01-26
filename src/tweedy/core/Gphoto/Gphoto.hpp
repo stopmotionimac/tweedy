@@ -39,9 +39,10 @@ public:
     void setFolderToSavePictures() { _fileName = "projet/pictures/";}
     void getSummary();
     void exitCamera();
-    void captureToFile();
+    boost::filesystem::path captureToFile();
     void setShutterSpeed();
-    bool getVarCameraIsInit();
+    //bool getVarCameraIsInit();
+    void setVarCameraIsInit(bool var);
 
 
 private:
