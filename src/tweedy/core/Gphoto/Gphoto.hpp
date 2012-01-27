@@ -15,6 +15,7 @@
 
 #include <fcntl.h>
 #include <iostream>
+#include <cstdio>
 #include <string>
 
 
@@ -37,9 +38,11 @@ public:
     int tryToConnectCamera();
     //sera changé en fonction du choix de l'utilisateur pour son dossier de save
     void setFolderToSavePictures() { _fileName = "projet/pictures/";}
+    //void doPreview();
     void getSummary();
     void exitCamera();
     boost::filesystem::path captureToFile();
+    void doPreview(int i);
     void setShutterSpeed();
     //bool getVarCameraIsInit();
     void setVarCameraIsInit(bool var);
