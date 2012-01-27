@@ -37,6 +37,8 @@ QLabel * ViewerTweedy::getViewerLabel() { return _ui->viewerLabel; }
 
 QLabel * ViewerTweedy::getTimeLabel() { return _ui->timeLabel; }
 
+QSlider * ViewerTweedy::getTempsSlider() { return _ui->tempsSlider; }
+
 
 void ViewerTweedy::displayChanged(int time)
 {

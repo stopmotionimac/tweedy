@@ -5,6 +5,7 @@
 #include <QtGui/QToolButton>
 #include <QtGui/QLabel>
 #include <QtGui/QPainter>
+#include <QtGui/QSlider>
 
 namespace Ui {
     class ViewerTweedy;
@@ -24,6 +25,7 @@ public:
     QToolButton * getRetour0Button();
     QLabel * getViewerLabel();
     QLabel * getTimeLabel();
+    QSlider * getTempsSlider();
     QImage calculateImage(const QImage& sourceImage, const QImage& destinationImage);
     
 private Q_SLOTS:

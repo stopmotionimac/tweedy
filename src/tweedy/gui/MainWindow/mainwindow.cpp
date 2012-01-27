@@ -233,6 +233,10 @@ void MainWindow::createWidgetViewer()
     viewerImg->getRetour0Button()->setIconSize(QSize(20,20));
     //timer
     connect(timeline, SIGNAL(timeChanged(int)), this, SLOT(writeTime(int)));
+    //connection slider
+    viewerImg->getTempsSlider()->setTickPosition(QSlider::TicksAbove);
+    //signal : valueChanged() : Emitted when the slider's value has changed.
+    connect(viewerImg->getTempsSlider(),SIGNAL(valueChanged(int)), this, SLOT(writeTime(int)));
 }
 
 
