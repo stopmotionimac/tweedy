@@ -196,6 +196,13 @@ void MainWindow::createWidgets()
     //Dock Viewer
 
     createWidgetViewer();
+
+    //Dock essai QML
+
+    QDockWidget * dockGraphicTimeline = new QDockWidget("Timeline Graphique");
+    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
+    dockGraphicTimeline->setWidget(_timelineGraphique);
+    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
 }
 
 
@@ -225,8 +232,7 @@ void MainWindow::createWidgetViewer()
     viewerImg->getRetour0Button()->setDefaultAction(timeline->getRetour0Action());
     viewerImg->getRetour0Button()->setIconSize(QSize(20,20));
     //timer
-    connect(timeline, SIGNAL(timeChanged(int)), timeline, SLOT(writeTime(int)));
-
+    connect(timeline, SIGNAL(timeChanged(int)), this, SLOT(writeTime(int)));
 }
 
 
@@ -275,8 +281,6 @@ void MainWindow::on_searchFolderProjectButton_clicked()
                                                     QString(boost::filesystem::initial_path().string().c_str()));
 
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
-    //newProjectDialog->setWindowFlags(Qt::WindowStaysOnTopHint);
-
 }
 
 
@@ -296,6 +300,19 @@ void MainWindow::on_redoButton_clicked(){
         cmdMng.redo();
         timeline->updateTable();
     }
+}
+
+//_______________ Write time in label and select the good cell _________________
+
+void MainWindow::writeTime(int newValue)
+{
+
+    timeline->getTableWidget()->setCurrentCell(0,newValue);
+
+    if (newValue == timeline->getTimeline()->maxTime())
+        newValue = -1;
+
+    viewerImg->getTimeLabel()->setNum(newValue);
 }
 
 
