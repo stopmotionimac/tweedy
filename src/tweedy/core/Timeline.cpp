@@ -84,6 +84,27 @@ void Timeline::insertClip(const std::string& newClipName, double currentTime)
 }
 
 
+void Timeline::moveElement(std::string filename, int newPosition)
+{
+    int move = newPosition - _mapClip[filename].timeIn();
+    
+    int duree = _mapClip[filename].timeOut() - _mapClip[filename].timeIn();
+    if (move > 0)
+        duree *= -1;
+    
+    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
+    {
+        if (s.second->timeIn() > _mapClip[filename].timeIn() && s.second->timeIn() <= newPosition)
+        {
+            s.second->setTimeIn(duree);
+            s.second->setTimeOut(duree);
+        }
+    }
+
+    _mapClip[filename].setTimeIn(move);
+    _mapClip[filename].setTimeOut(move);
+   
+}
 
 
 

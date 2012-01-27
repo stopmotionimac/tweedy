@@ -47,6 +47,41 @@ void TableTimeline::dragMoveEvent(QDragMoveEvent *event)
     event->accept();
 }
 
+
+void TableTimeline::startDrag(Qt::DropActions supportedActions)
+{
+    std::cout << "TabWidget::startDrag" << std::endl;
+
+    
+    QMimeData *mimeData = new QMimeData;
+    mimeData->setText(QString::fromStdString("timeline"));
+    
+    Timeline * timeline = &(Projet::getInstance().getTimeline());
+    QList<QUrl> urls;
+    
+    
+    BOOST_FOREACH( QModelIndex idx, selectedIndexes() )
+    {
+        QTableWidgetItem * item = this->itemFromIndex(idx);
+        
+        std::string filename;
+        bool found = timeline->findCurrentClip(filename, item->column());
+        if (found)
+            urls.push_back( QString::fromStdString(filename) );
+    }
+    mimeData->setUrls(urls);
+
+
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData(mimeData);
+    
+
+    drag->exec();
+
+}
+
+
+
 void TableTimeline::dropEvent(QDropEvent *event)
 {
     std::cout<<"TableTimeline::dropEvent"<<std::endl;
@@ -55,23 +90,30 @@ void TableTimeline::dropEvent(QDropEvent *event)
 
 
     //on recupere le mimeData (ce que l'on drag)
-    const QMimeData* data = event->mimeData();
+    const QMimeData* mimeData = event->mimeData();
 
     //on recupere la position
     QTableWidgetItem * item = itemAt(event->pos());
     unsigned int position = item->column();
     std::cout << "y: " << item->column() << std::endl;
 
-    QList<QUrl> urlList = data->urls();
+    QList<QUrl> urlList = mimeData->urls();
+    
     for(int i = 0; i < urlList.size() ; ++i)
     {
         QString text = urlList.at(i).path();
-        std::string data = text.toStdString();
-
-        std::cout << "TL: " << data << std::endl;
-
-        //ajout du clip dans la timeline core
-        timeline->insertClip(data, position);
+        std::string filename = text.toStdString();
+               
+        if (mimeData->text().toStdString() == "timeline")
+        {
+            timeline->moveElement(filename, position);
+                      
+        }
+        
+        
+        else
+            //ajout du clip dans la timeline core
+            timeline->insertClip(filename, position);
     }
 
     /*std::vector<std::string> filenames;

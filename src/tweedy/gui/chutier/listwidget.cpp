@@ -64,7 +64,7 @@ void ListWidget::startDrag(Qt::DropActions supportedActions)
     //dataStream << item->text() << location;
 
     QMimeData *mimeData = new QMimeData;
-    //mimeData->setData("tweedy/mediapath", itemData);
+    mimeData->setData("tweedy/mediapath", itemData);
 
     QList<QUrl> urls;
     BOOST_FOREACH( QModelIndex idx, selectedIndexes() )

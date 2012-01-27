@@ -48,6 +48,8 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _table->horizontalHeader()->setDefaultSectionSize(100);
     _table->verticalHeader()->setDefaultSectionSize(100);
     _table->resize(1000, 140);
+    
+    
     //ajout de la table dans le widget
     _table->setParent(_ui->widgetContentTable);
     
@@ -137,8 +139,6 @@ void TimeLineUi::linkButtonsWithActions()
 }
 
 
-
-
 //_____________________ Update the table with list of clips ____________________
 
 
@@ -161,10 +161,14 @@ void TimeLineUi::updateTable()
         _table->setHorizontalHeaderItem(i, new QTableWidgetItem(QString::fromStdString(header) ) );
         
         QTableWidgetItem *newItem = new QTableWidgetItem(_defautIcon,"");
-        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
 
         _table->setItem(0, i, newItem);
     }
+    
+    /*_table->setDragDropOverwriteMode(false);
+    _table->setDragEnabled(true);
+    _table->setDragDropMode(QAbstractItemView::InternalMove);*/
     
     //fill with icons
     Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
@@ -174,7 +178,7 @@ void TimeLineUi::updateTable()
         {
             QIcon icon( QString::fromStdString((*s.second)->imgPath().string()) );
             QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
-            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
             _table->setItem(0, j, newItem);
         }
     }
@@ -184,33 +188,13 @@ void TimeLineUi::updateTable()
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _table->setItem(0, _timeline->maxTime(), newItem);
    
+    _table->setDragEnabled(true);
+    _table->verticalHeader()->setMovable(true);
     _table->setCurrentCell(0,currentTime);
 
    
     
 }
-
-
-
-
-
-
-/*____________________ Let the view display the good picture ___________________
-
-
-void TimeLineUi::emitDisplayChanged()
-{
-    std::string  filename = "img/none.jpg";
-    
-    if (_time == _timeline->maxTime())
-        //afficher le temps reel
-        filename = "img/realTime.jpg";
-    else
-        bool isClip = _timeline->findCurrentClip(filename,_time);
-    
-    Q_EMIT displayChanged(filename);
-}
-*/
 
 
 //_______________ Write time in label and select the good cell _________________
