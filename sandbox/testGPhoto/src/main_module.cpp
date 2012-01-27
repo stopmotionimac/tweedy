@@ -293,80 +293,135 @@ int main(int argc, char **argv) {
                 return 0;
         }
 
+        canon_enable_capture(camera, TRUE, context);
+        /*set_capturetarget(canon, canoncontext);*/
 
-        /*to set camera config we have to know tha camera owner*/
-        /*Get the camera owner . if there is no owner set a default one*/
-        ret = get_config_value_string (camera, "ownername", &owner, context);
-        if (ret < GP_OK)
-        {
-            printf ("No owner.\n");
-            //goto out;
-            ret = set_config_value_string (camera, "ownername", "DefaultOwner", context);
-            if (ret < GP_OK) {
-                fprintf (stderr, "Failed to set camera owner to \"DefaultOwner\"; %d\n", ret);
-            } else { printf("New owner: %s\n", owner); }
+//i => define the number the stop condition
+        //printf("Taking 100 previews and saving them to snapshot-XXX.jpg ...\n");
+        int i;
+        while (i < 10) {
+                CameraFile *file;
+
+//HAVE TO BE CHANGE IN FUNCTION OF CHOICE OF USERT PROJECT FILE//
+                char * outputFile;
+                boost::filesystem::path outputFilePath("projet/previewTps");
+                outputFile = (char*)outputFilePath.string().data();
+
+
+                fprintf(stderr,"preview %d\n", i);
+                ret = gp_file_new(&file);
+                if (ret != GP_OK) {
+                        fprintf(stderr,"gp_file_new: %d\n", ret);
+                        exit(1);
+                }
+#if 0 /* testcase for EOS zooming */
+                {
+                        char buf[20];
+                        if (i<10) set_config_value_string (camera, "eoszoom", "5", context);
+                        sprintf(buf,"%d,%d",(i&0x1f)*64,(i>>5)*64);
+                        fprintf(stderr, "%d - %s\n", i, buf);
+                        set_config_value_string (camera, "eoszoomposition", buf, context);
+                }
+#endif
+                ret = gp_camera_capture_preview(camera, file, context);
+                if (ret != GP_OK) {
+                        fprintf(stderr,"gp_camera_capture_preview(%d): %d\n", i, ret);
+                        exit(1);
+                }
+
+//HAVE TO BE CHANGE IN FUNCTION OF CHOICE OF USERT PROJECT FILE//
+                sprintf(outputFile, "projet/previewTps/snapshot-%03d.jpg", i);
+                //std::cout<<"SAVE FILE IN : "<<outputFile<<std::endl;
+                ret = gp_file_save(file, outputFile);
+                if (ret != GP_OK) {
+                        fprintf(stderr,"gp_camera_capture_preview(%d): %d\n", i, ret);
+                        exit(1);
+                }
+                gp_file_unref(file);
+
+                //AFFICHIER IMAGE
+
+                boost::filesystem::path FileToDeletePath(outputFile);
+                boost::filesystem::remove(FileToDeletePath);
+                ++i;
         }
-        else
-        {
-            std::cout<<owner<<std::endl;
 
 
 
-            /*to abilities*/
-            CameraAbilitiesList * abilitiesList;
-            CameraAbilitiesList ** ptr_abilitiesList;
-            ptr_abilitiesList = &abilitiesList;
-            CameraAbilities  abilities;
-            CameraAbilities * ptr_abilities;
-            ptr_abilities = &abilities;
 
-            //VOIR ACTION.C LIGNE 838
-
-
-            /*to init the list of abiolities*/
-            int ret = gp_abilities_list_new (ptr_abilitiesList);
-            ret = gp_abilities_list_load (abilitiesList, context);
-
-            /*to get abilities*/
-
-            /*get number of abilities => NB APPAREILS :'(*/
-            int nbAbilities = gp_abilities_list_count (abilitiesList);
-            std::cout<<"NB ABILITIES : "<<nbAbilities<<std::endl;
-
-            int haveListAbilities = gp_abilities_list_get_abilities (abilitiesList, 0, ptr_abilities);
-            std::cout<<"haveListAbilities : "<< haveListAbilities<<std::endl;
-
-//            int haveAbilities = gp_camera_set_abilities(camera, abilities);
-//            std::cout<<"haveAbilities : "<< haveAbilities<<std::endl;
+//        /*to set camera config we have to know tha camera owner*/
+//        /*Get the camera owner . if there is no owner set a default one*/
+//        ret = get_config_value_string (camera, "ownername", &owner, context);
+//        if (ret < GP_OK)
+//        {
+//            printf ("No owner.\n");
+//            //goto out;
+//            ret = set_config_value_string (camera, "ownername", "DefaultOwner", context);
+//            if (ret < GP_OK) {
+//                fprintf (stderr, "Failed to set camera owner to \"DefaultOwner\"; %d\n", ret);
+//            } else { printf("New owner: %s\n", owner); }
+//        }
+//        else
+//        {
+//            std::cout<<owner<<std::endl;
 //
-//            //in case camera driver can't figure out the current camera's speed
-//            //gp_camera_set_port_path or name => pas TROUVE
-//            int speed; //AURA BESOIN D'UNE VALEUR (???)
-//            int hasSpeed = gp_camera_set_port_speed (camera, speed);
-
-            /*FOR WIDGET*/
-            CameraWidget * window;
-            CameraWidget ** ptr_window;
-            ptr_window = &window;
-
-            ret = gp_widget_new (GP_WIDGET_MENU/*GP_WIDGET_WINDOW*/, "WINDOW01", ptr_window);
-            int * id;
-            ret = gp_widget_get_id (window, id);
-            std::cout<<"ID DE LA WIDGET : "<<id<<std::endl;
-            ret = gp_camera_get_config(camera, ptr_window, context);
-            std::cout<<"RETURN OF GET CONFIG: "<<ret<<std::endl;
-            //int countChoice = gp_widget_count_choices (window);
-            int countChoice = gp_widget_count_children (window);
-            //std::cout<<"CHOICE COUNT : "<<(*ptr_window)->choice_count<<std::endl;
-            std::cout<<"NB OF CHOICES : "<<countChoice<<std::endl;
-
-            /*to config ONE config*/
-
-            //get_config_value_string (camera, "owner", &ownerstr, context);
-            //get_config_value_string (Camera *camera, const char *key, char **str, GPContext *context)
-
-        }
-out:
+//
+//
+//            /*to abilities*/
+//            CameraAbilitiesList * abilitiesList;
+//            CameraAbilitiesList ** ptr_abilitiesList;
+//            ptr_abilitiesList = &abilitiesList;
+//            CameraAbilities  abilities;
+//            CameraAbilities * ptr_abilities;
+//            ptr_abilities = &abilities;
+//
+//            //VOIR ACTION.C LIGNE 838
+//
+//
+//            /*to init the list of abiolities*/
+//            int ret = gp_abilities_list_new (ptr_abilitiesList);
+//            ret = gp_abilities_list_load (abilitiesList, context);
+//
+//            /*to get abilities*/
+//
+//            /*get number of abilities => NB APPAREILS :'(*/
+//            int nbAbilities = gp_abilities_list_count (abilitiesList);
+//            std::cout<<"NB ABILITIES : "<<nbAbilities<<std::endl;
+//
+//            int haveListAbilities = gp_abilities_list_get_abilities (abilitiesList, 0, ptr_abilities);
+//            std::cout<<"haveListAbilities : "<< haveListAbilities<<std::endl;
+//
+////            int haveAbilities = gp_camera_set_abilities(camera, abilities);
+////            std::cout<<"haveAbilities : "<< haveAbilities<<std::endl;
+////
+////            //in case camera driver can't figure out the current camera's speed
+////            //gp_camera_set_port_path or name => pas TROUVE
+////            int speed; //AURA BESOIN D'UNE VALEUR (???)
+////            int hasSpeed = gp_camera_set_port_speed (camera, speed);
+//
+//            /*FOR WIDGET*/
+//            CameraWidget * window;
+//            CameraWidget ** ptr_window;
+//            ptr_window = &window;
+//
+//            ret = gp_widget_new (GP_WIDGET_MENU/*GP_WIDGET_WINDOW*/, "WINDOW01", ptr_window);
+//            int * id;
+//            ret = gp_widget_get_id (window, id);
+//            std::cout<<"ID DE LA WIDGET : "<<id<<std::endl;
+//            ret = gp_camera_get_config(camera, ptr_window, context);
+//            std::cout<<"RETURN OF GET CONFIG: "<<ret<<std::endl;
+//            //int countChoice = gp_widget_count_choices (window);
+//            int countChoice = gp_widget_count_children (window);
+//            //std::cout<<"CHOICE COUNT : "<<(*ptr_window)->choice_count<<std::endl;
+//            std::cout<<"NB OF CHOICES : "<<countChoice<<std::endl;
+//
+//            /*to config ONE config*/
+//
+//            //get_config_value_string (camera, "owner", &ownerstr, context);
+//            //get_config_value_string (Camera *camera, const char *key, char **str, GPContext *context)
+//
+//        }
+//out:
         gp_camera_exit (camera, context);
         gp_camera_free (camera);
         return 0;
