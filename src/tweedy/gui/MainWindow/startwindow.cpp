@@ -5,9 +5,9 @@
 
 StartWindow::StartWindow(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::StartWindow)
+    _ui(new Ui::StartWindow)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
 
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
@@ -16,15 +16,15 @@ StartWindow::StartWindow(QWidget *parent) :
 
 QToolButton* StartWindow::getNewProjectButton()
 {
-    return ui->newProjectButton;
+    return _ui->newProjectButton;
 }
 
 QToolButton* StartWindow::getOpenProjectButton()
 {
-    return ui->openProjectButton;
+    return _ui->openProjectButton;
 }
 
 StartWindow::~StartWindow()
 {
-    delete ui;
+    delete _ui;
 }

@@ -14,6 +14,7 @@
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <tweedy/gui/Undo/UndoWidget.hpp>
 #include <tweedy/gui/Undo/UndoView.hpp>
+#include <tweedy/gui/timelineGraphique/timelinegraphique.h>
 
 #include "startwindow.h"
 #include "newprojectwindow.h"
@@ -37,6 +38,7 @@ class MainWindow : public QMainWindow
         void on_searchFolderProjectButton_clicked();
         void on_undoButton_clicked();
         void on_redoButton_clicked();
+        void writeTime(int newValue);
 
     private:
         Projet& project() { return Projet::getInstance(); }
@@ -82,6 +84,8 @@ class MainWindow : public QMainWindow
 
         UndoView * undoView;
         QWidget * undoWidget;
+
+        TimelineGraphique * _timelineGraphique;
 
         //Gphoto * gPhotoInstance;
 

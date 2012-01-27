@@ -158,6 +158,64 @@ boost::filesystem::path Gphoto::captureToFile()
 #endif
 }
 
+void Gphoto::doPreview(int i) {
+
+//    int ret;
+//    //i => define the number the stop condition
+//            //printf("Taking 100 previews and saving them to snapshot-XXX.jpg ...\n");
+//            int i;
+//            while (flag == 1) {
+    int ret;
+                    CameraFile *file;
+
+    //HAVE TO BE CHANGE IN FUNCTION OF CHOICE OF USERT PROJECT FILE//
+                    char * outputFile;
+                    boost::filesystem::path outputFilePath("projet/previewTps");
+                    outputFile = (char*)outputFilePath.string().data();
+
+
+                    fprintf(stderr,"preview %d\n", i);
+                    ret = gp_file_new(&file);
+                    if (ret != GP_OK) {
+                            fprintf(stderr,"gp_file_new: %d\n", ret);
+                            exit(1);
+                    }
+    #if 0 /* testcase for EOS zooming */
+                    {
+                            char buf[20];
+                            if (i<10) set_config_value_string (_camera, "eoszoom", "5", _context);
+                            sprintf(buf,"%d,%d",(i&0x1f)*64,(i>>5)*64);
+                            fprintf(stderr, "%d - %s\n", i, buf);
+                            set_config_value_string (_camera, "eoszoomposition", buf, _context);
+                    }
+    #endif
+                    ret = gp_camera_capture_preview(_camera, file, _context);
+                    if (ret != GP_OK) {
+                            fprintf(stderr,"gp_camera_capture_preview(%d): %d\n", i, ret);
+                            exit(1);
+                    }
+
+    //HAVE TO BE CHANGE IN FUNCTION OF CHOICE OF USERT PROJECT FILE//
+                    sprintf(outputFile, "projet/previewTps/snapshot-%03d.jpg", i);
+                    //std::cout<<"SAVE FILE IN : "<<outputFile<<std::endl;
+                    ret = gp_file_save(file, outputFile);
+                    if (ret != GP_OK) {
+                            fprintf(stderr,"gp_camera_capture_preview(%d): %d\n", i, ret);
+                            exit(1);
+                    }
+                    gp_file_unref(file);
+
+                    //AFFICHIER IMAGE
+
+                    boost::filesystem::path FileToDeletePath(outputFile);
+                    boost::filesystem::remove(FileToDeletePath);
+
+                    //know if we're still on the good image on the timeline
+
+//                    ++i;
+//            }
+}
+
 void Gphoto::exitCamera()
 {
 #ifdef WITH_GPHOTO2
