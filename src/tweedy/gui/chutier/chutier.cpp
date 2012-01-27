@@ -105,6 +105,13 @@ void Chutier::on_importAction_triggered()
 
     _listWidget->addItem(item);
 
+    /*add media imported to chutier core*/
+    boost::filesystem::path NameOfFileToImport(fileName.toStdString());
+    Projet& projectInstance = Projet::getInstance();
+    ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
+    chutierMediaExt.importMediaToChutier(NameOfFileToImport);
+    //chutierMediaExt.printMapMediaExt();
+
 }
 
 void Chutier::on_deleteAction_triggered()

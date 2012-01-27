@@ -23,6 +23,7 @@ void ChutierMediaExt::importMediaToChutier(boost::filesystem::path & urlMedia) {
     ptr_map_insert( _mapMediaExt )( mediaE.getNameMedia().string(), mediaE );
     //std::cout<<"PRINT ALL MEDIA EXT"<<std::endl;
     //printMapMediaExt();
+
 }
 
 void ChutierMediaExt::deleteMediaFromChutier(MediaExt & media) {

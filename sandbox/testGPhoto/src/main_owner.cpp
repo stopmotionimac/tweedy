@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 		if (ret < GP_OK) {
 			fprintf (stderr, "Failed to set camera owner to %s; %d\n", argv[1], ret);
 		} else 
-			printf("New owner: %s\n", argv[1]);
+                        printf("New owner: %s\n", owner);
 	}
 out:
 	gp_camera_exit (camera, context);
