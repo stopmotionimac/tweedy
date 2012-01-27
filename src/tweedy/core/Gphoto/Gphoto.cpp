@@ -159,6 +159,7 @@ boost::filesystem::path Gphoto::captureToFile()
 }
 
 void Gphoto::doPreview(int i) {
+
 //    int ret;
 //    //i => define the number the stop condition
 //            //printf("Taking 100 previews and saving them to snapshot-XXX.jpg ...\n");
