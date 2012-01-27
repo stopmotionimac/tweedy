@@ -243,7 +243,6 @@ void TimeLineUi::increaseTime()
 void TimeLineUi::getCurrentTime(int row,int column)
 {
     _time = column;
-       
     Q_EMIT timeChanged(_time);
     
 }
