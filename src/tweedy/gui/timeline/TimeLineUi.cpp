@@ -44,12 +44,13 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _timeline = &(Projet::getInstance().getTimeline());
 
     _table = new TableTimeline(this);
-    _table->setIconSize(QSize(95,68));
-    _table->horizontalHeader()->setDefaultSectionSize(100);
-    _table->verticalHeader()->setDefaultSectionSize(100);
-    _table->resize(1000, 140);
+    _table->setIconSize(QSize(100,150));
+    _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->height());
+    _table->verticalHeader()->setDefaultSectionSize(150);
+
     //ajout de la table dans le widget
-    _table->setParent(_ui->widgetContentTable);
+    QVBoxLayout *layout = new QVBoxLayout(_ui->widgetContentTable);
+    layout->addWidget(_table);
     
     //connecter l'update de la timelineUi au signalChanged de la timeline
     TimeLineUiUpdater upd(*this);
@@ -122,12 +123,6 @@ void TimeLineUi::createActions(){
 
 void TimeLineUi::linkButtonsWithActions()
 {
-
-    _ui->playPauseButton->setDefaultAction(_playPauseAction);
-    _ui->nextButton->setDefaultAction(_nextAction);
-    _ui->prevButton->setDefaultAction(_prevAction);
-
-    _ui->zeroButton->setDefaultAction(_zeroAction);
     _ui->plusButton->setDefaultAction(_plusAction);
     _ui->minusButton->setDefaultAction(_minusAction);
     _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
@@ -215,18 +210,18 @@ void TimeLineUi::emitDisplayChanged()
 
 //_______________ Write time in label and select the good cell _________________
 
-void TimeLineUi::writeTime(int newValue)
-{
+//void TimeLineUi::writeTime(int newValue)
+//{
 
-    _table->setCurrentCell(0,newValue);
+//    _table->setCurrentCell(0,newValue);
 
-    if (newValue == _timeline->maxTime())
-        newValue = -1;
+//    if (newValue == _timeline->maxTime())
+//        newValue = -1;
 
-   _ui->time->setNum(newValue);
+//   _ui->time->setNum(newValue);
 
-   //emitDisplayChanged();
-}
+//   //emitDisplayChanged();
+//}
 
 
 //___________ Increase current time or stop timer if last frame ________________

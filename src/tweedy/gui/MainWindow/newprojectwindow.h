@@ -21,7 +21,7 @@ public:
     QLineEdit * getFolderProjectLineEdit();
 
 private:
-    Ui::newProjectWindow *ui;
+    Ui::newProjectWindow *_ui;
 };
 
 #endif // NEWPROJECTWINDOW_H

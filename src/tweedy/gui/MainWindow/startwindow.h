@@ -19,7 +19,7 @@ public:
     QToolButton* getOpenProjectButton();
 
 private:
-    Ui::StartWindow *ui;
+    Ui::StartWindow *_ui;
 
 };
 

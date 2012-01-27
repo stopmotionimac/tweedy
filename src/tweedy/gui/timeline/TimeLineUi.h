@@ -33,10 +33,11 @@ public:
 
     ~TimeLineUi();
     
-    unsigned int time(){ return _time; }
-    Ui::Timeline* ui(){ return _ui; }
-    Timeline* timeline(){return _timeline;}
-    QIcon defautIcon(){return _defautIcon;}
+    unsigned int time() { return _time; }
+    Ui::Timeline* ui() { return _ui; }
+    Timeline* getTimeline() { return _timeline; }
+    QIcon defautIcon() { return _defautIcon; }
+    QTableWidget * getTableWidget() { return _table; }
         
     void createActions();
     void toolBar();
@@ -53,7 +54,7 @@ public:
                 
 public Q_SLOTS:
     void increaseTime();
-    void writeTime(int newValue);
+    //void writeTime(int newValue);
     void getCurrentTime(int row,int column);
     
     
