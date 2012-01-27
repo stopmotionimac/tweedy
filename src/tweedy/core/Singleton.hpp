@@ -21,12 +21,12 @@ public:
   {
     if (NULL == _singleton)
       {
-        std::cout << "creating singleton." << std::endl;
+        //std::cout << "creating singleton." << std::endl;
         _singleton = new T;
       }
     else
       {
-        std::cout << "singleton already exist" << std::endl;
+        //std::cout << "singleton already exist" << std::endl;
       }
 
     return *_singleton;

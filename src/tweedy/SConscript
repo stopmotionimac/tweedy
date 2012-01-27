@@ -7,6 +7,7 @@ project.StaticLibrary(
 	libraries=[
 		libs.boost,
 		libs.boost_filesystem,
+                libs.boost_signals,
 		libs.gphoto2,
 		]
 	)
@@ -16,7 +17,6 @@ project.StaticLibrary(
 	includes=['..'],
 	libraries=[
 		libs.tweedyCore,
-		libs.glu,
 		libs.qt4(uiFiles=project.scanFiles(['gui'], accept=['*.ui'])),
 		]
 	)

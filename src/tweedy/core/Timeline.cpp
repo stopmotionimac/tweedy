@@ -3,23 +3,37 @@
 Timeline::Timeline(): Imedia(ImediaTypeTimeline), _maxTime(0)
 {
     Clip c1("img/tweedy0.jpg" );
-    c1.setPosition(0,3);
+    c1.setPosition(0,1);
     Clip c2( "img/tweedy1.jpg" );
-    c2.setPosition(5,7);
+    c2.setPosition(1,2);
     Clip c3( "img/tweedy2.jpg" );
-    c3.setPosition(7,10);
+    c3.setPosition(2,3);
     Clip c4( "img/tweedy3.jpg" );
-    c4.setPosition(11,12);
-    
+    c4.setPosition(3,4);
+    Clip c5("img/tweedy4.jpg" );
+    c5.setPosition(4,5);
+    Clip c6( "img/tweedy5.jpg" );
+    c6.setPosition(5,6);
+    Clip c7( "img/tweedy6.jpg" );
+    c7.setPosition(6,7);
+        
     _mapClip[c1.imgPath().string()] = c1 ;
     _mapClip[c2.imgPath().string()] = c2 ;
     _mapClip[c3.imgPath().string()] = c3 ;
     _mapClip[c4.imgPath().string()] = c4 ;
+    _mapClip[c5.imgPath().string()] = c5 ;
+    _mapClip[c6.imgPath().string()] = c6 ;
+    _mapClip[c7.imgPath().string()] = c7 ;
     
     
     setMaxTime();
 }
 
+Timeline::Timeline(const Timeline& timeline) : Imedia(timeline)
+{
+    _maxTime = timeline._maxTime;
+    _mapClip = timeline._mapClip;
+}
 
 Timeline::OMapClip Timeline::getOrderedClips()
 {
@@ -36,6 +50,43 @@ Timeline::OMapClip Timeline::getOrderedClips()
 void Timeline::addClip(Clip & clip) {
     _mapClip[clip.imgPath().string()] = clip;
 }
+
+
+void Timeline::insertClip(const std::string& newClipName, double currentTime)
+{
+    std::string currentFilename;
+    bool found = findCurrentClip(currentFilename, currentTime);
+    int timeIn = currentTime;
+    
+    if (found)
+        timeIn = _mapClip[currentFilename].timeIn();
+    
+    //décale les clips suivants
+    BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
+    {
+      if (s.second->timeIn() >= timeIn)
+      {
+          s.second->setTimeIn(1);
+          s.second->setTimeOut(1);
+      }      
+    }
+    
+    
+    
+    Clip c(newClipName);
+    c.setPosition(timeIn, timeIn+1);
+    _mapClip[newClipName] = c;
+        
+    
+    setMaxTime();
+    
+    _signalChanged();
+}
+
+
+
+
+
 
 void Timeline::addTimeToClip(const std::string& clipName, double time, bool blankBefore, bool blankAfter)
 {
@@ -63,7 +114,11 @@ void Timeline::addTimeToClip(const std::string& clipName, double time, bool blan
           s.second->setTimeIn(time);
           s.second->setTimeOut(time);
       }      
-    }        
+    }
+    
+    _signalChanged();
+    
+                
 }
 
 
@@ -109,4 +164,10 @@ void Timeline::deleteBlank(int time)
         }
     }
     --_maxTime;
+    _signalChanged();
 }
+
+
+boost::signal0<void>& Timeline::getSignalChanged(){
+     return _signalChanged;
+ }

@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>699</width>
-    <height>206</height>
+    <width>656</width>
+    <height>226</height>
    </rect>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>16777215</width>
+    <height>237</height>
+   </size>
+  </property>
+  <property name="baseSize">
+   <size>
+    <width>10000</width>
+    <height>237</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Timeline</string>
@@ -242,7 +254,13 @@
        <property name="minimumSize">
         <size>
          <width>100</width>
-         <height>120</height>
+         <height>140</height>
+        </size>
+       </property>
+       <property name="baseSize">
+        <size>
+         <width>10000</width>
+         <height>150</height>
         </size>
        </property>
       </widget>

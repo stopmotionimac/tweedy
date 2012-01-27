@@ -3,6 +3,8 @@
 
 #include <QtGui/QWidget>
 #include <QtGui/QToolButton>
+#include <QtGui/QLabel>
+#include <QtGui/QPainter>
 
 namespace Ui {
     class ViewerTweedy;
@@ -19,9 +21,19 @@ public:
     QToolButton * getNextButton();
     QToolButton * getPreviousButton();
     QToolButton * getCaptureButton();
+    QToolButton * getRetour0Button();
+    QLabel * getViewerLabel();
+    QLabel * getTimeLabel();
+    QImage calculateImage(const QImage& sourceImage, const QImage& destinationImage);
+    
+private Q_SLOTS:
+    void displayChanged(int time);
+    void handle_onionAction_triggered();
 
 private:
     Ui::ViewerTweedy *_ui;
+    int _currentTime;
+    QAction * _onionAction;
 };
 
 #endif // VIEWERTWEEDY_H
