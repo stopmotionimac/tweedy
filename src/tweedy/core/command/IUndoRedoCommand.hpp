@@ -19,8 +19,6 @@ public:
     virtual void undo()= 0;
     virtual void runDo()=0;
     virtual void redo()= 0;
-    virtual void getName() const = 0;
-    virtual void setText(const std::string &text)=0;
     virtual const std::string& getText() const =0;
 };
 

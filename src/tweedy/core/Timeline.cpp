@@ -49,6 +49,8 @@ Timeline::OMapClip Timeline::getOrderedClips()
 
 void Timeline::addClip(Clip & clip) {
     _mapClip[clip.imgPath().string()] = clip;
+    
+    _signalChanged();
 }
 
 
@@ -84,6 +86,27 @@ void Timeline::insertClip(const std::string& newClipName, double currentTime)
 }
 
 
+void Timeline::moveElement(std::string filename, int newPosition)
+{
+    int move = newPosition - _mapClip[filename].timeIn();
+    
+    int duree = _mapClip[filename].timeOut() - _mapClip[filename].timeIn();
+    if (move > 0)
+        duree *= -1;
+    
+    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
+    {
+        if (s.second->timeIn() > _mapClip[filename].timeIn() && s.second->timeIn() <= newPosition)
+        {
+            s.second->setTimeIn(duree);
+            s.second->setTimeOut(duree);
+        }
+    }
+
+    _mapClip[filename].setTimeIn(move);
+    _mapClip[filename].setTimeOut(move);
+   
+}
 
 
 
@@ -106,6 +129,7 @@ void Timeline::addTimeToClip(const std::string& clipName, double time, bool blan
         _mapClip[clipName].setTimeOut(time);
     }
 
+    
     //décale les clips suivants
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
@@ -117,7 +141,6 @@ void Timeline::addTimeToClip(const std::string& clipName, double time, bool blan
     }
     
     _signalChanged();
-    
                 
 }
 
@@ -151,6 +174,17 @@ void Timeline::setMaxTime()
     _maxTime = max;
 
 }
+
+void Timeline::deleteClip(const std::string& clipName)
+{
+    //on retire le clip de la map
+    UOMapClip::iterator it=_mapClip.find(clipName); 
+    _mapClip.erase(it);
+    
+    //emission du signal de changement d'etat de la timeline
+    _signalChanged();
+}
+
 
 void Timeline::deleteBlank(int time)
 {

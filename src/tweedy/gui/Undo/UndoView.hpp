@@ -42,11 +42,11 @@ private Q_SLOTS:
     
 private:
        
-    QIcon icon;
-    QString emptyLabel;
+    QIcon _icon;
+    QString _emptyLabel;
     CommandManager& _cmdMan;
-    QUndoGroup * undoGroup;
-    std::stack<QString> pileString;
+    QUndoGroup * _undoGroup;
+    std::stack<QString> _pileString;
     
         
 };

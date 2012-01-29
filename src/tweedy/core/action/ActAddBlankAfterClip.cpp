@@ -7,8 +7,13 @@
 #include <iostream>
 #include <sstream>
 
-ActAddBlankAfterClip::ActAddBlankAfterClip(int currentTime, const std::string name, int value)
-        : IAction(name), _currentTime(currentTime), _value(value)
+ActAddBlankAfterClip::ActAddBlankAfterClip()
+        :IAction("Action add blank after clip")
+{
+    
+}
+
+void ActAddBlankAfterClip::operator()(int currentTime)
 {
     //récupérer le clip à traiter
     std::string filename = "img/none.jpg";
@@ -17,17 +22,15 @@ ActAddBlankAfterClip::ActAddBlankAfterClip(int currentTime, const std::string na
     
     Timeline timeline = projet.getTimeline();
 
-    bool isClip = timeline.findCurrentClip(filename,_currentTime);
+    bool isClip = timeline.findCurrentClip(filename,currentTime);
     
-    std::cout << timeline.mapClip().size() << std::endl;
-    std::cout << isClip << std::endl;
-    std::cout << filename << std::endl;
-    std::cout << _currentTime << std::endl;
+    if(!isClip)
+        std::cout<< "Clip not found" << std::endl;
     
-    if(isClip){
-        
+    else
+    {
         //créer la commande 
-        IUndoRedoCommand* cmd = new CmdClipAddBlankAfter(filename,"Commande Add Blank Before Clip"+filename);
+        IUndoRedoCommand* cmd = new CmdClipAddBlankAfter(filename,"Commande Add Blank Before Clip "+filename);
 
         //trouver le command Manager par le projet
 
@@ -36,14 +39,12 @@ ActAddBlankAfterClip::ActAddBlankAfterClip(int currentTime, const std::string na
         //ajouter la commande au commande manager
         cmdMng.pushNewCommand(cmd);
     }
-    else
-        std::cout<< "Clip not found" << std::endl;
-    
+
     std::cout << "Action done" << std::endl;
     
 }
 
 ActAddBlankAfterClip::~ActAddBlankAfterClip()
 {
-    std::cout << "Dtor action add blank after clip" << std::endl;
+    std::cout << "Dtor action : "+_name << std::endl;
 }

@@ -6,8 +6,13 @@
 #include <iostream>
 #include <sstream>
 
-ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name, int value)
-        : IAction(name), _currentTime(currentTime), _value(value)
+ActClipSetTimeRange::ActClipSetTimeRange()
+        :IAction("Action set time range clip")
+{
+    
+}
+
+void ActClipSetTimeRange::operator()(int currentTime, int value)
 {
     //récupérer le clip à traiter
     std::string filename = "img/none.jpg";
@@ -16,22 +21,20 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
     
     Timeline timeline = projet.getTimeline();
 
-    bool isClip = timeline.findCurrentClip(filename,_currentTime);
+    bool isClip = timeline.findCurrentClip(filename,currentTime);
     
-    std::cout << timeline.mapClip().size() << std::endl;
-    std::cout << isClip << std::endl;
-    std::cout << filename << std::endl;
-    std::cout << _currentTime << std::endl;
     
-    //trouver le command Manager par le projet
-    
-    if(isClip){
+    if(!isClip)
+        
+        std::cout<< "Clip not found" << std::endl;
+     
+    else{
         //créer la commande 
 
         std::ostringstream oss;
-        oss<<_value;
+        oss<<value;
         IUndoRedoCommand* cmd = new CmdClipSetTimeRange(filename,"Commande Clip Set Time Range"+oss.str()
-                , _value);
+                , value);
 
         //trouver le command Manager par l'application
 
@@ -40,8 +43,6 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
         //ajouter la commande au commande manager
         cmdMng.pushNewCommand(cmd);
     }
-    else
-        std::cout<< "Clip not found" << std::endl;
     
     std::cout << "Action done" << std::endl;
     
@@ -49,5 +50,5 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
 
 ActClipSetTimeRange::~ActClipSetTimeRange()
 {
-    std::cout << "Dtor action clip set time range" << std::endl;
+    std::cout << "Dtor action : " +_name << std::endl;
 }

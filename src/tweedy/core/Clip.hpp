@@ -30,6 +30,10 @@ public:
         _imgreduction(0), 
         _timeIn(0), 
         _timeOut(0){/*Imedia(type);*/}
+    
+    Clip(const Clip&);
+    
+    Clip& operator=(const Clip&);
         
     ~Clip(){}
     

@@ -3,6 +3,7 @@
 #include <tweedy/core/action/ActClipSetTimeRange.hpp>
 #include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
 #include <tweedy/core/action/ActAddBlankAfterClip.hpp>
+#include <tweedy/core/action/ActDeleteClip.hpp>
 
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
@@ -44,9 +45,10 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _timeline = &(Projet::getInstance().getTimeline());
 
     _table = new TableTimeline(this);
-    _table->setIconSize(QSize(100,150));
+
+    _table->setIconSize(QSize(95,68));
     _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->height());
-    _table->verticalHeader()->setDefaultSectionSize(150);
+    _table->verticalHeader()->setDefaultSectionSize(100);
 
     //ajout de la table dans le widget
     QVBoxLayout *layout = new QVBoxLayout(_ui->widgetContentTable);
@@ -132,8 +134,6 @@ void TimeLineUi::linkButtonsWithActions()
 }
 
 
-
-
 //_____________________ Update the table with list of clips ____________________
 
 
@@ -156,10 +156,14 @@ void TimeLineUi::updateTable()
         _table->setHorizontalHeaderItem(i, new QTableWidgetItem(QString::fromStdString(header) ) );
         
         QTableWidgetItem *newItem = new QTableWidgetItem(_defautIcon,"");
-        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
 
         _table->setItem(0, i, newItem);
     }
+    
+    /*_table->setDragDropOverwriteMode(false);
+    _table->setDragEnabled(true);
+    _table->setDragDropMode(QAbstractItemView::InternalMove);*/
     
     //fill with icons
     Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
@@ -169,7 +173,7 @@ void TimeLineUi::updateTable()
         {
             QIcon icon( QString::fromStdString((*s.second)->imgPath().string()) );
             QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
-            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
             _table->setItem(0, j, newItem);
         }
     }
@@ -179,33 +183,13 @@ void TimeLineUi::updateTable()
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _table->setItem(0, _timeline->maxTime(), newItem);
    
+    _table->setDragEnabled(true);
+    _table->verticalHeader()->setMovable(true);
     _table->setCurrentCell(0,currentTime);
 
    
     
 }
-
-
-
-
-
-
-/*____________________ Let the view display the good picture ___________________
-
-
-void TimeLineUi::emitDisplayChanged()
-{
-    std::string  filename = "img/none.jpg";
-    
-    if (_time == _timeline->maxTime())
-        //afficher le temps reel
-        filename = "img/realTime.jpg";
-    else
-        bool isClip = _timeline->findCurrentClip(filename,_time);
-    
-    Q_EMIT displayChanged(filename);
-}
-*/
 
 
 //_______________ Write time in label and select the good cell _________________
@@ -336,9 +320,10 @@ void TimeLineUi::handle_plusAction_triggered()
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Add time action ",_ui->spinDuration->value());
+       ActClipSetTimeRange action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time,_ui->spinDuration->value());
    }
    
    
@@ -352,9 +337,10 @@ void TimeLineUi::handle_minusAction_triggered()
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Remove time action ",-_ui->spinDuration->value());
+       ActClipSetTimeRange action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time,-_ui->spinDuration->value());
               
    }
 }
@@ -366,11 +352,12 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
-      
-        // création d'une action ActClipSetTimeRange
-       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ",_ui->spinDuration->value());
+       // création d'une action ActAddBlankBeforeClip
+       ActAddBlankBeforeClip action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time);
+       
      
    }
 
@@ -384,10 +371,11 @@ void TimeLineUi::handle_blankAfterAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
-        // création d'une action ActClipSetTimeRange
-       IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
+       // création d'une action ActAddBlankAfterClip
+       ActAddBlankAfterClip action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time);
         
    }
     
@@ -399,15 +387,12 @@ void TimeLineUi::deleteKey_activated()
    int currentCell = _table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
        
-       if (isClip)
-           _timeline->deleteClip(filename);
-       else
-           _timeline->deleteBlank(_time);
-              
-       updateTable();
+       //creation de l'action ActDeleteClip
+       ActDeleteClip action;
+       
+       //declenchement de l'action
+       action(_time);
        
     }
 

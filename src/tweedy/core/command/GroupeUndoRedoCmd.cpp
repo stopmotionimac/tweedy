@@ -41,14 +41,6 @@ void GroupeUndoRedoCmd::undo(){
 }
 
 
-void GroupeUndoRedoCmd::getName() const{
-    std::cout<<_text<<std::endl;
-}
-
-void GroupeUndoRedoCmd::setText(const std::string & newText){
-    _text = newText;
-}
-
 const std::string& GroupeUndoRedoCmd::getText() const {
     return _text;
 }

@@ -9,15 +9,12 @@ class ActAddBlankAfterClip : public IAction
     
 public:
     
-    ActAddBlankAfterClip(int currentTime, const std::string name, int value);
+    ActAddBlankAfterClip();
     
     ~ActAddBlankAfterClip();
     
+    void operator()(int currentTime);
     
-private:
-
-    int _currentTime;
-    int _value;
         
 };
 

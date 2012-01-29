@@ -9,16 +9,12 @@ class ActClipSetTimeRange : public IAction
     
 public:
     
-    ActClipSetTimeRange(int currentTime, const std::string name, int value);
+    ActClipSetTimeRange();
     
     ~ActClipSetTimeRange();
     
+    void operator()(int currentTime, int value);
     
-private:
-
-    int _currentTime;
-    int _value;
-        
 };
 
 #endif	/* ACTCLIPSETTIMERANGE_HPP */

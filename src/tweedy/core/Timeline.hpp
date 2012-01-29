@@ -30,8 +30,9 @@ public :
         void setMaxTime();
         OMapClip getOrderedClips();
         
+        void moveElement(std::string filename, int newPosition);
         void addClip(Clip & clip);
-        void deleteClip(const std::string& clipName){ UOMapClip::iterator it=_mapClip.find(clipName); _mapClip.erase(it); }
+        void deleteClip(const std::string& clipName);
         void deleteBlank(int time);
         void insertClip(const std::string& newClipName, double currentTime);
         void addTimeToClip(const std::string& clipName, double time, bool blankBefore=false, bool blankAfter=false);
