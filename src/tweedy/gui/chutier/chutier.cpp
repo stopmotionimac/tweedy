@@ -35,7 +35,6 @@ Chutier::Chutier(QWidget *parent) :
     _viewerChutier = new QLabel(_viewerChutierDock);
     _viewerChutier->setBackgroundRole(QPalette::Dark);
     _viewerChutier->setScaledContents(true);
-    _viewerChutier->setMinimumHeight(this->height()-10);
     _viewerChutierDock->setWidget(_viewerChutier);
 
     _listWidget->setMinimumWidth(250);
@@ -87,7 +86,7 @@ Chutier::Chutier(QWidget *parent) :
     _viewerChutier->setPixmap(defaultImage);
     _viewerChutier->setScaledContents(true); //centrer l'image dans le QLabel
 
-    connect(_listWidget, SIGNAL(itemActivated(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
+    connect(_listWidget, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
     connect(_importAction, SIGNAL(triggered()), this, SLOT(on_importAction_triggered()));
     connect(_deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
 }
