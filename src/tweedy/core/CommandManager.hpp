@@ -52,7 +52,7 @@ public:
     void redo();
 
  
-    boost::ptr_vector<IUndoRedoCommand> getUndoRedoVector();
+    boost::ptr_vector<IUndoRedoCommand>& getUndoRedoVector();
     
     size_t getIndex();
     

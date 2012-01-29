@@ -6,8 +6,13 @@
 #include <iostream>
 #include <sstream>
 
-ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string name, int value)
-        : IAction(name), _currentTime(currentTime), _value(value)
+ActAddBlankBeforeClip::ActAddBlankBeforeClip()
+        :IAction("Action add blank before clip")
+{
+    
+}
+
+void ActAddBlankBeforeClip::operator()(int currentTime)
 {
     //récupérer le clip à traiter
     std::string filename = "img/none.jpg";
@@ -16,14 +21,15 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
     
     Timeline timeline = projet.getTimeline();
 
-    bool isClip = timeline.findCurrentClip(filename,_currentTime);
+    bool isClip = timeline.findCurrentClip(filename,currentTime);
+  
     
-    std::cout << timeline.mapClip().size() << std::endl;
-    std::cout << isClip << std::endl;
-    std::cout << filename << std::endl;
-    std::cout << _currentTime << std::endl;
+    if(!isClip)
+        
+        std::cout<< "Clip not found" << std::endl;
     
-    if(isClip){
+    else
+    {
         
         //créer la commande 
         IUndoRedoCommand* cmd = new CmdClipAddBlankBefore(filename,"Commande Add Blank Before Clip "+filename);
@@ -35,8 +41,6 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
         //ajouter la commande au commande manager
         cmdMng.pushNewCommand(cmd);
     }
-    else
-        std::cout<< "Clip not found" << std::endl;
     
     std::cout << "Action done" << std::endl;
     

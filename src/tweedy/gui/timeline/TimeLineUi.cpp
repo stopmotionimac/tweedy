@@ -320,9 +320,10 @@ void TimeLineUi::handle_plusAction_triggered()
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Add time action ",_ui->spinDuration->value());
+       ActClipSetTimeRange action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time,_ui->spinDuration->value());
    }
    
    
@@ -336,9 +337,10 @@ void TimeLineUi::handle_minusAction_triggered()
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Remove time action ",-_ui->spinDuration->value());
+       ActClipSetTimeRange action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time,-_ui->spinDuration->value());
               
    }
 }
@@ -350,11 +352,12 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
-      
-        // création d'une action ActClipSetTimeRange
-       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ",_ui->spinDuration->value());
+       // création d'une action ActAddBlankBeforeClip
+       ActAddBlankBeforeClip action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time);
+       
      
    }
 
@@ -368,10 +371,11 @@ void TimeLineUi::handle_blankAfterAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
-       // création d'une action ActClipSetTimeRange
-       IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
+       // création d'une action ActAddBlankAfterClip
+       ActAddBlankAfterClip action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time);
         
    }
     
@@ -385,21 +389,11 @@ void TimeLineUi::deleteKey_activated()
    {
        
        //creation de l'action ActDeleteClip
-       IAction* action =  new ActDeleteClip(_time, "Delete clip");
+       ActDeleteClip action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time);
        
-       /*
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
-       
-       if (isClip)
-           _timeline->deleteClip(filename);
-       else
-           _timeline->deleteBlank(_time);
-              
-       updateTable();
-       */
     }
 
 }

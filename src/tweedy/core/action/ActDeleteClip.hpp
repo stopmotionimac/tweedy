@@ -8,12 +8,10 @@ class ActDeleteClip : public IAction
 
 public:
     
-    ActDeleteClip(int currentTime, const std::string name);
+    ActDeleteClip();
     ~ActDeleteClip();
     
-private:
-
-    int _currentTime;
+    void operator()(int currentTime);
         
 };
 
