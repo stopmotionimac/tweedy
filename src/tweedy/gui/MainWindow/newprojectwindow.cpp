@@ -3,24 +3,24 @@
 
 newProjectWindow::newProjectWindow(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::newProjectWindow)
+    _ui(new Ui::newProjectWindow)
 {
-    ui->setupUi(this);
+    _ui->setupUi(this);
 
     setWindowTitle(tr("Creer un nouveau projet"));
 }
 
 QToolButton * newProjectWindow::getSearchFolderProjectButton()
 {
-    return ui->searchFolderProjectButton;
+    return _ui->searchFolderProjectButton;
 }
 
 QLineEdit * newProjectWindow::getFolderProjectLineEdit()
 {
-    return ui->folderProjectLineEdit;
+    return _ui->folderProjectLineEdit;
 }
 
 newProjectWindow::~newProjectWindow()
 {
-    delete ui;
+    delete _ui;
 }

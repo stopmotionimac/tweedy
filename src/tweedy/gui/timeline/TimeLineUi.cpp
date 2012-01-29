@@ -44,12 +44,14 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _timeline = &(Projet::getInstance().getTimeline());
 
     _table = new TableTimeline(this);
+
     _table->setIconSize(QSize(95,68));
-    _table->horizontalHeader()->setDefaultSectionSize(100);
+    _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->height());
     _table->verticalHeader()->setDefaultSectionSize(100);
-    _table->resize(1000, 140);
+
     //ajout de la table dans le widget
-    _table->setParent(_ui->widgetContentTable);
+    QVBoxLayout *layout = new QVBoxLayout(_ui->widgetContentTable);
+    layout->addWidget(_table);
     
     //connecter l'update de la timelineUi au signalChanged de la timeline
     TimeLineUiUpdater upd(*this);
@@ -122,12 +124,6 @@ void TimeLineUi::createActions(){
 
 void TimeLineUi::linkButtonsWithActions()
 {
-
-    _ui->playPauseButton->setDefaultAction(_playPauseAction);
-    _ui->nextButton->setDefaultAction(_nextAction);
-    _ui->prevButton->setDefaultAction(_prevAction);
-
-    _ui->zeroButton->setDefaultAction(_zeroAction);
     _ui->plusButton->setDefaultAction(_plusAction);
     _ui->minusButton->setDefaultAction(_minusAction);
     _ui->blankBeforeButton->setDefaultAction(_blankBeforeAction);
@@ -135,8 +131,6 @@ void TimeLineUi::linkButtonsWithActions()
     
     
 }
-
-
 
 
 //_____________________ Update the table with list of clips ____________________
@@ -161,10 +155,14 @@ void TimeLineUi::updateTable()
         _table->setHorizontalHeaderItem(i, new QTableWidgetItem(QString::fromStdString(header) ) );
         
         QTableWidgetItem *newItem = new QTableWidgetItem(_defautIcon,"");
-        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+        newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
 
         _table->setItem(0, i, newItem);
     }
+    
+    /*_table->setDragDropOverwriteMode(false);
+    _table->setDragEnabled(true);
+    _table->setDragDropMode(QAbstractItemView::InternalMove);*/
     
     //fill with icons
     Timeline::OMapClip orderedClips = _timeline->getOrderedClips();
@@ -174,7 +172,7 @@ void TimeLineUi::updateTable()
         {
             QIcon icon( QString::fromStdString((*s.second)->imgPath().string()) );
             QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
-            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled);
+            newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
             _table->setItem(0, j, newItem);
         }
     }
@@ -184,6 +182,8 @@ void TimeLineUi::updateTable()
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _table->setItem(0, _timeline->maxTime(), newItem);
    
+    _table->setDragEnabled(true);
+    _table->verticalHeader()->setMovable(true);
     _table->setCurrentCell(0,currentTime);
 
    
@@ -191,42 +191,20 @@ void TimeLineUi::updateTable()
 }
 
 
-
-
-
-
-/*____________________ Let the view display the good picture ___________________
-
-
-void TimeLineUi::emitDisplayChanged()
-{
-    std::string  filename = "img/none.jpg";
-    
-    if (_time == _timeline->maxTime())
-        //afficher le temps reel
-        filename = "img/realTime.jpg";
-    else
-        bool isClip = _timeline->findCurrentClip(filename,_time);
-    
-    Q_EMIT displayChanged(filename);
-}
-*/
-
-
 //_______________ Write time in label and select the good cell _________________
 
-void TimeLineUi::writeTime(int newValue)
-{
+//void TimeLineUi::writeTime(int newValue)
+//{
 
-    _table->setCurrentCell(0,newValue);
+//    _table->setCurrentCell(0,newValue);
 
-    if (newValue == _timeline->maxTime())
-        newValue = -1;
+//    if (newValue == _timeline->maxTime())
+//        newValue = -1;
 
-   _ui->time->setNum(newValue);
+//   _ui->time->setNum(newValue);
 
-   //emitDisplayChanged();
-}
+//   //emitDisplayChanged();
+//}
 
 
 //___________ Increase current time or stop timer if last frame ________________
@@ -248,7 +226,6 @@ void TimeLineUi::increaseTime()
 void TimeLineUi::getCurrentTime(int row,int column)
 {
     _time = column;
-       
     Q_EMIT timeChanged(_time);
     
 }

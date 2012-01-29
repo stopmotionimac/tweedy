@@ -17,7 +17,15 @@ project.StaticLibrary(
 	includes=['..'],
 	libraries=[
 		libs.tweedyCore,
-		libs.qt4(uiFiles=project.scanFiles(['gui'], accept=['*.ui'])),
+		libs.qt4(
+			uiFiles=project.scanFiles(['gui'],accept=['*.ui']),
+			modules = [
+				'QtCore',
+				'QtGui',
+				'QtOpenGL',
+				'QtDeclarative',
+				],
+			),
 		]
 	)
 

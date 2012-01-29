@@ -37,6 +37,8 @@ QLabel * ViewerTweedy::getViewerLabel() { return _ui->viewerLabel; }
 
 QLabel * ViewerTweedy::getTimeLabel() { return _ui->timeLabel; }
 
+QSlider * ViewerTweedy::getTempsSlider() { return _ui->tempsSlider; }
+
 
 void ViewerTweedy::displayChanged(int time)
 {
@@ -67,8 +69,11 @@ void ViewerTweedy::handle_onionAction_triggered()
     std::string filename = "img/none.jpg";
     int beginTime = _currentTime - nbFrames;
     if (beginTime < 0)
+    {
+        nbFrames += beginTime;
         beginTime = 0;
-    bool found = t.findCurrentClip(filename, _currentTime - nbFrames);
+    }
+    bool found = t.findCurrentClip(filename, beginTime);
 
     QImage resultImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
     found = resultImage.load(QString::fromStdString(filename));
