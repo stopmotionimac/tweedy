@@ -23,8 +23,6 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
     std::cout << filename << std::endl;
     std::cout << _currentTime << std::endl;
     
-    //trouver le command Manager par le projet
-    
     if(isClip){
         //créer la commande 
 
@@ -49,5 +47,5 @@ ActClipSetTimeRange::ActClipSetTimeRange(int currentTime, const std::string name
 
 ActClipSetTimeRange::~ActClipSetTimeRange()
 {
-    std::cout << "Dtor action clip set time range" << std::endl;
+    std::cout << "Dtor action : " +_name << std::endl;
 }

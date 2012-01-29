@@ -43,14 +43,6 @@ void CmdClipAddBlankBefore::undo(){
     std::cout << "undo" << std::endl;
 }
 
-void CmdClipAddBlankBefore::getName() const{
-    std::cout<<_text<<std::endl;
-}
-
-void CmdClipAddBlankBefore::setText(const std::string & newText){
-    _text = newText;
-}
-
 const std::string& CmdClipAddBlankBefore::getText() const {
     return _text;
 }

@@ -11,7 +11,7 @@ CmdClipSetTimeRange::CmdClipSetTimeRange(const std::string& idClip, const std::s
 }
 
 CmdClipSetTimeRange::~CmdClipSetTimeRange(){
-    
+
 }
 
 CmdClipSetTimeRange* CmdClipSetTimeRange::clone() const{
@@ -43,13 +43,6 @@ void CmdClipSetTimeRange::undo(){
     std::cout << "undo" << std::endl;
 }
 
-void CmdClipSetTimeRange::getName() const{
-    std::cout<<_text<<std::endl;
-}
-
-void CmdClipSetTimeRange::setText(const std::string & newText){
-    _text = newText;
-}
 
 const std::string& CmdClipSetTimeRange::getText() const {
     return _text;

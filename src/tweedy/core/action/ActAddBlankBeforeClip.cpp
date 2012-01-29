@@ -26,7 +26,7 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
     if(isClip){
         
         //créer la commande 
-        IUndoRedoCommand* cmd = new CmdClipAddBlankBefore(filename,"Commande Add Blank Before Clip"+filename);
+        IUndoRedoCommand* cmd = new CmdClipAddBlankBefore(filename,"Commande Add Blank Before Clip "+filename);
 
         //trouver le command Manager par le projet
 
@@ -44,6 +44,6 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
 
 ActAddBlankBeforeClip::~ActAddBlankBeforeClip()
 {
-    std::cout << "Dtor action add blank before clip" << std::endl;
+    std::cout << "Dtor action : "+_name << std::endl;
 }
 

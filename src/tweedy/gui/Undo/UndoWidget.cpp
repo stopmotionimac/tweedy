@@ -5,10 +5,10 @@
 UndoWidget::UndoWidget( UndoView * undoView){
     
     
-    dockLayout = new QVBoxLayout(this);
+    _dockLayout = new QVBoxLayout(this);
     
-    undoButton = new QPushButton("Undo",this);
-    redoButton = new QPushButton("Redo",this);
+    _undoButton = new QPushButton("Undo",this);
+    _redoButton = new QPushButton("Redo",this);
     
     
     
@@ -19,15 +19,15 @@ UndoWidget::UndoWidget( UndoView * undoView){
     
     /* A modifier/cleaner */
     
-    dockLayout->addWidget(undoButton);
-    dockLayout->addWidget(redoButton);
-    dockLayout->addWidget(_undoView);
+    _dockLayout->addWidget(_undoButton);
+    _dockLayout->addWidget(_redoButton);
+    _dockLayout->addWidget(_undoView);
     
     
-    this->setLayout(dockLayout);
+    this->setLayout(_dockLayout);
     
-    connect(undoButton, SIGNAL(clicked()), this, SLOT(updateUndoLabelValue()));
-    connect(redoButton, SIGNAL(clicked()), this, SLOT(updateRedoLabelValue()));
+    connect(_undoButton, SIGNAL(clicked()), this, SLOT(updateUndoLabelValue()));
+    connect(_redoButton, SIGNAL(clicked()), this, SLOT(updateRedoLabelValue()));
     
 }
 

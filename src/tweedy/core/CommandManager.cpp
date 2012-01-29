@@ -2,7 +2,7 @@
 #include <tweedy/core/command/IUndoRedoCommand.hpp>
 
 bool CommandManager::isActive() const{
-    return active;
+    return _active;
 }
 
 void CommandManager::setActive(bool active){
@@ -11,24 +11,24 @@ void CommandManager::setActive(bool active){
 
 
 int CommandManager::getCleanIndex() const{
-    return cleanIndex;
+    return _cleanIndex;
 }
 
 
 int CommandManager::getUndoLimit() const{
-    return undoLimit;
+    return _undoLimit;
 }
 
 int CommandManager::getRedoLimit() const{
-    return redoLimit;
+    return _redoLimit;
 }
 
 void CommandManager::setUndoLimit(int limit){
-    undoLimit = limit;
+    _undoLimit = limit;
 }
 
 void CommandManager::setRedoLimit(int limit){
-    redoLimit = limit;
+    _redoLimit = limit;
 }
 
 
@@ -37,12 +37,12 @@ void CommandManager::setRedoLimit(int limit){
 
 //si l'indice de la commande courante est superieur à 0
 bool CommandManager::canUndo() const{
-    return m_index!=0;
+    return _index!=0;
 }
 
 
 bool CommandManager::canRedo() const{
-    return m_index!= m_undoRedoVector.size();
+    return _index!= _undoRedoVector.size();
 }
 
 
@@ -51,28 +51,28 @@ bool CommandManager::canRedo() const{
 
 
 void CommandManager::clean(){
-    m_undoRedoVector.clear();
-    m_index = 0;
+    _undoRedoVector.clear();
+    _index = 0;
 }
 
 bool CommandManager::isClean() const{           /* a verifier */
-    return (m_undoRedoVector.empty());
+    return (_undoRedoVector.empty());
 }
 
 
 
 
 size_t CommandManager::countUndo() const{
-    return m_index;
+    return _index;
 }
 
 size_t CommandManager::countRedo() const{
-    return (m_undoRedoVector.size() - m_index);
+    return (_undoRedoVector.size() - _index);
 }
 
 
 size_t CommandManager::count() const{
-    return m_undoRedoVector.size();
+    return _undoRedoVector.size();
 }
 
 
@@ -81,24 +81,23 @@ void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
     
         
     /* clear the redo part of undoRedoVector*/
-    m_undoRedoVector.erase( m_undoRedoVector.begin()+m_index, m_undoRedoVector.end() );
+    _undoRedoVector.erase( _undoRedoVector.begin()+_index, _undoRedoVector.end() );
             
     /* push the new command into the undo part and execute it*/
-    m_undoRedoVector.push_back(newCommand);
+    _undoRedoVector.push_back(newCommand);
     
     newCommand->runDo();
-    ++m_index;
-    m_signalChanged();
+    ++_index;
+    _signalChanged();
 }
 
 
 void CommandManager::undo(){
     
     if (this->canUndo()){
-        size_t indexUndoCommand = --m_index;
-        m_undoRedoVector[indexUndoCommand].getName();
-        m_undoRedoVector[indexUndoCommand].undo();
-        m_signalChanged();
+        size_t indexUndoCommand = --_index;
+        _undoRedoVector[indexUndoCommand].undo();
+        _signalChanged();
     }
     else
         std::cout << "No command to undo" << std::endl; /* case of no command to undo will be implement
@@ -114,21 +113,20 @@ void CommandManager::redo(){
                                                       * with the slot */
         return;
     }
-    size_t indexUndoCommand = m_index++;
-    m_undoRedoVector[indexUndoCommand].getName();
-    m_undoRedoVector[indexUndoCommand].redo();
-    m_signalChanged();
+    size_t indexUndoCommand = _index++;
+    _undoRedoVector[indexUndoCommand].redo();
+    _signalChanged();
 }
 
  boost::ptr_vector<IUndoRedoCommand> CommandManager::getUndoRedoVector(){
-     return m_undoRedoVector;
+     return _undoRedoVector;
  }
  
  size_t CommandManager::getIndex(){
-     return m_index;
+     return _index;
  }
  
  
  boost::signal0<void>& CommandManager::getSignalChanged(){
-     return m_signalChanged;
+     return _signalChanged;
  }
