@@ -20,8 +20,6 @@ public:
     void runDo();
     void redo();
 
-    void getName() const;
-    void setText(const std::string &text);
     const std::string& getText() const;
     
     

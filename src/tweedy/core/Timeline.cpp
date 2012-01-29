@@ -49,6 +49,8 @@ Timeline::OMapClip Timeline::getOrderedClips()
 
 void Timeline::addClip(Clip & clip) {
     _mapClip[clip.imgPath().string()] = clip;
+    
+    _signalChanged();
 }
 
 
@@ -172,6 +174,17 @@ void Timeline::setMaxTime()
     _maxTime = max;
 
 }
+
+void Timeline::deleteClip(const std::string& clipName)
+{
+    //on retire le clip de la map
+    UOMapClip::iterator it=_mapClip.find(clipName); 
+    _mapClip.erase(it);
+    
+    //emission du signal de changement d'etat de la timeline
+    _signalChanged();
+}
+
 
 void Timeline::deleteBlank(int time)
 {

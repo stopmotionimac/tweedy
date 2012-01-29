@@ -45,5 +45,5 @@ ActAddBlankAfterClip::ActAddBlankAfterClip(int currentTime, const std::string na
 
 ActAddBlankAfterClip::~ActAddBlankAfterClip()
 {
-    std::cout << "Dtor action add blank after clip" << std::endl;
+    std::cout << "Dtor action : "+_name << std::endl;
 }

@@ -96,7 +96,6 @@ void CommandManager::undo(){
     
     if (this->canUndo()){
         size_t indexUndoCommand = --_index;
-        _undoRedoVector[indexUndoCommand].getName();
         _undoRedoVector[indexUndoCommand].undo();
         _signalChanged();
     }
@@ -115,7 +114,6 @@ void CommandManager::redo(){
         return;
     }
     size_t indexUndoCommand = _index++;
-    _undoRedoVector[indexUndoCommand].getName();
     _undoRedoVector[indexUndoCommand].redo();
     _signalChanged();
 }

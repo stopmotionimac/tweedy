@@ -3,6 +3,7 @@
 #include <tweedy/core/action/ActClipSetTimeRange.hpp>
 #include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
 #include <tweedy/core/action/ActAddBlankAfterClip.hpp>
+#include <tweedy/core/action/ActDeleteClip.hpp>
 
 #include <QtGui/QDragEnterEvent>
 #include <QtGui/QDropEvent>
@@ -367,7 +368,7 @@ void TimeLineUi::handle_blankAfterAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
-        // création d'une action ActClipSetTimeRange
+       // création d'une action ActClipSetTimeRange
        IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
        
        delete action;
@@ -382,6 +383,13 @@ void TimeLineUi::deleteKey_activated()
    int currentCell = _table->currentColumn();
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
+       
+       //creation de l'action ActDeleteClip
+       IAction* action =  new ActDeleteClip(_time, "Delete clip");
+       
+       delete action;
+       
+       /*
        std::string filename;
        bool isClip = _timeline->findCurrentClip(filename,_time);
        
@@ -391,7 +399,7 @@ void TimeLineUi::deleteKey_activated()
            _timeline->deleteBlank(_time);
               
        updateTable();
-       
+       */
     }
 
 }

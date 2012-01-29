@@ -44,6 +44,6 @@ ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string 
 
 ActAddBlankBeforeClip::~ActAddBlankBeforeClip()
 {
-    std::cout << "Dtor action add blank before clip" << std::endl;
+    std::cout << "Dtor action : "+_name << std::endl;
 }
 
