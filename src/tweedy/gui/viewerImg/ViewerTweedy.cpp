@@ -12,11 +12,14 @@ ViewerTweedy::ViewerTweedy(QWidget *parent) :
     _onionAction = new QAction("onion",this);
     //_onionAction->setShortcut(QKeySequence("Space"));
     _onionAction->setStatusTip("Option Onion Skin");
+    _previewTimer = new QTimer(this);
+
     
     displayChanged(0);
     
     connect(_ui->spinBox, SIGNAL(valueChanged(int)), _onionAction, SLOT(trigger()) );
     connect(_onionAction, SIGNAL(triggered()), this, SLOT(handle_onionAction_triggered()));
+    connect(_previewTimer, SIGNAL(timeout()), this, SLOT(updatePreview()));
     
     //_ui->onionButton->setDefaultAction(_onionAction);
     
@@ -47,11 +50,19 @@ void ViewerTweedy::displayChanged(int time)
     Timeline* timeline = &(Projet::getInstance().getTimeline());
     std::string  filename = "img/none.jpg";
 
-    if (time == timeline->maxTime())
+    if (time == timeline->maxTime()) {
         //afficher le temps reel
-        filename = "img/realTime.jpg";
-    else
+        /*? ms
+          20 img -> 1sec
+          01 img -> 0.05 sec = 50 ms
+        */
+        _previewTimer->start(50);
+        //filename = "img/realTime.jpg";
+    }
+    else {
+        _previewTimer->stop();
         bool isClip = timeline->findCurrentClip(filename,time);
+    }
 
     this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
    
@@ -103,6 +114,25 @@ void ViewerTweedy::handle_onionAction_triggered()
 
     this->getViewerLabel()->setPixmap(QPixmap::fromImage(resultImage));
     
+}
+
+//capture and display real time
+void ViewerTweedy::updatePreview() {
+    Projet& projectInstance = Projet::getInstance();
+    int isConnected = projectInstance.gPhotoInstance().tryToConnectCamera();
+    if (isConnected == 0) {
+        QMessageBox::about(this, tr("Warning"), tr("No camera connected to the computer"));
+        //std::cout<<"No camera connected to the computer"<<std::endl;
+        _previewTimer->stop();
+    }
+    else {
+        std::string filename = projectInstance.gPhotoInstance().doPreview(1);
+        this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
+        //deletecaptured file
+        boost::filesystem::path FileToDeletePath(filename);
+        boost::filesystem::remove(filename);
+    }
+    //std::cout<<"DO PREVIEW"<<std::endl;
 }
 
 
