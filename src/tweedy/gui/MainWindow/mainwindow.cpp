@@ -19,6 +19,8 @@
 
 #include <boost/filesystem.hpp>
 
+#include <tweedy/core/action/ActCapturePicture.hpp>
+
 #include <iostream>
 
 
@@ -254,6 +256,9 @@ void MainWindow::on_captureAction_triggered()
     else
     {
         std::cout<<"Camera connected"<<std::endl;
+        
+        //without action
+        /*
         projectInstance.setFolderToSavePictures();
 
         //Give picture to application and timeline
@@ -264,6 +269,13 @@ void MainWindow::on_captureAction_triggered()
         projectInstance.addImedia( clipFromPicture );
         timeline.addClip(clipFromPicture);
         timeline.setMaxTime();
+        */
+        
+        //with action
+        
+        ActCapturePicture action;
+        
+        action();
     }
 
 }
@@ -293,7 +305,6 @@ void MainWindow::on_undoButton_clicked(){
     CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canUndo()){
         cmdMng.undo();
-        timeline->updateTable();
     }
 }
 
@@ -302,7 +313,6 @@ void MainWindow::on_redoButton_clicked(){
     CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canRedo()){
         cmdMng.redo();
-        timeline->updateTable();
     }
 }
 
