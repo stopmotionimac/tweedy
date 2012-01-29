@@ -35,6 +35,7 @@ struct TimeLineUiUpdater
 TimeLineUi::TimeLineUi(QWidget* parent):
     QWidget(parent),
     _ui (new Ui::Timeline),
+    _fps(25),
     _time(0),
     _timer(new QTimer(this)),
     _isPlaying(false),
@@ -68,7 +69,8 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
     connect( this->_table , SIGNAL( currentCellChanged ( int , int , int , int  ) ), this, SLOT( getCurrentTime(int,int)));
-        
+    connect(_ui->spinFps, SIGNAL(valueChanged(int)), this, SLOT(changeFps(int)) );
+    
     Q_EMIT timeChanged(_time);
         
 }
@@ -240,7 +242,7 @@ void TimeLineUi::handle_playPauseAction_triggered()
 {
     if (!_isPlaying)
     {
-        _timer->start(1000);
+        _timer->start(1000.0 / _fps);
         _isPlaying = true;
         _playPauseAction->setIcon(QIcon("img/icones/pauseS.png"));
         _playPauseAction->setStatusTip("Mettre en pause");

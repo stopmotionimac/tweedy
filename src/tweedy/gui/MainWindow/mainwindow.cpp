@@ -201,9 +201,9 @@ void MainWindow::createWidgets()
     //Dock essai QML
 
     QDockWidget * dockGraphicTimeline = new QDockWidget("Timeline Graphique");
-    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
-    dockGraphicTimeline->setWidget(_timelineGraphique);
-    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
+//    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
+//    dockGraphicTimeline->setWidget(_timelineGraphique);
+//    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
 }
 
 

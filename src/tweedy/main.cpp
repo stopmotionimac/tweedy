@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
 {
     //init the Projet's singleton
 
-    // pointeurs sur l'unique instance de la classe UniqueObject
+    // pointeur sur l'unique instance de la classe UniqueObject
       Projet& projet = Projet::getInstance();
 
       //projet->setGphotoInstance();

@@ -14,7 +14,7 @@
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <tweedy/gui/Undo/UndoWidget.hpp>
 #include <tweedy/gui/Undo/UndoView.hpp>
-#include <tweedy/gui/timelineGraphique/timelinegraphique.h>
+//#include <tweedy/gui/timelineGraphique/timelinegraphique.h>
 
 #include "startwindow.h"
 #include "newprojectwindow.h"
@@ -85,9 +85,8 @@ class MainWindow : public QMainWindow
         UndoView * undoView;
         QWidget * undoWidget;
 
-        TimelineGraphique * _timelineGraphique;
+//        TimelineGraphique * _timelineGraphique;
 
-        //Gphoto * gPhotoInstance;
 
 };
 

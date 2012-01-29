@@ -6,6 +6,10 @@
 #include <QtGui/QLabel>
 #include <QtGui/QPainter>
 #include <QtGui/QSlider>
+#include <QtCore/QTimer>
+#include <QtGui/QMessageBox>
+
+#include <tweedy/core/Projet.hpp>
 
 namespace Ui {
     class ViewerTweedy;
@@ -31,11 +35,13 @@ public:
 private Q_SLOTS:
     void displayChanged(int time);
     void handle_onionAction_triggered();
+    void updatePreview();
 
 private:
     Ui::ViewerTweedy *_ui;
     int _currentTime;
     QAction * _onionAction;
+    QTimer * _previewTimer;
 };
 
 #endif // VIEWERTWEEDY_H
