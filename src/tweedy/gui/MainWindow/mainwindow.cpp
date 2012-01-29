@@ -258,7 +258,7 @@ void MainWindow::on_captureAction_triggered()
         std::cout<<"Camera connected"<<std::endl;
         
         //without action
-        /*
+        
         projectInstance.setFolderToSavePictures();
 
         //Give picture to application and timeline
@@ -269,13 +269,14 @@ void MainWindow::on_captureAction_triggered()
         projectInstance.addImedia( clipFromPicture );
         timeline.addClip(clipFromPicture);
         timeline.setMaxTime();
-        */
+       
         
         //with action
-        
+        /*
         ActCapturePicture action;
         
         action();
+         * */
     }
 
 }
