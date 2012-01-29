@@ -20,16 +20,35 @@ Rectangle {
         anchors.fill: parent
         drag.target: clip
         drag.axis: Drag.XAxis
+    }
 
-        MouseArea {
-            id: zoneAgrandissementClip
-            width: 10
-            height: clip.height
-            x: clip.x
-            y: clip.y
+    MouseArea {
+        id: areaScaleLeft
+        width: 10
+        height: clip.height
+        hoverEnabled: true
 
-            onEntered: { color: 'red' }
+        onEntered: {
+            aaa.AfficheCurseur("scale");
         }
+        onExited: {
+            aaa.AfficheCurseur("none")
+          }
+    }
+
+    MouseArea {
+        id: areaScaleRight
+        width: 10
+        height: clip.height
+        x:clip.width - areaScaleLeft.width
+        hoverEnabled: true
+
+        onEntered: {
+            aaa.AfficheCurseur("scale");
+        }
+        onExited: {
+            aaa.AfficheCurseur("none")
+          }
     }
 
 }
