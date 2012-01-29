@@ -6,8 +6,8 @@
 #include <iostream>
 #include <sstream>
 
-ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string name, int value)
-        : IAction(name), _currentTime(currentTime), _value(value)
+ActAddBlankBeforeClip::ActAddBlankBeforeClip(int currentTime, const std::string name)
+        : IAction(name), _currentTime(currentTime)
 {
     //récupérer le clip à traiter
     std::string filename = "img/none.jpg";

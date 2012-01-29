@@ -35,6 +35,7 @@ struct TimeLineUiUpdater
 TimeLineUi::TimeLineUi(QWidget* parent):
     QWidget(parent),
     _ui (new Ui::Timeline),
+    _fps(25),
     _time(0),
     _timer(new QTimer(this)),
     _isPlaying(false),
@@ -49,6 +50,7 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _table->setIconSize(QSize(95,68));
     _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->height());
     _table->verticalHeader()->setDefaultSectionSize(100);
+    _table->setAutoScroll(true);
 
     //ajout de la table dans le widget
     QVBoxLayout *layout = new QVBoxLayout(_ui->widgetContentTable);
@@ -68,6 +70,7 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
     connect( this->_table , SIGNAL( currentCellChanged ( int , int , int , int  ) ), this, SLOT( getCurrentTime(int,int)));
+    connect(_ui->spinFps, SIGNAL(valueChanged(int)), this, SLOT(changeFps(int)) );
         
     Q_EMIT timeChanged(_time);
         
@@ -181,6 +184,7 @@ void TimeLineUi::updateTable()
     //icon for real time
     QIcon icon( QString::fromStdString("img/realTime.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
+    newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
     _table->setItem(0, _timeline->maxTime(), newItem);
    
     _table->setDragEnabled(true);
@@ -191,21 +195,6 @@ void TimeLineUi::updateTable()
     
 }
 
-
-//_______________ Write time in label and select the good cell _________________
-
-//void TimeLineUi::writeTime(int newValue)
-//{
-
-//    _table->setCurrentCell(0,newValue);
-
-//    if (newValue == _timeline->maxTime())
-//        newValue = -1;
-
-//   _ui->time->setNum(newValue);
-
-//   //emitDisplayChanged();
-//}
 
 
 //___________ Increase current time or stop timer if last frame ________________
@@ -240,7 +229,7 @@ void TimeLineUi::handle_playPauseAction_triggered()
 {
     if (!_isPlaying)
     {
-        _timer->start(1000);
+        _timer->start(1000.0 / _fps);
         _isPlaying = true;
         _playPauseAction->setIcon(QIcon("img/icones/pauseS.png"));
         _playPauseAction->setStatusTip("Mettre en pause");
@@ -352,7 +341,7 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
        
       
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ",_ui->spinDuration->value());
+       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ");
        
        delete action;
      

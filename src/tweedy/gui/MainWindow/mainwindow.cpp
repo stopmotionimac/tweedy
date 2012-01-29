@@ -213,9 +213,8 @@ void MainWindow::createWidgetViewer()
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
 
-    viewerImg->setFixedSize(475,343);
-    viewerImg->setMaximumWidth(500);
-    
+    //viewerImg->setFixedSize(475,373);
+        
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     
     viewerImg->getCaptureButton()->setDefaultAction(_captureAction);
@@ -316,8 +315,11 @@ void MainWindow::writeTime(int newValue)
     if (newValue == timeline->getTimeline()->maxTime())
         newValue = -1;
 
-    viewerImg->getTimeLabel()->setNum(newValue);
-    viewerImg->getTempsSlider()->setSliderPosition(newValue);
+    if (newValue > -1)
+    {
+        viewerImg->getTimeLabel()->setNum(newValue);
+        viewerImg->getTempsSlider()->setSliderPosition(newValue);
+    }
 }
 
 

@@ -53,7 +53,11 @@ void ViewerTweedy::displayChanged(int time)
     else
         bool isClip = timeline->findCurrentClip(filename,time);
 
-    this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
+    
+    QPixmap img( QString::fromStdString(filename) );
+    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+            
+    this->getViewerLabel()->setPixmap(img);
    
      
    

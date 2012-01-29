@@ -8,8 +8,7 @@ class CmdClipAddBlankAfter : public IUndoRedoCommand
 {
 public:
         
-    CmdClipAddBlankAfter(const std::string& idClip, const std::string& text,
-            double value = 1,bool blankb = false, bool blanka = true);
+    CmdClipAddBlankAfter(const std::string& idClip, const std::string& text);
 
     ~CmdClipAddBlankAfter();
     

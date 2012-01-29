@@ -9,7 +9,7 @@ class ActAddBlankBeforeClip : public IAction
     
 public:
     
-    ActAddBlankBeforeClip(int currentTime, const std::string name, int value);
+    ActAddBlankBeforeClip(int currentTime, const std::string name);
     
     ~ActAddBlankBeforeClip();
     
