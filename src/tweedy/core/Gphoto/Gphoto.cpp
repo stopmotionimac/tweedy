@@ -20,7 +20,7 @@ static boost::filesystem::path capture_to_file( Camera *camera, GPContext *conte
 
 	/* NOP: This gets overridden in the library to /capt0000.jpg */
 	strcpy( camera_file_path.folder, "/" );
-	strcpy( camera_file_path.name, "foo.jpg" );
+        strcpy( camera_file_path.name, "foo.jpg" );
 	retval = gp_camera_capture( camera, GP_CAPTURE_IMAGE, &camera_file_path, context );
 	//printf("  Retval: %d\n", retval);
 

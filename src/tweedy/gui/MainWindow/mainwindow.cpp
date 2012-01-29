@@ -257,7 +257,8 @@ void MainWindow::on_captureAction_triggered()
         projectInstance.setFolderToSavePictures();
 
         //Give picture to application and timeline
-        boost::filesystem::path fn = projectInstance.captureToFile();
+        //boost::filesystem::path fn = projectInstance.captureToFile();
+        boost::filesystem::path fn = projectInstance.gPhotoInstance().captureToFile();
         Clip clipFromPicture (fn);
         Timeline& timeline = projectInstance.getTimeline();
         clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );
