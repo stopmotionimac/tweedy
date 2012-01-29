@@ -22,9 +22,9 @@ private Q_SLOTS:
     
 private:
     
-    QVBoxLayout * dockLayout;
-    QPushButton * undoButton;
-    QPushButton * redoButton;
+    QVBoxLayout * _dockLayout;
+    QPushButton * _undoButton;
+    QPushButton * _redoButton;
     
     UndoView* _undoView;
 };

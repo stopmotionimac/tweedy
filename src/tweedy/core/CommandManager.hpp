@@ -15,7 +15,7 @@ class CommandManager
 {
 public:
     
-    CommandManager(): m_undoRedoVector(),m_index(0){}
+    CommandManager(): _undoRedoVector(),_index(0){}
     
     ~CommandManager() {}
     
@@ -61,18 +61,18 @@ public:
     
 private:
     
-    boost::ptr_vector<IUndoRedoCommand> m_undoRedoVector;
+    boost::ptr_vector<IUndoRedoCommand> _undoRedoVector;
     
-    boost::signal0<void> m_signalChanged;
+    boost::signal0<void> _signalChanged;
     
-    size_t m_index;
+    size_t _index;
     
-    bool active;
+    bool _active;
     
-    int cleanIndex;
+    int _cleanIndex;
     
-    int undoLimit;
-    int redoLimit;
+    int _undoLimit;
+    int _redoLimit;
     
 };
 

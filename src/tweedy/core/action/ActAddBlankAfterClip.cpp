@@ -27,7 +27,7 @@ ActAddBlankAfterClip::ActAddBlankAfterClip(int currentTime, const std::string na
     if(isClip){
         
         //créer la commande 
-        IUndoRedoCommand* cmd = new CmdClipAddBlankAfter(filename,"Commande Add Blank Before Clip"+filename);
+        IUndoRedoCommand* cmd = new CmdClipAddBlankAfter(filename,"Commande Add Blank Before Clip "+filename);
 
         //trouver le command Manager par le projet
 
