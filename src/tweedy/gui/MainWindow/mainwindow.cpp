@@ -170,7 +170,7 @@ void MainWindow::createWidgets()
 {
     //Dock Chutier
 
-    QDockWidget * chutierDock = new QDockWidget(this);
+    QDockWidget * chutierDock = new QDockWidget("Chutier", this);
     chutier = new Chutier( chutierDock );
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
@@ -178,7 +178,7 @@ void MainWindow::createWidgets()
 
     //Dock Timeline
 
-    QDockWidget * timelineDock = new QDockWidget(this);
+    QDockWidget * timelineDock = new QDockWidget("Timeline",this);
     timeline = new TimeLineUi( timelineDock );
     timelineDock->setWidget(timeline);
     addDockWidget(Qt::BottomDockWidgetArea, timelineDock);
@@ -188,7 +188,6 @@ void MainWindow::createWidgets()
     QDockWidget * undoDock = new QDockWidget("Command List");
     
     undoView = new UndoView(Projet::getInstance().getCommandManager());
-
     undoWidget = new UndoWidget(undoView);
     undoDock->setWidget(undoWidget);
     viewMenu->addAction(undoDock->toggleViewAction());
@@ -237,6 +236,7 @@ void MainWindow::createWidgetViewer()
     viewerImg->getTempsSlider()->setTickPosition(QSlider::TicksAbove);
     //signal : valueChanged() : Emitted when the slider's value has changed.
     connect(viewerImg->getTempsSlider(),SIGNAL(valueChanged(int)), this, SLOT(writeTime(int)));
+    viewerImg->getTempsSlider()->setMaximum(timeline->getTimeline()->maxTime());
 }
 
 
@@ -317,6 +317,7 @@ void MainWindow::writeTime(int newValue)
         newValue = -1;
 
     viewerImg->getTimeLabel()->setNum(newValue);
+    viewerImg->getTempsSlider()->setSliderPosition(newValue);
 }
 
 

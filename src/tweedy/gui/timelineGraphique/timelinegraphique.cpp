@@ -9,10 +9,10 @@ TimelineGraphique::TimelineGraphique(QWidget * parent):
     QWidget(parent)
 {
 
-    /*QDeclarativeView *qmlView = new QDeclarativeView(this);
-    qmlView->setSource(QUrl::fromLocalFile("timelineQML.qml"));
+    QDeclarativeView *qmlView = new QDeclarativeView(this);
+    qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(qmlView);*/
+    layout->addWidget(qmlView);
 
 }
