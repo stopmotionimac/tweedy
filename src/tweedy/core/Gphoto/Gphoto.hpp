@@ -42,8 +42,8 @@ public:
     void getSummary();
     void exitCamera();
     boost::filesystem::path captureToFile();
-
-    void doPreview(int i);
+    
+    std::string doPreview(int i);
     void setShutterSpeed();
     //bool getVarCameraIsInit();
     void setVarCameraIsInit(bool var);

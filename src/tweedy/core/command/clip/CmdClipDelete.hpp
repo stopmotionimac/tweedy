@@ -26,7 +26,7 @@ private:
     
     std::string _idClip;
     std::string _text;
-    Clip* _clipTemp;
+    Clip _clipTemp;
 };
 
 #endif	/* CMDCLIPDELETE_HPP */

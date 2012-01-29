@@ -9,7 +9,8 @@ class CmdClipAddBlankBefore : public IUndoRedoCommand
 {
 public:
         
-    CmdClipAddBlankBefore(const std::string& idClip, const std::string& text);
+    CmdClipAddBlankBefore(const std::string& idClip, const std::string& text,
+            double value=1,bool blankb = true, bool blanka = false);
 
     ~CmdClipAddBlankBefore();
     

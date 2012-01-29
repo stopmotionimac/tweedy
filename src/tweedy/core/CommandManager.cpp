@@ -118,7 +118,7 @@ void CommandManager::redo(){
     _signalChanged();
 }
 
- boost::ptr_vector<IUndoRedoCommand> CommandManager::getUndoRedoVector(){
+ boost::ptr_vector<IUndoRedoCommand>& CommandManager::getUndoRedoVector(){
      return _undoRedoVector;
  }
  

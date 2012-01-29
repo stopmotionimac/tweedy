@@ -199,9 +199,9 @@ void MainWindow::createWidgets()
     //Dock essai QML
 
     QDockWidget * dockGraphicTimeline = new QDockWidget("Timeline Graphique");
-    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
-    dockGraphicTimeline->setWidget(_timelineGraphique);
-    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
+//    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
+//    dockGraphicTimeline->setWidget(_timelineGraphique);
+//    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
 }
 
 
@@ -213,8 +213,9 @@ void MainWindow::createWidgetViewer()
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
 
-    //viewerImg->setFixedSize(475,373);
-        
+    viewerImg->setFixedSize(475,343);
+    viewerImg->setMaximumWidth(500);
+    
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     
     viewerImg->getCaptureButton()->setDefaultAction(_captureAction);
@@ -315,11 +316,8 @@ void MainWindow::writeTime(int newValue)
     if (newValue == timeline->getTimeline()->maxTime())
         newValue = -1;
 
-    if (newValue > -1)
-    {
-        viewerImg->getTimeLabel()->setNum(newValue);
-        viewerImg->getTempsSlider()->setSliderPosition(newValue);
-    }
+    viewerImg->getTimeLabel()->setNum(newValue);
+    viewerImg->getTempsSlider()->setSliderPosition(newValue);
 }
 
 

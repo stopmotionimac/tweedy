@@ -3,8 +3,13 @@
 #include <tweedy/core/CommandManager.hpp>
 #include <tweedy/core/command/clip/CmdClipDelete.hpp>
 
-ActDeleteClip::ActDeleteClip(int currentTime, const std::string name)
-        :IAction(name), _currentTime(currentTime)
+ActDeleteClip::ActDeleteClip()
+        :IAction("Action Delete Clip")
+{
+    
+}
+
+void ActDeleteClip::operator()(int currentTime)
 {
 
     
@@ -15,7 +20,7 @@ ActDeleteClip::ActDeleteClip(int currentTime, const std::string name)
     
     Timeline timeline = projet.getTimeline();
 
-    bool isClip = timeline.findCurrentClip(filename,_currentTime);
+    bool isClip = timeline.findCurrentClip(filename,currentTime);
     
     if(!isClip)
     {
@@ -42,3 +47,4 @@ ActDeleteClip::~ActDeleteClip()
         std::cout << "Dtor action : " +_name << std::endl;
 
 }
+

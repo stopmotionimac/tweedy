@@ -5,7 +5,9 @@
 
 #include <tweedy/core/Projet.hpp>
 
-CmdClipAddBlankAfter::CmdClipAddBlankAfter(const std::string& idClip, const std::string& text) : _idClip(idClip),_text(text)
+CmdClipAddBlankAfter::CmdClipAddBlankAfter(const std::string& idClip, const std::string& text, 
+        double value,bool blankb, bool blanka) : _idClip(idClip),_text(text),
+        _value(value),_blankb(blankb),_blanka(blanka)
 {
     
 }
@@ -22,7 +24,7 @@ void CmdClipAddBlankAfter::runDo(){
     
     Projet& projet = Projet::getInstance();
     std::cout << _idClip << _value << std::endl;
-    projet.getTimeline().addBlank(_idClip);
+    projet.getTimeline().addTimeToClip(_idClip,_value);
 
 }
 

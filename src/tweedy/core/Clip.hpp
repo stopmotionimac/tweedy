@@ -31,7 +31,9 @@ public:
         _timeIn(0), 
         _timeOut(0){/*Imedia(type);*/}
     
-    Clip(const Clip& clip);
+    Clip(const Clip&);
+    
+    Clip& operator=(const Clip&);
         
     ~Clip(){}
     

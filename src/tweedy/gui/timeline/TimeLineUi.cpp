@@ -50,7 +50,6 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _table->setIconSize(QSize(95,68));
     _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->height());
     _table->verticalHeader()->setDefaultSectionSize(100);
-    _table->setAutoScroll(true);
 
     //ajout de la table dans le widget
     QVBoxLayout *layout = new QVBoxLayout(_ui->widgetContentTable);
@@ -71,7 +70,7 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     connect( this->_table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
     connect( this->_table , SIGNAL( currentCellChanged ( int , int , int , int  ) ), this, SLOT( getCurrentTime(int,int)));
     connect(_ui->spinFps, SIGNAL(valueChanged(int)), this, SLOT(changeFps(int)) );
-        
+    
     Q_EMIT timeChanged(_time);
         
 }
@@ -184,7 +183,6 @@ void TimeLineUi::updateTable()
     //icon for real time
     QIcon icon( QString::fromStdString("img/realTime.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
-    newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
     _table->setItem(0, _timeline->maxTime(), newItem);
    
     _table->setDragEnabled(true);
@@ -195,6 +193,21 @@ void TimeLineUi::updateTable()
     
 }
 
+
+//_______________ Write time in label and select the good cell _________________
+
+//void TimeLineUi::writeTime(int newValue)
+//{
+
+//    _table->setCurrentCell(0,newValue);
+
+//    if (newValue == _timeline->maxTime())
+//        newValue = -1;
+
+//   _ui->time->setNum(newValue);
+
+//   //emitDisplayChanged();
+//}
 
 
 //___________ Increase current time or stop timer if last frame ________________
@@ -309,9 +322,10 @@ void TimeLineUi::handle_plusAction_triggered()
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Add time action ",_ui->spinDuration->value());
+       ActClipSetTimeRange action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time,_ui->spinDuration->value());
    }
    
    
@@ -325,9 +339,10 @@ void TimeLineUi::handle_minusAction_triggered()
    {
        
         // création d'une action ActClipSetTimeRange
-       IAction * action = new ActClipSetTimeRange(_time,"Remove time action ",-_ui->spinDuration->value());
+       ActClipSetTimeRange action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time,-_ui->spinDuration->value());
               
    }
 }
@@ -339,11 +354,12 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
        
-      
-        // création d'une action ActClipSetTimeRange
-       IAction * action = new ActAddBlankBeforeClip(_time,"Add blank before ");
+       // création d'une action ActAddBlankBeforeClip
+       ActAddBlankBeforeClip action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time);
+       
      
    }
 
@@ -357,10 +373,11 @@ void TimeLineUi::handle_blankAfterAction_triggered()
    if ( currentCell > -1 && currentCell < _timeline->maxTime() )
    {
       
-       // création d'une action ActClipSetTimeRange
-       IAction * action = new ActAddBlankAfterClip(_time,"Add blank after ",_ui->spinDuration->value());
+       // création d'une action ActAddBlankAfterClip
+       ActAddBlankAfterClip action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time);
         
    }
     
@@ -374,21 +391,11 @@ void TimeLineUi::deleteKey_activated()
    {
        
        //creation de l'action ActDeleteClip
-       IAction* action =  new ActDeleteClip(_time, "Delete clip");
+       ActDeleteClip action;
        
-       delete action;
+       //declenchement de l'action
+       action(_time);
        
-       /*
-       std::string filename;
-       bool isClip = _timeline->findCurrentClip(filename,_time);
-       
-       if (isClip)
-           _timeline->deleteClip(filename);
-       else
-           _timeline->deleteBlank(_time);
-              
-       updateTable();
-       */
     }
 
 }
