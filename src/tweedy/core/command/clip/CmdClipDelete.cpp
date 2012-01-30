@@ -11,7 +11,7 @@ CmdClipDelete::CmdClipDelete(const std::string& idClip, const std::string& text)
 CmdClipDelete::~CmdClipDelete()
 {
     //destruction du clip temporaire
-    std::cout<< "Dtor cmd delete" << std::endl;
+    std::cout<< "Dtor cmd delete clip" << std::endl;
 }
 
 CmdClipDelete* CmdClipDelete::clone() const{
