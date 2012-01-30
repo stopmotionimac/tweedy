@@ -56,7 +56,7 @@ public Q_SLOTS:
     void increaseTime();
     //void writeTime(int newValue);
     void getCurrentTime(int row,int column);
-    
+    void changeFps(int value){ _fps = value;}
     
     void handle_playPauseAction_triggered();
         
@@ -77,6 +77,7 @@ Q_SIGNALS:
     
 private:
     Ui::Timeline* _ui;
+    int _fps;
     int _time;
     QTimer* _timer;
     bool _isPlaying;

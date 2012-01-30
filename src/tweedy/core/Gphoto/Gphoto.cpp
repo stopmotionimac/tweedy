@@ -158,7 +158,7 @@ boost::filesystem::path Gphoto::captureToFile()
 #endif
 }
 
-void Gphoto::doPreview(int i) {
+std::string Gphoto::doPreview(int i) {
 
 //    int ret;
 //    //i => define the number the stop condition
@@ -204,16 +204,9 @@ void Gphoto::doPreview(int i) {
                             exit(1);
                     }
                     gp_file_unref(file);
-
-                    //AFFICHIER IMAGE
-
-                    boost::filesystem::path FileToDeletePath(outputFile);
-                    boost::filesystem::remove(FileToDeletePath);
-
-                    //know if we're still on the good image on the timeline
-
 //                    ++i;
 //            }
+                    return outputFile;
 }
 
 void Gphoto::exitCamera()

@@ -24,7 +24,7 @@ void CmdClipAddBlankBefore::runDo(){
     
     Projet& projet = Projet::getInstance();
     std::cout << _idClip << _value << std::endl;
-    projet.getTimeline().addTimeToClip(_idClip,_value,_blankb,_blanka);
+    projet.getTimeline().addTimeToClip(_idClip,_value);
 
 }
 
