@@ -10,6 +10,13 @@ ActDeleteClip::ActDeleteClip()
     
 }
 
+ActDeleteClip::~ActDeleteClip()
+{
+        std::cout << "Dtor action : " +_name << std::endl;
+
+}
+
+
 void ActDeleteClip::operator()(int currentTime)
 {
 
@@ -49,11 +56,5 @@ void ActDeleteClip::operator()(int currentTime)
     
     //fin de l'action
     std::cout << "Action done" << std::endl;
-}
-
-ActDeleteClip::~ActDeleteClip()
-{
-        std::cout << "Dtor action : " +_name << std::endl;
-
 }
 
