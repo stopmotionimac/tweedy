@@ -45,7 +45,7 @@ QSlider * ViewerTweedy::getTempsSlider() { return _ui->tempsSlider; }
 
 void ViewerTweedy::displayChanged(int time)
 {
-    _ui->spinBox->setValue(0);
+    //_ui->spinBox->setValue(0);
     _currentTime = time;
     Timeline* timeline = &(Projet::getInstance().getTimeline());
     std::string  filename = "img/none.jpg";
@@ -64,8 +64,11 @@ void ViewerTweedy::displayChanged(int time)
         bool isClip = timeline->findCurrentClip(filename,time);
     }
 
-    this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
-   
+    QPixmap img( QString::fromStdString(filename) );
+    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+            
+    this->getViewerLabel()->setPixmap(img);
+    handle_onionAction_triggered();
      
    
     /**/
@@ -115,6 +118,8 @@ void ViewerTweedy::handle_onionAction_triggered()
         resultImage = calculateImage(sourceImage, destinationImage);
     }
 
+    
+    resultImage.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
     this->getViewerLabel()->setPixmap(QPixmap::fromImage(resultImage));
     
 }

@@ -35,6 +35,7 @@ Timeline::Timeline(const Timeline& timeline) : Imedia(timeline)
     _mapClip = timeline._mapClip;
 }
 
+
 Timeline::OMapClip Timeline::getOrderedClips()
 {
     OMapClip orderedClips;
@@ -72,8 +73,7 @@ void Timeline::insertClip(const std::string& newClipName, double currentTime)
           s.second->setTimeOut(1);
       }      
     }
-    
-    
+        
     
     Clip c(newClipName);
     c.setPosition(timeIn, timeIn+1);
@@ -88,57 +88,99 @@ void Timeline::insertClip(const std::string& newClipName, double currentTime)
 
 void Timeline::moveElement(std::string filename, int newPosition)
 {
+    if (newPosition == _maxTime)
+        return;
+    
     int move = newPosition - _mapClip[filename].timeIn();
     
     int duree = _mapClip[filename].timeOut() - _mapClip[filename].timeIn();
     if (move > 0)
         duree *= -1;
     
-    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
-    {
-        if (s.second->timeIn() > _mapClip[filename].timeIn() && s.second->timeIn() <= newPosition)
+    if (move > 0)
+        BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
         {
-            s.second->setTimeIn(duree);
-            s.second->setTimeOut(duree);
+            if (s.second->timeIn() > _mapClip[filename].timeIn() && s.second->timeIn() <= newPosition)
+            {
+                s.second->setTimeIn(duree);
+                s.second->setTimeOut(duree);
+            }
         }
-    }
-
+        
+    else
+        BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
+        {
+            if (s.second->timeIn() >= newPosition && s.second->timeIn() < _mapClip[filename].timeIn())
+            {
+                s.second->setTimeIn(duree);
+                s.second->setTimeOut(duree);
+            }
+        }
+    
+     
     _mapClip[filename].setTimeIn(move);
     _mapClip[filename].setTimeOut(move);
+    
+    _signalChanged();
    
 }
 
 
 
-
-void Timeline::addTimeToClip(const std::string& clipName, double time, bool blankBefore, bool blankAfter)
+void Timeline::addBlank(const std::string& clipName, bool blankBefore)
 {
-    if (time < 0)
+    if (blankBefore)
+    {
+        BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
+        {
+          if (s.second->timeIn() >= _mapClip[clipName].timeIn())
+          {
+              s.second->setTimeIn(1);
+              s.second->setTimeOut(1);
+          }      
+        }
+    }
+    
+    else 
+        BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
+        {
+          if (s.second->timeIn() > _mapClip[clipName].timeIn())
+          {
+              s.second->setTimeIn(1);
+              s.second->setTimeOut(1);
+          }      
+        }
+     
+        
+    _maxTime++;
+    
+    _signalChanged();
+
+}
+
+
+
+void Timeline::addTimeToClip(const std::string& clipName, double decalage)
+{
+    if (decalage < 0)
     {
       double dureeClip = _mapClip[clipName].timeOut() - _mapClip[clipName].timeIn();
-      if (-time >= dureeClip)
-          time = -dureeClip + 1;
+      if (-decalage >= dureeClip)
+          decalage = -dureeClip + 1;
     }
 
-    _maxTime += time;
-
-    if(!blankAfter)
-    {
-        if (blankBefore)
-            _mapClip[clipName].setTimeIn(time);
-        _mapClip[clipName].setTimeOut(time);
-    }
-
+    _mapClip[clipName].setTimeOut(decalage);
     
-    //décale les clips suivants
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
-    {
-      if (s.second->timeIn() > _mapClip[clipName].timeIn())
-      {
-          s.second->setTimeIn(time);
-          s.second->setTimeOut(time);
-      }      
-    }
+        {
+          if (s.second->timeIn() > _mapClip[clipName].timeIn())
+          {
+              s.second->setTimeIn(decalage);
+              s.second->setTimeOut(decalage);
+          }      
+        }
+        
+    _maxTime += decalage;
     
     _signalChanged();
                 

@@ -12,6 +12,14 @@ ActClipSetTimeRange::ActClipSetTimeRange()
     
 }
 
+
+ActClipSetTimeRange::~ActClipSetTimeRange()
+{
+    std::cout << "Dtor action : " +_name << std::endl;
+}
+
+
+
 void ActClipSetTimeRange::operator()(int currentTime, int value)
 {
     //récupérer le clip à traiter
@@ -48,7 +56,4 @@ void ActClipSetTimeRange::operator()(int currentTime, int value)
     
 }
 
-ActClipSetTimeRange::~ActClipSetTimeRange()
-{
-    std::cout << "Dtor action : " +_name << std::endl;
-}
+

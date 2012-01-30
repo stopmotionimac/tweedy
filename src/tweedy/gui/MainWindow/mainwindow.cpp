@@ -19,6 +19,8 @@
 
 #include <boost/filesystem.hpp>
 
+#include <tweedy/core/action/ActCapturePicture.hpp>
+
 #include <iostream>
 
 
@@ -49,16 +51,16 @@ MainWindow::MainWindow()
 void MainWindow::createActions()
 {
 
-    newProjectAction = new QAction(QIcon("img/icones/nouveau.png"),"Nouveau Projet", this);
+    newProjectAction = new QAction(QIcon("img/icones/new1.png"),"Nouveau Projet", this);
     newProjectAction->setShortcut(QKeySequence("Ctrl+N"));
     newProjectAction->setStatusTip("Creer un nouveau projet");
     connect(newProjectAction, SIGNAL(triggered()), this, SLOT(on_newProjectAction_triggered()));
 
-    openProjectAction = new QAction(QIcon("img/icones/ouvrir.png"),"Ouvrir",this);
+    openProjectAction = new QAction(QIcon("img/icones/open.png"),"Ouvrir",this);
     openProjectAction->setShortcut(QKeySequence("Ctrl+O"));
     openProjectAction->setStatusTip("Ouvrir un projet");
 
-    saveProjectAction = new QAction(QIcon("img/icones/enregistrer.png"),"Enregistrer", this);
+    saveProjectAction = new QAction(QIcon("img/icones/save1.png"),"Enregistrer", this);
     saveProjectAction->setShortcut(QKeySequence("Ctrl+S"));
     saveProjectAction->setStatusTip("Enregistrer votre projet");
 
@@ -153,6 +155,7 @@ void MainWindow::createToolBar()
 
     fileToolBar = addToolBar("File");
     fileToolBar->addAction(newProjectAction);
+    fileToolBar->addAction(openProjectAction);
     fileToolBar->addAction(saveProjectAction);
     fileToolBar->addAction(quitAction);
 
@@ -212,9 +215,6 @@ void MainWindow::createWidgetViewer()
     viewerImg = new ViewerTweedy( contentViewerDock );
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
-
-    viewerImg->setFixedSize(475,343);
-    viewerImg->setMaximumWidth(500);
     
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     
@@ -254,6 +254,9 @@ void MainWindow::on_captureAction_triggered()
     else
     {
         std::cout<<"Camera connected"<<std::endl;
+        
+        //without action
+        
         projectInstance.setFolderToSavePictures();
 
         //Give picture to application and timeline
@@ -265,6 +268,14 @@ void MainWindow::on_captureAction_triggered()
         projectInstance.addImedia( clipFromPicture );
         timeline.addClip(clipFromPicture);
         timeline.setMaxTime();
+       
+        
+        //with action
+        /*
+        ActCapturePicture action;
+        
+        action();
+         * */
     }
 
 }
@@ -294,7 +305,6 @@ void MainWindow::on_undoButton_clicked(){
     CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canUndo()){
         cmdMng.undo();
-        timeline->updateTable();
     }
 }
 
@@ -303,7 +313,6 @@ void MainWindow::on_redoButton_clicked(){
     CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canRedo()){
         cmdMng.redo();
-        timeline->updateTable();
     }
 }
 
