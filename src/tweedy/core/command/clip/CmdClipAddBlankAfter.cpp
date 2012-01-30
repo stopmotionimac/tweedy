@@ -37,7 +37,7 @@ void CmdClipAddBlankAfter::undo(){
     
     Projet& projet = Projet::getInstance();
     int timeOut =projet.getTimeline().mapClip()[_idClip].timeOut();
-    projet.getTimeline().deleteBlank(timeOut+1);
+    projet.getTimeline().deleteBlank(timeOut);
     
 
     std::cout << "undo" << std::endl;

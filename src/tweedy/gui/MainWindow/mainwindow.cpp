@@ -51,16 +51,16 @@ MainWindow::MainWindow()
 void MainWindow::createActions()
 {
 
-    newProjectAction = new QAction(QIcon("img/icones/nouveau.png"),"Nouveau Projet", this);
+    newProjectAction = new QAction(QIcon("img/icones/new1.png"),"Nouveau Projet", this);
     newProjectAction->setShortcut(QKeySequence("Ctrl+N"));
     newProjectAction->setStatusTip("Creer un nouveau projet");
     connect(newProjectAction, SIGNAL(triggered()), this, SLOT(on_newProjectAction_triggered()));
 
-    openProjectAction = new QAction(QIcon("img/icones/ouvrir.png"),"Ouvrir",this);
+    openProjectAction = new QAction(QIcon("img/icones/open.png"),"Ouvrir",this);
     openProjectAction->setShortcut(QKeySequence("Ctrl+O"));
     openProjectAction->setStatusTip("Ouvrir un projet");
 
-    saveProjectAction = new QAction(QIcon("img/icones/enregistrer.png"),"Enregistrer", this);
+    saveProjectAction = new QAction(QIcon("img/icones/save1.png"),"Enregistrer", this);
     saveProjectAction->setShortcut(QKeySequence("Ctrl+S"));
     saveProjectAction->setStatusTip("Enregistrer votre projet");
 
@@ -155,6 +155,7 @@ void MainWindow::createToolBar()
 
     fileToolBar = addToolBar("File");
     fileToolBar->addAction(newProjectAction);
+    fileToolBar->addAction(openProjectAction);
     fileToolBar->addAction(saveProjectAction);
     fileToolBar->addAction(quitAction);
 
@@ -214,9 +215,6 @@ void MainWindow::createWidgetViewer()
     viewerImg = new ViewerTweedy( contentViewerDock );
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
-
-    viewerImg->setFixedSize(475,343);
-    viewerImg->setMaximumWidth(500);
     
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     

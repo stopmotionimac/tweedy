@@ -23,18 +23,21 @@ Chutier::Chutier(QWidget *parent) :
     _deleteButton = new QToolButton(this);
 
     //creation des actions
-    _importAction = new QAction("Importer",this);
-    _deleteAction = new QAction("Supprimer",this);
+    _importAction = new QAction(QIcon("img/icones/import.png"),"Importer",this);
+    _deleteAction = new QAction(QIcon("img/icones/delete.png"),"Supprimer",this);
 
     //affecter actions aux QToolButton
     _importButton->setDefaultAction(_importAction);
     _deleteButton->setDefaultAction(_deleteAction);
+    _importButton->setIconSize(QSize(25,25));
+    _deleteButton->setIconSize(QSize(25,25));
 
     //creation du widget dockable du viewer
     _viewerChutierDock = new QDockWidget("Visualisation du chutier",this);
     _viewerChutier = new QLabel(_viewerChutierDock);
     _viewerChutier->setBackgroundRole(QPalette::Dark);
-    _viewerChutier->setScaledContents(true);
+    _viewerChutier->setScaledContents(false);
+    _viewerChutier->setMaximumSize(400,300);
     _viewerChutierDock->setWidget(_viewerChutier);
 
     _listWidget->setMinimumWidth(250);
@@ -84,7 +87,6 @@ Chutier::Chutier(QWidget *parent) :
     //image par defaut
     QString defaultImage("img/noPhotoSelected.jpg");
     _viewerChutier->setPixmap(defaultImage);
-    _viewerChutier->setScaledContents(true); //centrer l'image dans le QLabel
 
     connect(_listWidget, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
     connect(_importAction, SIGNAL(triggered()), this, SLOT(on_importAction_triggered()));
