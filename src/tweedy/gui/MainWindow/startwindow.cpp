@@ -11,6 +11,8 @@ StartWindow::StartWindow(QWidget *parent) :
 
     setWindowTitle(tr("TWEEDY - logiciel de stop motion"));
 
+    _ui->logoLabel->setPixmap(QString::fromStdString("img/logo.png"));
+
 }
 
 

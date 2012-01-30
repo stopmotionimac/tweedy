@@ -78,7 +78,7 @@ TimeLineUi::TimeLineUi(QWidget* parent):
 void TimeLineUi::createActions(){
 
 
-    _playPauseAction = new QAction(QIcon("img/icones/playS.png"),"",this);
+    _playPauseAction = new QAction(QIcon("img/icones/play.png"),"",this);
     _playPauseAction->setShortcut(QKeySequence("Space"));
     _playPauseAction->setStatusTip("Lancer le montage");
     connect(_playPauseAction, SIGNAL(triggered()), this, SLOT(handle_playPauseAction_triggered()));
@@ -242,14 +242,14 @@ void TimeLineUi::handle_playPauseAction_triggered()
     {
         _timer->start(1000);
         _isPlaying = true;
-        _playPauseAction->setIcon(QIcon("img/icones/pauseS.png"));
+        _playPauseAction->setIcon(QIcon("img/icones/pause.png"));
         _playPauseAction->setStatusTip("Mettre en pause");
     }
     else
     {
         _timer->stop();
         _isPlaying = false;
-        _playPauseAction->setIcon(QIcon("img/icones/playS.png"));
+        _playPauseAction->setIcon(QIcon("img/icones/play.png"));
         _playPauseAction->setStatusTip("Lancer le montage");
     }
 }
