@@ -124,11 +124,7 @@ void ViewerTweedy::updatePreview() {
     Projet& projectInstance = Projet::getInstance();
     int isConnected = projectInstance.gPhotoInstance().tryToConnectCamera();
     if (isConnected == 0) {
-//        QMessageBox::about(this, tr("Warning"), tr("No camera connected to the computer"));
-//        //std::cout<<"No camera connected to the computer"<<std::endl;
-//        _previewTimer->stop();
-//        QString defaultImage("img/noPhotoSelected.jpg");
-        this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString("img/noPhotoSelected.jpg")));
+        this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString("img/noCameraDetected.jpg")));
     }
     else {
         std::string filename = projectInstance.gPhotoInstance().doPreview(1);
