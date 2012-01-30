@@ -12,6 +12,7 @@
 #include <boost/algorithm/string.hpp>
 
 #include <tweedy/core/action/ActDragNDropTLToTL.hpp>
+#include <tweedy/core/action/ActDragNDropChutToTL.hpp>
 
 #include <iostream>
 
@@ -85,7 +86,8 @@ void TableTimeline::startDrag(Qt::DropActions supportedActions)
 void TableTimeline::dropEvent(QDropEvent *event)
 {
     //creation de l'action de drag and drop au sein de la timeline
-    ActDragNDropTLToTL action;
+    ActDragNDropTLToTL actionTlToTl;
+    ActDragNDropChutToTL actionChutToTl;
     
     
     std::cout<<"TableTimeline::dropEvent"<<std::endl;
@@ -111,14 +113,18 @@ void TableTimeline::dropEvent(QDropEvent *event)
         if (mimeData->text().toStdString() == "timeline")
         {
             //timeline->moveElement(filename, position);
-            action(filename,position);
+            actionTlToTl(filename,position);
                       
         }
         
         
-        else
+        else{
+            
+        
             //ajout du clip dans la timeline core
-            timeline->insertClip(filename, position);
+            //timeline->insertClip(filename, position);
+            actionChutToTl(filename,position);
+        }
     }
 
     /*std::vector<std::string> filenames;
