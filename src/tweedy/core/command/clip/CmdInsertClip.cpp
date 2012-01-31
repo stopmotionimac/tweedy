@@ -1,10 +1,11 @@
 #include <tweedy/core/command/clip/CmdInsertClip.hpp>
 #include <tweedy/core/Projet.hpp>
 #include <tweedy/core/Timeline.hpp>
+#include <boost/lexical_cast.hpp>
 
 
-CmdInsertClip::CmdInsertClip(const std::string& idClip, const std::string& text, int newPosition)
-        : _idClip(idClip),_text(text),_newPosition(newPosition)
+CmdInsertClip::CmdInsertClip(const std::string& filename, const std::string& text, int newPosition)
+        : _filename(filename),_text(text),_newPosition(newPosition)
 {
     
 }
@@ -24,16 +25,18 @@ void CmdInsertClip::runDo(){
     
     Timeline& timeline = Projet::getInstance().getTimeline();
     
+    //créer un nouveau clip
+    Clip clip(_filename, timeline.getId() , "clip" + boost::lexical_cast<std::string>(timeline.getNbClip()++) );
+    
+    _clipTemp = clip;
+    
     //inserer le clip dans la timeline a la nouvelle position
-    timeline.insertClip(_idClip, _newPosition);
+    timeline.insertClip(_clipTemp, _newPosition);
 }
 
 void CmdInsertClip::redo(){
-    
-    //re inserer le clip a la nouvelle position
-    //ajouter le clip temp dans la map
-    Timeline& timeline = Projet::getInstance().getTimeline();
-    timeline.addClip(_clipTemp);
+   
+    Projet::getInstance().getTimeline().insertClip(_clipTemp, _newPosition);
     
 }
 
@@ -45,13 +48,16 @@ void CmdInsertClip::undo(){
     //recuperation du clip grâce a son id
     Projet& projet = Projet::getInstance();
     Timeline& timeline = projet.getTimeline();
-    const Clip& clip = timeline.mapClip()[_idClip];
+    const Clip& clip = timeline.mapClip()[_clipTemp.getId().getIdStringForm()];
 
     //creation par copy du clip
     _clipTemp = clip;
     
     //effacer le clip de la timeline
-    timeline.deleteClip(_idClip);
+    timeline.deleteClip(_clipTemp.getId().getIdStringForm());
+    
+    //effacer le blanc de la timeline
+    timeline.deleteBlank(_newPosition);
     
 }
 

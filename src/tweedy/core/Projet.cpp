@@ -9,6 +9,13 @@ Timeline& Projet::getTimeline(){
     return _timeline;
 }
 
+
+Id& Projet::getId()
+{
+    return _id;
+}
+
+
 //to add any media (except MediaExt)
 void Projet::addImedia(Imedia & media)
 {

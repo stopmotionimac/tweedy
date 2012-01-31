@@ -259,6 +259,7 @@ void MainWindow::on_captureAction_triggered()
         
         projectInstance.setFolderToSavePictures();
 
+        /*
         //Give picture to application and timeline
         boost::filesystem::path fn = projectInstance.captureToFile();
         Clip clipFromPicture (fn);
@@ -267,7 +268,7 @@ void MainWindow::on_captureAction_triggered()
         projectInstance.addImedia( clipFromPicture );
         timeline.addClip(clipFromPicture);
         timeline.setMaxTime();
-       
+        */
         
         //with action
         /*

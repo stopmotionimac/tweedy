@@ -48,7 +48,8 @@ void ViewerTweedy::displayChanged(int time)
     //_ui->spinBox->setValue(0);
     _currentTime = time;
     Timeline* timeline = &(Projet::getInstance().getTimeline());
-    std::string  filename = "img/none.jpg";
+    std::string  idClip = "";
+    std::string filename = "img/none.jpg";
 
     if (time == timeline->maxTime()) {
         //afficher le temps reel
@@ -61,9 +62,16 @@ void ViewerTweedy::displayChanged(int time)
     }
     else {
         _previewTimer->stop();
-        bool isClip = timeline->findCurrentClip(filename,time);
+        bool isClip = timeline->findCurrentClip(idClip,time);
+        if(isClip)
+        {
+         filename = timeline->mapClip()[idClip].imgPath().string();
+        }
     }
-
+    
+    
+    
+    
     QPixmap img( QString::fromStdString(filename) );
     img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
             
@@ -80,16 +88,24 @@ void ViewerTweedy::handle_onionAction_triggered()
 {
     int nbFrames = _ui->spinBox->value();
     Timeline t = Projet::getInstance().getTimeline();
+    std::string idClip = "img/none.jpg";
     std::string filename = "img/none.jpg";
+    
     int beginTime = _currentTime - nbFrames;
     if (beginTime < 0)
     {
         nbFrames += beginTime;
         beginTime = 0;
     }
-    bool found = t.findCurrentClip(filename, beginTime);
+    bool found = t.findCurrentClip(idClip, beginTime);
 
     QImage resultImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
+    
+    if(found)
+    {
+    filename = t.mapClip()[idClip].imgPath().string();
+    }
+    
     found = resultImage.load(QString::fromStdString(filename));
 
     /*
@@ -109,8 +125,11 @@ void ViewerTweedy::handle_onionAction_triggered()
         if (_currentTime - i < 0)
             break;
 
-        found = t.findCurrentClip(filename, beginTime + i);
+        found = t.findCurrentClip(idClip, beginTime + i);
         QImage destinationImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
+        
+        filename = t.mapClip()[idClip].imgPath().string();
+        
         found = destinationImage.load(QString::fromStdString(filename));
 
         QImage sourceImage(resultImage);

@@ -27,6 +27,8 @@ void CmdClipDelete::runDo(){
     Projet& projet = Projet::getInstance();
     Timeline& timeline = projet.getTimeline();
     const Clip& clip = timeline.mapClip()[_idClip];
+    
+    
 
     //creation par copy du clip
     _clipTemp = clip;
@@ -48,7 +50,7 @@ void CmdClipDelete::redo()
 {
     //retirer le clip de la map
     Timeline& timeline = Projet::getInstance().getTimeline();
-    timeline.deleteClip(_clipTemp.imgPath().string());
+    timeline.deleteClip(_clipTemp.getId().getIdStringForm());
 }
 
 const std::string& CmdClipDelete::getText() const {

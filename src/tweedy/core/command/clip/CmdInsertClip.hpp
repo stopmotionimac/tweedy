@@ -9,7 +9,7 @@ class CmdInsertClip : public IUndoRedoCommand
     
 public:
     
-    CmdInsertClip(const std::string& idClip, const std::string& text,int newPosition);
+    CmdInsertClip(const std::string& filename, const std::string& text,int newPosition);
 
     ~CmdInsertClip();
     
@@ -27,7 +27,7 @@ public:
 private:
     
     std::string _text;
-    std::string _idClip;
+    std::string _filename;
     int _newPosition;
     Clip _clipTemp;
     

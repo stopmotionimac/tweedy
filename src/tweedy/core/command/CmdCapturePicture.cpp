@@ -1,9 +1,10 @@
 #include <tweedy/core/command/CmdCapturePicture.hpp>
 #include <tweedy/core/Projet.hpp>
+#include <tweedy/core/Id.hpp>
 
 
 CmdCapturePicture::CmdCapturePicture(const std::string& text,const boost::filesystem::path& url)
-        :_text(text),_newClip(url)
+        :_text(text),_newClip(url,Id(""),"")
 {
     
 }

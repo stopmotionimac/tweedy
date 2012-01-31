@@ -14,13 +14,13 @@ ActDragNDropChutToTL::~ActDragNDropChutToTL()
     
 }
 
-void ActDragNDropChutToTL::operator ()(const std::string& idClip, int position)
+void ActDragNDropChutToTL::operator ()(const std::string& filename, int position)
 {
     
     Projet& project = Projet::getInstance();
     
     //creation de la commande de deplacement d'un clip dans la timeline
-    IUndoRedoCommand* cmd = new CmdInsertClip(idClip,"Cmd Insert Clip : "+idClip, position);
+    IUndoRedoCommand* cmd = new CmdInsertClip(filename,"Cmd Insert Clip : "+filename, position);
     
     //ajout de la commande au commande manager
     CommandManager& cmdMng = project.getCommandManager();
