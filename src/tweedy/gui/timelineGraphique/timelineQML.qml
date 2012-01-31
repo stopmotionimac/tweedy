@@ -8,5 +8,5 @@ Rectangle {
 
     color: "#414042"
 
-    Component.onCompleted: MyScript.createSpriteObjects();
+    Component.onCompleted: MyScript.createSpriteObjects(3);
 }

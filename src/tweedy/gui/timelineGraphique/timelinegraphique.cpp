@@ -6,25 +6,29 @@
 #include <QtGui/QVBoxLayout>
 #include <QtCore/QUrl>
 
+#include "ClipDataWrapper.hpp"
+#include "TimelineDataWrapper.hpp"
+
 #include <iostream>
 
 TimelineGraphique::TimelineGraphique(QWidget * parent):
     QWidget(parent)
 {
+    _qmlView = new QDeclarativeView(this);
+    _qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
 
-    QDeclarativeView *qmlView = new QDeclarativeView(this);
-    qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
+    _qmlView->rootContext()->setContextProperty("Prop", &_prop);
 
-    qmlView->rootContext()->setContextProperty("aaa", &_prop);
+    qmlRegisterType<TimelineDataWrapper>("MyTimelineData",1,0,"TimelineData");
+    qmlRegisterType<ClipDataWrapper>("MyClipData",1,0,"ClipData");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(qmlView);
+    layout->addWidget(_qmlView);
 
-//    // get root object
-//    QObject * rootObject = dynamic_cast<QObject *>(qmlView->rootObject());
+}
 
-//    // find element by name
-//    QObject * timeline = rootObject->findChild<QObject *>(QString("timeline"));
 
+void TimelineGraphique::update()
+{
 
 }
