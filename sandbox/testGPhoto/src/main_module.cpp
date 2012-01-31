@@ -332,7 +332,7 @@ int main(int argc, char **argv) {
 //                        exit(1);
 //                }
 //
-////HAVE TO BE CHANGE IN FUNCTION OF CHOICE OF USERT PROJECT FILE//
+////HAVE TO BE CHANGE IN FUNCTION OF CHOICE OF USER PROJECT FILE//
 //                sprintf(outputFile, "projet/previewTps/snapshot-%03d.jpg", i);
 //                //std::cout<<"SAVE FILE IN : "<<outputFile<<std::endl;
 //                ret = gp_file_save(file, outputFile);
@@ -407,22 +407,99 @@ int main(int argc, char **argv) {
             CameraWidget * window;
             CameraWidget ** ptr_window;
             ptr_window = &window;
+            const char* nameWindow = NULL;
+            const char* labelWindow = NULL;
 
-            ret = gp_widget_new (GP_WIDGET_MENU/*GP_WIDGET_WINDOW*/, "WINDOW01", ptr_window);
-            int * id;
-            ret = gp_widget_get_id (window, id);
-            std::cout<<"ID DE LA WIDGET : "<<id<<std::endl;
+            ret = gp_widget_new (GP_WIDGET_MENU/*GP_WIDGET_WINDOW*/, "WINDOW 01", ptr_window);
+            int id;
+
+
             ret = gp_camera_get_config(camera, ptr_window, context);
-            std::cout<<"RETURN OF GET CONFIG: "<<ret<<std::endl;
+        //    std::cout<<"RETURN OF GET CONFIG: "<<ret<<std::endl;
+            ret = gp_widget_get_id (window, &id);
+            std::cout<<"ID DE LA WIDGET : "<<id<<std::endl;
+            ret = gp_widget_get_name (window, &nameWindow);
+            std::cout<<"NAME DE LA WIDGET : "<<nameWindow<<std::endl;
+            ret = gp_widget_get_label (window, &labelWindow);
+            std::cout<<"LABEL DE LA WIDGET : "<<labelWindow<<std::endl;
             //int countChoice = gp_widget_count_choices (window);
-            int countChoice = gp_widget_count_children (window);
-            //std::cout<<"CHOICE COUNT : "<<(*ptr_window)->choice_count<<std::endl;
-            std::cout<<"NB OF CHOICES : "<<countChoice<<std::endl;
+            int countChildren = gp_widget_count_children (window);
+            std::cout<<"NB OF CHILDREN : "<<countChildren<<std::endl;
 
-            /*to config ONE config*/
 
-            //get_config_value_string (camera, "owner", &ownerstr, context);
+            CameraWidget * child;
+            CameraWidget ** ptr_child;
+            ptr_child = &child;
+            int idChild;
+            const char* name;
+
+//SI LES AUTRES MODELES SONT CLASSES DIFFEREMENT, VOIR POUR FAIRE UN WHILE QUI CONTIENT LE FOR
+            for (int i = 0; i< countChildren; ++i)
+            {
+                 /*Children level 1*/
+
+                 ret = gp_widget_get_child (window, i, ptr_child);
+                 std::cout<<"RET GET CHILD : "<<ret<<std::endl;
+                 //ret = gp_widget_get_id (child, &idChild);
+                 //std::cout<<"CHILD"<<i<<" ID : "<<id<<std::endl;
+                 //ret = gp_widget_get_child_by_id (window, idChild, ptr_child);
+                 //std::cout<<"RET GET CHILD BY ID : "<<ret<<std::endl;
+                 ret = gp_widget_get_name (child, &name);
+                 std::cout<<"NAME CHILDREN NIVEAU 1 ("<<i<<") : "<<name<<std::endl;
+
+                 int countChildrenOfChildren = gp_widget_count_children (child);
+                 std::cout<<"NB OF CHILDREN OF CHILDREN : "<<countChildrenOfChildren<<std::endl;
+
+                 if (countChildrenOfChildren != 0)
+                 {
+                     CameraWidget * childOfChild;
+                     CameraWidget ** ptr_childOfChild;
+                     ptr_childOfChild = &childOfChild;
+                     int idChildOfChild;
+                     const char* nameOfChild;
+
+                     for (int j = 0; j <= countChildrenOfChildren; ++j)
+                     {
+                         /*Children level 2*/
+
+                         ret = gp_widget_get_child (child, j, ptr_childOfChild);
+                         std::cout<<"RET GET CHILD : "<<ret<<std::endl;
+                         ret = gp_widget_get_name (childOfChild, &nameOfChild);
+                         std::cout<<"NAME CHILDREN NIVEAU 2 ("<<j<<") : "<<nameOfChild<<std::endl;
+
+                         int countChildrenOfChildrenOfChildren = gp_widget_count_children (childOfChild);
+                         std::cout<<"NB OF CHILDREN OF CHILDREN : "<<countChildrenOfChildrenOfChildren<<std::endl;
+                         if (countChildrenOfChildrenOfChildren == 0)
+                         {
+                             std::cout<<"No Children"<<std::endl;
+                         }
+                     }
+                 }
+                 else
+                 {
+                     std::cout<<"No Children"<<std::endl;
+                 }
+
+             }
+
+            /*
+            to config ONE config
             //get_config_value_string (Camera *camera, const char *key, char **str, GPContext *context)
+            */
+            /*ISO*/
+            char * isoValue;
+            get_config_value_string (camera, "iso", &isoValue, context);
+      //    std::cout<<isoValue<<std::endl;
+            /*SHUTTER SPEED*/
+            /*aperture*/
+            /*white balance*/
+            /*image style*/
+            /*mode mesure (point)*/
+            /*autofocus*/
+            /*image format*/
+            /*dirve mode (unique, rafale, timer, ...)*/
+            /*braket mode (compensation exposition*/
+
 
         }
 out:

@@ -45,7 +45,7 @@ QSlider * ViewerTweedy::getTempsSlider() { return _ui->tempsSlider; }
 
 void ViewerTweedy::displayChanged(int time)
 {
-    _ui->spinBox->setValue(0);
+    //_ui->spinBox->setValue(0);
     _currentTime = time;
     Timeline* timeline = &(Projet::getInstance().getTimeline());
     std::string  filename = "img/none.jpg";
@@ -68,7 +68,7 @@ void ViewerTweedy::displayChanged(int time)
     img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
             
     this->getViewerLabel()->setPixmap(img);
-   
+    handle_onionAction_triggered();
      
    
     /**/
@@ -118,6 +118,8 @@ void ViewerTweedy::handle_onionAction_triggered()
         resultImage = calculateImage(sourceImage, destinationImage);
     }
 
+    
+    resultImage.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
     this->getViewerLabel()->setPixmap(QPixmap::fromImage(resultImage));
     
 }
@@ -127,14 +129,12 @@ void ViewerTweedy::updatePreview() {
     Projet& projectInstance = Projet::getInstance();
     int isConnected = projectInstance.gPhotoInstance().tryToConnectCamera();
     if (isConnected == 0) {
-        QMessageBox::about(this, tr("Warning"), tr("No camera connected to the computer"));
-        //std::cout<<"No camera connected to the computer"<<std::endl;
-        _previewTimer->stop();
+        this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString("img/noCameraDetected.jpg")));
     }
     else {
         std::string filename = projectInstance.gPhotoInstance().doPreview(1);
         this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
-        //deletecaptured file
+        //delete captured file
         boost::filesystem::path FileToDeletePath(filename);
         boost::filesystem::remove(filename);
     }

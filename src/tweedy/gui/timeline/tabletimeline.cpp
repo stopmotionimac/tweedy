@@ -11,6 +11,8 @@
 
 #include <boost/algorithm/string.hpp>
 
+#include <tweedy/core/action/ActDragNDropTLToTL.hpp>
+
 #include <iostream>
 
 TableTimeline::TableTimeline(QWidget *parent) :
@@ -82,6 +84,10 @@ void TableTimeline::startDrag(Qt::DropActions supportedActions)
 
 void TableTimeline::dropEvent(QDropEvent *event)
 {
+    //creation de l'action de drag and drop au sein de la timeline
+    ActDragNDropTLToTL action;
+    
+    
     std::cout<<"TableTimeline::dropEvent"<<std::endl;
     //on recupere la timeline
     Timeline * timeline = &(Projet::getInstance().getTimeline());
@@ -104,7 +110,8 @@ void TableTimeline::dropEvent(QDropEvent *event)
                
         if (mimeData->text().toStdString() == "timeline")
         {
-            timeline->moveElement(filename, position);
+            //timeline->moveElement(filename, position);
+            action(filename,position);
                       
         }
         

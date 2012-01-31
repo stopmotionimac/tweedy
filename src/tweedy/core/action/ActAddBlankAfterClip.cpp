@@ -13,6 +13,15 @@ ActAddBlankAfterClip::ActAddBlankAfterClip()
     
 }
 
+
+
+ActAddBlankAfterClip::~ActAddBlankAfterClip()
+{
+    std::cout << "Dtor action : "+_name << std::endl;
+}
+
+
+
 void ActAddBlankAfterClip::operator()(int currentTime)
 {
     //récupérer le clip à traiter
@@ -44,7 +53,4 @@ void ActAddBlankAfterClip::operator()(int currentTime)
     
 }
 
-ActAddBlankAfterClip::~ActAddBlankAfterClip()
-{
-    std::cout << "Dtor action : "+_name << std::endl;
-}
+
