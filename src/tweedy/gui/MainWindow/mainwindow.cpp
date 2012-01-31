@@ -178,6 +178,8 @@ void MainWindow::createWidgets()
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
     viewMenu->addAction(chutier->_viewerChutierDock->toggleViewAction());
+    
+    chutier->setMaximumWidth(this->width());
 
     //Dock Timeline
 
@@ -215,6 +217,8 @@ void MainWindow::createWidgetViewer()
     viewerImg = new ViewerTweedy( contentViewerDock );
     contentViewerDock->setWidget(viewerImg);
     addDockWidget(Qt::TopDockWidgetArea, contentViewerDock);
+    
+    
     
     viewMenu->addAction(contentViewerDock->toggleViewAction());
     
