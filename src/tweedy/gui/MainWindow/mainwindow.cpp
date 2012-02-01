@@ -13,6 +13,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QLineEdit>
 #include <QtGui/QDesktopWidget>
+#include <QtGui/QApplication>
 
 #include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
@@ -22,6 +23,11 @@
 #include <tweedy/core/action/ActCapturePicture.hpp>
 
 #include <iostream>
+
+#include <iomanip>
+
+#include <fstream>
+#include <string>
 
 
 MainWindow::MainWindow()
@@ -86,6 +92,9 @@ void MainWindow::createActions()
     _captureAction = new QAction(QIcon("img/icones/capture.png"),"Capture",this);
     _captureAction->setShortcut(QKeySequence("Retour"));
     connect(_captureAction, SIGNAL(triggered()), this,SLOT(on_captureAction_triggered()));
+    
+    //save the project
+    connect(saveProjectAction, SIGNAL(triggered()), this,SLOT(on_saveProjectAction_triggered()));
 
 }
 
@@ -266,8 +275,10 @@ void MainWindow::on_captureAction_triggered()
         std::cout<<"Camera connected"<<std::endl;
         
         //without action
+
         /*
         projectInstance.setFolderToSavePictures();
+
 
         //Give picture to application and timeline
         //boost::filesystem::path fn = projectInstance.captureToFile();
@@ -278,7 +289,7 @@ void MainWindow::on_captureAction_triggered()
         projectInstance.addImedia( clipFromPicture );
         timeline.addClip(clipFromPicture);
         timeline.setMaxTime();
-       */
+        */
         
         //with action
         ActCapturePicture action;
@@ -352,6 +363,27 @@ void MainWindow::createStatusBar()
 
 }
 
+
+//sauvegarde du projet
+void MainWindow::on_saveProjectAction_triggered()
+{
+    //make an archive
+    //const char * filename = "./projet";
+    //std::ofstream ofs(filename);
+    //boost::archive::text_oarchive oa(ofs);
+    //oa << project();
+    
+    std::cout << "sauvegarde" << std::endl;
+}
+
+/*
+void save_schedule(const bus_schedule &s, const char * filename){
+    // make an archive
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << s;
+}
+*/
 
 MainWindow::~MainWindow()
 {

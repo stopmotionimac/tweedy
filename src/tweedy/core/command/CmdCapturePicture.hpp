@@ -25,6 +25,7 @@ public:
 private:
 
    std::string _text;
+   std::string _filename;
    Clip _newClip;
 };
 

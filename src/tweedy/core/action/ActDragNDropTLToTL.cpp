@@ -3,7 +3,7 @@
 #include <tweedy/core/command/clip/CmdMoveClip.hpp>
 
 ActDragNDropTLToTL::ActDragNDropTLToTL()
-        :IAction("Action Move Clip")
+        :IAction("Action Drag and Drop from Timeline to Timeline")
 {
     
 }

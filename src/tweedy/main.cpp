@@ -1,4 +1,5 @@
 #include <tweedy/core/Projet.hpp>
+#include <tweedy/gui/TweedyApp.hpp>
 
 //#include <tweedy/gui/timesheet/TimeSheet.h>
 #include <tweedy/gui/MainWindow/mainwindow.h>
@@ -31,16 +32,6 @@ int main(int argc, char *argv[])
       //print all media on projet
       //projet.printAllMedia();
 
-      //TEST to get name from an Imedia
-      //boost::filesystem::path path= projet.getNameImedia(clipTest);
-
-      // affectation de la valeur 15 à l'objet pointé par obj1
-      projet.setValue (15);
-
-      // affichage de _value
-      //std::cout << "obj1::_value = " << projet->getValue () << std::endl;
-
-      //projet->setGphotoInstance();
 
 
       /*________TEST AREA_________*/
@@ -49,9 +40,9 @@ int main(int argc, char *argv[])
 	// initialize resources, if needed
 	// Q_INIT_RESOURCE(resfile);
 
-	QApplication app(argc, argv);
+	TweedyApp app(argc, argv);
 
-        MainWindow mainWin/*(projet)*/;
+        MainWindow mainWin;
 
 	// Load css stylesheet
         const QString appCss( QCoreApplication::applicationDirPath() + "/resources/tweedy.css" );

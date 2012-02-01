@@ -8,6 +8,7 @@
 #include <tweedy/core/Imedia.hpp>
 #include <tweedy/core/CommandManager.hpp>
 #include <tweedy/core/Timeline.hpp>
+#include <tweedy/core/Id.hpp>
 
 
 #include<iostream>
@@ -22,7 +23,7 @@ class Projet : public Singleton<Projet>
 
 private:
   Projet ()
-      : _value (0) { }
+      : _value (0),_id("projet"),_timeline(getId(),"timeline1") { }
   ~Projet () { }
 
 public:
@@ -41,6 +42,7 @@ public:
   void addImedia(Imedia & media);
   void supprImedia(int idMedia);
   void printAllMedia();
+  void fillChutierPicutresWithProjet();
   //void makeChutier();
 
   //function for gPhotoInstance
@@ -51,9 +53,11 @@ public:
 
 
   Gphoto& gPhotoInstance() { return Gphoto::getInstance(); }
+  
   CommandManager& getCommandManager();
   Timeline& getTimeline();
-
+  
+  Id& getId();
 
 private:
   //Gphoto * gPhotoInstance;
@@ -67,6 +71,16 @@ private:
 
   CommandManager _cmdManager;
   Timeline _timeline;
+  
+  Id _id;
+  
+  friend class boost::serialization::access;
+    
+  template<class Archive>
+  void serialize(Archive& ar, const unsigned int version)
+  {
+     ar & _timeline; 
+  }
 
 };
 #endif  // PROJET_HPP

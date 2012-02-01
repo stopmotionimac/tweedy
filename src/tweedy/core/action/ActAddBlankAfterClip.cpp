@@ -25,13 +25,13 @@ ActAddBlankAfterClip::~ActAddBlankAfterClip()
 void ActAddBlankAfterClip::operator()(int currentTime)
 {
     //récupérer le clip à traiter
-    std::string filename = "img/none.jpg";
+    std::string idClip = "";
     
     Projet& projet = Projet::getInstance();
     
     Timeline timeline = projet.getTimeline();
 
-    bool isClip = timeline.findCurrentClip(filename,currentTime);
+    bool isClip = timeline.findCurrentClip(idClip,currentTime);
     
     if(!isClip)
         std::cout<< "Clip not found" << std::endl;
@@ -39,7 +39,7 @@ void ActAddBlankAfterClip::operator()(int currentTime)
     else
     {
         //créer la commande 
-        IUndoRedoCommand* cmd = new CmdClipAddBlankAfter(filename,"Commande Add Blank Before Clip "+filename);
+        IUndoRedoCommand* cmd = new CmdClipAddBlankAfter(idClip,"Commande Add Blank Before Clip "+idClip);
 
         //trouver le command Manager par le projet
 
