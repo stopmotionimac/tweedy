@@ -1,5 +1,7 @@
 #include <tweedy/core/Id.hpp>
 #include <iostream>
+#include <boost/algorithm/string/join.hpp>
+#include <boost/serialization/vector.hpp>
 
 //ctor de base
 Id::Id(const std::string& id)
@@ -28,8 +30,10 @@ Id::~Id()
     
 }
 
-const std::string& Id::getIdStringForm()
+const std::string Id::getIdStringForm() const
 {
+    return std::string("/") + boost::algorithm::join( _id, "/" );
+    /*
     //nouvelle string vide
     std::string id ="";
     
@@ -43,6 +47,19 @@ const std::string& Id::getIdStringForm()
     
     id += _id[_id.size()-1];
     
-    return id;
+    return id;*/
     
+}
+
+template<class Archive>
+void Id::serialize(Archive& ar, const unsigned int version)
+{
+    
+    ar & _id;
+   
+}
+
+Id& Id::operator=(const Id& id){
+    
+    _id = id._id;
 }

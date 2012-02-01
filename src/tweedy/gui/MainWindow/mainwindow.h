@@ -31,6 +31,8 @@ class MainWindow : public QMainWindow
     public:
         MainWindow();
         ~MainWindow();
+        
+        
 
     public Q_SLOTS:
         void on_captureAction_triggered();

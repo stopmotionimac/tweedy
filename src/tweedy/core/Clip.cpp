@@ -2,6 +2,8 @@
 
 Clip& Clip::operator=(const Clip& clip){
     
+    std::cout << "aaa: " << clip._id.getIdStringForm() << std::endl;
+    
     _id = clip._id;
     _imgPath = clip._imgPath;
     _imgLength = clip._imgLength;
@@ -17,3 +19,13 @@ Clip& Clip::operator=(const Clip& clip){
 
 
 
+template<class Archive>
+void Clip::serialize(Archive& ar, const unsigned int version)
+{
+    
+    ar & _id;
+    ar & _imgPath;
+    ar & _timeIn;
+    ar & _timeOut;
+   
+}

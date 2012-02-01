@@ -13,6 +13,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QLineEdit>
 #include <QtGui/QDesktopWidget>
+#include <QtGui/QApplication>
 
 #include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>

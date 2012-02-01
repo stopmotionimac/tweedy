@@ -77,7 +77,7 @@ Id& Timeline::getId()
 
 
 void Timeline::addClip(Clip & clip) {
-    _mapClip[clip.imgPath().string()] = clip;
+    _mapClip[clip.getId().getIdStringForm()] = clip;
     
     _signalChanged();
 }
@@ -87,12 +87,12 @@ void Timeline::addClip(Clip & clip) {
 
 void Timeline::insertClip(Clip newClip, double currentTime)
 {
-    std::string currentFilename;
-    bool found = findCurrentClip(currentFilename, currentTime);
+    std::string clipName;
+    bool found = findCurrentClip(clipName, currentTime);
     int timeIn = currentTime;
     
     if (found)
-        timeIn = _mapClip[currentFilename].timeIn();
+        timeIn = _mapClip[clipName].timeIn();
     
     //décale les clips suivants
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
@@ -151,21 +151,21 @@ void Timeline::insertClip(const std::string& newClipName, double currentTime)
 */
 
 
-void Timeline::moveElement(std::string filename, int newPosition)
+void Timeline::moveElement(std::string clipName, int newPosition)
 {
     if (newPosition == _maxTime)
         return;
     
-    int move = newPosition - _mapClip[filename].timeIn();
+    int move = newPosition - _mapClip[clipName].timeIn();
     
-    int duree = _mapClip[filename].timeOut() - _mapClip[filename].timeIn();
+    int duree = _mapClip[clipName].timeOut() - _mapClip[clipName].timeIn();
     if (move > 0)
         duree *= -1;
     
     if (move > 0)
         BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
         {
-            if (s.second->timeIn() > _mapClip[filename].timeIn() && s.second->timeIn() <= newPosition)
+            if (s.second->timeIn() > _mapClip[clipName].timeIn() && s.second->timeIn() <= newPosition)
             {
                 s.second->setTimeIn(duree);
                 s.second->setTimeOut(duree);
@@ -175,7 +175,7 @@ void Timeline::moveElement(std::string filename, int newPosition)
     else
         BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
         {
-            if (s.second->timeIn() >= newPosition && s.second->timeIn() < _mapClip[filename].timeIn())
+            if (s.second->timeIn() >= newPosition && s.second->timeIn() < _mapClip[clipName].timeIn())
             {
                 s.second->setTimeIn(duree);
                 s.second->setTimeOut(duree);
@@ -183,8 +183,8 @@ void Timeline::moveElement(std::string filename, int newPosition)
         }
     
      
-    _mapClip[filename].setTimeIn(move);
-    _mapClip[filename].setTimeOut(move);
+    _mapClip[clipName].setTimeIn(move);
+    _mapClip[clipName].setTimeOut(move);
     
     _signalChanged();
    
@@ -286,9 +286,11 @@ void Timeline::deleteClip(const std::string& clipName)
 {
     std::cout << clipName << std::endl;
     //on retire le clip de la map
-    UOMapClip::iterator it=_mapClip.find(clipName); 
-    _mapClip.erase(it);
+    UOMapClip::iterator it=_mapClip.find(clipName);
     
+    BOOST_ASSERT( it != _mapClip.end() );
+    
+    _mapClip.erase(it);
     
     //emission du signal de changement d'etat de la timeline
     _signalChanged();
@@ -321,3 +323,17 @@ unsigned int& Timeline::getNbClip()
 boost::signal0<void>& Timeline::getSignalChanged(){
      return _signalChanged;
  }
+
+
+template<class Archive>
+void Timeline::serialize(Archive& ar, const unsigned int version)
+{
+    
+
+    ar & _nbClip;
+    ar & _maxTime;
+    ar & _mapClip;
+    ar & _id;
+    
+   
+}

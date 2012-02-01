@@ -26,8 +26,8 @@ public :
         //void getlistPiste ();
         //void addPiste (PisteClip & pisteClip);
         //void supprPiste (PisteClip & pisteClip);
-        UOMapClip mapClip(){ return _mapClip;}
-        unsigned int maxTime(){ return _maxTime;}
+        UOMapClip& mapClip(){ return _mapClip;}
+        unsigned int& maxTime(){ return _maxTime;}
         void setMaxTime();
         OMapClip getOrderedClips();
         
@@ -58,6 +58,11 @@ private :
         boost::signal0<void> _signalChanged;
         
         Id _id;
+        
+        friend class boost::serialization::access;
+    
+        template<class Archive>
+        void serialize(Archive &, const unsigned int);
 
 };
 
