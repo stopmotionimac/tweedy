@@ -11,6 +11,7 @@
 TimelineGraphique::TimelineGraphique(QWidget * parent):
     QWidget(parent)
 {
+
     _qmlView = new QDeclarativeView(this);
     _qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
 
