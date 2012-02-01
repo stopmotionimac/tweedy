@@ -51,7 +51,7 @@ TimeLineUi::TimeLineUi(QWidget* parent):
 
     _table->setIconSize(QSize(95,68));
     _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->width());
-    _table->verticalHeader()->setDefaultSectionSize(100);
+    _table->verticalHeader()->setDefaultSectionSize(_table->iconSize().height());
 
     //ajout de la table dans le widget
     QVBoxLayout *layout = new QVBoxLayout(_ui->widgetContentTable);
