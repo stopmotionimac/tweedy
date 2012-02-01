@@ -3,6 +3,8 @@
 TimelineDataWrapper::TimelineDataWrapper(QObject *parent) :
     QObject(parent)
 {
+    for(int i=0;i<10;i++)
+        _clips.push_back( new ClipDataWrapper() );
 }
 
 //int TimelineDataWrapper::getClipRadius()
@@ -10,7 +12,12 @@ TimelineDataWrapper::TimelineDataWrapper(QObject *parent) :
 //    return 50;
 //}
 
-QDeclarativeListProperty<ClipDataWrapper> TimelineDataWrapper::getClips()
+QList<QObject*> TimelineDataWrapper::getClips()
 {
-    return QDeclarativeListProperty<ClipDataWrapper>(this, _clips);
+    return _clips;
+}
+
+int TimelineDataWrapper::getSizeClips()
+{
+    return _clips.size();
 }

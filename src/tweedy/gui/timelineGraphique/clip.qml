@@ -1,12 +1,13 @@
 import QtQuick 1.0
 //import MyClipData 1.0
 
+
 Rectangle {
     id: clip
     width: 100
-    height: 62
+    height: 60
     border.color: "black"
-    radius: Prop.clipRadius
+    radius: TimelineData.getClip(5).radius
 
     gradient: Gradient {
         GradientStop {
