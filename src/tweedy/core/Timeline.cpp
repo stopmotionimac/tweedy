@@ -2,6 +2,7 @@
 #include <string>
 
 #include <boost/lexical_cast.hpp>
+#include <boost/serialization/map.hpp>
 
 
 Timeline::Timeline(const Id& idParent, const std::string& id)

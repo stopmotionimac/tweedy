@@ -1,8 +1,7 @@
 #include <tweedy/core/Clip.hpp>
 
+
 Clip& Clip::operator=(const Clip& clip){
-    
-    std::cout << "aaa: " << clip._id.getIdStringForm() << std::endl;
     
     _id = clip._id;
     _imgPath = clip._imgPath;

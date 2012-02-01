@@ -24,6 +24,11 @@
 
 #include <iostream>
 
+#include <iomanip>
+
+#include <fstream>
+#include <string>
+
 
 MainWindow::MainWindow()
 {
@@ -87,6 +92,9 @@ void MainWindow::createActions()
     _captureAction = new QAction(QIcon("img/icones/capture.png"),"Capture",this);
     _captureAction->setShortcut(QKeySequence("Retour"));
     connect(_captureAction, SIGNAL(triggered()), this,SLOT(on_captureAction_triggered()));
+    
+    //save the project
+    connect(saveProjectAction, SIGNAL(triggered()), this,SLOT(on_saveProjectAction_triggered()));
 
 }
 
@@ -344,6 +352,25 @@ void MainWindow::createStatusBar()
 
 }
 
+
+//sauvegarde du projet
+void MainWindow::on_saveProjectAction_triggered()
+{
+    //make an archive
+    const char * filename = "./projet";
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    //oa << project();
+}
+
+/*
+void save_schedule(const bus_schedule &s, const char * filename){
+    // make an archive
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << s;
+}
+*/
 
 MainWindow::~MainWindow()
 {

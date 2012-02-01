@@ -72,6 +72,11 @@ private:
   Timeline _timeline;
   
   Id _id;
+  
+  friend class boost::serialization::access;
+    
+  template<class Archive>
+  void serialize(Archive &, const unsigned int);
 
 };
 #endif  // PROJET_HPP

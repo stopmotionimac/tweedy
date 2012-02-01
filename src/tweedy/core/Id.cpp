@@ -2,6 +2,8 @@
 #include <iostream>
 #include <boost/algorithm/string/join.hpp>
 #include <boost/serialization/vector.hpp>
+#include <boost/serialization/string.hpp>
+
 
 //ctor de base
 Id::Id(const std::string& id)

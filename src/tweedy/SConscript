@@ -8,6 +8,7 @@ project.StaticLibrary(
 		libs.boost,
 		libs.boost_filesystem,
                 libs.boost_signals,
+                libs.boost_serialization,
 		libs.gphoto2,
 		]
 	)

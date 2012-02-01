@@ -1,5 +1,6 @@
 #include <tweedy/core/Projet.hpp>
 
+
 CommandManager& Projet::getCommandManager(){
     return _cmdManager; 
 }
@@ -74,4 +75,12 @@ void Projet::setValueCameraIsInit(bool var) {
 
 boost::filesystem::path Projet::captureToFile() {
     boost::filesystem::path fn = gPhotoInstance().captureToFile();
+}
+
+
+template<class Archive>
+void Projet::serialize(Archive& ar, const unsigned int version)
+{
+    ar & _timeline; 
+   
 }

@@ -41,6 +41,7 @@ class MainWindow : public QMainWindow
         void on_undoButton_clicked();
         void on_redoButton_clicked();
         void writeTime(int newValue);
+        void on_saveProjectAction_triggered();
 
     private:
         Projet& project() { return Projet::getInstance(); }
