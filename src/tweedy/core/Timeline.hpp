@@ -12,6 +12,7 @@
 #include <boost/ptr_container/ptr_map.hpp>
 #include <boost/foreach.hpp>
 #include <boost/signal.hpp>
+#include <boost/ptr_container/serialize_ptr_unordered_map.hpp>
 
 class Timeline : public Imedia{
 
@@ -62,7 +63,17 @@ private :
         friend class boost::serialization::access;
     
         template<class Archive>
-        void serialize(Archive &, const unsigned int);
+        void serialize(Archive& ar, const unsigned int version)
+        {
+
+
+            ar & _nbClip;
+            ar & _maxTime;
+            ar & _mapClip;
+            ar & _id;
+
+
+        }
 
 };
 

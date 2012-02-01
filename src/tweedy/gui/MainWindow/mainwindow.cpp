@@ -360,10 +360,12 @@ void MainWindow::createStatusBar()
 void MainWindow::on_saveProjectAction_triggered()
 {
     //make an archive
-    const char * filename = "./projet";
-    std::ofstream ofs(filename);
-    boost::archive::text_oarchive oa(ofs);
+    //const char * filename = "./projet";
+    //std::ofstream ofs(filename);
+    //boost::archive::text_oarchive oa(ofs);
     //oa << project();
+    
+    std::cout << "sauvegarde" << std::endl;
 }
 
 /*

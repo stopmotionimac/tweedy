@@ -2,7 +2,6 @@
 #include <string>
 
 #include <boost/lexical_cast.hpp>
-#include <boost/serialization/map.hpp>
 
 
 Timeline::Timeline(const Id& idParent, const std::string& id)
@@ -324,17 +323,3 @@ unsigned int& Timeline::getNbClip()
 boost::signal0<void>& Timeline::getSignalChanged(){
      return _signalChanged;
  }
-
-
-template<class Archive>
-void Timeline::serialize(Archive& ar, const unsigned int version)
-{
-    
-
-    ar & _nbClip;
-    ar & _maxTime;
-    ar & _mapClip;
-    ar & _id;
-    
-   
-}

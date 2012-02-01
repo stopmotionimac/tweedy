@@ -76,7 +76,10 @@ private:
   friend class boost::serialization::access;
     
   template<class Archive>
-  void serialize(Archive &, const unsigned int);
+  void serialize(Archive& ar, const unsigned int version)
+  {
+     ar & _timeline; 
+  }
 
 };
 #endif  // PROJET_HPP

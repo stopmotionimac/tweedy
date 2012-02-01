@@ -109,6 +109,7 @@ void TableTimeline::dropEvent(QDropEvent *event)
     {
         QString text = urlList.at(i).path();
         std::string filename = text.toStdString();
+        std::cout << filename << std::endl;
                
         if (mimeData->text().toStdString() == "timeline")
         {

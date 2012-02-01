@@ -68,7 +68,22 @@ private:
     friend class boost::serialization::access;
     
     template<class Archive>
-    void serialize(Archive &, const unsigned int);
+    void serialize(Archive& ar, const unsigned int version)
+    {
+
+            ar & _id;
+            
+            std::string s; 
+            if(Archive::is_saving::value) 
+                s = _imgPath.string(); 
+            ar & boost::serialization::make_nvp("string", s); 
+            if(Archive::is_loading::value) 
+                _imgPath = s;
+            ar & _timeIn;
+            ar & _timeOut;
+        
+
+    }
     
     
 };

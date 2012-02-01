@@ -15,16 +15,3 @@ Clip& Clip::operator=(const Clip& clip){
     _timeIn = clip._timeIn;
     _timeOut = clip._timeOut;
 }
-
-
-
-template<class Archive>
-void Clip::serialize(Archive& ar, const unsigned int version)
-{
-    
-    ar & _id;
-    ar & _imgPath;
-    ar & _timeIn;
-    ar & _timeOut;
-   
-}
