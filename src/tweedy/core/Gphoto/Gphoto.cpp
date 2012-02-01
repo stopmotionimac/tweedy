@@ -1,12 +1,31 @@
 #include "Gphoto.hpp"
 
-#ifdef WITH_GPHOTO2
-#include "samples.h"
-#include <gphoto2/gphoto2.h>
-#include <gphoto2/gphoto2-port-log.h>
-#endif
 
-#include <iostream>
+Gphoto::Gphoto()
+{
+        _cameraIsInit = 0/*false*/;
+}
+
+Gphoto::~Gphoto()
+{
+#ifdef WITH_GPHOTO2
+        gp_camera_exit( _camera, _context );
+        int ret = gp_widget_free(_mainWidget);
+        ret = gp_widget_unref(_mainWidget);
+
+        for(int i = 0; i<_WidgetsVector.size(); ++i)
+        {
+            ret = gp_widget_free(_WidgetsVector.at(i));
+            ret = gp_widget_unref(_WidgetsVector.at(i));
+        }
+
+        _WidgetsVector.clear();
+
+
+#else
+        std::cout << "Error: Not compiled with gphoto2." << std::endl;
+#endif
+}
 
 #ifdef WITH_GPHOTO2
 
@@ -76,20 +95,6 @@ static void errordumper( GPLogLevel level, const char *domain, const char *str, 
 }
 
 #endif
-
-Gphoto::Gphoto()
-{
-        _cameraIsInit = 0/*false*/;
-}
-
-Gphoto::~Gphoto()
-{
-#ifdef WITH_GPHOTO2
-	gp_camera_exit( _camera, _context );
-#else
-	std::cout << "Error: Not compiled with gphoto2." << std::endl;
-#endif
-}
 
 
 //bool Gphoto::getVarCameraIsInit() {
@@ -208,6 +213,69 @@ std::string Gphoto::doPreview(int i) {
 //            }
                     return outputFile;
 }
+
+void Gphoto::findMainWidget() {
+    //CameraWidget * window; => _mainWidget
+    const char* nameMainWidget = NULL;
+    const char* labelMainWidget = NULL;
+
+    int ret;
+
+    ret = gp_widget_new (GP_WIDGET_MENU/*GP_WIDGET_WINDOW*/, "WINDOW 01", &_mainWidget);
+
+    ret = gp_camera_get_config(_camera, &_mainWidget, _context);
+    ret = gp_widget_get_name (_mainWidget, &nameMainWidget);
+    //std::cout<<"NAME DE LA MAIN WIDGET : "<<nameMainWidget<<std::endl;
+    ret = gp_widget_get_label (_mainWidget, &labelMainWidget);
+    //std::cout<<"LABEL DE LA MAIN WIDGET : "<<labelMainWidget<<std::endl;
+//    int countChildren = gp_widget_count_children (_mainWidget);
+//    std::cout<<"NB OF CHILDREN : "<<countChildren<<std::endl;
+}
+
+void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
+    CameraWidget * child;
+    //CameraWidget ** ptr_child;
+    //ptr_child = &child;
+    int idChild;
+//    const char* name;
+
+    int ret;
+
+    int countChildren = gp_widget_count_children (parentWidget);
+    //std::cout<<"NB OF CHILDREN : "<<countChildren<<std::endl;
+
+    for (int i = 0; i< countChildren; ++i)
+    {
+         /*Children level 1*/
+
+         ret = gp_widget_get_child (parentWidget, i, &child);
+         //std::cout<<"RET GET CHILD : "<<ret<<std::endl;
+//OK
+//         ret = gp_widget_get_name (child, &name);
+//         std::cout<<"NAME OF CHILD IN findChildrenOfOneWidget : "<<name<<std::endl;
+
+         //put children on the vector
+         //_WidgetsVector.push_back(child);
+
+         _WidgetsVector.push_back(child);
+
+         int countChildrenOfChildren = gp_widget_count_children (child);
+         //std::cout<<"NB OF CHILDREN OF CHILDREN : "<<countChildrenOfChildren<<std::endl;
+
+         if (countChildrenOfChildren != 0)
+         {
+             findChildrenOfOneWidget(child);
+         }
+     }
+}
+
+std::string Gphoto::getNameOfAWidget(CameraWidget *widget) {
+    const char* name;
+    int ret = gp_widget_get_name (widget, &name);
+    return name;
+
+}
+
 
 void Gphoto::exitCamera()
 {

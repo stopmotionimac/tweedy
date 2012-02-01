@@ -202,9 +202,16 @@ void MainWindow::createWidgets()
     //Dock essai QML
 
     QDockWidget * dockGraphicTimeline = new QDockWidget("Timeline Graphique");
-//    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
-//    dockGraphicTimeline->setWidget(_timelineGraphique);
-//    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
+    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
+    dockGraphicTimeline->setWidget(_timelineGraphique);
+    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
+
+    //Dock Config Camera
+
+    QDockWidget * configCameraDock = new QDockWidget("Camera Configuration");
+    _configCamera =  new ConfigCamera(configCameraDock);
+    configCameraDock->setWidget((_configCamera));
+    viewMenu->addAction(configCameraDock->toggleViewAction());
 }
 
 
@@ -295,7 +302,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     QString fileName =fileDialog->getExistingDirectory(this,
                                                     tr("Choisir l'emplacement du projet"),
                                                     QString(boost::filesystem::initial_path().string().c_str()));
-
+/*récupérer fileName pour sette le dossier projet de l'user*/
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
 }
 
