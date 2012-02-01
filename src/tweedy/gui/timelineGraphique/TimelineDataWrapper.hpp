@@ -2,6 +2,7 @@
 #define TIMELINEDATAWRAPPER_HPP
 
 #include <QtCore/QObject>
+#include <tweedy/core/Projet.hpp>
 
 #include <QtDeclarative/QDeclarativeListProperty>
 
@@ -14,23 +15,31 @@ class TimelineDataWrapper : public QObject
 {
     Q_OBJECT
 
-    //Q_PROPERTY(int clipRadius READ getClipRadius NOTIFY clipRadiusChanged)
     Q_PROPERTY(QList<QObject *> clips READ getClips NOTIFY clipsChanged)
+    Q_PROPERTY(int maxtime READ getMaxtime NOTIFY maxtimeChanged)
+
+
 public:
     explicit TimelineDataWrapper(QObject *parent = 0);
     TimelineDataWrapper(const TimelineDataWrapper&){}
     TimelineDataWrapper& operator =(const TimelineDataWrapper&){}
-    //int getClipRadius();
+
     QList<QObject*> getClips();
-    //Q_INVOKABLE ClipDataWrapper* getClip(int i) { return &_clips[i]; }
-    Q_INVOKABLE int getSizeClips();
+    int getMaxtime(){ return _timelineCore->maxTime(); }
+
+    Q_INVOKABLE void setTimeInDepart(int timeInDepart){ std::cout << "settimein" << std::endl; _timeInDepart = timeInDepart; }
+    Q_INVOKABLE void dragNdrop(int timeInArrivee);
+
+    Q_INVOKABLE void displayCursor(QString);
 
 private:
     QList<QObject*> _clips;
+    Timeline * _timelineCore;
+    int _timeInDepart;
 
 Q_SIGNALS:
     void clipsChanged();
-
+    void maxtimeChanged();
 };
 
 

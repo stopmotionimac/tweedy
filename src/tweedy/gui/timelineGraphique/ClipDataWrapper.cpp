@@ -1,12 +1,22 @@
 #include "ClipDataWrapper.hpp"
 
 ClipDataWrapper::ClipDataWrapper(QObject *parent) :
-    QObject(parent)
+    QObject(parent), _imgPath(QString::fromStdString("img/none.jpg") ), _timeIn(0), _timeOut(0)
 {
 
 }
 
-int ClipDataWrapper::getRadius()
+ClipDataWrapper::ClipDataWrapper(QString imgPath, int timeIn, int timeOut, QObject *parent)
+    : QObject(parent),
+      _imgPath(imgPath),
+      _timeIn(timeIn),
+      _timeOut(timeOut)
 {
-    return 50;
+
 }
+
+
+//int ClipDataWrapper::getRadius()
+//{
+//    return 50;
+//}
