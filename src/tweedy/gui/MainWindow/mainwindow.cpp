@@ -178,6 +178,8 @@ void MainWindow::createWidgets()
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
     viewMenu->addAction(chutier->_viewerChutierDock->toggleViewAction());
+    
+    chutier->setMaximumWidth(this->width());
 
     //Dock Timeline
 
@@ -205,6 +207,7 @@ void MainWindow::createWidgets()
     _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
     dockGraphicTimeline->setWidget(_timelineGraphique);
     viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
+
 
     //Dock Config Camera
 

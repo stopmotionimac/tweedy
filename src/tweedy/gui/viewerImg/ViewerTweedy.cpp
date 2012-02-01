@@ -13,7 +13,6 @@ ViewerTweedy::ViewerTweedy(QWidget *parent) :
     //_onionAction->setShortcut(QKeySequence("Space"));
     _onionAction->setStatusTip("Option Onion Skin");
     _previewTimer = new QTimer(this);
-
     
     displayChanged(0);
     
@@ -69,9 +68,7 @@ void ViewerTweedy::displayChanged(int time)
             
     this->getViewerLabel()->setPixmap(img);
     handle_onionAction_triggered();
-     
-   
-    /**/
+
 }
 
 
@@ -129,7 +126,9 @@ void ViewerTweedy::updatePreview() {
     Projet& projectInstance = Projet::getInstance();
     int isConnected = projectInstance.gPhotoInstance().tryToConnectCamera();
     if (isConnected == 0) {
-        this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString("img/noCameraDetected.jpg")));
+        QPixmap noCamera(QString::fromStdString("img/noCameraDetected.jpg"));
+        noCamera.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+        this->getViewerLabel()->setPixmap(noCamera);
     }
     else {
         std::string filename = projectInstance.gPhotoInstance().doPreview(1);

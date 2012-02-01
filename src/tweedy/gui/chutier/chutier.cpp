@@ -37,11 +37,12 @@ Chutier::Chutier(QWidget *parent) :
     _viewerChutier = new QLabel(_viewerChutierDock);
     _viewerChutier->setBackgroundRole(QPalette::Dark);
     _viewerChutier->setScaledContents(false);
-    _viewerChutier->setMaximumSize(400,300);
+    //_viewerChutier->setMaximumSize(400,300);
     _viewerChutierDock->setWidget(_viewerChutier);
+    _viewerChutierDock->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     _listWidget->setMinimumWidth(250);
-
+    _listWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
     //disposition des widgets
     QHBoxLayout * layoutBoutons = new QHBoxLayout();
     layoutBoutons->addStretch();
@@ -52,8 +53,10 @@ Chutier::Chutier(QWidget *parent) :
     layoutChutier->addWidget(_listWidget);
     layoutChutier->addLayout(layoutBoutons);
 
-    QHBoxLayout *mainLayout = new QHBoxLayout;
+    QSplitter* splitter = new QSplitter(this);
+    QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addLayout(layoutChutier);
+    mainLayout->addWidget(splitter);
     mainLayout->addWidget(_viewerChutierDock);
     setLayout(mainLayout);
 
@@ -88,14 +91,14 @@ Chutier::Chutier(QWidget *parent) :
     QString defaultImage("img/noPhotoSelected.jpg");
     _viewerChutier->setPixmap(defaultImage);
 
-    connect(_listWidget, SIGNAL(itemClicked(QListWidgetItem*)),this, SLOT(on_photo_selected(QListWidgetItem*)));
+    connect(_listWidget, SIGNAL(itemSelectionChanged()),this, SLOT(on_photo_selected()));
     connect(_importAction, SIGNAL(triggered()), this, SLOT(on_importAction_triggered()));
     connect(_deleteAction, SIGNAL(triggered()), this, SLOT(on_deleteAction_triggered()));
 }
 
-void Chutier::on_photo_selected(QListWidgetItem * item)
+void Chutier::on_photo_selected()
 {
-    _viewerChutier->setPixmap(item->text());
+    _viewerChutier->setPixmap(_listWidget->currentItem()->text());
 }
 
 void Chutier::on_importAction_triggered()

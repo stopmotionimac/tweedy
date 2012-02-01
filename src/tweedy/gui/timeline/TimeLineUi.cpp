@@ -45,11 +45,13 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _ui->setupUi(this);
     _timeline = &(Projet::getInstance().getTimeline());
 
+    _ui->widgetContentTable->setContentsMargins(0,20,0,20);
+    
     _table = new TableTimeline(this);
 
     _table->setIconSize(QSize(95,68));
-    _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->height());
-    _table->verticalHeader()->setDefaultSectionSize(100);
+    _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->width());
+    _table->verticalHeader()->setDefaultSectionSize(_table->iconSize().height());
 
     //ajout de la table dans le widget
     QVBoxLayout *layout = new QVBoxLayout(_ui->widgetContentTable);
@@ -85,12 +87,12 @@ void TimeLineUi::createActions(){
     _playPauseAction->setStatusTip("Lancer le montage");
     connect(_playPauseAction, SIGNAL(triggered()), this, SLOT(handle_playPauseAction_triggered()));
 
-    _nextAction = new QAction(QIcon("img/icones/nextS.png"),"Suivant", this);
+    _nextAction = new QAction(QIcon("img/icones/next.png"),"Suivant", this);
     _nextAction->setShortcut(QKeySequence("Alt+Right"));
     _nextAction->setStatusTip("Clip suivant");
     connect(_nextAction, SIGNAL(triggered()), this, SLOT(handle_nextAction_triggered()));
 
-    _prevAction = new QAction(QIcon("img/icones/previousS.png"),"Precedent", this);
+    _prevAction = new QAction(QIcon("img/icones/previous.png"),"Precedent", this);
     _prevAction->setShortcut(QKeySequence("Alt+Left"));
     _prevAction->setStatusTip("Clip precedent");
     connect(_prevAction, SIGNAL(triggered()), this, SLOT(handle_prevAction_triggered()));
@@ -100,12 +102,12 @@ void TimeLineUi::createActions(){
     _zeroAction->setStatusTip("Remise a zero");
     connect(_zeroAction, SIGNAL(triggered()), this, SLOT(handle_zeroAction_triggered()));
 
-    _plusAction = new QAction("+",this);
+    _plusAction = new QAction(QIcon("img/icones/plus.png"),"+",this);
     //_plusAction->setShortcut(QKeySequence("Space"));
     _plusAction->setStatusTip("Augmenter la duree du clip");
     connect(_plusAction, SIGNAL(triggered()), this, SLOT(handle_plusAction_triggered()));
 
-    _minusAction = new QAction("-", this);
+    _minusAction = new QAction(QIcon("img/icones/moins.png"),"-", this);
     _minusAction->setStatusTip("Diminuer la duree du clip");
     connect(_minusAction, SIGNAL(triggered()), this, SLOT(handle_minusAction_triggered()));
 

@@ -1,9 +1,14 @@
 import QtQuick 1.0
+//import MyClipData 1.0
+
 
 Rectangle {
     id: clip
     width: 100
-    height: 62
+    height: 60
+    border.color: "black"
+    radius: TimelineData.getClip(5).radius
+
     gradient: Gradient {
         GradientStop {
             position: 0
@@ -16,11 +21,25 @@ Rectangle {
         }
     }
 
+    /* drag and drop horizontal */
     MouseArea {
         anchors.fill: parent
         drag.target: clip
         drag.axis: Drag.XAxis
+
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
+        onPressed: {
+            if (mouse.button == Qt.RightButton)
+                console.log("Bouton de souris cliqué")
+        }
     }
+
+    //si x change on affiche dans la console
+    onXChanged: {
+        Prop.afficheXClip(5.0)
+        console.log("La position horizontal est maintenant :", x)
+    }
+
 
     MouseArea {
         id: areaScaleLeft
@@ -29,10 +48,10 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            aaa.AfficheCurseur("scale");
+            Prop.afficheCurseur("scale");
         }
         onExited: {
-            aaa.AfficheCurseur("none")
+            Prop.afficheCurseur("none")
           }
     }
 
@@ -44,11 +63,11 @@ Rectangle {
         hoverEnabled: true
 
         onEntered: {
-            aaa.AfficheCurseur("scale");
+            Prop.afficheCurseur("scale");
         }
         onExited: {
-            aaa.AfficheCurseur("none")
-          }
+            Prop.afficheCurseur("none")
+        }
     }
 
 }
