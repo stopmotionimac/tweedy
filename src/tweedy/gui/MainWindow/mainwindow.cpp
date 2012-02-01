@@ -187,6 +187,8 @@ void MainWindow::createWidgets()
     chutierDock->setWidget(chutier);
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
     viewMenu->addAction(chutier->_viewerChutierDock->toggleViewAction());
+    
+    chutier->setMaximumWidth(this->width());
 
     //Dock Timeline
 
@@ -211,9 +213,9 @@ void MainWindow::createWidgets()
     //Dock essai QML
 
     QDockWidget * dockGraphicTimeline = new QDockWidget("Timeline Graphique");
-//    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
-//    dockGraphicTimeline->setWidget(_timelineGraphique);
-//    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
+    _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
+    dockGraphicTimeline->setWidget(_timelineGraphique);
+    viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
 }
 
 
@@ -270,7 +272,8 @@ void MainWindow::on_captureAction_triggered()
 
         /*
         //Give picture to application and timeline
-        boost::filesystem::path fn = projectInstance.captureToFile();
+        //boost::filesystem::path fn = projectInstance.captureToFile();
+        boost::filesystem::path fn = projectInstance.gPhotoInstance().captureToFile();
         Clip clipFromPicture (fn);
         Timeline& timeline = projectInstance.getTimeline();
         clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );

@@ -22,9 +22,14 @@ project.StaticLibrary(
 			uiFiles=project.scanFiles(['gui'],accept=['*.ui']),
 			modules = [
 				'QtCore',
-				'QtGui',
 				'QtOpenGL',
+				'QtGui',
+				'QtScript',
 				'QtDeclarative',
+				'QtXmlPatterns', # QML dependencies
+				'QtNetwork', # QML dependencies
+				'QtSvg', # QML dependencies
+				'QtSql', # QML dependencies
 				],
 			),
 		]

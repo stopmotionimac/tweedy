@@ -12,19 +12,31 @@ TimelineGraphique::TimelineGraphique(QWidget * parent):
     QWidget(parent)
 {
 
-    QDeclarativeView *qmlView = new QDeclarativeView(this);
-    qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
+    _qmlView = new QDeclarativeView(this);
+    _qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
 
-    qmlView->rootContext()->setContextProperty("aaa", &_prop);
+//    _qmlView->rootContext()->setContextProperty("Prop", &_prop);
+
+    _qmlView->rootContext()->setContextProperty("clipData",&_clipData);
+    _qmlView->rootContext()->setContextProperty("timelineData",&_timelineData);
+
+//    qmlRegisterType<ClipDataWrapper>("MyClipData",1,0,"ClipData");
+//    qmlRegisterType<TimelineDataWrapper>("MyTimelineData",1,0,"TimelineData");
+
+//    QList<QObject *> dataList;
+//    dataList.append(new ClipDataWrapper());
+//    dataList.append(new ClipDataWrapper());
+//    dataList.append(new ClipDataWrapper());
+
+//    _qmlView->rootContext()->setContextProperty("timelineData",QVariant::fromValue(dataList));
 
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->addWidget(qmlView);
+    layout->addWidget(_qmlView);
 
-//    // get root object
-//    QObject * rootObject = dynamic_cast<QObject *>(qmlView->rootObject());
+}
 
-//    // find element by name
-//    QObject * timeline = rootObject->findChild<QObject *>(QString("timeline"));
 
+void TimelineGraphique::update()
+{
 
 }

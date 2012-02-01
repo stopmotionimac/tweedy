@@ -24,7 +24,7 @@ public:
     void contextMenuEvent(QContextMenuEvent *event);
 
 public Q_SLOTS:
-    void on_photo_selected(QListWidgetItem * item);
+    void on_photo_selected(/*QListWidgetItem * item*/);
     void on_importAction_triggered();
     void on_deleteAction_triggered();
 
