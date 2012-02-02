@@ -93,8 +93,8 @@ void Timeline::insertClip(Clip newClip, double currentTime)
     {
       if (s.second->timeIn() >= timeIn)
       {
-          s.second->setTimeIn(1);
-          s.second->setTimeOut(1);
+          s.second->increaseTimeIn(1);
+          s.second->increaseTimeOut(1);
       }      
     }
         
@@ -147,38 +147,54 @@ void Timeline::insertClip(const std::string& newClipName, double currentTime)
 
 void Timeline::moveElement(std::string clipName, int newPosition)
 {
-    if (newPosition == _maxTime)
+    int difference = newPosition - _mapClip[clipName].timeIn();
+    
+    if (newPosition >= _maxTime || difference == 0)
         return;
     
-    int move = newPosition - _mapClip[clipName].timeIn();
+    int dureeClip = _mapClip[clipName].timeOut() - _mapClip[clipName].timeIn();
     
-    int duree = _mapClip[clipName].timeOut() - _mapClip[clipName].timeIn();
-    if (move > 0)
-        duree *= -1;
+    std::string triggeredFilename;
+    bool found = findCurrentClip(triggeredFilename, newPosition);
     
-    if (move > 0)
+    int addedValueCurrent;
+    
+    if (difference > 0)
+    {
+        if (found)
+            addedValueCurrent = _mapClip[triggeredFilename].timeOut() - dureeClip;
+        else
+            addedValueCurrent = newPosition - dureeClip;
+                  
         BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
         {
             if (s.second->timeIn() > _mapClip[clipName].timeIn() && s.second->timeIn() <= newPosition)
             {
-                s.second->setTimeIn(duree);
-                s.second->setTimeOut(duree);
+                s.second->increaseTimeIn(-dureeClip);
+                s.second->increaseTimeOut(-dureeClip);
+            }
+        }
+    }
+    else
+    {
+        if (found)
+            addedValueCurrent = _mapClip[triggeredFilename].timeIn();
+        else
+            addedValueCurrent = newPosition;
+                        
+        BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
+        {
+            if (s.second->timeIn() >= _mapClip[triggeredFilename].timeIn() && s.second->timeIn() < _mapClip[clipName].timeIn())
+            {
+                s.second->increaseTimeIn(dureeClip);
+                s.second->increaseTimeOut(dureeClip);
             }
         }
         
-    else
-        BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
-        {
-            if (s.second->timeIn() >= newPosition && s.second->timeIn() < _mapClip[clipName].timeIn())
-            {
-                s.second->setTimeIn(duree);
-                s.second->setTimeOut(duree);
-            }
-        }
+    }
+        
     
-     
-    _mapClip[clipName].setTimeIn(move);
-    _mapClip[clipName].setTimeOut(move);
+    _mapClip[clipName].setPosition(addedValueCurrent, addedValueCurrent + dureeClip);
     
     _signalChanged();
    
@@ -194,8 +210,8 @@ void Timeline::addBlank(const std::string& clipName, bool blankBefore)
         {
           if (s.second->timeIn() >= _mapClip[clipName].timeIn())
           {
-              s.second->setTimeIn(1);
-              s.second->setTimeOut(1);
+              s.second->increaseTimeIn(1);
+              s.second->increaseTimeOut(1);
           }      
         }
     }
@@ -205,8 +221,8 @@ void Timeline::addBlank(const std::string& clipName, bool blankBefore)
         {
           if (s.second->timeIn() > _mapClip[clipName].timeIn())
           {
-              s.second->setTimeIn(1);
-              s.second->setTimeOut(1);
+              s.second->increaseTimeIn(1);
+              s.second->increaseTimeOut(1);
           }      
         }
      
@@ -228,14 +244,14 @@ void Timeline::addTimeToClip(const std::string& clipName, double decalage)
           decalage = -dureeClip + 1;
     }
 
-    _mapClip[clipName].setTimeOut(decalage);
+    _mapClip[clipName].increaseTimeOut(decalage);
     
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
         {
           if (s.second->timeIn() > _mapClip[clipName].timeIn())
           {
-              s.second->setTimeIn(decalage);
-              s.second->setTimeOut(decalage);
+              s.second->increaseTimeIn(decalage);
+              s.second->increaseTimeOut(decalage);
           }      
         }
         
@@ -298,8 +314,8 @@ void Timeline::deleteBlank(int time)
     {
         if (s.first > time)
         {
-            (*s.second)->setTimeIn(-1);
-            (*s.second)->setTimeOut(-1);
+            (*s.second)->increaseTimeIn(-1);
+            (*s.second)->increaseTimeOut(-1);
         }
     }
     --_maxTime;
