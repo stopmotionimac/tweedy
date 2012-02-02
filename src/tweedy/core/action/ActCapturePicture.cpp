@@ -17,12 +17,11 @@ void ActCapturePicture::operator ()()
 {
     
     Projet& project = Projet::getInstance();
-    //project.setFolderToSavePictures();
-    //project.gPhotoInstance().setFolderToSavePictures();
+
+    project.gPhotoInstance().setFolderToSavePictures(project.getProjectFolder());
     
     //recuperer le filename de la picture
-    boost::filesystem::path url = project.captureToFile();
-    std::string filename = url.string();
+    boost::filesystem::path filename = project.gPhotoInstance().captureToFile();
     
     //creation d'une commande de suppression de clip
     //std::cout<<"AVT LIGNE 26"<<std::endl;

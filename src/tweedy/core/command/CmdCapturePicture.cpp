@@ -5,7 +5,7 @@
 #include <boost/filesystem.hpp>
 
 
-CmdCapturePicture::CmdCapturePicture(const std::string& text,const std::string& filename)
+CmdCapturePicture::CmdCapturePicture(const std::string& text,const boost::filesystem::path& filename)
         :_text(text),_filename(filename)
 {
     
@@ -35,13 +35,12 @@ void CmdCapturePicture::runDo()
     //on ajoute la photo au chutier des pictures
     boost::filesystem::path filePath(_filename);
     Projet::getInstance().getChutierPictures().importMediaToChutier(filePath);
-    
+    std::cout << _filename << std::endl;
    
     
     //on ajoute le clip a la fin de la timeline (a regler avec le temps reel)
-    _newClip.setPosition(timeline.maxTime(),timeline.maxTime()+1);
-    timeline.addClip(_newClip);
-    timeline.setMaxTime();
+    clip.setPosition(timeline.maxTime(),timeline.maxTime()+1);
+    timeline.addClip(clip);
     
     
 }

@@ -102,6 +102,9 @@ void MainWindow::createActions()
     //save the project
     connect(saveProjectAction, SIGNAL(triggered()), this,SLOT(on_saveProjectAction_triggered()));
 
+    //load the project
+    connect(openProjectAction, SIGNAL(triggered()), this,SLOT(on_loadProjectAction_triggered()));
+
 }
 
 
@@ -298,7 +301,7 @@ void MainWindow::on_captureAction_triggered()
 
 
         //Give picture to application and timeline
-        projectInstance.gPhotoInstance().setFolderToSavePictures(projectInstance.getProjectFolder());
+        /*projectInstance.gPhotoInstance().setFolderToSavePictures(projectInstance.getProjectFolder());
         boost::filesystem::path fn = projectInstance.gPhotoInstance().captureToFile();
         std::cout<<"FN : "<<fn<<std::endl;
 
@@ -306,15 +309,14 @@ void MainWindow::on_captureAction_triggered()
         Clip clipFromPicture (fn,timeline.getId(),"clip" + boost::lexical_cast<std::string>(timeline.getNbClip()++));
         clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );
         projectInstance.addImedia( clipFromPicture );
-        timeline.addClip(clipFromPicture);
+        timeline.addClip(clipFromPicture);*/
 
 
         
         //with action
 
-//        ActCapturePicture action;
-        
-//        action();
+        ActCapturePicture action;
+        action();
 
     }
 
@@ -427,10 +429,10 @@ void MainWindow::createStatusBar()
 void MainWindow::on_saveProjectAction_triggered()
 {
     //make an archive
-    //const char * filename = "./projet";
-    //std::ofstream ofs(filename);
-    //boost::archive::text_oarchive oa(ofs);
-    //oa << project();
+    const char * filename = "./saveProjectTweedy.txt";
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << project();
     
     std::cout << "sauvegarde" << std::endl;
 }

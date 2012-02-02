@@ -33,7 +33,7 @@ public :
         OMapClip getOrderedClips();
         
         void moveElement(std::string filename, int newPosition);
-        void addClip(Clip& clip);
+        void addClip(Clip clip);
         void deleteClip(const std::string& clipName);
         
         void addBlank(const std::string& clipName, bool blankBefore = false);
