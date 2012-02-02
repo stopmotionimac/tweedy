@@ -438,7 +438,7 @@ void MainWindow::on_saveProjectAction_triggered()
     boost::archive::text_oarchive oa(ofs);
     oa << project();
     
-    std::cout << "sauvegarde" << std::endl;
+    //std::cout << "sauvegarde" << std::endl;
 }
 
 /*
@@ -451,7 +451,6 @@ void save_schedule(const bus_schedule &s, const char * filename){
 */
 
 //chargement du projet
-
 void MainWindow::on_loadProjectAction_triggered()
 {
     // open the archive
@@ -461,7 +460,7 @@ void MainWindow::on_loadProjectAction_triggered()
 
     ia >> project();
 
-    std::cout << "chargement" << std::endl;
+    //std::cout << "chargement" << std::endl;
     timeline->updateTable();
 
 }
