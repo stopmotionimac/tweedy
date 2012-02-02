@@ -3,6 +3,25 @@
 
 #include <tweedy/core/Projet.hpp>
 
+
+
+struct ViewerTweedyUpdater
+{
+    ViewerTweedyUpdater(ViewerTweedy& viewerImg): _viewerImg(viewerImg)
+    {
+
+    }
+    
+    void operator()()
+    {
+        _viewerImg.getTempsSlider()->setMaximum(Projet::getInstance().getTimeline().maxTime());
+    }
+    
+    ViewerTweedy& _viewerImg;
+};
+
+
+
 ViewerTweedy::ViewerTweedy(QWidget *parent) :
     QWidget(parent),
     _ui(new Ui::ViewerTweedy)
@@ -16,12 +35,32 @@ ViewerTweedy::ViewerTweedy(QWidget *parent) :
     
     displayChanged(0);
     
+    
+    //connecter l'update de la timelineUi au signalChanged de la timeline
+    ViewerTweedyUpdater upd(*this);
+
+    Projet::getInstance().getTimeline().getSignalChanged().connect(upd);
+    
     connect(_ui->spinBox, SIGNAL(valueChanged(int)), _onionAction, SLOT(trigger()) );
     connect(_onionAction, SIGNAL(triggered()), this, SLOT(handle_onionAction_triggered()));
     connect(_previewTimer, SIGNAL(timeout()), this, SLOT(updatePreview()));
     
     //_ui->onionButton->setDefaultAction(_onionAction);
-    
+
+//    this->getViewerLabel()->setAlignment(Qt::AlignHCenter);
+//    this->getViewerLabel()->pixmap()->scaled(this->getViewerLabel()->pixmap()->size(),Qt::KeepAspectRatio);
+//    this->getViewerLabel()->adjustSize();
+
+    //QPixmap p(&this->getViewerLabel()->pixmap()); // load pixmap
+    int w = this->getViewerLabel()->width();
+    int h = this->getViewerLabel()->height();
+
+    // set a scaled pixmap to a w x h window keeping its aspect ratio
+//    this->getViewerLabel()->setPixmap(this->getViewerLabel()->pixmap().scaled(w,h,Qt::KeepAspectRatioByExpanding));
+    this->getViewerLabel()->pixmap()->scaled(w,h,Qt::KeepAspectRatioByExpanding);
+    this->getViewerLabel()->setMaximumSize(550,300);
+
+
 }
 
 
@@ -72,7 +111,7 @@ void ViewerTweedy::displayChanged(int time)
     
     
     QPixmap img( QString::fromStdString(filename) );
-    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+//    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
             
     this->getViewerLabel()->setPixmap(img);
     handle_onionAction_triggered();
@@ -96,7 +135,7 @@ void ViewerTweedy::handle_onionAction_triggered()
     }
     bool found = t.findCurrentClip(idClip, beginTime);
 
-    QImage resultImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
+    QImage resultImage = QImage(QPixmap(QString::fromStdString(filename)).size(), QImage::Format_ARGB32_Premultiplied);
     
     if(found)
     {
@@ -123,10 +162,10 @@ void ViewerTweedy::handle_onionAction_triggered()
             break;
 
         found = t.findCurrentClip(idClip, beginTime + i);
-        QImage destinationImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
+        QImage destinationImage = QImage(QPixmap(QString::fromStdString(filename)).size(), QImage::Format_ARGB32_Premultiplied);
         
         filename = t.mapClip()[idClip].imgPath().string();
-        
+
         found = destinationImage.load(QString::fromStdString(filename));
 
         QImage sourceImage(resultImage);
@@ -146,7 +185,8 @@ void ViewerTweedy::updatePreview() {
     int isConnected = projectInstance.gPhotoInstance().tryToConnectCamera();
     if (isConnected == 0) {
         QPixmap noCamera(QString::fromStdString("img/noCameraDetected.jpg"));
-        noCamera.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+//        noCamera.scaled(this->getViewerLabel()->pixmap()->size(),Qt::KeepAspectRatioByExpanding);
+//        noCamera.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
         this->getViewerLabel()->setPixmap(noCamera);
     }
     else {
@@ -162,8 +202,8 @@ void ViewerTweedy::updatePreview() {
 
 QImage ViewerTweedy::calculateImage(const QImage& sourceImage, const QImage& destinationImage)
 {
-    
-    QImage resultImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
+//    QSize(475,343)
+    QImage resultImage = QImage(sourceImage.size(), QImage::Format_ARGB32_Premultiplied);
     
     QPainter::CompositionMode mode = QPainter::CompositionMode_SoftLight;
 

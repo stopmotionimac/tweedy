@@ -39,9 +39,12 @@ class MainWindow : public QMainWindow
         void on_captureAction_triggered();
         void on_newProjectAction_triggered();
         void on_searchFolderProjectButton_clicked();
+        void on_openProjectAction_triggered();
+        void on_saveAsProjectAction_triggered();
         void on_undoButton_clicked();
         void on_redoButton_clicked();
         void writeTime(int newValue);
+        void on_close_window();
         void on_saveProjectAction_triggered();
         void on_loadProjectAction_triggered();
 
@@ -66,6 +69,7 @@ class MainWindow : public QMainWindow
         QAction * newProjectAction;
         QAction * openProjectAction;
         QAction * saveProjectAction;
+        QAction * saveAsProjectAction;
         QAction * quitAction;
         QAction * undoAction;
         QAction * redoAction;

@@ -24,12 +24,14 @@ public:
     void contextMenuEvent(QContextMenuEvent *event);
 
 public Q_SLOTS:
-    void on_photo_selected(/*QListWidgetItem * item*/);
+    void on_photo_selected_import();
+    void on_photo_selected_capture();
     void on_importAction_triggered();
     void on_deleteAction_triggered();
 
 private:
-    ListWidget * _listWidget;
+    ListWidget * _listWidgetImport;
+    ListWidget * _listWidgetCapture;
 
     QToolButton * _importButton;
     QToolButton * _deleteButton;
