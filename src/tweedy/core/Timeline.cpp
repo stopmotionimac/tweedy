@@ -185,7 +185,7 @@ void Timeline::moveElement(std::string clipName, int newPosition)
                         
         BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip)
         {
-            if (s.second->timeIn() >= _mapClip[triggeredFilename].timeIn() && s.second->timeIn() < _mapClip[clipName].timeIn())
+            if (s.second->timeIn() >= addedValueCurrent && s.second->timeIn() < _mapClip[clipName].timeIn())
             {
                 s.second->increaseTimeIn(dureeClip);
                 s.second->increaseTimeOut(dureeClip);
