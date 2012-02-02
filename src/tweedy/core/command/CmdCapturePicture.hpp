@@ -10,7 +10,7 @@ class CmdCapturePicture : public IUndoRedoCommand
     
 public:
 
-    CmdCapturePicture(const std::string& ,const boost::filesystem::path&);
+    CmdCapturePicture(const std::string& ,const std::string&);
     ~CmdCapturePicture();
 
     CmdCapturePicture* clone() const;
