@@ -26,10 +26,12 @@ public:
 
     QList<QObject*> getClips();
     int getMaxtime(){ return _timelineCore->maxTime(); }
-    void updateListe();
+
 
     Q_INVOKABLE void setTimeInDepart(int timeInDepart){ _timeInDepart = timeInDepart; }
     Q_INVOKABLE void dragNdrop(int timeInArrivee);
+
+    Q_INVOKABLE void displayCursor(QString);
 
 private:
     QList<QObject*> _clips;
@@ -39,6 +41,9 @@ private:
 Q_SIGNALS:
     void clipsChanged();
     void maxtimeChanged();
+
+public Q_SLOTS:
+    void updateListe();
 };
 
 

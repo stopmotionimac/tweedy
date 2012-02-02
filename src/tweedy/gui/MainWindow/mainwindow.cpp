@@ -13,6 +13,7 @@
 #include <QtGui/QFileDialog>
 #include <QtGui/QLineEdit>
 #include <QtGui/QDesktopWidget>
+#include <QtGui/QApplication>
 
 #include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
@@ -22,6 +23,11 @@
 #include <tweedy/core/action/ActCapturePicture.hpp>
 
 #include <iostream>
+
+#include <iomanip>
+
+#include <fstream>
+#include <string>
 
 
 MainWindow::MainWindow()
@@ -86,6 +92,12 @@ void MainWindow::createActions()
     _captureAction = new QAction(QIcon("img/icones/capture.png"),"Capture",this);
     _captureAction->setShortcut(QKeySequence("Retour"));
     connect(_captureAction, SIGNAL(triggered()), this,SLOT(on_captureAction_triggered()));
+    
+    //save the project
+    connect(saveProjectAction, SIGNAL(triggered()), this,SLOT(on_saveProjectAction_triggered()));
+    
+    //load the project
+    connect(openProjectAction, SIGNAL(triggered()), this,SLOT(on_loadProjectAction_triggered()));
 
 }
 
@@ -207,6 +219,14 @@ void MainWindow::createWidgets()
     _timelineGraphique = new TimelineGraphique(dockGraphicTimeline);
     dockGraphicTimeline->setWidget(_timelineGraphique);
     viewMenu->addAction(dockGraphicTimeline->toggleViewAction());
+
+
+    //Dock Config Camera
+
+    QDockWidget * configCameraDock = new QDockWidget("Camera Configuration");
+    _configCamera =  new ConfigCamera(configCameraDock);
+    configCameraDock->setWidget((_configCamera));
+    viewMenu->addAction(configCameraDock->toggleViewAction());
 }
 
 
@@ -261,6 +281,7 @@ void MainWindow::on_captureAction_triggered()
         
         projectInstance.setFolderToSavePictures();
 
+        /*
         //Give picture to application and timeline
         //boost::filesystem::path fn = projectInstance.captureToFile();
         boost::filesystem::path fn = projectInstance.gPhotoInstance().captureToFile();
@@ -270,7 +291,7 @@ void MainWindow::on_captureAction_triggered()
         projectInstance.addImedia( clipFromPicture );
         timeline.addClip(clipFromPicture);
         timeline.setMaxTime();
-       
+        */
         
         //with action
         /*
@@ -297,7 +318,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     QString fileName =fileDialog->getExistingDirectory(this,
                                                     tr("Choisir l'emplacement du projet"),
                                                     QString(boost::filesystem::initial_path().string().c_str()));
-
+/*récupérer fileName pour sette le dossier projet de l'user*/
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
 }
 
@@ -345,6 +366,35 @@ void MainWindow::createStatusBar()
 
 }
 
+
+//sauvegarde du projet
+void MainWindow::on_saveProjectAction_triggered()
+{
+    //make an archive
+    const char * filename = "./saveProjectTweedy.txt";
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << project();
+    
+    std::cout << "sauvegarde" << std::endl;
+}
+
+
+//chargement du projet
+
+void MainWindow::on_loadProjectAction_triggered()
+{
+    // open the archive
+    const char * filename = "./saveProjectTweedy.txt";
+    std::ifstream ifs(filename);
+    boost::archive::text_iarchive ia(ifs);
+
+    ia >> project();
+    
+    std::cout << "chargement" << std::endl;
+    timeline->updateTable();
+
+}
 
 MainWindow::~MainWindow()
 {

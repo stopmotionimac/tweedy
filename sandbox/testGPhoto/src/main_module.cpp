@@ -487,18 +487,8 @@ int main(int argc, char **argv) {
             //get_config_value_string (Camera *camera, const char *key, char **str, GPContext *context)
             */
             /*ISO*/
-            char * isoValue;
-            get_config_value_string (camera, "iso", &isoValue, context);
-      //    std::cout<<isoValue<<std::endl;
-            /*SHUTTER SPEED*/
-            /*aperture*/
-            /*white balance*/
-            /*image style*/
-            /*mode mesure (point)*/
-            /*autofocus*/
-            /*image format*/
-            /*dirve mode (unique, rafale, timer, ...)*/
-            /*braket mode (compensation exposition*/
+            //char * isoValue;
+            //get_config_value_string (camera, "iso", &isoValue, context);
 
 
         }

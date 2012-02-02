@@ -3,6 +3,7 @@
 
 #include <tweedy/core/Imedia.hpp>
 #include <tweedy/core/PisteClip.hpp>
+#include <tweedy/core/Id.hpp>
 
 #include <boost/filesystem/path.hpp>
 
@@ -13,8 +14,9 @@
 
 class Clip : public Imedia {
 public:
-    Clip(const boost::filesystem::path& url)
+    Clip(const boost::filesystem::path& url,const Id& idParent, const std::string& id)
         : Imedia(ImediaTypeClip),
+        _id(idParent,id),
         _imgPath(url),
         _imgLength(0.0), 
         _imgwidth(0), 
@@ -22,17 +24,19 @@ public:
         _imgreduction(0), 
         _timeIn(0), 
         _timeOut(0){ this->_name = url.filename();}
+    
+    
     Clip()
         : Imedia(ImediaTypeClip),
+        _id(Id(""),""),
         _imgLength(0.0), 
         _imgwidth(0), 
         _imgHeight(0), 
         _imgreduction(0), 
         _timeIn(0), 
-        _timeOut(0){/*Imedia(type);*/}
-    
-    Clip(const Clip&);
-    
+        _timeOut(0){}
+   
+
     Clip& operator=(const Clip&);
         
     ~Clip(){}
@@ -44,6 +48,8 @@ public:
     void setTimeIn(int value){ _timeIn += value; }
     void setTimeOut(int value){ _timeOut += value; }
     
+    Id& getId(){ return _id; }
+    
 protected :
     boost::filesystem::path _imgPath;
     float _imgLength;
@@ -52,8 +58,34 @@ protected :
     unsigned int _imgreduction;
     unsigned int _timeIn;
     unsigned int _timeOut;
+    
+    Id _id;
 
     PisteClip * piste;
+    
+private:
+    
+    friend class boost::serialization::access;
+    
+    template<class Archive>
+    void serialize(Archive& ar, const unsigned int version)
+    {
+
+            ar & _id;
+            
+            std::string s; 
+            if(Archive::is_saving::value) 
+                s = _imgPath.string(); 
+            ar & boost::serialization::make_nvp("string", s); 
+            if(Archive::is_loading::value) 
+                _imgPath = s;
+            ar & _timeIn;
+            ar & _timeOut;
+        
+
+    }
+    
+    
 };
 
 #endif
