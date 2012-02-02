@@ -5,42 +5,43 @@
 
 
 Timeline::Timeline(const Id& idParent, const std::string& id)
-: Imedia(ImediaTypeTimeline), _maxTime(0), _nbClip(0),_id(idParent,id)
+: Imedia(ImediaTypeTimeline), _maxTime(1), _nbClip(0),_id(idParent,id)
 {
   
     
-    Clip c1("img/tweedy0.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
-    c1.setPosition(0,1);
+//    Clip c1("img/tweedy0.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
+//    c1.setPosition(0,1);
     
-    Clip c2( "img/tweedy1.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
-    c2.setPosition(1,2);
+//    Clip c2( "img/tweedy1.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
+//    c2.setPosition(1,2);
     
-    Clip c3( "img/tweedy2.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
-    c3.setPosition(2,3);
+//    Clip c3( "img/tweedy2.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
+//    c3.setPosition(2,3);
 
-    Clip c4( "img/tweedy3.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
-    c4.setPosition(3,4);
+//    Clip c4( "img/tweedy3.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
+//    c4.setPosition(3,4);
     
-    Clip c5("img/tweedy4.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
-    c5.setPosition(4,5);
+//    Clip c5("img/tweedy4.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
+//    c5.setPosition(4,5);
     
-    Clip c6( "img/tweedy5.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
-    c6.setPosition(5,6);
+//    Clip c6( "img/tweedy5.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
+//    c6.setPosition(5,6);
     
-    Clip c7( "img/tweedy6.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
-    c7.setPosition(6,7);
+//    Clip c7( "img/tweedy6.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
+//    c7.setPosition(6,7);
  
 
-    _mapClip[c1.getId().getIdStringForm()] = c1 ;
-    _mapClip[c2.getId().getIdStringForm()] = c2 ;
-    _mapClip[c3.getId().getIdStringForm()] = c3 ;
-    _mapClip[c4.getId().getIdStringForm()] = c4 ;
-    _mapClip[c5.getId().getIdStringForm()] = c5 ;
-    _mapClip[c6.getId().getIdStringForm()] = c6 ;
-    _mapClip[c7.getId().getIdStringForm()] = c7 ;
+//    _mapClip[c1.getId().getIdStringForm()] = c1 ;
+//    _mapClip[c2.getId().getIdStringForm()] = c2 ;
+//    _mapClip[c3.getId().getIdStringForm()] = c3 ;
+//    _mapClip[c4.getId().getIdStringForm()] = c4 ;
+//    _mapClip[c5.getId().getIdStringForm()] = c5 ;
+//    _mapClip[c6.getId().getIdStringForm()] = c6 ;
+//    _mapClip[c7.getId().getIdStringForm()] = c7 ;
+
   
     
-    setMaxTime();
+//    setMaxTime();
 }
 
 Timeline::Timeline(const Timeline& timeline) : Imedia(timeline),_id(timeline._id)
