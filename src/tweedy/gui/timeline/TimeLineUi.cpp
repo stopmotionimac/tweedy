@@ -183,7 +183,7 @@ void TimeLineUi::updateTable()
     }
     
     //icon for real time
-    QIcon icon( QString::fromStdString("img/flux.png") );
+    QIcon icon( QString::fromStdString("img/flux.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _table->setItem(0, _timeline->maxTime(), newItem);
    

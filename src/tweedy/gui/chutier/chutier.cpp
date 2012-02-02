@@ -23,8 +23,8 @@ Chutier::Chutier(QWidget *parent) :
     _importButton = new QToolButton(this);
     _deleteButton = new QToolButton(this);
 
-    _tabWidget->addTab(_listWidgetCapture,QIcon("img/icones/capture.png"),"Capture");
-    _tabWidget->addTab(_listWidgetImport,QIcon("img/icones/import.png"),"Import Media");
+    _tabWidget->addTab(_listWidgetImport,QIcon("img/icones/import.png"),"Imported");
+    _tabWidget->addTab(_listWidgetCapture,QIcon("img/icones/capture.png"),"Captured");
 
     //creation des actions
     _importAction = new QAction(QIcon("img/icones/import.png"),"Import",this);
@@ -77,11 +77,11 @@ Chutier::Chutier(QWidget *parent) :
     /*to add media ext to chutier*/
     chutierMediaExt.importMediaToChutier(pathMediaToAdd);
     chutierMediaExt.importMediaToChutier(pathMediaToAdd2);
-    //chutierMediaExt.printMapMediaExt();
+    chutierMediaExt.printMapMediaExt();
             
     boost::ptr_unordered_map<std::string, MediaExt>::iterator iter;       
 
-    /*to add media ext to chutier*/
+    /*to add media ext to chutier media ext*/
    for (iter = chutierMediaExt.getMapMediaExt().begin(); iter != chutierMediaExt.getMapMediaExt().end(); ++iter)
     {
         std::cout<<iter->first<<std::endl;
@@ -92,6 +92,8 @@ Chutier::Chutier(QWidget *parent) :
         /*add item to list*/
         _listWidgetImport->addItem(item);
     }
+
+   /*to add media to chutier photo*/
 
 
     //image par defaut

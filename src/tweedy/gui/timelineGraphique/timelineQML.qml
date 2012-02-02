@@ -4,8 +4,8 @@ import "fonction.js" as MyScript
 
 Rectangle {
     id: timeline
-    width: 800
-    height: 100
+    width: 1000
+    height: 200
     color: "#414042"
 
     ListView {
@@ -35,12 +35,14 @@ Rectangle {
         Column {
             spacing: 10
             y:10
+            width:120
+            height: 80
 
             //texte du temps
             Text {
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                width: 100
+                width: parent.width
                 height: 10
                 color: "#ffffff"
                 font.bold: true
@@ -54,25 +56,15 @@ Rectangle {
 
                 id: clip
                 //x: model.modelData.timeIn * 60
-                width: (model.modelData.timeOut - model.modelData.timeIn) * 60
-                height: 60
-                radius: 5
-
-                gradient: Gradient {
-                    GradientStop {
-                        position: 0.00;
-                        color: "#ffffff";
-                    }
-                    GradientStop {
-                        position: 1.00;
-                        color: "#e28a26";
-                    }
-                }
+                width: (model.modelData.timeOut - model.modelData.timeIn) * 100
+                height: 100
+                radius: 1
+                color:"#e28a26"
 
                 //image du clip
                 Image {
-                    width:55
-                    height:55
+                    y: clip.y
+                    width: parent.width
                     fillMode: Image.PreserveAspectFit
                     smooth: true
                     source: "../../../../"+model.modelData.imgPath
@@ -85,12 +77,12 @@ Rectangle {
                     drag.axis: Drag.XAxis
 
                     onEntered: {
-                        var timeInDepart = parent.x / 60
+                        var timeInDepart = parent.x / 100
                         timelineData.setTimeInDepart(timeInDepart)
                     }
 
                     onReleased: {
-                        var timeInArrive = parent.x / 60
+                        var timeInArrive = parent.x / 100
                         timelineData.dragNdrop(timeInArrive)
                     }
                 }

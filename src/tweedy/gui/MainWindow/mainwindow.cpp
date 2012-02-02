@@ -47,6 +47,7 @@ MainWindow::MainWindow()
     connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
 
 
+    this->adjustSize();
 }
 
 
@@ -369,7 +370,10 @@ void MainWindow::on_openProjectAction_triggered()
     startWindowDialog->hide();
     QFileDialog * fileDialog = new QFileDialog();
     fileDialog->setAcceptMode(QFileDialog::AcceptOpen);
+
     QString fileName =fileDialog->getOpenFileName(this,tr("Open a project"),QString(boost::filesystem::initial_path().string().c_str()),"*.txt");
+
+    this->setEnabled(true);
 
     //plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
 }
