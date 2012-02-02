@@ -4,8 +4,8 @@
 #include <boost/lexical_cast.hpp>
 
 
-CmdCapturePicture::CmdCapturePicture(const std::string& text,const boost::filesystem::path& url)
-        :_text(text),_filename(url.string())
+CmdCapturePicture::CmdCapturePicture(const std::string& text,const std::string& filename)
+        :_text(text),_filename(filename)
 {
     
 }
