@@ -315,8 +315,23 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     QString fileName =fileDialog->getExistingDirectory(this,
                                                     tr("Choisir l'emplacement du projet"),
                                                     QString(boost::filesystem::initial_path().string().c_str()));
-/*récupérer fileName pour sette le dossier projet de l'user*/
+
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
+
+    //set the name folder for the project files
+    Projet& projectInstance = Projet::getInstance();
+    boost::filesystem::path pathFolder(fileName.toStdString());
+    projectInstance.setProjectFolder(pathFolder);
+    std::cout<<pathFolder<<std::endl;
+    /*Create corresponding folders*/
+    pathFolder/="projet";
+    std::cout<<pathFolder<<std::endl;
+    boost::filesystem::create_directory(pathFolder);
+    //boost::filesystem::path pathFolderPreviewTps = pathFolder/"previewTps";
+    //boost::filesystem::create_directory(pathFolderPreviewTps);
+    boost::filesystem::path pathFolderPictures = pathFolder/"pictures";
+    boost::filesystem::create_directory(pathFolderPictures);
+    projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolderPictures);
 }
 
 

@@ -17,7 +17,8 @@ void ActCapturePicture::operator ()()
 {
     
     Projet& project = Projet::getInstance();
-    project.setFolderToSavePictures();
+    //project.setFolderToSavePictures();
+    //project.gPhotoInstance().setFolderToSavePictures();
     
     //recuperer le filename de la picture
     boost::filesystem::path filename = project.captureToFile();

@@ -62,9 +62,9 @@ int Projet::tryToConnectCamera() {
     return retval;
 }
 
-void Projet::setFolderToSavePictures() {
-    gPhotoInstance().setFolderToSavePictures();
-}
+//void Projet::setFolderToSavePictures() {
+//    gPhotoInstance().setFolderToSavePictures();
+//}
 
 //bool Projet::getValueCameraIsInit() {
 //    return gPhotoInstance->getVarCameraIsInit();

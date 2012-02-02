@@ -173,9 +173,9 @@ std::string Gphoto::doPreview(int i) {
     int ret;
                     CameraFile *file;
 
-    //HAVE TO BE CHANGE IN FUNCTION OF CHOICE OF USERT PROJECT FILE//
                     char * outputFile;
-                    boost::filesystem::path outputFilePath("projet/previewTps");
+                    boost::filesystem::path outputFilePath/*("projet/previewTps")*/ = _fileName;
+                    //boost::filesystem::path outputFilePath =
                     outputFile = (char*)outputFilePath.string().data();
 
 
@@ -201,7 +201,8 @@ std::string Gphoto::doPreview(int i) {
                     }
 
     //HAVE TO BE CHANGE IN FUNCTION OF CHOICE OF USERT PROJECT FILE//
-                    sprintf(outputFile, "projet/previewTps/snapshot-%03d.jpg", i);
+                    //sprintf(outputFile, "projet/previewTps/snapshot-%03d.jpg", i);
+                    sprintf(outputFile, "%s/snapshot-%03d.jpg",outputFile ,i);
                     //std::cout<<"SAVE FILE IN : "<<outputFile<<std::endl;
                     ret = gp_file_save(file, outputFile);
                     if (ret != GP_OK) {
