@@ -1,13 +1,10 @@
-22 serialization::archive 9 0 0 0 0 12 12 0 0 12 16 /timeline1/clip8 3 1 0
-0 0 0 0 0 2 0 9 timeline1 5 clip8 28 projet/mediasExt/tweedy3.jpg 3 4 16 /timeline1/clip7 3
-1 2 0 9 timeline1 5 clip7 28 projet/mediasExt/tweedy3.jpg 0 1 16 /timeline1/clip9 3
-2 2 0 9 timeline1 5 clip9 28 projet/mediasExt/tweedy3.jpg 9 10 17 /timeline1/clip11 3
-3 2 0 9 timeline1 6 clip11 28 projet/mediasExt/tweedy3.jpg 5 6 17 /timeline1/clip10 3
-4 2 0 9 timeline1 6 clip10 28 projet/mediasExt/tweedy3.jpg 4 5 16 /timeline1/clip0 3
-5 2 0 9 timeline1 5 clip0 15 img/tweedy0.jpg 1 2 16 /timeline1/clip2 3
-6 2 0 9 timeline1 5 clip2 15 img/tweedy2.jpg 6 7 16 /timeline1/clip1 3
-7 2 0 9 timeline1 5 clip1 15 img/tweedy1.jpg 2 3 16 /timeline1/clip4 3
-8 2 0 9 timeline1 5 clip4 15 img/tweedy4.jpg 8 9 16 /timeline1/clip3 3
-9 2 0 9 timeline1 5 clip3 15 img/tweedy3.jpg 7 8 16 /timeline1/clip6 3
-10 2 0 9 timeline1 5 clip6 15 img/tweedy6.jpg 11 12 16 /timeline1/clip5 3
-11 2 0 9 timeline1 5 clip5 15 img/tweedy5.jpg 10 11 1 0 9 timeline1
+22 serialization::archive 5 0 0 0 0 9 9 0 0 9 16 /timeline1/clip4 3 1 0
+0 0 0 0 0 2 0 9 timeline1 5 clip4 15 img/tweedy4.jpg 5 6 16 /timeline1/clip3 3
+1 2 0 9 timeline1 5 clip3 15 img/tweedy3.jpg 4 5 16 /timeline1/clip6 3
+2 2 0 9 timeline1 5 clip6 15 img/tweedy6.jpg 8 9 16 /timeline1/clip5 3
+3 2 0 9 timeline1 5 clip5 15 img/tweedy5.jpg 7 8 16 /timeline1/clip8 3
+4 2 0 9 timeline1 5 clip8 12 IMG_0842.JPG 6 7 16 /timeline1/clip7 3
+5 2 0 9 timeline1 5 clip7 12 IMG_0841.JPG 0 1 16 /timeline1/clip0 3
+6 2 0 9 timeline1 5 clip0 15 img/tweedy0.jpg 1 2 16 /timeline1/clip2 3
+7 2 0 9 timeline1 5 clip2 15 img/tweedy2.jpg 3 4 16 /timeline1/clip1 3
+8 2 0 9 timeline1 5 clip1 15 img/tweedy1.jpg 2 3 1 0 9 timeline1
