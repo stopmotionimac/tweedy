@@ -328,7 +328,9 @@ void MainWindow::on_captureAction_triggered()
         
         //faire une image LD
         QImage img(QString::fromStdString(filenameHD.string()));
-        img.size() = QSize(600,350);
+        //img.size() = QSize(400,200);
+        //img.height(200);
+        //img.width(400);
         std::string filenameLD = filenameHD.string();
         filenameLD.insert(filenameLD.size()-4, "_LD");
         img.save(QString::fromStdString(filenameLD));
