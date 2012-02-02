@@ -21,13 +21,12 @@ TableTimeline::TableTimeline(QWidget *parent) :
     this->setRowCount(1);
     this->setColumnCount(1);
     
-    QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Flux video");
+    QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Video Stream");
     this->setHorizontalHeaderItem(0,itemColonne1);
 
     QTableWidgetItem * itemLigne1 = new QTableWidgetItem("Sequence");
-    this->setVerticalHeaderItem(1,itemLigne1);
+    this->setVerticalHeaderItem(0,itemLigne1);
 
-    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     this->setAcceptDrops(true);

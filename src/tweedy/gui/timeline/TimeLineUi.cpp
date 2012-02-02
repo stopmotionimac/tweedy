@@ -87,12 +87,12 @@ void TimeLineUi::createActions(){
     _playPauseAction->setStatusTip("Lancer le montage");
     connect(_playPauseAction, SIGNAL(triggered()), this, SLOT(handle_playPauseAction_triggered()));
 
-    _nextAction = new QAction(QIcon("img/icones/next.png"),"Suivant", this);
+    _nextAction = new QAction(QIcon("img/icones/next.png"),"Next", this);
     _nextAction->setShortcut(QKeySequence("Alt+Right"));
     _nextAction->setStatusTip("Clip suivant");
     connect(_nextAction, SIGNAL(triggered()), this, SLOT(handle_nextAction_triggered()));
 
-    _prevAction = new QAction(QIcon("img/icones/previous.png"),"Precedent", this);
+    _prevAction = new QAction(QIcon("img/icones/previous.png"),"Previous", this);
     _prevAction->setShortcut(QKeySequence("Alt+Left"));
     _prevAction->setStatusTip("Clip precedent");
     connect(_prevAction, SIGNAL(triggered()), this, SLOT(handle_prevAction_triggered()));
