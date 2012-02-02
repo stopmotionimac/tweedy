@@ -58,7 +58,7 @@ ViewerTweedy::ViewerTweedy(QWidget *parent) :
     // set a scaled pixmap to a w x h window keeping its aspect ratio
 //    this->getViewerLabel()->setPixmap(this->getViewerLabel()->pixmap().scaled(w,h,Qt::KeepAspectRatioByExpanding));
     this->getViewerLabel()->pixmap()->scaled(w,h,Qt::KeepAspectRatioByExpanding);
-    this->getViewerLabel()->setMaximumSize(550,300);
+    this->getViewerLabel()->setMaximumSize(600,350);
 
 
 }
