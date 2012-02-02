@@ -20,6 +20,8 @@ TimelineGraphique::TimelineGraphique(QWidget * parent):
     _qmlView->rootContext()->setContextProperty("clipData",&_clipData);
     _qmlView->rootContext()->setContextProperty("timelineData",&_timelineData);
 
+    _qmlView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
+
 //    qmlRegisterType<ClipDataWrapper>("MyClipData",1,0,"ClipData");
 //    qmlRegisterType<TimelineDataWrapper>("MyTimelineData",1,0,"TimelineData");
 
