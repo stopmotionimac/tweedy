@@ -6,8 +6,27 @@ Rectangle {
     id: timeline
     width: 1000
     height: 200
-
     color: "#414042"
+
+    ListView {
+        id: listClips
+        width:  parent.width
+        height:  parent.height
+        anchors.fill: parent
+        orientation: "Horizontal"
+
+        model : timelineData.clips
+        delegate : componentDelegate
+
+        Connections {
+                  id:  test
+                  target: timelineData
+                  onClipsChanged:  {
+                      console.log("hello")
+                  }
+        }
+
+    }//end listview
 
     Component {
         id: componentDelegate
@@ -98,22 +117,14 @@ Rectangle {
                     onExited: {
                         timelineData.displayCursor("none")
                     }
-
                 }
-            }
+
+            }//end Rectangle
+
+        }// end Column
+
+    }//end Component
+
+}// end rectangle
 
 
-        }
-    }
-
-    ListView {
-        id: listClips
-        width:  parent.width
-        height:  parent.height
-        anchors.fill: parent
-        orientation: "Horizontal"
-
-        model : timelineData.clips
-        delegate : componentDelegate
-    }
-}

@@ -20,7 +20,8 @@ void ActCapturePicture::operator ()()
     project.setFolderToSavePictures();
     
     //recuperer le filename de la picture
-    boost::filesystem::path filename = project.captureToFile();
+    boost::filesystem::path url = project.captureToFile();
+    std::string filename = url.string();
     
     //creation d'une commande de suppression de clip
     IUndoRedoCommand* cmd = new CmdCapturePicture("Command Capture Picture ",filename);

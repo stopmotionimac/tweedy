@@ -17,7 +17,7 @@ Timeline::Timeline(const Id& idParent, const std::string& id)
     
     Clip c3( "img/tweedy2.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
     c3.setPosition(2,3);
-    
+
     Clip c4( "img/tweedy3.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
     c4.setPosition(3,4);
     
@@ -30,13 +30,7 @@ Timeline::Timeline(const Id& idParent, const std::string& id)
     Clip c7( "img/tweedy6.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
     c7.setPosition(6,7);
  
- 
-    std::cout << c1.getId().getIdStringForm() << std::endl;
-    std::cout << c2.getId().getIdStringForm() << std::endl;
-    std::cout << c7.getId().getIdStringForm() << std::endl;
 
-
-    
     _mapClip[c1.getId().getIdStringForm()] = c1 ;
     _mapClip[c2.getId().getIdStringForm()] = c2 ;
     _mapClip[c3.getId().getIdStringForm()] = c3 ;
