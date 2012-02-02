@@ -33,6 +33,7 @@ TimelineGraphique::TimelineGraphique(QWidget * parent):
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(_qmlView);
 
+
 }
 
 
