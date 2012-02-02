@@ -45,12 +45,12 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _ui->setupUi(this);
     _timeline = &(Projet::getInstance().getTimeline());
 
-    _ui->widgetContentTable->setContentsMargins(0,20,0,20);
+    //_ui->widgetContentTable->setContentsMargins(0,20,0,20);
     
     _table = new TableTimeline(this);
 
-    _table->setIconSize(QSize(95,68));
-    _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->width());
+    _table->setIconSize(QSize(100,100));
+    _table->horizontalHeader()->setDefaultSectionSize(100);
     _table->verticalHeader()->setDefaultSectionSize(_table->iconSize().height());
 
     //ajout de la table dans le widget
