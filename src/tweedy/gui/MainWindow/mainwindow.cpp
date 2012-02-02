@@ -19,6 +19,7 @@
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
 
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <tweedy/core/action/ActCapturePicture.hpp>
 
@@ -95,9 +96,6 @@ void MainWindow::createActions()
     
     //save the project
     connect(saveProjectAction, SIGNAL(triggered()), this,SLOT(on_saveProjectAction_triggered()));
-    
-    //load the project
-    connect(openProjectAction, SIGNAL(triggered()), this,SLOT(on_loadProjectAction_triggered()));
 
 }
 
@@ -279,25 +277,25 @@ void MainWindow::on_captureAction_triggered()
         
         //without action
 
-        /*
-        projectInstance.setFolderToSavePictures();
+
 
 
         //Give picture to application and timeline
-        //boost::filesystem::path fn = projectInstance.captureToFile();
         boost::filesystem::path fn = projectInstance.gPhotoInstance().captureToFile();
-        Clip clipFromPicture (fn);
+
         Timeline& timeline = projectInstance.getTimeline();
+        Clip clipFromPicture (fn,timeline.getId(),"clip" + boost::lexical_cast<std::string>(timeline.getNbClip()++));
         clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );
         projectInstance.addImedia( clipFromPicture );
         timeline.addClip(clipFromPicture);
         timeline.setMaxTime();
-        */
+
         
         //with action
-        ActCapturePicture action;
+
+//        ActCapturePicture action;
         
-        action();
+//        action();
 
     }
 
@@ -386,30 +384,22 @@ void MainWindow::createStatusBar()
 void MainWindow::on_saveProjectAction_triggered()
 {
     //make an archive
-    const char * filename = "./saveProjectTweedy.txt";
-    std::ofstream ofs(filename);
-    boost::archive::text_oarchive oa(ofs);
-    oa << project();
+    //const char * filename = "./projet";
+    //std::ofstream ofs(filename);
+    //boost::archive::text_oarchive oa(ofs);
+    //oa << project();
     
     std::cout << "sauvegarde" << std::endl;
 }
 
-
-//chargement du projet
-
-void MainWindow::on_loadProjectAction_triggered()
-{
-    // open the archive
-    const char * filename = "./saveProjectTweedy.txt";
-    std::ifstream ifs(filename);
-    boost::archive::text_iarchive ia(ifs);
-
-    ia >> project();
-    
-    std::cout << "chargement" << std::endl;
-    timeline->updateTable();
-
+/*
+void save_schedule(const bus_schedule &s, const char * filename){
+    // make an archive
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << s;
 }
+*/
 
 MainWindow::~MainWindow()
 {

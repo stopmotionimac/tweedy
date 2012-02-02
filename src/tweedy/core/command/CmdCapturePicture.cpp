@@ -54,10 +54,9 @@ void CmdCapturePicture::undo()
     //recuperation du clip grâce a son id
     Projet& projet = Projet::getInstance();
     Timeline& timeline = projet.getTimeline();
-    const Clip& clip = timeline.mapClip()[_newClip.getId().getIdStringForm()];
 
     //creation par copy du clip
-    _newClip = clip;
+    _newClip = timeline.mapClip()[_newClip.getId().getIdStringForm()];
     
     //effacer le clip de la timeline
     timeline.deleteClip(_newClip.getId().getIdStringForm());
