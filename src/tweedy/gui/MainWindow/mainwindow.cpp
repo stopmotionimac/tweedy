@@ -288,7 +288,7 @@ void MainWindow::on_captureAction_triggered()
         clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );
         projectInstance.addImedia( clipFromPicture );
         timeline.addClip(clipFromPicture);
-        timeline.setMaxTime();
+
 
         
         //with action
@@ -400,6 +400,22 @@ void save_schedule(const bus_schedule &s, const char * filename){
     oa << s;
 }
 */
+
+//chargement du projet
+
+void MainWindow::on_loadProjectAction_triggered()
+{
+    // open the archive
+    const char * filename = "./saveProjectTweedy.txt";
+    std::ifstream ifs(filename);
+    boost::archive::text_iarchive ia(ifs);
+
+    ia >> project();
+
+    std::cout << "chargement" << std::endl;
+    timeline->updateTable();
+
+}
 
 MainWindow::~MainWindow()
 {
