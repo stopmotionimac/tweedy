@@ -358,6 +358,7 @@ void MainWindow::on_openProjectAction_triggered()
                                                     tr("Open a project"),
                                                     QString(boost::filesystem::initial_path().string().c_str()),
                                                     "*.txt");
+    this->setEnabled(true);
 
     //plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
 }
