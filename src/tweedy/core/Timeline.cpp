@@ -70,9 +70,9 @@ Id& Timeline::getId()
 
 
 
-void Timeline::addClip(Clip & clip) {
+void Timeline::addClip(Clip clip) {
     _mapClip[clip.getId().getIdStringForm()] = clip;
-    
+     setMaxTime();
     _signalChanged();
 }
 

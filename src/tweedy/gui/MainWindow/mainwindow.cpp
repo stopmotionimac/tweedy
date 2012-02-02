@@ -19,6 +19,7 @@
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
 
 #include <boost/filesystem.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <tweedy/core/action/ActCapturePicture.hpp>
 
@@ -46,6 +47,7 @@ MainWindow::MainWindow()
     connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
 
 
+    this->adjustSize();
 }
 
 
@@ -100,7 +102,7 @@ void MainWindow::createActions()
     
     //save the project
     connect(saveProjectAction, SIGNAL(triggered()), this,SLOT(on_saveProjectAction_triggered()));
-    
+
     //load the project
     connect(openProjectAction, SIGNAL(triggered()), this,SLOT(on_loadProjectAction_triggered()));
 
@@ -284,38 +286,39 @@ void MainWindow::on_captureAction_triggered()
     Projet& projectInstance = project();
 
     int isConnected = projectInstance.tryToConnectCamera();
-    std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
+    //std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
     if (isConnected == 0)
     {
         QMessageBox::about(this, tr("Warning"), tr("No camera connected to the computer"));
-        std::cout<<"No camera connected to the computer"<<std::endl;
+        //std::cout<<"No camera connected to the computer"<<std::endl;
     }
     else
     {
-        std::cout<<"Camera connected"<<std::endl;
+        //std::cout<<"Camera connected"<<std::endl;
         
         //without action
-        
-        projectInstance.setFolderToSavePictures();
 
-        /*
+
+
+
         //Give picture to application and timeline
-        //boost::filesystem::path fn = projectInstance.captureToFile();
+        /*projectInstance.gPhotoInstance().setFolderToSavePictures(projectInstance.getProjectFolder());
         boost::filesystem::path fn = projectInstance.gPhotoInstance().captureToFile();
-        Clip clipFromPicture (fn);
+        std::cout<<"FN : "<<fn<<std::endl;
+
         Timeline& timeline = projectInstance.getTimeline();
+        Clip clipFromPicture (fn,timeline.getId(),"clip" + boost::lexical_cast<std::string>(timeline.getNbClip()++));
         clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );
         projectInstance.addImedia( clipFromPicture );
-        timeline.addClip(clipFromPicture);
-        timeline.setMaxTime();
-        */
+        timeline.addClip(clipFromPicture);*/
+
+
         
         //with action
-        /*
+
         ActCapturePicture action;
-        
         action();
-         * */
+
     }
 
 }
@@ -338,8 +341,21 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     QString fileName =fileDialog->getExistingDirectory(this,
                                                     tr("Choose folder for project"),
                                                     QString(boost::filesystem::initial_path().string().c_str()));
-/*récupérer fileName pour sette le dossier projet de l'user*/
+
     newProjectDialog->getFolderProjectLineEdit()->setText(fileName);
+
+    //set the name folder for the project files
+    Projet& projectInstance = Projet::getInstance();
+    boost::filesystem::path pathFolder(fileName.toStdString());
+    projectInstance.setProjectFolder(pathFolder);
+    std::cout<<pathFolder<<std::endl;
+    /*Create corresponding folders*/
+    pathFolder/="projet";
+    std::cout<<pathFolder<<std::endl;
+    boost::filesystem::create_directory(pathFolder);
+    boost::filesystem::path pathFolderPictures = pathFolder/"pictures";
+    boost::filesystem::create_directory(pathFolderPictures);
+    projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolderPictures);
 }
 
 //fonction a completer pour creer un nouveau projet
@@ -354,10 +370,10 @@ void MainWindow::on_openProjectAction_triggered()
     startWindowDialog->hide();
     QFileDialog * fileDialog = new QFileDialog();
     fileDialog->setAcceptMode(QFileDialog::AcceptOpen);
-    QString fileName =fileDialog->getOpenFileName(this,
-                                                    tr("Open a project"),
-                                                    QString(boost::filesystem::initial_path().string().c_str()),
-                                                    "*.txt");
+
+    QString fileName =fileDialog->getOpenFileName(this,tr("Open a project"),QString(boost::filesystem::initial_path().string().c_str()),"*.txt");
+
+    this->setEnabled(true);
 
     //plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
 }
@@ -366,10 +382,7 @@ void MainWindow::on_saveAsProjectAction_triggered()
 {
     QFileDialog * fileDialog = new QFileDialog();
     fileDialog->setAcceptMode(QFileDialog::AcceptSave);
-    QString fileName =fileDialog->getSaveFileName(this,
-                                                    tr("Save as a project"),
-                                                    QString(boost::filesystem::initial_path().string().c_str()),
-                                                    "*.txt");
+    QString fileName =fileDialog->getSaveFileName(this, tr("Save as a project"),QString(boost::filesystem::initial_path().string().c_str()),"*.txt");
 }
 
 
@@ -428,6 +441,14 @@ void MainWindow::on_saveProjectAction_triggered()
     std::cout << "sauvegarde" << std::endl;
 }
 
+/*
+void save_schedule(const bus_schedule &s, const char * filename){
+    // make an archive
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << s;
+}
+*/
 
 //chargement du projet
 
@@ -439,7 +460,7 @@ void MainWindow::on_loadProjectAction_triggered()
     boost::archive::text_iarchive ia(ifs);
 
     ia >> project();
-    
+
     std::cout << "chargement" << std::endl;
     timeline->updateTable();
 

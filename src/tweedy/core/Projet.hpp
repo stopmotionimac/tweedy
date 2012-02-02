@@ -23,7 +23,7 @@ class Projet : public Singleton<Projet>
 
 private:
   Projet ()
-      : _value (0),_id("projet"),_timeline(getId(),"timeline1") {}
+      : _value (0),_id("projet"),_timeline(getId(),"timeline1") { }
   ~Projet () { }
 
 public:
@@ -42,12 +42,17 @@ public:
   void addImedia(Imedia & media);
   void supprImedia(int idMedia);
   void printAllMedia();
+  //à supprimer
+  void fillChutierPicutresWithProjet();
+  //
   //void makeChutier();
 
   //function for gPhotoInstance
   int tryToConnectCamera ();
   //bool getValueCameraIsInit();
-  void setFolderToSavePictures ();
+  //void setFolderToSavePictures ();
+  void setProjectFolder(boost::filesystem::path pathFolder) { _projectFolder =  pathFolder; }
+  boost::filesystem::path& getProjectFolder() { return _projectFolder; }
   boost::filesystem::path captureToFile();
 
 
@@ -59,13 +64,11 @@ public:
   Id& getId();
 
 private:
-  //Gphoto * gPhotoInstance;
   ChutierMediaExt _chutierMediaExt;
   ChutierMediaExt _chutierPictures;
-  boost::filesystem::path projectFolder;
+  boost::filesystem::path _projectFolder;
   int _value;
 
-  //static boost::ptr_vector<Imedia> listMedia;
   boost::ptr_unordered_map<std::string, Imedia> _mapMedia;
 
   CommandManager _cmdManager;

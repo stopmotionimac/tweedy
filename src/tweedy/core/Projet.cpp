@@ -48,8 +48,9 @@ ChutierMediaExt& Projet::getChutierPictures() {
 void Projet::printAllMedia() {
     boost::ptr_unordered_map<std::string, Imedia*>::iterator iter;
     //std::cout<<"PRINT MAP APPLI"<<std::endl;
-        for (iter = this->_mapMedia.begin(); iter != _mapMedia.end(); ++iter) {
-            //std::cout<<iter->first<<std::endl;
+    for (iter = this->_mapMedia.begin(); iter != _mapMedia.end(); ++iter)
+    {
+        std::cout<<iter->first<<std::endl;
     }
 }
 
@@ -61,9 +62,9 @@ int Projet::tryToConnectCamera() {
     return retval;
 }
 
-void Projet::setFolderToSavePictures() {
-    gPhotoInstance().setFolderToSavePictures();
-}
+//void Projet::setFolderToSavePictures() {
+//    gPhotoInstance().setFolderToSavePictures();
+//}
 
 //bool Projet::getValueCameraIsInit() {
 //    return gPhotoInstance->getVarCameraIsInit();
