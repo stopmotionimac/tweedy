@@ -22,7 +22,7 @@ TableTimeline::TableTimeline(QWidget *parent) :
     this->setRowCount(1);
     this->setColumnCount(1);
     
-    QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Video Stream");
+    QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Real time");
     this->setHorizontalHeaderItem(0,itemColonne1);
 
     QTableWidgetItem * itemLigne1 = new QTableWidgetItem("Sequence");
