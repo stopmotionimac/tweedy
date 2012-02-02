@@ -325,6 +325,7 @@ void MainWindow::on_newProjectAction_triggered()
     startWindowDialog->hide();
 
     connect( newProjectDialog, SIGNAL(rejected()), this, SLOT(on_close_window()) );
+    connect( newProjectDialog, SIGNAL(accepted()), this, SLOT(on_acceptedNewProjectWindow()));
 
     connect(newProjectDialog->getSearchFolderProjectButton(),SIGNAL(clicked()), this, SLOT(on_searchFolderProjectButton_clicked()));
 }
@@ -352,6 +353,13 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     boost::filesystem::path pathFolderPictures = pathFolder/"pictures";
     boost::filesystem::create_directory(pathFolderPictures);
     projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolderPictures);
+}
+
+//fonction a completer pour creer un nouveau projet
+void MainWindow::on_acceptedNewProjectWindow(){
+
+    this->setEnabled(true);
+
 }
 
 void MainWindow::on_openProjectAction_triggered()

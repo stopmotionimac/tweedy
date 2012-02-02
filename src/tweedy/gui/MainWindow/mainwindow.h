@@ -47,6 +47,7 @@ class MainWindow : public QMainWindow
         void on_close_window();
         void on_saveProjectAction_triggered();
         void on_loadProjectAction_triggered();
+        void on_acceptedNewProjectWindow();
 
     private:
         Projet& project() { return Projet::getInstance(); }
