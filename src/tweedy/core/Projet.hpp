@@ -52,6 +52,7 @@ public:
   //bool getValueCameraIsInit();
   //void setFolderToSavePictures ();
   void setProjectFolder(boost::filesystem::path pathFolder) { _projectFolder =  pathFolder; }
+  boost::filesystem::path& getProjectFolder() { return _projectFolder; }
   boost::filesystem::path captureToFile();
 
 

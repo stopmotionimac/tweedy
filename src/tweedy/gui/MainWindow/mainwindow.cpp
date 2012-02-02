@@ -282,15 +282,15 @@ void MainWindow::on_captureAction_triggered()
     Projet& projectInstance = project();
 
     int isConnected = projectInstance.tryToConnectCamera();
-    std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
+    //std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
     if (isConnected == 0)
     {
         QMessageBox::about(this, tr("Warning"), tr("No camera connected to the computer"));
-        std::cout<<"No camera connected to the computer"<<std::endl;
+        //std::cout<<"No camera connected to the computer"<<std::endl;
     }
     else
     {
-        std::cout<<"Camera connected"<<std::endl;
+        //std::cout<<"Camera connected"<<std::endl;
         
         //without action
 
@@ -298,7 +298,9 @@ void MainWindow::on_captureAction_triggered()
 
 
         //Give picture to application and timeline
+        projectInstance.gPhotoInstance().setFolderToSavePictures(projectInstance.getProjectFolder());
         boost::filesystem::path fn = projectInstance.gPhotoInstance().captureToFile();
+        std::cout<<"FN : "<<fn<<std::endl;
 
         Timeline& timeline = projectInstance.getTimeline();
         Clip clipFromPicture (fn,timeline.getId(),"clip" + boost::lexical_cast<std::string>(timeline.getNbClip()++));
@@ -348,8 +350,6 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     pathFolder/="projet";
     std::cout<<pathFolder<<std::endl;
     boost::filesystem::create_directory(pathFolder);
-    //boost::filesystem::path pathFolderPreviewTps = pathFolder/"previewTps";
-    //boost::filesystem::create_directory(pathFolderPreviewTps);
     boost::filesystem::path pathFolderPictures = pathFolder/"pictures";
     boost::filesystem::create_directory(pathFolderPictures);
     projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolderPictures);
@@ -367,10 +367,7 @@ void MainWindow::on_openProjectAction_triggered()
     startWindowDialog->hide();
     QFileDialog * fileDialog = new QFileDialog();
     fileDialog->setAcceptMode(QFileDialog::AcceptOpen);
-    QString fileName =fileDialog->getOpenFileName(this,
-                                                    tr("Open a project"),
-                                                    QString(boost::filesystem::initial_path().string().c_str()),
-                                                    "*.txt");
+    QString fileName =fileDialog->getOpenFileName(this,tr("Open a project"),QString(boost::filesystem::initial_path().string().c_str()),"*.txt");
 
     //plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
 }
@@ -379,10 +376,7 @@ void MainWindow::on_saveAsProjectAction_triggered()
 {
     QFileDialog * fileDialog = new QFileDialog();
     fileDialog->setAcceptMode(QFileDialog::AcceptSave);
-    QString fileName =fileDialog->getSaveFileName(this,
-                                                    tr("Save as a project"),
-                                                    QString(boost::filesystem::initial_path().string().c_str()),
-                                                    "*.txt");
+    QString fileName =fileDialog->getSaveFileName(this, tr("Save as a project"),QString(boost::filesystem::initial_path().string().c_str()),"*.txt");
 }
 
 
