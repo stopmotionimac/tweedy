@@ -7,7 +7,7 @@ newProjectWindow::newProjectWindow(QWidget *parent) :
 {
     _ui->setupUi(this);
 
-    setWindowTitle(tr("Creer un nouveau projet"));
+    setWindowTitle(tr("Create a new project"));
 }
 
 QToolButton * newProjectWindow::getSearchFolderProjectButton()

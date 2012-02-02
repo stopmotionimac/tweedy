@@ -37,7 +37,7 @@
            <item>
             <widget class="QLabel" name="vitesse">
              <property name="text">
-              <string>Vitesse de lecture : </string>
+              <string>Frame rate :</string>
              </property>
             </widget>
            </item>
@@ -62,7 +62,7 @@
              <item>
               <widget class="QLabel" name="fps">
                <property name="text">
-                <string>frame(s) par seconde</string>
+                <string>frames per second</string>
                </property>
               </widget>
              </item>
@@ -83,7 +83,7 @@
          <item>
           <widget class="QLabel" name="labelDuration">
            <property name="text">
-            <string>Modifier duree du clip : </string>
+            <string>Change duration of clip:</string>
            </property>
           </widget>
          </item>
@@ -161,7 +161,7 @@
          <item>
           <widget class="QLabel" name="labelBlank">
            <property name="text">
-            <string>Ajouter frame vide :</string>
+            <string>Add empty frame :</string>
            </property>
           </widget>
          </item>
@@ -182,7 +182,7 @@
               </size>
              </property>
              <property name="text">
-              <string>Avant</string>
+              <string>Before</string>
              </property>
             </widget>
            </item>
@@ -201,7 +201,7 @@
               </size>
              </property>
              <property name="text">
-              <string>Apres</string>
+              <string>After</string>
              </property>
             </widget>
            </item>
