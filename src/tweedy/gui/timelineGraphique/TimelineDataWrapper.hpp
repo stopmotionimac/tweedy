@@ -26,8 +26,9 @@ public:
 
     QList<QObject*> getClips();
     int getMaxtime(){ return _timelineCore->maxTime(); }
+    void updateListe();
 
-    Q_INVOKABLE void setTimeInDepart(int timeInDepart){ std::cout << "settimein" << std::endl; _timeInDepart = timeInDepart; }
+    Q_INVOKABLE void setTimeInDepart(int timeInDepart){ _timeInDepart = timeInDepart; }
     Q_INVOKABLE void dragNdrop(int timeInArrivee);
 
 private:

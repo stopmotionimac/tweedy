@@ -9,13 +9,13 @@ Timeline::Timeline(): Imedia(ImediaTypeTimeline), _maxTime(0)
     Clip c3( "img/tweedy2.jpg" );
     c3.setPosition(2,3);
     Clip c4( "img/tweedy3.jpg" );
-    c4.setPosition(3,4);
+    c4.setPosition(3,5);
     Clip c5("img/tweedy4.jpg" );
-    c5.setPosition(4,5);
+    c5.setPosition(5,9);
     Clip c6( "img/tweedy5.jpg" );
-    c6.setPosition(5,6);
+    c6.setPosition(9,10);
     Clip c7( "img/tweedy6.jpg" );
-    c7.setPosition(6,7);
+    c7.setPosition(10,11);
         
     _mapClip[c1.imgPath().string()] = c1 ;
     _mapClip[c2.imgPath().string()] = c2 ;
