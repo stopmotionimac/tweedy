@@ -95,6 +95,9 @@ void MainWindow::createActions()
     
     //save the project
     connect(saveProjectAction, SIGNAL(triggered()), this,SLOT(on_saveProjectAction_triggered()));
+    
+    //load the project
+    connect(openProjectAction, SIGNAL(triggered()), this,SLOT(on_loadProjectAction_triggered()));
 
 }
 
@@ -383,22 +386,30 @@ void MainWindow::createStatusBar()
 void MainWindow::on_saveProjectAction_triggered()
 {
     //make an archive
-    //const char * filename = "./projet";
-    //std::ofstream ofs(filename);
-    //boost::archive::text_oarchive oa(ofs);
-    //oa << project();
+    const char * filename = "./saveProjectTweedy.txt";
+    std::ofstream ofs(filename);
+    boost::archive::text_oarchive oa(ofs);
+    oa << project();
     
     std::cout << "sauvegarde" << std::endl;
 }
 
-/*
-void save_schedule(const bus_schedule &s, const char * filename){
-    // make an archive
-    std::ofstream ofs(filename);
-    boost::archive::text_oarchive oa(ofs);
-    oa << s;
+
+//chargement du projet
+
+void MainWindow::on_loadProjectAction_triggered()
+{
+    // open the archive
+    const char * filename = "./saveProjectTweedy.txt";
+    std::ifstream ifs(filename);
+    boost::archive::text_iarchive ia(ifs);
+
+    ia >> project();
+    
+    std::cout << "chargement" << std::endl;
+    timeline->updateTable();
+
 }
-*/
 
 MainWindow::~MainWindow()
 {

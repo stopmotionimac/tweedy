@@ -43,6 +43,7 @@ class MainWindow : public QMainWindow
         void on_redoButton_clicked();
         void writeTime(int newValue);
         void on_saveProjectAction_triggered();
+        void on_loadProjectAction_triggered();
 
     private:
         Projet& project() { return Projet::getInstance(); }
