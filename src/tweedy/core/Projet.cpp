@@ -58,7 +58,7 @@ void Projet::printAllMedia() {
 //Functions for gPhotoInstance
 int Projet::tryToConnectCamera() {
     int retval = gPhotoInstance().tryToConnectCamera();
-    std::cout<<"RETVAL"<<retval<<std::endl;
+    //std::cout<<"RETVAL"<<retval<<std::endl;
     return retval;
 }
 

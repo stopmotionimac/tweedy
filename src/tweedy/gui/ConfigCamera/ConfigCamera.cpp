@@ -10,7 +10,7 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
     //scrollArea->setLayout(layoutForListOfParam);
 
     int isConnected = projectInstance.tryToConnectCamera();
-    std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
+    //std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
     if (isConnected == 0)
     {
         //Label for no camera connected

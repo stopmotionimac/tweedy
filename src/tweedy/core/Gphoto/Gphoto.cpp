@@ -121,10 +121,10 @@ int Gphoto::initCamera() {
         //gp_log_add_func( GP_LOG_ERROR, errordumper, (void*)this );
         gp_camera_new( & _camera );
         int retval = gp_camera_init( _camera, _context );
-        std::cout<<"RETVAL DE INIT CAMARA"<<retval<<std::endl;
+        //std::cout<<"RETVAL DE INIT CAMARA"<<retval<<std::endl;
         if( retval < GP_OK )
         {
-            std::cout<<"NO CAMERA AUTO DETECTED"<<std::endl;
+            //std::cout<<"NO CAMERA AUTO DETECTED"<<std::endl;
                 //printf("No camera auto detected.\n");
                 gp_camera_free( _camera );
                 _cameraIsInit = 0/*false*/;
@@ -179,7 +179,7 @@ std::string Gphoto::doPreview(int i) {
                     outputFile = (char*)outputFilePath.string().data();
 
 
-                    fprintf(stderr,"preview %d\n", i);
+                    //fprintf(stderr,"preview %d\n", i);
                     ret = gp_file_new(&file);
                     if (ret != GP_OK) {
                             fprintf(stderr,"gp_file_new: %d\n", ret);
@@ -290,7 +290,7 @@ void Gphoto::exitCamera()
 
 int Gphoto::tryToConnectCamera()
 {
-    std::cout<<"IS INIT?"<<_cameraIsInit<<std::endl;
+    //std::cout<<"IS INIT?"<<_cameraIsInit<<std::endl;
 	if( !_cameraIsInit )
 	{
           //std::cout<<"CAMERAISIT à FALSE"<<std::endl;
