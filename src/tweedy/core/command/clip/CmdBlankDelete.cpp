@@ -36,11 +36,11 @@ void CmdBlankDelete::undo()
     //recuperer le premier clip après le temps courant
     Timeline& timeline = Projet::getInstance().getTimeline();
     
-    std::string filename;
+    std::string idClip;
     int currentTimeTemp = _currentTime;
     
     //tant qu'on ne trouve pas le premier clip et qu'on reste dans la timeline
-    while(!timeline.findCurrentClip(filename,currentTimeTemp) && currentTimeTemp <= timeline.maxTime())
+    while(!timeline.findCurrentClip(idClip,currentTimeTemp) && currentTimeTemp <= timeline.maxTime())
     {
         ++currentTimeTemp;
     }
@@ -51,7 +51,7 @@ void CmdBlankDelete::undo()
     {
         currentTimeTemp = _currentTime-1;
         //on doit trouver le clip avant le temps courant
-        while(!timeline.findCurrentClip(filename,currentTimeTemp) && currentTimeTemp >= 0)
+        while(!timeline.findCurrentClip(idClip,currentTimeTemp) && currentTimeTemp >= 0)
         {
             --currentTimeTemp;
         }
@@ -63,13 +63,13 @@ void CmdBlankDelete::undo()
         
         else{
             //on ajoute un blanc après le clip precedent
-            timeline.addBlank(filename,false);
+            timeline.addBlank(idClip,false);
         }
     }
     else
     {
         //on ajoute un blanc avant le clip suivant
-        timeline.addBlank(filename,true);
+        timeline.addBlank(idClip,true);
     }
         
     

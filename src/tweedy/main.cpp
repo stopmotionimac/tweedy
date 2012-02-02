@@ -1,4 +1,5 @@
 #include <tweedy/core/Projet.hpp>
+#include <tweedy/gui/TweedyApp.hpp>
 
 //#include <tweedy/gui/timesheet/TimeSheet.h>
 #include <tweedy/gui/MainWindow/mainwindow.h>
@@ -49,7 +50,7 @@ int main(int argc, char *argv[])
 	// initialize resources, if needed
 	// Q_INIT_RESOURCE(resfile);
 
-	QApplication app(argc, argv);
+	TweedyApp app(argc, argv);
 
         MainWindow mainWin/*(projet)*/;
 

@@ -9,7 +9,6 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 
-
 class ChutierMediaExt
 {
 public:
@@ -56,6 +55,7 @@ public:
 private :
         typedef boost::ptr_unordered_map<std::string, MediaExt> UOMapMediaExt;
         UOMapMediaExt _mapMediaExt;
+        
 };
 
 

@@ -15,6 +15,7 @@
 #include <tweedy/gui/Undo/UndoWidget.hpp>
 #include <tweedy/gui/Undo/UndoView.hpp>
 #include <tweedy/gui/timelineGraphique/timelinegraphique.h>
+#include <tweedy/gui/ConfigCamera/ConfigCamera.hpp>
 
 #include "startwindow.h"
 #include "newprojectwindow.h"
@@ -31,6 +32,8 @@ class MainWindow : public QMainWindow
     public:
         MainWindow();
         ~MainWindow();
+        
+        
 
     public Q_SLOTS:
         void on_captureAction_triggered();
@@ -42,6 +45,8 @@ class MainWindow : public QMainWindow
         void on_redoButton_clicked();
         void writeTime(int newValue);
         void on_close_window();
+        void on_saveProjectAction_triggered();
+        void on_loadProjectAction_triggered();
 
     private:
         Projet& project() { return Projet::getInstance(); }
@@ -90,6 +95,7 @@ class MainWindow : public QMainWindow
         QWidget * undoWidget;
 
         TimelineGraphique * _timelineGraphique;
+        ConfigCamera * _configCamera;
 
 
 };
