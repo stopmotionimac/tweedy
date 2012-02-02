@@ -14,6 +14,7 @@
 #include <QtGui/QLineEdit>
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QApplication>
+#include <QtGui/QImage>
 
 #include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 #include <tweedy/core/command/clip/CmdClipSetTimeRange.hpp>
@@ -315,9 +316,27 @@ void MainWindow::on_captureAction_triggered()
 
         
         //with action
+        
+        //prendre la photo HD
+        
+        Projet& project = Projet::getInstance();
+
+        project.gPhotoInstance().setFolderToSavePictures(project.getProjectFolder());
+    
+        //recuperer le filename de la picture
+        boost::filesystem::path filenameHD = project.gPhotoInstance().captureToFile();
+        
+        //faire une image LD
+        QImage img(QString::fromStdString(filenameHD.string()));
+        img.size() = QSize(600,350);
+        std::string filenameLD = filenameHD.string();
+        filenameLD.insert(filenameLD.size()-4, "_LD");
+        img.save(QString::fromStdString(filenameLD));
+        
+        
 
         ActCapturePicture action;
-        action();
+        action(filenameLD);
 
     }
 
