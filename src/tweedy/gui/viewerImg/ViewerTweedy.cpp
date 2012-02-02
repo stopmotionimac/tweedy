@@ -3,6 +3,25 @@
 
 #include <tweedy/core/Projet.hpp>
 
+
+
+struct ViewerTweedyUpdater
+{
+    ViewerTweedyUpdater(ViewerTweedy& viewerImg): _viewerImg(viewerImg)
+    {
+
+    }
+    
+    void operator()()
+    {
+        _viewerImg.getTempsSlider()->setMaximum(Projet::getInstance().getTimeline().maxTime());
+    }
+    
+    ViewerTweedy& _viewerImg;
+};
+
+
+
 ViewerTweedy::ViewerTweedy(QWidget *parent) :
     QWidget(parent),
     _ui(new Ui::ViewerTweedy)
@@ -15,6 +34,12 @@ ViewerTweedy::ViewerTweedy(QWidget *parent) :
     _previewTimer = new QTimer(this);
     
     displayChanged(0);
+    
+    
+    //connecter l'update de la timelineUi au signalChanged de la timeline
+    ViewerTweedyUpdater upd(*this);
+
+    Projet::getInstance().getTimeline().getSignalChanged().connect(upd);
     
     connect(_ui->spinBox, SIGNAL(valueChanged(int)), _onionAction, SLOT(trigger()) );
     connect(_onionAction, SIGNAL(triggered()), this, SLOT(handle_onionAction_triggered()));
