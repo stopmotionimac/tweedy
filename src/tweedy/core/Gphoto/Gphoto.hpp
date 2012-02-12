@@ -53,6 +53,10 @@ public:
     void findChildrenOfOneWidget(CameraWidget* parentWidget);
     std::vector<CameraWidget*>& getWidgetsVector () { return _WidgetsVector; }
     std::string getNameOfAWidget(CameraWidget* widget);
+    //int& getIdOfAWidget(CameraWidget* widget);
+    bool isRadioOrMenu(CameraWidget* widget);
+    int CountChoices (CameraWidget* widget);
+    std::string getChoice(CameraWidget* widget, int choiceNumber);
 
     void getSummary();
     void exitCamera();

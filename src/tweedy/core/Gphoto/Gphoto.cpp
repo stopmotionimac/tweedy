@@ -235,8 +235,6 @@ void Gphoto::findMainWidget() {
 
 void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
     CameraWidget * child;
-    //CameraWidget ** ptr_child;
-    //ptr_child = &child;
     int idChild;
 //    const char* name;
 
@@ -247,18 +245,8 @@ void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
 
     for (int i = 0; i< countChildren; ++i)
     {
-         /*Children level 1*/
-
          ret = gp_widget_get_child (parentWidget, i, &child);
-         //std::cout<<"RET GET CHILD : "<<ret<<std::endl;
 //OK
-//         ret = gp_widget_get_name (child, &name);
-//         std::cout<<"NAME OF CHILD IN findChildrenOfOneWidget : "<<name<<std::endl;
-
-         //put children on the vector
-         //_WidgetsVector.push_back(child);
-
-         _WidgetsVector.push_back(child);
 
          int countChildrenOfChildren = gp_widget_count_children (child);
          //std::cout<<"NB OF CHILDREN OF CHILDREN : "<<countChildrenOfChildren<<std::endl;
@@ -267,6 +255,10 @@ void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
          {
              findChildrenOfOneWidget(child);
          }
+         else {
+             //put children on the vector
+             _WidgetsVector.push_back(child);
+         }
      }
 }
 
@@ -274,6 +266,33 @@ std::string Gphoto::getNameOfAWidget(CameraWidget *widget) {
     const char* name;
     int ret = gp_widget_get_name (widget, &name);
     return name;
+
+}
+
+bool Gphoto::isRadioOrMenu(CameraWidget *widget) {
+    //CameraWidgetType *type;
+    //int ret = gp_widget_count_choices(widget);
+    int ret = CountChoices(widget);
+    if (ret > 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+int Gphoto::CountChoices(CameraWidget *widget) {
+    CameraWidgetType *type;
+    int ret = gp_widget_count_choices(widget);
+    return ret;
+}
+
+std::string Gphoto::getChoice(CameraWidget *widget, int choiceNumber) {
+    const char * choice;
+    int ret = gp_widget_get_choice (widget, choiceNumber, &choice);
+    std::string choiceS(choice);
+    //std::cout<<choice<<std::endl;
+    return choiceS;
 
 }
 
