@@ -11,7 +11,7 @@ public:
     ActCapturePicture();
     ~ActCapturePicture();
     
-    void operator()();
+    void operator()(const std::string);
 };
 #endif	/* ACTCAPTUREPICTURE_HPP */
 

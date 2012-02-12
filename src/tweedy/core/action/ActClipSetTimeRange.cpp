@@ -12,16 +12,24 @@ ActClipSetTimeRange::ActClipSetTimeRange()
     
 }
 
+
+ActClipSetTimeRange::~ActClipSetTimeRange()
+{
+    std::cout << "Dtor action : " +_name << std::endl;
+}
+
+
+
 void ActClipSetTimeRange::operator()(int currentTime, int value)
 {
     //récupérer le clip à traiter
-    std::string filename = "img/none.jpg";
+    std::string idClip = "";
     
     Projet& projet = Projet::getInstance();
     
     Timeline timeline = projet.getTimeline();
 
-    bool isClip = timeline.findCurrentClip(filename,currentTime);
+    bool isClip = timeline.findCurrentClip(idClip,currentTime);
     
     
     if(!isClip)
@@ -30,10 +38,10 @@ void ActClipSetTimeRange::operator()(int currentTime, int value)
      
     else{
         //créer la commande 
-
+        
         std::ostringstream oss;
         oss<<value;
-        IUndoRedoCommand* cmd = new CmdClipSetTimeRange(filename,"Commande Clip Set Time Range"+oss.str()
+        IUndoRedoCommand* cmd = new CmdClipSetTimeRange(idClip,"Commande Clip Set Time Range"+oss.str()
                 , value);
 
         //trouver le command Manager par l'application
@@ -48,7 +56,4 @@ void ActClipSetTimeRange::operator()(int currentTime, int value)
     
 }
 
-ActClipSetTimeRange::~ActClipSetTimeRange()
-{
-    std::cout << "Dtor action : " +_name << std::endl;
-}
+

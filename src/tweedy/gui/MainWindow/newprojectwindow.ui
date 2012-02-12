@@ -20,14 +20,14 @@
    <item row="1" column="0">
     <widget class="QLabel" name="nameProjectlabel">
      <property name="text">
-      <string>Nom du projet : </string>
+      <string>Project Name : </string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="folderProjectlabel">
      <property name="text">
-      <string>Emplacement du projet :</string>
+      <string>Project folder : </string>
      </property>
     </widget>
    </item>

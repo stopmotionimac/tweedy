@@ -14,7 +14,8 @@
 #include <tweedy/gui/timeline/TimeLineUi.h>
 #include <tweedy/gui/Undo/UndoWidget.hpp>
 #include <tweedy/gui/Undo/UndoView.hpp>
-//#include <tweedy/gui/timelineGraphique/timelinegraphique.h>
+#include <tweedy/gui/timelineGraphique/timelinegraphique.h>
+#include <tweedy/gui/ConfigCamera/ConfigCamera.hpp>
 
 #include "startwindow.h"
 #include "newprojectwindow.h"
@@ -31,14 +32,22 @@ class MainWindow : public QMainWindow
     public:
         MainWindow();
         ~MainWindow();
+        
+        
 
     public Q_SLOTS:
         void on_captureAction_triggered();
         void on_newProjectAction_triggered();
         void on_searchFolderProjectButton_clicked();
+        void on_openProjectAction_triggered();
+        void on_saveAsProjectAction_triggered();
         void on_undoButton_clicked();
         void on_redoButton_clicked();
         void writeTime(int newValue);
+        void on_close_window();
+        void on_saveProjectAction_triggered();
+        void on_loadProjectAction_triggered();
+        void on_acceptedNewProjectWindow();
 
     private:
         Projet& project() { return Projet::getInstance(); }
@@ -61,6 +70,7 @@ class MainWindow : public QMainWindow
         QAction * newProjectAction;
         QAction * openProjectAction;
         QAction * saveProjectAction;
+        QAction * saveAsProjectAction;
         QAction * quitAction;
         QAction * undoAction;
         QAction * redoAction;
@@ -85,7 +95,8 @@ class MainWindow : public QMainWindow
         UndoView * undoView;
         QWidget * undoWidget;
 
-//        TimelineGraphique * _timelineGraphique;
+        TimelineGraphique * _timelineGraphique;
+        ConfigCamera * _configCamera;
 
 
 };

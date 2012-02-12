@@ -25,6 +25,7 @@ public:
 private:
 
    std::string _text;
+   boost::filesystem::path _filename;
    Clip _newClip;
 };
 

@@ -3,6 +3,25 @@
 
 #include <tweedy/core/Projet.hpp>
 
+
+
+struct ViewerTweedyUpdater
+{
+    ViewerTweedyUpdater(ViewerTweedy& viewerImg): _viewerImg(viewerImg)
+    {
+
+    }
+    
+    void operator()()
+    {
+        _viewerImg.getTempsSlider()->setMaximum(Projet::getInstance().getTimeline().maxTime());
+    }
+    
+    ViewerTweedy& _viewerImg;
+};
+
+
+
 ViewerTweedy::ViewerTweedy(QWidget *parent) :
     QWidget(parent),
     _ui(new Ui::ViewerTweedy)
@@ -13,16 +32,35 @@ ViewerTweedy::ViewerTweedy(QWidget *parent) :
     //_onionAction->setShortcut(QKeySequence("Space"));
     _onionAction->setStatusTip("Option Onion Skin");
     _previewTimer = new QTimer(this);
-
     
     displayChanged(0);
+    
+    
+    //connecter l'update de la timelineUi au signalChanged de la timeline
+    ViewerTweedyUpdater upd(*this);
+
+    Projet::getInstance().getTimeline().getSignalChanged().connect(upd);
     
     connect(_ui->spinBox, SIGNAL(valueChanged(int)), _onionAction, SLOT(trigger()) );
     connect(_onionAction, SIGNAL(triggered()), this, SLOT(handle_onionAction_triggered()));
     connect(_previewTimer, SIGNAL(timeout()), this, SLOT(updatePreview()));
     
     //_ui->onionButton->setDefaultAction(_onionAction);
-    
+
+//    this->getViewerLabel()->setAlignment(Qt::AlignHCenter);
+//    this->getViewerLabel()->pixmap()->scaled(this->getViewerLabel()->pixmap()->size(),Qt::KeepAspectRatio);
+//    this->getViewerLabel()->adjustSize();
+
+    //QPixmap p(&this->getViewerLabel()->pixmap()); // load pixmap
+    int w = this->getViewerLabel()->width();
+    int h = this->getViewerLabel()->height();
+
+    // set a scaled pixmap to a w x h window keeping its aspect ratio
+//    this->getViewerLabel()->setPixmap(this->getViewerLabel()->pixmap().scaled(w,h,Qt::KeepAspectRatioByExpanding));
+    this->getViewerLabel()->pixmap()->scaled(w,h,Qt::KeepAspectRatioByExpanding);
+    this->getViewerLabel()->setMaximumSize(600,350);
+
+
 }
 
 
@@ -48,7 +86,8 @@ void ViewerTweedy::displayChanged(int time)
     //_ui->spinBox->setValue(0);
     _currentTime = time;
     Timeline* timeline = &(Projet::getInstance().getTimeline());
-    std::string  filename = "img/none.jpg";
+    std::string  idClip = "";
+    std::string filename = "img/none.jpg";
 
     if (time == timeline->maxTime()) {
         //afficher le temps reel
@@ -61,17 +100,22 @@ void ViewerTweedy::displayChanged(int time)
     }
     else {
         _previewTimer->stop();
-        bool isClip = timeline->findCurrentClip(filename,time);
+        bool isClip = timeline->findCurrentClip(idClip,time);
+        if(isClip)
+        {
+         filename = timeline->mapClip()[idClip].imgPath().string();
+        }
     }
-
+    
+    
+    
+    
     QPixmap img( QString::fromStdString(filename) );
-    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+//    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
             
     this->getViewerLabel()->setPixmap(img);
     handle_onionAction_triggered();
-     
-   
-    /**/
+
 }
 
 
@@ -80,16 +124,24 @@ void ViewerTweedy::handle_onionAction_triggered()
 {
     int nbFrames = _ui->spinBox->value();
     Timeline t = Projet::getInstance().getTimeline();
+    std::string idClip = "img/none.jpg";
     std::string filename = "img/none.jpg";
+    
     int beginTime = _currentTime - nbFrames;
     if (beginTime < 0)
     {
         nbFrames += beginTime;
         beginTime = 0;
     }
-    bool found = t.findCurrentClip(filename, beginTime);
+    bool found = t.findCurrentClip(idClip, beginTime);
 
-    QImage resultImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
+    QImage resultImage = QImage(QPixmap(QString::fromStdString(filename)).size(), QImage::Format_ARGB32_Premultiplied);
+    
+    if(found)
+    {
+    filename = t.mapClip()[idClip].imgPath().string();
+    }
+    
     found = resultImage.load(QString::fromStdString(filename));
 
     /*
@@ -109,8 +161,11 @@ void ViewerTweedy::handle_onionAction_triggered()
         if (_currentTime - i < 0)
             break;
 
-        found = t.findCurrentClip(filename, beginTime + i);
-        QImage destinationImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
+        found = t.findCurrentClip(idClip, beginTime + i);
+        QImage destinationImage = QImage(QPixmap(QString::fromStdString(filename)).size(), QImage::Format_ARGB32_Premultiplied);
+        
+        filename = t.mapClip()[idClip].imgPath().string();
+
         found = destinationImage.load(QString::fromStdString(filename));
 
         QImage sourceImage(resultImage);
@@ -129,14 +184,15 @@ void ViewerTweedy::updatePreview() {
     Projet& projectInstance = Projet::getInstance();
     int isConnected = projectInstance.gPhotoInstance().tryToConnectCamera();
     if (isConnected == 0) {
-        QMessageBox::about(this, tr("Warning"), tr("No camera connected to the computer"));
-        //std::cout<<"No camera connected to the computer"<<std::endl;
-        _previewTimer->stop();
+        QPixmap noCamera(QString::fromStdString("img/noCameraDetected.jpg"));
+//        noCamera.scaled(this->getViewerLabel()->pixmap()->size(),Qt::KeepAspectRatioByExpanding);
+//        noCamera.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+        this->getViewerLabel()->setPixmap(noCamera);
     }
     else {
         std::string filename = projectInstance.gPhotoInstance().doPreview(1);
         this->getViewerLabel()->setPixmap(QPixmap(QString::fromStdString(filename)));
-        //deletecaptured file
+        //delete captured file
         boost::filesystem::path FileToDeletePath(filename);
         boost::filesystem::remove(filename);
     }
@@ -146,8 +202,8 @@ void ViewerTweedy::updatePreview() {
 
 QImage ViewerTweedy::calculateImage(const QImage& sourceImage, const QImage& destinationImage)
 {
-    
-    QImage resultImage = QImage(QSize(475,343), QImage::Format_ARGB32_Premultiplied);
+//    QSize(475,343)
+    QImage resultImage = QImage(sourceImage.size(), QImage::Format_ARGB32_Premultiplied);
     
     QPainter::CompositionMode mode = QPainter::CompositionMode_SoftLight;
 

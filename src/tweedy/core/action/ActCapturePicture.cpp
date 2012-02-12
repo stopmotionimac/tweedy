@@ -13,18 +13,21 @@ ActCapturePicture::~ActCapturePicture()
     
 }
 
-void ActCapturePicture::operator ()()
+void ActCapturePicture::operator ()(const std::string filename)
 {
     
     Projet& project = Projet::getInstance();
-    project.setFolderToSavePictures();
+    /*
+    project.gPhotoInstance().setFolderToSavePictures(project.getProjectFolder());
     
     //recuperer le filename de la picture
-    boost::filesystem::path filename = project.captureToFile();
-    
+    boost::filesystem::path filename = project.gPhotoInstance().captureToFile();
+    */
     //creation d'une commande de suppression de clip
+    //std::cout<<"AVT LIGNE 26"<<std::endl;
     IUndoRedoCommand* cmd = new CmdCapturePicture("Command Capture Picture ",filename);
-        
+    //std::cout<<"APRES LIGNE 26"<<std::endl;
+
     //ajout de la commande au commande manager
     CommandManager& cmdMng = project.getCommandManager();
     cmdMng.pushNewCommand(cmd);

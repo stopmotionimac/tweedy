@@ -11,6 +11,9 @@
 
 #include <boost/algorithm/string.hpp>
 
+#include <tweedy/core/action/ActDragNDropTLToTL.hpp>
+#include <tweedy/core/action/ActDragNDropChutToTL.hpp>
+
 #include <iostream>
 
 TableTimeline::TableTimeline(QWidget *parent) :
@@ -19,13 +22,12 @@ TableTimeline::TableTimeline(QWidget *parent) :
     this->setRowCount(1);
     this->setColumnCount(1);
     
-    QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Flux video");
+    QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Real time");
     this->setHorizontalHeaderItem(0,itemColonne1);
 
     QTableWidgetItem * itemLigne1 = new QTableWidgetItem("Sequence");
-    this->setVerticalHeaderItem(1,itemLigne1);
+    this->setVerticalHeaderItem(0,itemLigne1);
 
-    this->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     this->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     this->setAcceptDrops(true);
@@ -82,6 +84,11 @@ void TableTimeline::startDrag(Qt::DropActions supportedActions)
 
 void TableTimeline::dropEvent(QDropEvent *event)
 {
+    //creation de l'action de drag and drop au sein de la timeline
+    ActDragNDropTLToTL actionTlToTl;
+    ActDragNDropChutToTL actionChutToTl;
+    
+    
     std::cout<<"TableTimeline::dropEvent"<<std::endl;
     //on recupere la timeline
     Timeline * timeline = &(Projet::getInstance().getTimeline());
@@ -101,17 +108,23 @@ void TableTimeline::dropEvent(QDropEvent *event)
     {
         QString text = urlList.at(i).path();
         std::string filename = text.toStdString();
+        std::cout << filename << std::endl;
                
         if (mimeData->text().toStdString() == "timeline")
         {
-            timeline->moveElement(filename, position);
+            //timeline->moveElement(filename, position);
+            actionTlToTl(filename,position);
                       
         }
         
         
-        else
+        else{
+            
+        
             //ajout du clip dans la timeline core
-            timeline->insertClip(filename, position);
+            //timeline->insertClip(filename, position);
+            actionChutToTl(filename,position);
+        }
     }
 
     /*std::vector<std::string> filenames;

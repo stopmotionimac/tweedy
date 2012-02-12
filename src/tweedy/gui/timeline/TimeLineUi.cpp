@@ -45,11 +45,13 @@ TimeLineUi::TimeLineUi(QWidget* parent):
     _ui->setupUi(this);
     _timeline = &(Projet::getInstance().getTimeline());
 
+    //_ui->widgetContentTable->setContentsMargins(0,20,0,20);
+    
     _table = new TableTimeline(this);
 
-    _table->setIconSize(QSize(95,68));
-    _table->horizontalHeader()->setDefaultSectionSize(_ui->widgetContentTable->height());
-    _table->verticalHeader()->setDefaultSectionSize(100);
+    _table->setIconSize(QSize(100,100));
+    _table->horizontalHeader()->setDefaultSectionSize(100);
+    _table->verticalHeader()->setDefaultSectionSize(_table->iconSize().height());
 
     //ajout de la table dans le widget
     QVBoxLayout *layout = new QVBoxLayout(_ui->widgetContentTable);
@@ -81,39 +83,39 @@ void TimeLineUi::createActions(){
 
     _playPauseAction = new QAction(QIcon("img/icones/play.png"),"",this);
     _playPauseAction->setShortcut(QKeySequence("Space"));
-    _playPauseAction->setStatusTip("Lancer le montage");
+    _playPauseAction->setStatusTip("Play");
     connect(_playPauseAction, SIGNAL(triggered()), this, SLOT(handle_playPauseAction_triggered()));
 
-    _nextAction = new QAction(QIcon("img/icones/nextS.png"),"Suivant", this);
+    _nextAction = new QAction(QIcon("img/icones/next.png"),"Next", this);
     _nextAction->setShortcut(QKeySequence("Alt+Right"));
-    _nextAction->setStatusTip("Clip suivant");
+    _nextAction->setStatusTip("Next clip");
     connect(_nextAction, SIGNAL(triggered()), this, SLOT(handle_nextAction_triggered()));
 
-    _prevAction = new QAction(QIcon("img/icones/previousS.png"),"Precedent", this);
+    _prevAction = new QAction(QIcon("img/icones/previous.png"),"Previous", this);
     _prevAction->setShortcut(QKeySequence("Alt+Left"));
-    _prevAction->setStatusTip("Clip precedent");
+    _prevAction->setStatusTip("Previous clip");
     connect(_prevAction, SIGNAL(triggered()), this, SLOT(handle_prevAction_triggered()));
     
-    _zeroAction = new QAction(QIcon("img/icones/retour0.png"),"Zero",this);
+    _zeroAction = new QAction(QIcon("img/icones/retour0.png"),"Reset",this);
     _zeroAction->setShortcut(QKeySequence("0"));
-    _zeroAction->setStatusTip("Remise a zero");
+    _zeroAction->setStatusTip("Reset");
     connect(_zeroAction, SIGNAL(triggered()), this, SLOT(handle_zeroAction_triggered()));
 
-    _plusAction = new QAction("+",this);
+    _plusAction = new QAction(QIcon("img/icones/plus.png"),"+",this);
     //_plusAction->setShortcut(QKeySequence("Space"));
-    _plusAction->setStatusTip("Augmenter la duree du clip");
+    _plusAction->setStatusTip("Increase duration of the clip");
     connect(_plusAction, SIGNAL(triggered()), this, SLOT(handle_plusAction_triggered()));
 
-    _minusAction = new QAction("-", this);
-    _minusAction->setStatusTip("Diminuer la duree du clip");
+    _minusAction = new QAction(QIcon("img/icones/moins.png"),"-", this);
+    _minusAction->setStatusTip("Decrease duration of the clip");
     connect(_minusAction, SIGNAL(triggered()), this, SLOT(handle_minusAction_triggered()));
 
-    _blankBeforeAction = new QAction("Avant", this);
-    _blankBeforeAction->setStatusTip("Frame vide avant le clip");
+    _blankBeforeAction = new QAction("Before", this);
+    _blankBeforeAction->setStatusTip("Empty frame before the clip");
     connect(_blankBeforeAction, SIGNAL(triggered()), this, SLOT(handle_blankBeforeAction_triggered()));
     
-    _blankAfterAction = new QAction("Apres", this);
-    _blankAfterAction->setStatusTip("Frame vide après le clip");
+    _blankAfterAction = new QAction("After", this);
+    _blankAfterAction->setStatusTip("Empty frame after the clip");
     connect(_blankAfterAction, SIGNAL(triggered()), this, SLOT(handle_blankAfterAction_triggered()));
     
     _deleteKey = new QShortcut(this);  
@@ -180,7 +182,7 @@ void TimeLineUi::updateTable()
     }
     
     //icon for real time
-    QIcon icon( QString::fromStdString("img/realTime.jpg") );
+    QIcon icon( QString::fromStdString("img/flux.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
     _table->setItem(0, _timeline->maxTime(), newItem);
    

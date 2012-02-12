@@ -10,18 +10,26 @@ ActDeleteClip::ActDeleteClip()
     
 }
 
+ActDeleteClip::~ActDeleteClip()
+{
+        std::cout << "Dtor action : " +_name << std::endl;
+
+}
+
+
 void ActDeleteClip::operator()(int currentTime)
 {
 
     
     //récupérer le clip à traiter
-    std::string filename = "img/none.jpg";
+    std::string idClip = "";
     
     Projet& projet = Projet::getInstance();
     
     Timeline timeline = projet.getTimeline();
 
-    bool isClip = timeline.findCurrentClip(filename,currentTime);
+    bool isClip = timeline.findCurrentClip(idClip,currentTime);
+    
     
     if(!isClip)
     {
@@ -38,7 +46,7 @@ void ActDeleteClip::operator()(int currentTime)
     else
     {
         //creation d'une commande de suppression de clip
-        IUndoRedoCommand* cmd = new CmdClipDelete(filename, "Command Clip " +filename +" Delete");
+        IUndoRedoCommand* cmd = new CmdClipDelete(idClip, "Command Clip " +idClip +" Delete");
         
         //ajout de la commande au commande manager
         CommandManager& cmdMng = projet.getCommandManager();
@@ -49,11 +57,5 @@ void ActDeleteClip::operator()(int currentTime)
     
     //fin de l'action
     std::cout << "Action done" << std::endl;
-}
-
-ActDeleteClip::~ActDeleteClip()
-{
-        std::cout << "Dtor action : " +_name << std::endl;
-
 }
 
