@@ -282,7 +282,6 @@ bool Gphoto::isRadioOrMenu(CameraWidget *widget) {
 }
 
 int Gphoto::CountChoices(CameraWidget *widget) {
-    CameraWidgetType *type;
     int ret = gp_widget_count_choices(widget);
     return ret;
 }
@@ -294,6 +293,13 @@ std::string Gphoto::getChoice(CameraWidget *widget, int choiceNumber) {
     //std::cout<<choice<<std::endl;
     return choiceS;
 
+}
+
+int Gphoto::getTypeWidget(CameraWidget *widget) {
+    CameraWidgetType type;
+    int ret = gp_widget_get_type (widget, &type);
+    std::cout<<"TYPE : "<<type<<std::endl;
+    return type;
 }
 
 

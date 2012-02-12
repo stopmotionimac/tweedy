@@ -48,8 +48,12 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
             labelParam->setText(QString::fromStdString(projectInstance.gPhotoInstance().getNameOfAWidget(widgetsVector.at(i))));
             layoutForOneParam->addWidget(labelParam);
 
-            //IF RADIO OR MENU
-            if (projectInstance.gPhotoInstance().isRadioOrMenu(widgetsVector.at(i))) {
+
+            int type = projectInstance.gPhotoInstance().getTypeWidget(widgetsVector.at(i));
+
+            //If radio
+            //if (projectInstance.gPhotoInstance().isRadioOrMenu(widgetsVector.at(i))) {
+            if (type == 5) {
                 int nbChoices = projectInstance.gPhotoInstance().CountChoices(widgetsVector.at(i));
                 //std::cout<<"NB CHOICES : "<<nbChoices<<std::endl;
 
@@ -66,11 +70,27 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
                     std::string choiceName = projectInstance.gPhotoInstance().getChoice(widgetsVector.at(i), j);
                     //std::cout<<"NAME CHOICE => "<<choiceName<<std::endl;
                     menuChoice->addMenu(QString::fromStdString(choiceName));
-
                 }
             }
-            else {
+            //If toggle (yes/no)
+            if (type == 4) {
+                //for (int j; j<nbChoices)
+                QRadioButton * yesChoice = new QRadioButton("yes", this);
+                layoutForOneParam->addWidget(yesChoice);
+                QRadioButton * noChoice = new QRadioButton("no", this);
+                layoutForOneParam->addWidget(noChoice);
+//                QCheckBox * yesChoice = new QCheckBox("yes", this);
+//                layoutForOneParam->addWidget(yesChoice);
+//                QCheckBox * noChoice = new QCheckBox("no", this);
+//                layoutForOneParam->addWidget(noChoice);
+            }
+            //If text
+            if (type == 2) {
 
+            }
+            //If date
+            if (type == 8) {
+                //pb ac gphoto
             }
         }
 

@@ -57,6 +57,8 @@ public:
     bool isRadioOrMenu(CameraWidget* widget);
     int CountChoices (CameraWidget* widget);
     std::string getChoice(CameraWidget* widget, int choiceNumber);
+    int getTypeWidget(CameraWidget* widget);
+
 
     void getSummary();
     void exitCamera();
