@@ -67,7 +67,8 @@ Rectangle {
                     width: parent.width
                     fillMode: Image.PreserveAspectFit
                     smooth: true
-                    source: "../../../../"+model.modelData.imgPath
+                    source:model.modelData.imgPath
+
                 }
 
                 //zone de drag and drop

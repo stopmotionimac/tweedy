@@ -375,7 +375,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     boost::filesystem::create_directory(pathFolder);
     boost::filesystem::path pathFolderPictures = pathFolder/"pictures";
     boost::filesystem::create_directory(pathFolderPictures);
-    projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolderPictures);
+    //projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolder/*Pictures*/);
 }
 
 //fonction a completer pour creer un nouveau projet

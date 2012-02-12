@@ -51,7 +51,7 @@ public:
   int tryToConnectCamera ();
   //bool getValueCameraIsInit();
   //void setFolderToSavePictures ();
-  void setProjectFolder(boost::filesystem::path pathFolder) { _projectFolder =  pathFolder; }
+  void setProjectFolder(boost::filesystem::path pathFolder) { _projectFolder =  pathFolder; /*std::cout<<"PROJECT FOLDER : "<<_projectFolder<<std::endl;*/ }
   boost::filesystem::path& getProjectFolder() { return _projectFolder; }
   boost::filesystem::path captureToFile();
 
