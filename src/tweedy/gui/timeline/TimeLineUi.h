@@ -58,6 +58,7 @@ public Q_SLOTS:
     void getCurrentTime(int row,int column);
     void changeFps(int value){ _fps = value;}
     
+    
     void handle_playPauseAction_triggered();
         
     void handle_zeroAction_triggered();
