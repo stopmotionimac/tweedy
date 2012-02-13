@@ -7,7 +7,7 @@ Rectangle {
     width: 100
     height: 60
     border.color: "black"
-    radius: TimelineData.getClip(5).radius
+    radius: 10
 
     gradient: Gradient {
         GradientStop {
