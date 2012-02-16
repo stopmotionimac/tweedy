@@ -59,6 +59,7 @@ Rectangle {
                     fillMode: Image.PreserveAspectFit
                     smooth: true
                     source:model.modelData.imgPath
+                    //source: "../../../../" + model.modelData.imgPath
 
                 }
 

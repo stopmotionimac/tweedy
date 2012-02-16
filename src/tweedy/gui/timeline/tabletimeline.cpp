@@ -20,10 +20,10 @@ TableTimeline::TableTimeline(QWidget *parent) :
     QTableWidget(parent)
 {
     this->setRowCount(1);
-    this->setColumnCount(1);
+    //this->setColumnCount(1);
     
-    QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Real time");
-    this->setHorizontalHeaderItem(0,itemColonne1);
+    /*QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Real time");
+    this->setHorizontalHeaderItem(0,itemColonne1);*/
 
     QTableWidgetItem * itemLigne1 = new QTableWidgetItem("Sequence");
     this->setVerticalHeaderItem(0,itemLigne1);
