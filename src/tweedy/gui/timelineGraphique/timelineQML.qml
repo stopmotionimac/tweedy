@@ -18,14 +18,7 @@ Rectangle {
         model : timelineData.clips
         delegate : componentDelegate
 
-        Connections {
-                  id:  test
-                  target: timelineData
-                  onClipsChanged:  {
-                      console.log("hello")
-                  }
-        }
-
+        
     }//end listview
 
     Component {
