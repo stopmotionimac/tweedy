@@ -17,9 +17,9 @@ public:
     void update();
 
 private:
-    Properties _prop;
     TimelineDataWrapper _timelineData;
     ClipDataWrapper _clipData;
+    Properties _prop;
 
     QDeclarativeView* _qmlView;
 };

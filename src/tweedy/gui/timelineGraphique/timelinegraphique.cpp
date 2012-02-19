@@ -9,7 +9,7 @@
 #include <iostream>
 
 TimelineGraphique::TimelineGraphique(QWidget * parent):
-    QWidget(parent)
+    QWidget(parent), _timelineData(TimelineDataWrapper()), _clipData(ClipDataWrapper())
 {
 
     _qmlView = new QDeclarativeView(this);

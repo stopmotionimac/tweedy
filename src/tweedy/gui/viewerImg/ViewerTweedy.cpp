@@ -107,7 +107,7 @@ void ViewerTweedy::displayChanged(int time)
 
             if ( idClip.find("flux") != std::string::npos)
             {
-                filename = "img/noCameraDetected.jpg";
+                //filename = "img/noCameraDetected.jpg";
                 _previewTimer->start(50);
             }
         }
