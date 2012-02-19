@@ -11,6 +11,7 @@
 #include <QtGui/QPushButton>
 #include <QtGui/QMenu>
 #include <QtGui/QRadioButton>
+#include <QtGui/QLineEdit>
 
 
 class ConfigCamera : public QWidget

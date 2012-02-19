@@ -54,6 +54,11 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
             //If radio
             //if (projectInstance.gPhotoInstance().isRadioOrMenu(widgetsVector.at(i))) {
             if (type == 5) {
+
+                //récupérer la valeur par défaut
+                //
+                //
+
                 int nbChoices = projectInstance.gPhotoInstance().CountChoices(widgetsVector.at(i));
                 //std::cout<<"NB CHOICES : "<<nbChoices<<std::endl;
 
@@ -74,23 +79,33 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
             }
             //If toggle (yes/no)
             if (type == 4) {
-                //for (int j; j<nbChoices)
+
+                //récupérer la valeur par défaut
+                //
+                //
+
                 QRadioButton * yesChoice = new QRadioButton("yes", this);
                 layoutForOneParam->addWidget(yesChoice);
                 QRadioButton * noChoice = new QRadioButton("no", this);
                 layoutForOneParam->addWidget(noChoice);
-//                QCheckBox * yesChoice = new QCheckBox("yes", this);
-//                layoutForOneParam->addWidget(yesChoice);
-//                QCheckBox * noChoice = new QCheckBox("no", this);
-//                layoutForOneParam->addWidget(noChoice);
             }
             //If text
             if (type == 2) {
+
+                //récupérer la valeur par défaut
+                //
+                //
+                QLineEdit * textField = new QLineEdit(this);
+                layoutForOneParam->addWidget(textField);
 
             }
             //If date
             if (type == 8) {
                 //pb ac gphoto
+
+                //récupérer la valeur par défaut
+                //
+                //
             }
         }
 
