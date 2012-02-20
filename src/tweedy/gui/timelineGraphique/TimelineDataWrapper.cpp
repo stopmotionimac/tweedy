@@ -21,7 +21,7 @@ struct TimelineDataWrapperUpdater
 
 
 TimelineDataWrapper::TimelineDataWrapper(QObject *parent) :
-    QObject(parent)
+    QObject(parent), _timeInDrag(0), _readyToDrag(false)
 {
 
     //connecter l'update de la TimelineDataWrapper au signalChanged de la timeline
@@ -63,22 +63,36 @@ void TimelineDataWrapper::updateListe()
         _clips.append(c);
     }
 
-
     Q_EMIT clipsChanged();
+
 }
 
 
 
-void TimelineDataWrapper::dragNdrop(int timeInArrivee)
+void TimelineDataWrapper::dragNdrop(int mousePosition)
 {
+    //std::cout << index << std::endl;
+
+    //if (!_readyToDrag)
+       // return;
+
     ActDragNDropTLToTL action;
 
-    std::string filenameDepart, filenameArrivee;
-    bool found = _timelineCore->findCurrentClip(filenameDepart, _timeInDepart);
-    found = _timelineCore->findCurrentClip(filenameArrivee, timeInArrivee);
+    if (_timeInDrag == mousePosition/100)
+    {
+        updateListe();
+        return;
+    }
 
-    if (found && filenameDepart != filenameArrivee )
-        action(filenameDepart, timeInArrivee);
+    std::string filenameDepart, filenameArrivee;
+    bool foundDrag = _timelineCore->findCurrentClip(filenameDepart, _timeInDrag);
+    bool foundDrop = _timelineCore->findCurrentClip(filenameArrivee, mousePosition/100);
+
+    if (foundDrag && foundDrop)
+        _timelineCore->moveElement(filenameDepart, mousePosition/100);
+        //action(filenameDepart, mousePosition/100);
+
+    _readyToDrag = false;
 
 }
 

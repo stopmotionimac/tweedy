@@ -28,15 +28,16 @@ public:
     int getMaxtime(){ return _timelineCore->maxTime(); }
 
 
-    Q_INVOKABLE void setTimeInDepart(int timeInDepart){ _timeInDepart = timeInDepart; }
-    Q_INVOKABLE void dragNdrop(int timeInArrivee);
+    Q_INVOKABLE void setTimeInDrag(int mousePosition){ _timeInDrag = mousePosition/100 ; _readyToDrag = true;  }
+    Q_INVOKABLE void dragNdrop(int mousePosition);
 
     Q_INVOKABLE void displayCursor(QString);
 
 private:
-    QList<QObject*> _clips;
+    int _timeInDrag;
+    bool _readyToDrag;
     Timeline * _timelineCore;
-    int _timeInDepart;
+    QList<QObject*> _clips;
 
 Q_SIGNALS:
     void clipsChanged();
