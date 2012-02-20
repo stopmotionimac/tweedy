@@ -45,12 +45,16 @@ void ActDeleteClip::operator()(int currentTime)
     
     else
     {
-        //creation d'une commande de suppression de clip
-        IUndoRedoCommand* cmd = new CmdClipDelete(idClip, "Command Clip " +idClip +" Delete");
-        
-        //ajout de la commande au commande manager
-        CommandManager& cmdMng = projet.getCommandManager();
-        cmdMng.pushNewCommand(cmd);
+
+        if ( idClip.find("flux") == std::string::npos)
+        {
+            //creation d'une commande de suppression de clip
+            IUndoRedoCommand* cmd = new CmdClipDelete(idClip, "Command Clip " +idClip +" Delete");
+
+            //ajout de la commande au commande manager
+            CommandManager& cmdMng = projet.getCommandManager();
+            cmdMng.pushNewCommand(cmd);
+        }
     }
     
     

@@ -72,13 +72,13 @@ Chutier::Chutier(QWidget *parent) :
 
     /*full chutier to have exemple => no need if save!*/
     ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
-    boost::filesystem::path pathMediaToAdd("projet/mediasExt/tweedy3.jpg");
-    boost::filesystem::path pathMediaToAdd2("projet/mediasExt/tweedy2.jpg");
+    //boost::filesystem::path pathMediaToAdd("projet/mediasExt/tweedy3.jpg");
+    //boost::filesystem::path pathMediaToAdd2("projet/mediasExt/tweedy2.jpg");
     /*to add media ext to chutier*/
-    chutierMediaExt.importMediaToChutier(pathMediaToAdd);
-    chutierMediaExt.importMediaToChutier(pathMediaToAdd2);
-    chutierMediaExt.printMapMediaExt();
-            
+    //chutierMediaExt.importMediaToChutier(pathMediaToAdd);
+    //chutierMediaExt.importMediaToChutier(pathMediaToAdd2);
+    //chutierMediaExt.printMapMediaExt();
+
     boost::ptr_unordered_map<std::string, MediaExt>::iterator iter;       
 
     /*to add media ext to chutier media ext*/

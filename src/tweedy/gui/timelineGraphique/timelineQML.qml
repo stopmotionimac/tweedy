@@ -18,7 +18,7 @@ Rectangle {
         model : timelineData.clips
         delegate : componentDelegate
 
-        
+
     }//end listview
 
     Component {
@@ -28,27 +28,24 @@ Rectangle {
         Column {
             spacing: 10
             y:10
-            width:120
+            width:100 * (model.modelData.timeOut - model.modelData.timeIn) + 20
             height: 80
 
             //texte du temps
             Text {
-                horizontalAlignment: Text.AlignHCenter
+                horizontalAlignment: Text.AlignHLeft
                 verticalAlignment: Text.AlignVCenter
                 width: parent.width
                 height: 10
                 color: "#ffffff"
                 font.bold: true
-                text: index
-
-
+                text: model.modelData.timeIn
             }
 
             //clip represente
             Rectangle {
 
                 id: clip
-                //x: model.modelData.timeIn * 60
                 width: (model.modelData.timeOut - model.modelData.timeIn) * 100
                 height: 100
                 radius: 1
@@ -57,10 +54,13 @@ Rectangle {
                 //image du clip
                 Image {
                     y: clip.y
-                    width: parent.width
+                    width: 90
+                    height: 70
                     fillMode: Image.PreserveAspectFit
                     smooth: true
-                    source: "../../../../"+model.modelData.imgPath
+                    source:model.modelData.imgPath
+                    //source: "../../../../" + model.modelData.imgPath
+
                 }
 
                 //zone de drag and drop
@@ -69,12 +69,12 @@ Rectangle {
                     drag.target: clip
                     drag.axis: Drag.XAxis
 
-                    onEntered: {
-                        var timeInDepart = parent.x / 100
-                        timelineData.setTimeInDepart(timeInDepart)
+                    onClicked: {
+                        timelineData.setTimeInDepart(index)
                     }
 
                     onReleased: {
+                        console.log(index)
                         var timeInArrive = parent.x / 100
                         timelineData.dragNdrop(timeInArrive)
                     }

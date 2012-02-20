@@ -121,10 +121,10 @@ int Gphoto::initCamera() {
         //gp_log_add_func( GP_LOG_ERROR, errordumper, (void*)this );
         gp_camera_new( & _camera );
         int retval = gp_camera_init( _camera, _context );
-        std::cout<<"RETVAL DE INIT CAMARA"<<retval<<std::endl;
+        //std::cout<<"RETVAL DE INIT CAMARA"<<retval<<std::endl;
         if( retval < GP_OK )
         {
-            std::cout<<"NO CAMERA AUTO DETECTED"<<std::endl;
+            //std::cout<<"NO CAMERA AUTO DETECTED"<<std::endl;
                 //printf("No camera auto detected.\n");
                 gp_camera_free( _camera );
                 _cameraIsInit = 0/*false*/;
@@ -174,12 +174,12 @@ std::string Gphoto::doPreview(int i) {
                     CameraFile *file;
 
                     char * outputFile;
-                    boost::filesystem::path outputFilePath("/home/solvejg/Bureau/projet/pictures/");
-                    //boost::filesystem::path outputFilePath = _fileName ;
+                    //boost::filesystem::path outputFilePath("/home/solvejg/Bureau/projet/pictures/");
+                    boost::filesystem::path outputFilePath = _fileName ;
                     outputFile = (char*)outputFilePath.string().data();
 
 
-                    fprintf(stderr,"preview %d\n", i);
+                    //fprintf(stderr,"preview %d\n", i);
                     ret = gp_file_new(&file);
                     if (ret != GP_OK) {
                             fprintf(stderr,"gp_file_new: %d\n", ret);
@@ -235,8 +235,6 @@ void Gphoto::findMainWidget() {
 
 void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
     CameraWidget * child;
-    //CameraWidget ** ptr_child;
-    //ptr_child = &child;
     int idChild;
 //    const char* name;
 
@@ -247,18 +245,8 @@ void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
 
     for (int i = 0; i< countChildren; ++i)
     {
-         /*Children level 1*/
-
          ret = gp_widget_get_child (parentWidget, i, &child);
-         //std::cout<<"RET GET CHILD : "<<ret<<std::endl;
 //OK
-//         ret = gp_widget_get_name (child, &name);
-//         std::cout<<"NAME OF CHILD IN findChildrenOfOneWidget : "<<name<<std::endl;
-
-         //put children on the vector
-         //_WidgetsVector.push_back(child);
-
-         _WidgetsVector.push_back(child);
 
          int countChildrenOfChildren = gp_widget_count_children (child);
          //std::cout<<"NB OF CHILDREN OF CHILDREN : "<<countChildrenOfChildren<<std::endl;
@@ -266,6 +254,10 @@ void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
          if (countChildrenOfChildren != 0)
          {
              findChildrenOfOneWidget(child);
+         }
+         else {
+             //put children on the vector
+             _WidgetsVector.push_back(child);
          }
      }
 }
@@ -275,6 +267,39 @@ std::string Gphoto::getNameOfAWidget(CameraWidget *widget) {
     int ret = gp_widget_get_name (widget, &name);
     return name;
 
+}
+
+bool Gphoto::isRadioOrMenu(CameraWidget *widget) {
+    //CameraWidgetType *type;
+    //int ret = gp_widget_count_choices(widget);
+    int ret = CountChoices(widget);
+    if (ret > 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+int Gphoto::CountChoices(CameraWidget *widget) {
+    int ret = gp_widget_count_choices(widget);
+    return ret;
+}
+
+std::string Gphoto::getChoice(CameraWidget *widget, int choiceNumber) {
+    const char * choice;
+    int ret = gp_widget_get_choice (widget, choiceNumber, &choice);
+    std::string choiceS(choice);
+    //std::cout<<choice<<std::endl;
+    return choiceS;
+
+}
+
+int Gphoto::getTypeWidget(CameraWidget *widget) {
+    CameraWidgetType type;
+    int ret = gp_widget_get_type (widget, &type);
+    std::cout<<"TYPE : "<<type<<std::endl;
+    return type;
 }
 
 
@@ -290,7 +315,7 @@ void Gphoto::exitCamera()
 
 int Gphoto::tryToConnectCamera()
 {
-    std::cout<<"IS INIT?"<<_cameraIsInit<<std::endl;
+    //std::cout<<"IS INIT?"<<_cameraIsInit<<std::endl;
 	if( !_cameraIsInit )
 	{
           //std::cout<<"CAMERAISIT à FALSE"<<std::endl;

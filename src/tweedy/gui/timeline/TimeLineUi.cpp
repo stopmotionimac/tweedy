@@ -35,7 +35,7 @@ struct TimeLineUiUpdater
 TimeLineUi::TimeLineUi(QWidget* parent):
     QWidget(parent),
     _ui (new Ui::Timeline),
-    _fps(25),
+    _fps(8),
     _time(0),
     _timer(new QTimer(this)),
     _isPlaying(false),
@@ -67,7 +67,6 @@ TimeLineUi::TimeLineUi(QWidget* parent):
 
     updateTable();
                    
-    //connect(this, SIGNAL( timeChanged(int) ), this, SLOT(writeTime(int)) );
     connect( _timer, SIGNAL(timeout()), this, SLOT(increaseTime()) );
     connect( this->_table , SIGNAL( cellClicked(int,int) ), this, SLOT( getCurrentTime(int,int)));
     connect( this->_table , SIGNAL( currentCellChanged ( int , int , int , int  ) ), this, SLOT( getCurrentTime(int,int)));
@@ -147,7 +146,7 @@ void TimeLineUi::updateTable()
     int currentTime = _time;
     //clear timeline
     _table->clearContents();
-    while ( _table->columnCount() > 1 )
+    while ( _table->columnCount() > 0 )
         _table->removeColumn(0);
      
     //Timeline timeline = Projet::getInstance()->getTimeline();
@@ -182,10 +181,10 @@ void TimeLineUi::updateTable()
         }
     }
     
-    //icon for real time
+    /*icon for real time
     QIcon icon( QString::fromStdString("img/flux.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
-    _table->setItem(0, _timeline->maxTime(), newItem);
+    _table->setItem(0, _timeline->maxTime(), newItem);*/
    
     _table->setDragEnabled(true);
     _table->verticalHeader()->setMovable(true);

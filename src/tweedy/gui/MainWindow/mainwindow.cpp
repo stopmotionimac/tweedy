@@ -375,7 +375,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
     boost::filesystem::create_directory(pathFolder);
     boost::filesystem::path pathFolderPictures = pathFolder/"pictures";
     boost::filesystem::create_directory(pathFolderPictures);
-    projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolderPictures);
+    //projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolder/*Pictures*/);
 }
 
 //fonction a completer pour creer un nouveau projet
@@ -458,7 +458,7 @@ void MainWindow::on_saveProjectAction_triggered()
     boost::archive::text_oarchive oa(ofs);
     oa << project();
     
-    std::cout << "sauvegarde" << std::endl;
+    //std::cout << "sauvegarde" << std::endl;
 }
 
 /*
@@ -471,7 +471,6 @@ void save_schedule(const bus_schedule &s, const char * filename){
 */
 
 //chargement du projet
-
 void MainWindow::on_loadProjectAction_triggered()
 {
     // open the archive
@@ -481,7 +480,7 @@ void MainWindow::on_loadProjectAction_triggered()
 
     ia >> project();
 
-    std::cout << "chargement" << std::endl;
+    //std::cout << "chargement" << std::endl;
     timeline->updateTable();
 
 }

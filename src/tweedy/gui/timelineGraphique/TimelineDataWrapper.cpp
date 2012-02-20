@@ -41,11 +41,29 @@ void TimelineDataWrapper::updateListe()
 
     _clips.clear();
     Timeline::OMapClip mapClips = _timelineCore->getOrderedClips();
+    int previousTimeOut = 0;
     BOOST_FOREACH( const Timeline::OMapClip::value_type& s, mapClips )
     {
+
+        if ( s.first - previousTimeOut > 0 )
+        {
+            ClipDataWrapper* blank = new ClipDataWrapper( QString::fromStdString("img/none.jpg"), previousTimeOut, s.first, this) ;
+            _clips.append(blank);
+        }
+
         ClipDataWrapper* c = new ClipDataWrapper( QString::fromStdString((*s.second)->imgPath().string()), s.first, (*s.second)->timeOut(), this) ;
         _clips.append(c);
+
+        previousTimeOut = (*s.second)->timeOut();
     }
+
+    if ( previousTimeOut < _timelineCore->maxTime() )
+    {
+        ClipDataWrapper* c = new ClipDataWrapper( QString::fromStdString("img/none.jpg"), previousTimeOut, _timelineCore->maxTime(), this) ;
+        _clips.append(c);
+    }
+
+
     Q_EMIT clipsChanged();
 }
 

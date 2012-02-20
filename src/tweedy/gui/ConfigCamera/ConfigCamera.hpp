@@ -8,6 +8,9 @@
 #include <QtGui/QLabel>
 #include <QtGui/QScrollArea>
 #include <QtGui/QVBoxLayout>
+#include <QtGui/QPushButton>
+#include <QtGui/QMenu>
+#include <QtGui/QRadioButton>
 
 
 class ConfigCamera : public QWidget
