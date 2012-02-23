@@ -58,6 +58,8 @@ public:
     int CountChoices (CameraWidget* widget);
     std::string getChoice(CameraWidget* widget, int choiceNumber);
     int getTypeWidget(CameraWidget* widget);
+    void getValue(CameraWidget* widget);
+    void setValue(CameraWidget *widget, const void *value);
 
 
     void getSummary();

@@ -22,6 +22,8 @@ public:
     ~Chutier();
 
     void contextMenuEvent(QContextMenuEvent *event);
+    ListWidget& getListWidgetCapture(){ return *_listWidgetCapture; }
+    QTabWidget& getTabWidget() { return *_tabWidget; }
 
 public Q_SLOTS:
     void on_photo_selected_import();

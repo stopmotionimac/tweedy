@@ -86,7 +86,6 @@ Chutier::Chutier(QWidget *parent) :
         _listWidgetImport->addItem(item);
     }
 
-   //DOIT POUVOIR ETRE APPELE A L'ACTION DE LA PRISE DE PHOTO
    /*to add media to chutier pictures*/
    ChutierMediaExt chutierPicture = projectInstance.getChutierPictures();
 

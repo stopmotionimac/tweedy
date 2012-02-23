@@ -22,10 +22,19 @@ public:
    ConfigCamera(QWidget *parent);
     ~ConfigCamera(){}
 
+/*public slots:
+   void changeValueSlot(int i);
+
+   signals:
+   void changeValueSignal(int i);
+*/
 private Q_SLOTS:
+   void on_setValue_triggered(/*CameraWidget * widget, const void *value*/);
 
 
 private:
+
+   QAction * _setValue;
 
 };
 
