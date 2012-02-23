@@ -5,7 +5,9 @@
 
 
 Timeline::Timeline(const Id& idParent, const std::string& id)
-: Imedia(ImediaTypeTimeline), _maxTime(2), _nbClip(2),_id(idParent,id)
+
+: Imedia(ImediaTypeTimeline), _maxTime(2), _nbClip(0),_id(idParent,id)
+/*: Imedia(ImediaTypeTimeline), _maxTime(1), _nbClip(1),_id(idParent,id)*/
 {
     Clip blank("img/none.jpg", getId() , "blank");
     blank.setPosition(0,1);

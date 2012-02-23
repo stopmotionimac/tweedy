@@ -117,7 +117,7 @@ void ViewerTweedy::displayChanged(int time)
     
     
     QPixmap img( QString::fromStdString(filename) );
-//    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
             
     this->getViewerLabel()->setPixmap(img);
     handle_onionAction_triggered();

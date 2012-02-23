@@ -1,10 +1,5 @@
 
 import QtQuick 1.0
-import "fonction.js" as MyScript
-
-
-
-
 
 Rectangle {
     id: timeline
@@ -126,6 +121,9 @@ Rectangle {
 
     }//end Component
 
+    Cursor {
+        id: cursorTimeline
+    }
 
 }// end rectangle
 

@@ -298,8 +298,18 @@ std::string Gphoto::getChoice(CameraWidget *widget, int choiceNumber) {
 int Gphoto::getTypeWidget(CameraWidget *widget) {
     CameraWidgetType type;
     int ret = gp_widget_get_type (widget, &type);
-    std::cout<<"TYPE : "<<type<<std::endl;
+    //std::cout<<"TYPE : "<<type<<std::endl;
     return type;
+}
+
+void Gphoto::getValue(CameraWidget *widget) {
+//    void value;
+//    int ret = gp_widget_get_value (widget, void &value);
+//    std::cout<<"VALUE : "<<value<<std::endl;
+}
+
+void Gphoto::setValue(CameraWidget *widget, const void *value){
+    int ret = gp_widget_set_value (widget, value);
 }
 
 

@@ -20,14 +20,18 @@ class Chutier : public QWidget
 public:
     explicit Chutier(QWidget *parent);
     ~Chutier();
+    QLabel * getViewerChutier() { return _viewerChutier; }
 
     void contextMenuEvent(QContextMenuEvent *event);
+    ListWidget& getListWidgetCapture(){ return *_listWidgetCapture; }
+    QTabWidget& getTabWidget() { return *_tabWidget; }
 
 public Q_SLOTS:
     void on_photo_selected_import();
     void on_photo_selected_capture();
     void on_importAction_triggered();
     void on_deleteAction_triggered();
+    void changedPixmap(int row, int column);
 
 private:
     ListWidget * _listWidgetImport;
