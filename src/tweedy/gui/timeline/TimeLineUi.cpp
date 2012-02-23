@@ -190,8 +190,6 @@ void TimeLineUi::updateTable()
     _table->verticalHeader()->setMovable(true);
     _table->setCurrentCell(0,currentTime);
 
-   
-    
 }
 
 

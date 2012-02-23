@@ -76,7 +76,7 @@ Rectangle {
                     anchors.fill: parent
                     drag.axis: "XAxis"
                     drag.minimumX: 0
-                    drag.maximumX: timelineData.maxtime * 100 - 100
+                    drag.maximumX: timelineData.maxtime * 100 - (model.modelData.timeOut - model.modelData.timeIn)*100
                     drag.target: parent
 
                     onEntered: {
