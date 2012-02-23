@@ -14,9 +14,3 @@ ClipDataWrapper::ClipDataWrapper(QString imgPath, int timeIn, int timeOut, QObje
 {
 
 }
-
-
-//int ClipDataWrapper::getRadius()
-//{
-//    return 50;
-//}

@@ -174,7 +174,8 @@ void TimeLineUi::updateTable()
     {
         for (unsigned int j=s.first; j<(*s.second)->timeOut(); ++j)
         {
-            QIcon icon( QString::fromStdString((*s.second)->imgPath().string()) );
+            const std::string imagePathStr = (*s.second)->imgPath().string();
+            QIcon icon( QString::fromStdString( imagePathStr ) );
             QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
             newItem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsEnabled|Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled);
             _table->setItem(0, j, newItem);
@@ -189,9 +190,6 @@ void TimeLineUi::updateTable()
     _table->setDragEnabled(true);
     _table->verticalHeader()->setMovable(true);
     _table->setCurrentCell(0,currentTime);
-
-   
-    
 }
 
 

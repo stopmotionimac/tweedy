@@ -16,8 +16,17 @@ class ClipDataWrapper : public QObject
 public:
     explicit ClipDataWrapper(QObject *parent = 0);
     ClipDataWrapper(QString imgPath, int timeIn, int timeOut, QObject *parent = 0);
-    ClipDataWrapper(const ClipDataWrapper&){}
-    ClipDataWrapper& operator =(const ClipDataWrapper&){}
+    ClipDataWrapper(const ClipDataWrapper& other)
+    {
+        *this = other;
+    }
+    ClipDataWrapper& operator =(const ClipDataWrapper& other)
+    {
+        _imgPath = other._imgPath;
+        _timeIn = other._timeIn;
+        _timeOut = other._timeOut;
+        return *this;
+    }
 
     QString getImgPath(){ return _imgPath;}
     int getTimeIn(){ return _timeIn;}

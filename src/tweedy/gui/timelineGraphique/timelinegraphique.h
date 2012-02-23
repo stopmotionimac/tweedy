@@ -7,19 +7,20 @@
 #include "ClipDataWrapper.hpp"
 #include "TimelineDataWrapper.hpp"
 
-#include "properties.h"
-
 class TimelineGraphique : public QWidget
 {
+    Q_OBJECT
 public:
     TimelineGraphique(QWidget * parent);
 
-    void update();
+    TimelineDataWrapper* getTimelineDataWrapper() { return &_timelineData; }
+
+public Q_SLOTS:
+    void updateTweedyDatas();
 
 private:
     TimelineDataWrapper _timelineData;
     ClipDataWrapper _clipData;
-    Properties _prop;
 
     QDeclarativeView* _qmlView;
 };

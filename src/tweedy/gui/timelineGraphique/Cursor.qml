@@ -3,13 +3,13 @@ import QtQuick 1.0
 Item {
     id: cursor
 
-    Image {
+    /*Image {
         id: triangle
         source: "img/triangle.qml"
         fillMode: Image.PreserveAspectFit
         smooth: true
 
-    }
+    }*/
 
     Rectangle {
         id: lineCursor
@@ -29,6 +29,7 @@ Item {
             onXChanged: {
                     var xCursor = cursor.x /100;
                     console.log("x curseur : ", xCursor);
+                    timelineData.play(xCursor);
             }
         }
 

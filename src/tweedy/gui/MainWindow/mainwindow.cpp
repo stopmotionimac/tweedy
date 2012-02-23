@@ -46,6 +46,7 @@ MainWindow::MainWindow()
     Projet& projectInstance = project();
 
     connect(this->timeline, SIGNAL( timeChanged(int) ), this->viewerImg, SLOT(displayChanged(int)) );
+    connect(this->_timelineGraphique->getTimelineDataWrapper(), SIGNAL(timeChanged(int)), this->viewerImg, SLOT(displayChanged(int)));
 
 
     this->adjustSize();

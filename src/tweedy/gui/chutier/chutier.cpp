@@ -160,8 +160,7 @@ void Chutier::changedPixmap(int row, int column)
     Timeline* timeline = &(Projet::getInstance().getTimeline());
     std::string  idClip = "";
     std::string filename = "img/none.jpg";
-    std::cout<<"row :"<<row<<std::endl;
-    bool isClip = timeline->findCurrentClip(idClip,row);
+    bool isClip = timeline->findCurrentClip(idClip,column);
     if(isClip)
     {
      filename = timeline->mapClip()[idClip].imgPath().string();

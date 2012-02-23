@@ -34,23 +34,24 @@ Rectangle {
         orientation: "Horizontal"
 
         model : timelineData.clips
-        delegate : componentDelegate
+        delegate : clipDelegate
     }//end listview
 
 
-
    Component {
-        id: componentDelegate
-
-
+        id: clipDelegate
 
             //clip represente
             Rectangle {
 
                 id: clip
+                x: model.modelData.timeIn * 300
+                //y: clipDelegate.y
                 width: (model.modelData.timeOut - model.modelData.timeIn) * 100
                 height: 100
-                radius: 1
+                border.color: "black"
+                border.width: 2
+                radius: 10
                 color:"#e28a26"
 
                 //image du clip
@@ -73,6 +74,7 @@ Rectangle {
                     drag.minimumX: 0
                     drag.maximumX: timelineData.maxtime * 100 - 100
                     drag.target: parent
+
 
                     onEntered: {
                         timelineData.setTimeInDrag(parent.x)

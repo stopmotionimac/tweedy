@@ -8,17 +8,17 @@
 
 #include <iostream>
 
-TimelineGraphique::TimelineGraphique(QWidget * parent):
-    QWidget(parent), _timelineData(TimelineDataWrapper()), _clipData(ClipDataWrapper())
+TimelineGraphique::TimelineGraphique(QWidget * parent)
+    : QWidget(parent)
 {
-
+    std::cout << "TimelineGraphique::TimelineGraphique" << std::endl;
     _qmlView = new QDeclarativeView(this);
-    _qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
 
 //    _qmlView->rootContext()->setContextProperty("Prop", &_prop);
 
     _qmlView->rootContext()->setContextProperty("clipData",&_clipData);
     _qmlView->rootContext()->setContextProperty("timelineData",&_timelineData);
+    _qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
 
     _qmlView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
 
@@ -35,11 +35,15 @@ TimelineGraphique::TimelineGraphique(QWidget * parent):
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(_qmlView);
 
-
+    //connect( &_timelineData, SIGNAL( fullUpdate() ), this, SLOT( updateTweedyDatas() ) );
 }
 
 
-void TimelineGraphique::update()
+void TimelineGraphique::updateTweedyDatas()
 {
-
+    std::cout << "TimelineGraphique::updateTweedyDatas" << std::endl;
+    //_qmlView->rootContext()->setContextProperty("clipData",&_clipData);
+    //_qmlView->rootContext()->setContextProperty("timelineData",&_timelineData);
+    //_qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
+    std::cout << "TimelineGraphique::updateTweedyDatas end" << std::endl;
 }
