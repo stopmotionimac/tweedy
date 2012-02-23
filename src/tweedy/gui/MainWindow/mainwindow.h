@@ -16,6 +16,7 @@
 #include <tweedy/gui/Undo/UndoView.hpp>
 #include <tweedy/gui/timelineGraphique/timelinegraphique.h>
 #include <tweedy/gui/ConfigCamera/ConfigCamera.hpp>
+#include <tweedy/gui/AboutTweedy/AboutTweedy.hpp>
 
 #include "startwindow.h"
 #include "newprojectwindow.h"
@@ -47,6 +48,7 @@ class MainWindow : public QMainWindow
         void on_close_window();
         void on_saveProjectAction_triggered();
         void on_loadProjectAction_triggered();
+        void on_aboutAction_triggered();
         void on_acceptedNewProjectWindow();
 
     private:
@@ -97,6 +99,8 @@ class MainWindow : public QMainWindow
 
         TimelineGraphique * _timelineGraphique;
         ConfigCamera * _configCamera;
+
+        AboutTweedy * _aboutWindow;
 
 
 };

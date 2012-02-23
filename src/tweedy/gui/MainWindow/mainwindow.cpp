@@ -52,10 +52,6 @@ MainWindow::MainWindow()
 }
 
 
-
-/*
-  Creer toutes les actions de l'projet
-*/
 void MainWindow::createActions()
 {
 
@@ -85,18 +81,18 @@ void MainWindow::createActions()
 
     undoAction = new QAction(QIcon("img/icones/undo.png"),"Undo",this);
     undoAction->setShortcut(QKeySequence("Ctrl+Z"));
+    connect(undoAction, SIGNAL(triggered()), this, SLOT(on_undoButton_clicked()));
 
     redoAction = new QAction(QIcon("img/icones/redo.png"),"Redo",this);
     redoAction->setShortcut(QKeySequence("Shift+Ctrl+Z"));
+    connect(redoAction, SIGNAL(triggered()), this, SLOT(on_redoButton_clicked()));
 
     aboutAction = new QAction("About Tweedy",this);
+    connect(aboutAction, SIGNAL(triggered()), this, SLOT(on_aboutAction_triggered()));
 
     aboutQtAction = new QAction("About Qt",this);
     connect(aboutQtAction, SIGNAL(triggered()), qApp, SLOT(aboutQt()));
     
-    connect(undoAction, SIGNAL(triggered()), this, SLOT(on_undoButton_clicked()));
-    connect(redoAction, SIGNAL(triggered()), this, SLOT(on_redoButton_clicked()));
-
     _captureAction = new QAction(QIcon("img/icones/capture.png"),"Capture",this);
     _captureAction->setShortcut(QKeySequence("Retour"));
     connect(_captureAction, SIGNAL(triggered()), this,SLOT(on_captureAction_triggered()));
@@ -108,7 +104,6 @@ void MainWindow::createActions()
     connect(openProjectAction, SIGNAL(triggered()), this,SLOT(on_loadProjectAction_triggered()));
 
 }
-
 
 
 void MainWindow::createStartWindow()
@@ -143,14 +138,13 @@ void MainWindow::createStartWindow()
     connect( startWindowDialog, SIGNAL(rejected()), this, SLOT(on_close_window()) );
 }
 
+
 void MainWindow::on_close_window()
 {
     this->setEnabled(true);
 }
 
-/*
-  Creer la barre de menu
-*/
+
 void MainWindow::createMenuBar()
 {
     Projet& projectInstance = project();
@@ -178,9 +172,6 @@ void MainWindow::createMenuBar()
 }
 
 
-/*
-    Creer la barre d'outils
-*/
 void MainWindow::createToolBar()
 {
 
@@ -198,9 +189,6 @@ void MainWindow::createToolBar()
 }
 
 
-/*
-  Creer tous les widgets
-*/
 void MainWindow::createWidgets()
 {
     //Dock Chutier
@@ -211,6 +199,7 @@ void MainWindow::createWidgets()
     addDockWidget(Qt::TopDockWidgetArea, chutierDock);
     viewMenu->addAction(chutierDock->toggleViewAction());
     viewMenu->addAction(chutier->_viewerChutierDock->toggleViewAction());
+
 
     //Dock Timeline
 
@@ -247,6 +236,8 @@ void MainWindow::createWidgets()
     _configCamera =  new ConfigCamera(configCameraDock);
     configCameraDock->setWidget((_configCamera));
     viewMenu->addAction(configCameraDock->toggleViewAction());
+
+    connect(timeline->getTableWidget(),SIGNAL(cellDoubleClicked (int, int)),chutier,SLOT(changedPixmap(int,int)));
 }
 
 
@@ -279,6 +270,7 @@ void MainWindow::createWidgetViewer()
     //signal : valueChanged() : Emitted when the slider's value has changed.
     connect(viewerImg->getTempsSlider(),SIGNAL(valueChanged(int)), this, SLOT(writeTime(int)));
     viewerImg->getTempsSlider()->setMaximum(timeline->getTimeline()->maxTime());
+
 }
 
 
@@ -343,6 +335,7 @@ void MainWindow::on_captureAction_triggered()
 
 }
 
+
 void MainWindow::on_newProjectAction_triggered()
 {
     newProjectDialog = new newProjectWindow(this);
@@ -354,6 +347,7 @@ void MainWindow::on_newProjectAction_triggered()
 
     connect(newProjectDialog->getSearchFolderProjectButton(),SIGNAL(clicked()), this, SLOT(on_searchFolderProjectButton_clicked()));
 }
+
 
 void MainWindow::on_searchFolderProjectButton_clicked()
 {
@@ -385,6 +379,7 @@ void MainWindow::on_acceptedNewProjectWindow(){
 
 }
 
+
 void MainWindow::on_openProjectAction_triggered()
 {
     startWindowDialog->hide();
@@ -398,6 +393,7 @@ void MainWindow::on_openProjectAction_triggered()
     //plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
 }
 
+
 void MainWindow::on_saveAsProjectAction_triggered()
 {
     QFileDialog * fileDialog = new QFileDialog();
@@ -405,21 +401,32 @@ void MainWindow::on_saveAsProjectAction_triggered()
     QString fileName =fileDialog->getSaveFileName(this, tr("Save as a project"),QString(boost::filesystem::initial_path().string().c_str()),"*.txt");
 }
 
-
-void MainWindow::on_undoButton_clicked(){
+void MainWindow::on_undoButton_clicked()
+{
     
     CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canUndo()){
         cmdMng.undo();
     }
+
 }
 
-void MainWindow::on_redoButton_clicked(){
+void MainWindow::on_redoButton_clicked()
+{
     
     CommandManager& cmdMng = (Projet::getInstance()).getCommandManager();
     if(cmdMng.canRedo()){
         cmdMng.redo();
     }
+
+}
+
+void MainWindow::on_aboutAction_triggered()
+{
+
+    _aboutWindow = new AboutTweedy(this);
+    _aboutWindow->exec();
+
 }
 
 //_______________ Write time in label and select the good cell _________________

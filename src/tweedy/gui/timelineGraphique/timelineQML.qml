@@ -1,12 +1,13 @@
 
 import QtQuick 1.0
-import "fonction.js" as MyScript
 
 Rectangle {
     id: timeline
     width: 1000
     height: 200
     color: "#414042"
+
+
 
     ListView {
         id: listClips
@@ -116,6 +117,10 @@ Rectangle {
         }// end Column
 
     }//end Component
+
+    Cursor {
+        id: cursorTimeline
+    }
 
 }// end rectangle
 
