@@ -89,23 +89,29 @@ void ViewerTweedy::displayChanged(int time)
     std::string  idClip = "";
     std::string filename = "img/none.jpg";
 
-    if (time == timeline->maxTime()) {
+    /*if (time == timeline->maxTime()) {
         //afficher le temps reel
-        /*? ms
+        ? ms
           20 img -> 1sec
           01 img -> 0.05 sec = 50 ms
-        */
+
         _previewTimer->start(50);
         //filename = "img/realTime.jpg";
-    }
-    else {
+    }*/
+
         _previewTimer->stop();
         bool isClip = timeline->findCurrentClip(idClip,time);
         if(isClip)
         {
-         filename = timeline->mapClip()[idClip].imgPath().string();
+            filename = timeline->mapClip()[idClip].imgPath().string();
+
+            if ( idClip.find("flux") != std::string::npos)
+            {
+                //filename = "img/noCameraDetected.jpg";
+                _previewTimer->start(50);
+            }
         }
-    }
+
     
     
     

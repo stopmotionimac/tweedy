@@ -7,6 +7,23 @@ Rectangle {
     height: 200
     color: "#414042"
 
+    /*Column {
+        spacing: 10
+        y:10
+        width:100 * (model.modelData.timeOut - model.modelData.timeIn)
+        height: 80
+
+        //texte du temps
+        Text {
+            horizontalAlignment: Text.AlignHLeft
+            verticalAlignment: Text.AlignVCenter
+            width: parent.width
+            height: 10
+            color: "#ffffff"
+            font.bold: true
+            text: model.modelData.timeIn
+        }
+    }// end Column*/
 
 
     ListView {
@@ -18,30 +35,14 @@ Rectangle {
 
         model : timelineData.clips
         delegate : componentDelegate
-
-
     }//end listview
 
-    Component {
+
+
+   Component {
         id: componentDelegate
 
 
-        Column {
-            spacing: 10
-            y:10
-            width:100 * (model.modelData.timeOut - model.modelData.timeIn) + 20
-            height: 80
-
-            //texte du temps
-            Text {
-                horizontalAlignment: Text.AlignHLeft
-                verticalAlignment: Text.AlignVCenter
-                width: parent.width
-                height: 10
-                color: "#ffffff"
-                font.bold: true
-                text: model.modelData.timeIn
-            }
 
             //clip represente
             Rectangle {
@@ -54,31 +55,33 @@ Rectangle {
 
                 //image du clip
                 Image {
+                    id:image
                     y: clip.y
                     width: 90
                     height: 70
                     fillMode: Image.PreserveAspectFit
                     smooth: true
                     source:model.modelData.imgPath
-
-                }
+                    //source: "../../../../" + model.modelData.imgPath
+                  }
 
                 //zone de drag and drop
                 MouseArea {
+                    id:dragNdrop
                     anchors.fill: parent
-                    drag.target: clip
-                    drag.axis: Drag.XAxis
+                    drag.axis: "XAxis"
+                    drag.minimumX: 0
+                    drag.maximumX: timelineData.maxtime * 100 - 100
+                    drag.target: parent
 
-                    onClicked: {
-                        timelineData.setTimeInDepart(index)
+                    onEntered: {
+                        timelineData.setTimeInDrag(parent.x)
                     }
 
                     onReleased: {
-                        console.log(index)
-                        var timeInArrive = parent.x / 100
-                        timelineData.dragNdrop(timeInArrive)
+                        timelineData.dragNdrop(parent.x)
                     }
-                }
+               }
 
                 //zone gauche pour l'agrandissement du clip
                 MouseArea {
@@ -114,7 +117,7 @@ Rectangle {
 
             }//end Rectangle
 
-        }// end Column
+
 
     }//end Component
 

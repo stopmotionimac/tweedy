@@ -5,10 +5,12 @@
 
 
 Timeline::Timeline(const Id& idParent, const std::string& id)
-: Imedia(ImediaTypeTimeline), _maxTime(1), _nbClip(0),_id(idParent,id)
+: Imedia(ImediaTypeTimeline), _maxTime(1), _nbClip(1),_id(idParent,id)
 {
-  
-    
+    Clip realTime("img/flux.jpg", getId() , "flux");
+    realTime.setPosition(0,1);
+    _mapClip[realTime.getId().getIdStringForm()] = realTime ;
+
 //    Clip c1("img/tweedy0.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
 //    c1.setPosition(0,1);
     
@@ -295,7 +297,6 @@ void Timeline::setMaxTime()
 
 void Timeline::deleteClip(const std::string& clipName)
 {
-    std::cout << clipName << std::endl;
     //on retire le clip de la map
     UOMapClip::iterator it=_mapClip.find(clipName);
     
