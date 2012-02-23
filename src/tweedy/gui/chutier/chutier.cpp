@@ -16,7 +16,7 @@ Chutier::Chutier(QWidget *parent) :
     QWidget(parent)
 {
 
-    //creation des widgets
+    //create widgets
     _tabWidget = new QTabWidget(this);
     _listWidgetCapture = new ListWidget(this);
     _listWidgetImport = new ListWidget(this);
@@ -26,7 +26,7 @@ Chutier::Chutier(QWidget *parent) :
     _tabWidget->addTab(_listWidgetImport,QIcon("img/icones/import.png"),"Imported");
     _tabWidget->addTab(_listWidgetCapture,QIcon("img/icones/capture.png"),"Captured");
 
-    //creation des actions
+    //create actions
     _importAction = new QAction(QIcon("img/icones/import.png"),"Import",this);
     _deleteAction = new QAction(QIcon("img/icones/delete.png"),"Delete",this);
 
@@ -38,7 +38,7 @@ Chutier::Chutier(QWidget *parent) :
     _deleteButton->setIconSize(QSize(25,25));
     _deleteButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
 
-    //creation du widget dockable du viewer
+    //create dockable widget
     _viewerChutierDock = new QDockWidget("Media List Viewer",this);
     _viewerChutier = new QLabel(_viewerChutierDock);
     _viewerChutier->setBackgroundRole(QPalette::Dark);
@@ -60,7 +60,7 @@ Chutier::Chutier(QWidget *parent) :
     layoutChutier->addWidget(_tabWidget);
     layoutChutier->addLayout(layoutBoutons);
 
-    QSplitter* splitter = new QSplitter(this);
+    //QSplitter* splitter = new QSplitter(this);
     QHBoxLayout *mainLayout = new QHBoxLayout(this);
     mainLayout->addLayout(layoutChutier);
     //mainLayout->addWidget(splitter);
@@ -161,6 +161,21 @@ void Chutier::on_deleteAction_triggered()
         }
 
     }
+}
+
+void Chutier::changedPixmap(int row, int column)
+{
+    Timeline* timeline = &(Projet::getInstance().getTimeline());
+    std::string  idClip = "";
+    std::string filename = "img/none.jpg";
+    std::cout<<"row :"<<row<<std::endl;
+    bool isClip = timeline->findCurrentClip(idClip,row);
+    if(isClip)
+    {
+     filename = timeline->mapClip()[idClip].imgPath().string();
+    }
+    QPixmap img( QString::fromStdString(filename) );
+    _viewerChutier->setPixmap(img);
 }
 
 void Chutier::contextMenuEvent(QContextMenuEvent *event)

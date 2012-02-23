@@ -6,11 +6,11 @@
 
 Timeline::Timeline(const Id& idParent, const std::string& id)
 : Imedia(ImediaTypeTimeline), _maxTime(2), _nbClip(0),_id(idParent,id)
+/*: Imedia(ImediaTypeTimeline), _maxTime(1), _nbClip(1),_id(idParent,id)*/
 {
     Clip realTime("img/flux.jpg", getId() , "flux");
     realTime.setPosition(1,2);
     _mapClip[realTime.getId().getIdStringForm()] = realTime ;
-
 
 //    Clip c1("img/tweedy0.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
 //    c1.setPosition(0,1);

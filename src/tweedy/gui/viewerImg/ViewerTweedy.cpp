@@ -107,7 +107,7 @@ void ViewerTweedy::displayChanged(int time)
 
             if ( idClip.find("flux") != std::string::npos)
             {
-                filename = "img/noCameraDetected.jpg";
+                //filename = "img/noCameraDetected.jpg";
                 _previewTimer->start(50);
             }
         }
@@ -117,7 +117,7 @@ void ViewerTweedy::displayChanged(int time)
     
     
     QPixmap img( QString::fromStdString(filename) );
-//    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+    img.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
             
     this->getViewerLabel()->setPixmap(img);
     handle_onionAction_triggered();

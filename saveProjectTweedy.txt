@@ -1,5 +1,5 @@
-22 serialization::archive 5 0 0 0 0 4 4 0 0 4 16 /timeline1/clip3 3 1 0
-0 0 0 0 0 2 0 9 timeline1 5 clip3 57 /media/DATA/IMAC2/ProjetStopMotion/tweedy/IMG_0892_LD.JPG 1 2 16 /timeline1/clip0 3
-1 2 0 9 timeline1 5 clip0 43 /home/solvejg/Bureau/projet/IMG_0902_LD.JPG 0 1 16 /timeline1/clip2 3
-2 2 0 9 timeline1 5 clip2 43 /home/solvejg/Bureau/projet/IMG_0904_LD.JPG 2 3 16 /timeline1/clip1 3
-3 2 0 9 timeline1 5 clip1 43 /home/solvejg/Bureau/projet/IMG_0903_LD.JPG 3 4 1 0 9 timeline1
+22 serialization::archive 9 0 0 0 0 4 4 0 0 4 16 /timeline1/clip1 3 1 0
+0 0 0 0 0 2 0 9 timeline1 5 clip1 45 /home/stephanie/TWEEDY/tweedy/img/tweedy0.jpg 2 3 16 /timeline1/clip3 3
+1 2 0 9 timeline1 5 clip3 45 /home/stephanie/TWEEDY/tweedy/img/tweedy2.jpg 0 1 15 /timeline1/flux 3
+2 2 0 9 timeline1 4 flux 12 img/flux.jpg 3 4 16 /timeline1/clip2 3
+3 2 0 9 timeline1 5 clip2 45 /home/stephanie/TWEEDY/tweedy/img/tweedy1.jpg 1 2 1 0 9 timeline1

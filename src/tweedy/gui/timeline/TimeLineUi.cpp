@@ -195,22 +195,6 @@ void TimeLineUi::updateTable()
 }
 
 
-//_______________ Write time in label and select the good cell _________________
-
-//void TimeLineUi::writeTime(int newValue)
-//{
-
-//    _table->setCurrentCell(0,newValue);
-
-//    if (newValue == _timeline->maxTime())
-//        newValue = -1;
-
-//   _ui->time->setNum(newValue);
-
-//   //emitDisplayChanged();
-//}
-
-
 //___________ Increase current time or stop timer if last frame ________________
 
 void TimeLineUi::increaseTime()
