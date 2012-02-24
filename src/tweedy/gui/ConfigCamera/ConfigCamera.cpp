@@ -54,6 +54,12 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
             //If radio
             //if (projectInstance.gPhotoInstance().isRadioOrMenu(widgetsVector.at(i))) {
             if (type == 5) {
+
+                //récupérer la valeur par défaut
+                //
+                //
+                projectInstance.gPhotoInstance().getValue(widgetsVector.at(i));
+
                 int nbChoices = projectInstance.gPhotoInstance().CountChoices(widgetsVector.at(i));
                 //std::cout<<"NB CHOICES : "<<nbChoices<<std::endl;
 
@@ -69,48 +75,46 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
                 for (int j = 0; j< nbChoices; ++j) {
                     std::string choiceName = projectInstance.gPhotoInstance().getChoice(widgetsVector.at(i), j);
                     //std::cout<<"NAME CHOICE => "<<choiceName<<std::endl;
-                    menuChoice->addMenu(QString::fromStdString(choiceName));
+                    //menuChoice->addMenu(QString::fromStdString(choiceName));
+
+                    /*make the appropriate action*/
+                    _setValue = new QAction(this);
+                    _setValue = menuChoice->addAction(QString::fromStdString(choiceName));
+
+                    menuChoice->addAction(_setValue);
+                    connect(_setValue, SIGNAL(triggered()), this, SLOT(on_setValue_triggered(/*widgetsVector.at(i), choiceName*/)));
+
                 }
             }
             //If toggle (yes/no)
             if (type == 4) {
-                //for (int j; j<nbChoices)
+
+                //récupérer la valeur par défaut
+                //
+                //
+
                 QRadioButton * yesChoice = new QRadioButton("yes", this);
                 layoutForOneParam->addWidget(yesChoice);
                 QRadioButton * noChoice = new QRadioButton("no", this);
                 layoutForOneParam->addWidget(noChoice);
-//                QCheckBox * yesChoice = new QCheckBox("yes", this);
-//                layoutForOneParam->addWidget(yesChoice);
-//                QCheckBox * noChoice = new QCheckBox("no", this);
-//                layoutForOneParam->addWidget(noChoice);
             }
             //If text
             if (type == 2) {
 
+                //récupérer la valeur par défaut
+                //
+                //
+                QLineEdit * textField = new QLineEdit(this);
+                layoutForOneParam->addWidget(textField);
+
             }
             //If date
             if (type == 8) {
-                //pb ac gphoto
+                //don't work with gphoto
             }
         }
 
-
-
         scrollArea->setWidget(widgetForListOfParam);
-
-//        QLabel * label1 = new QLabel(this);
-//        layoutForListOfParam->addWidget(label1);
-//        label1->setText("LABEL 1");
-//        QLabel * label2 = new QLabel(this);
-//        label2->setText("LABEL 2");
-//        layoutForListOfParam->addWidget(label2);
-//        QLabel * label3 = new QLabel(this);
-//        layoutForListOfParam->addWidget(label3);
-//        label3->setText("LABEL 3");
-//        QLabel * label4 = new QLabel(this);
-//        label4->setText("LABEL 4");
-//        layoutForListOfParam->addWidget(label4);
-//=> se resize
     }
 
 
@@ -125,4 +129,9 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 
 }
 
+void ConfigCamera::on_setValue_triggered(/*CameraWidget *widget, const void *value*/) {
+    Projet& projectInstance = Projet::getInstance();
+   // projectInstance.gPhotoInstance().setValue(widget, value);
+    std::cout<<"OK ACTION"<<std::endl;
 
+}

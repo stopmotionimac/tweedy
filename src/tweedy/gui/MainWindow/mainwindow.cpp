@@ -307,30 +307,36 @@ void MainWindow::on_captureAction_triggered()
         timeline.addClip(clipFromPicture);*/
 
 
+
         
-        //with action
         
-        //prendre la photo HD
+        //take HD picture
         
         Projet& project = Projet::getInstance();
 
         project.gPhotoInstance().setFolderToSavePictures(project.getProjectFolder());
     
-        //recuperer le filename de la picture
+        //take the picture's filename
         boost::filesystem::path filenameHD = project.gPhotoInstance().captureToFile();
         
-        //faire une image LD
+        //make a LD picture
         QImage img(QString::fromStdString(filenameHD.string()));
         QImage petiteImg = img.scaled(QSize(600,350));
         
         std::string filenameLD = filenameHD.string();
         filenameLD.insert(filenameLD.size()-4, "_LD");
         petiteImg.save(QString::fromStdString(filenameLD));
-        
-        
 
         ActCapturePicture action;
         action(filenameLD);
+
+        //update chutier
+        ListWidget & listWidgetCapture = chutier->getListWidgetCapture();
+        QListWidgetItem *item = new QListWidgetItem(QIcon(QString::fromStdString(filenameLD)), QString::fromStdString(filenameLD), &listWidgetCapture);
+
+        listWidgetCapture.addItem(item);
+
+        chutier->getTabWidget().setCurrentWidget(&listWidgetCapture);
 
     }
 
