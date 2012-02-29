@@ -132,21 +132,23 @@ void Chutier::on_photo_selected_capture()
 
 void Chutier::on_importAction_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Picture"),QDir::currentPath());
+    QStringList fileNames = QFileDialog::getOpenFileNames(this, tr("Open Picture"),QDir::currentPath());
 
-    QListWidgetItem *item = new QListWidgetItem(QIcon(fileName), fileName, _listWidgetImport);
+	Projet& projectInstance = Projet::getInstance();
+	BOOST_FOREACH( const QString& fileName, fileNames )
+	{
+		QListWidgetItem *item = new QListWidgetItem(QIcon(fileName), fileName, _listWidgetImport);
 
-    _listWidgetImport->addItem(item);
+		_listWidgetImport->addItem(item);
 
-    _tabWidget->setCurrentWidget(_listWidgetImport);
+		_tabWidget->setCurrentWidget(_listWidgetImport);
 
-    /*add media imported to chutier core*/
-    boost::filesystem::path NameOfFileToImport(fileName.toStdString());
-    Projet& projectInstance = Projet::getInstance();
-    ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
-    chutierMediaExt.importMediaToChutier(NameOfFileToImport);
-    //chutierMediaExt.printMapMediaExt();
-
+		/*add media imported to chutier core*/
+		boost::filesystem::path nameOfFileToImport(fileName.toStdString());
+		ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
+		chutierMediaExt.importMediaToChutier(nameOfFileToImport);
+		//chutierMediaExt.printMapMediaExt();
+	}
 }
 
 void Chutier::on_deleteAction_triggered()

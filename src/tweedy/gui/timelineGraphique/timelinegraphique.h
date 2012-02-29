@@ -20,7 +20,6 @@ public Q_SLOTS:
 
 private:
     TimelineDataWrapper _timelineData;
-    ClipDataWrapper _clipData;
 
     QDeclarativeView* _qmlView;
 };

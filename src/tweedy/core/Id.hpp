@@ -20,16 +20,13 @@ public:
     //ctor a partir de l'id du parent
     Id( const Id& parent, const std::string& localId );
     
-    
     ~Id();
     
     Id& operator=(const Id&);
     
-    
     const std::string getIdStringForm() const;
     
 private:
-    
     std::vector<std::string> _id;
     
     friend class boost::serialization::access;
@@ -37,13 +34,8 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)
     {
-
         ar & _id;
-
     }
-    
-    
-    
 };
 
 #endif	/* ID_HPP */

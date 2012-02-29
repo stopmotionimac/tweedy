@@ -32,6 +32,7 @@ project.StaticLibrary(
 				'QtSql', # QML dependencies
 				],
 			),
+		libs.QObjectListModel,
 		]
 	)
 

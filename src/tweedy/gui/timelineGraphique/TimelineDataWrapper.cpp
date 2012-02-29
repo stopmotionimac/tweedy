@@ -36,6 +36,7 @@ void TimelineDataWrapper::updateListe()
     std::cout << "TimelineDataWrapper::updateListe" << std::endl;
 
     _clips.clear();
+	
     Timeline::OMapClip mapClips = getTimeline().getOrderedClips();
     int previousTimeOut = 0;
     BOOST_FOREACH( const Timeline::OMapClip::value_type& s, mapClips )
@@ -61,7 +62,7 @@ void TimelineDataWrapper::updateListe()
     std::cout << "TimelineDataWrapper::updateListe _clips.size(): " << _clips.size() << std::endl;
     Q_EMIT clipsChanged();
 
-    Q_EMIT fullUpdate();
+//    Q_EMIT fullUpdate();
     std::cout << "TimelineDataWrapper::updateListe end" << std::endl;
 }
 
@@ -108,11 +109,22 @@ void TimelineDataWrapper::displayCursor(QString typeCurseur)
     QApplication::setOverrideCursor(curseur);
 }
 
-
-QList<QObject*> TimelineDataWrapper::getClips()
+/*
+QDeclarativeListProperty<ClipDataWrapper> TimelineDataWrapper::getClips( )
 {
-    return _clips;
+	return QDeclarativeListProperty<ClipDataWrapper>( this, _clips );
 }
+
+int TimelineDataWrapper::clipsCount( ) const
+{
+	return _clips.count();
+}
+
+ClipDataWrapper* TimelineDataWrapper::clips( int index ) const
+{
+	return _clips.at( index );
+}
+*/
 
 void TimelineDataWrapper::play(int time)
 {

@@ -4,6 +4,8 @@
 #include "ClipDataWrapper.hpp"
 #include <tweedy/core/Projet.hpp>
 
+#include <qobjectlistmodel.h>
+
 #include <QtDeclarative/QDeclarativeListProperty>
 #include <QtDeclarative/QDeclarativeView>
 
@@ -16,9 +18,8 @@ class TimelineDataWrapper : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QList<QObject *> clips READ getClips NOTIFY clipsChanged)
+    //Q_PROPERTY(QObjectListModel clips READ getClips NOTIFY clipsChanged)
     Q_PROPERTY(int maxtime READ getMaxtime NOTIFY maxtimeChanged)
-
 
 public:
     explicit TimelineDataWrapper(QObject *parent = 0);
@@ -30,12 +31,17 @@ public:
     {
         _timeInDrag = other._timeInDrag;
         _readyToDrag = other._readyToDrag;
-        _clips = other._clips;
+        _clips.setObjectList( other._clips.objectList() );
         return *this;
     }
     ~TimelineDataWrapper();
 
-    QList<QObject*> getClips();
+    QObjectListModel& getClips()
+	{
+		return _clips;
+	}
+//	int clipsCount( ) const;
+//	ClipDataWrapper* clips( int index ) const;
 
     Timeline& getTimeline() const { return Projet::getInstance().getTimeline(); }
 
@@ -48,16 +54,17 @@ public:
 
     Q_INVOKABLE void displayCursor(QString);
 
-Q_SIGNALS:
-    void fullUpdate();
-
 private:
 #ifndef Q_MOC_RUN
     boost::signals::scoped_connection _dataConnection;
 #endif
     int _timeInDrag;
     bool _readyToDrag;
-    QList<QObject*> _clips;
+    QObjectListModel _clips;
+
+
+Q_SIGNALS:
+    void fullUpdate();
 
 Q_SIGNALS:
     void clipsChanged();

@@ -7,37 +7,6 @@ Rectangle {
     height: 200
     color: "#414042"
 
-    /*Column {
-        spacing: 10
-        y:10
-        width:100 * (model.modelData.timeOut - model.modelData.timeIn)
-        height: 80
-
-        //texte du temps
-        Text {
-            horizontalAlignment: Text.AlignHLeft
-            verticalAlignment: Text.AlignVCenter
-            width: parent.width
-            height: 10
-            color: "#ffffff"
-            font.bold: true
-            text: model.modelData.timeIn
-        }
-    }// end Column*/
-
-
-    ListView {
-        id: listClips
-        width:  parent.width
-        height:  parent.height
-        anchors.fill: parent
-        orientation: "Horizontal"
-
-        model : timelineData.clips
-        delegate : clipDelegate
-    }//end listview
-
-
    Component {
         id: clipDelegate
 
@@ -45,15 +14,16 @@ Rectangle {
             Rectangle {
 
                 id: clip
-                x: model.modelData.timeIn * 300
+                x: object.timeIn * 100
                 //y: clipDelegate.y
-                width: (model.modelData.timeOut - model.modelData.timeIn) * 100
+                width: (object.timeOut - object.timeIn) * 100
                 height: 100
                 border.color: "black"
                 border.width: 2
                 radius: 10
                 color:"#e28a26"
 
+/*
                 //image du clip
                 Image {
                     id:image
@@ -62,10 +32,10 @@ Rectangle {
                     height: 70
                     fillMode: Image.PreserveAspectFit
                     smooth: true
-                    source:model.modelData.imgPath
-                    //source: "../../../../" + model.modelData.imgPath
+                    source:object.imgPath
+                    //source: "../../../../" + object.imgPath
                   }
-
+*/
                 //zone de drag and drop
                 MouseArea {
                     id:dragNdrop
@@ -77,11 +47,11 @@ Rectangle {
 
 
                     onEntered: {
-                        timelineData.setTimeInDrag(parent.x)
+                        timelineData.setTimeInDrag(parent.x / 100)
                     }
 
                     onReleased: {
-                        timelineData.dragNdrop(parent.x)
+                        timelineData.dragNdrop(parent.x / 100)
                     }
                }
 
@@ -122,6 +92,16 @@ Rectangle {
 
 
     }//end Component
+
+    Repeater {
+        id: listClips
+        width:  parent.width
+        height:  parent.height
+        anchors.fill: parent
+
+        model : clipsData
+        delegate : clipDelegate
+    }
 
     Cursor {
         id: cursorTimeline
