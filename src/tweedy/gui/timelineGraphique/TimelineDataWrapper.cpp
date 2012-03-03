@@ -37,11 +37,11 @@ void TimelineDataWrapper::updateListe()
 	++i;
     std::cout << "TimelineDataWrapper::updateListe: " << i << std::endl;
 
-    _clips.clear();
+    _tweedyClips.clear();
 	for( int j = i; j < i*2; ++j )
 	{
-		ClipDataWrapper* blank = new ClipDataWrapper( "img/none.jpg", i, i+2, this ) ;
-		_clips.append(blank);
+		ClipDataWrapper* blank = new ClipDataWrapper( "img/none.jpg", i*2, (i*2)+1, this ) ;
+		_tweedyClips.append(blank);
 	}
 	/*
     Timeline::OMapClip mapClips = getTimeline().getOrderedClips();
@@ -66,8 +66,8 @@ void TimelineDataWrapper::updateListe()
         _clips.append(c);
     }
 	*/
-    std::cout << "TimelineDataWrapper::updateListe _clips.size(): " << _clips.size() << std::endl;
-    Q_EMIT clipsChanged();
+    std::cout << "TimelineDataWrapper::updateListe _clips.size(): " << _tweedyClips.size() << std::endl;
+    Q_EMIT tweedyClipsChanged();
 
 //    Q_EMIT fullUpdate();
     std::cout << "TimelineDataWrapper::updateListe end" << std::endl;

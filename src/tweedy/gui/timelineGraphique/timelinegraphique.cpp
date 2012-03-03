@@ -14,15 +14,16 @@
 
 TimelineGraphique::TimelineGraphique(QWidget * parent)
     : QWidget(parent)
+, _timelineQmlFile( "src/tweedy/gui/timelineGraphique/timelineQML.qml" )
 {
     std::cout << "TimelineGraphique::TimelineGraphique" << std::endl;
 	qmlRegisterType<QObjectListModel>();
 	
     _qmlView = new QDeclarativeView(this);
 
-    _qmlView->rootContext()->setContextProperty( "timelineData", &_timelineData );
+    _qmlView->rootContext()->setContextProperty( "tweedyTimelineData", &_timelineData );
 //    _qmlView->rootContext()->setContextProperty( "clipsData", &_timelineData.getClips() );
-    _qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
+    _qmlView->setSource(QUrl::fromLocalFile(_timelineQmlFile));
 
     _qmlView->setResizeMode(QDeclarativeView::SizeRootObjectToView);
     _qmlView->setViewportUpdateMode( QGraphicsView::FullViewportUpdate ); // test
@@ -35,20 +36,32 @@ TimelineGraphique::TimelineGraphique(QWidget * parent)
 //    dataList.append(new ClipDataWrapper());
 //    dataList.append(new ClipDataWrapper());
 
-//    _qmlView->rootContext()->setContextProperty("timelineData",QVariant::fromValue(dataList));
+//    _qmlView->rootContext()->setContextProperty("tweedyTimelineData",QVariant::fromValue(dataList));
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->addWidget(_qmlView);
 
     connect( &_timelineData, SIGNAL( fullUpdate() ), this, SLOT( updateTweedyDatas() ) );
+	
+	
+	_qmlFileWatcher.addPath( _timelineQmlFile );
+	connect( &_qmlFileWatcher, SIGNAL(fileChanged(const QString &)), this, SLOT(onQmlFileChanged(const QString &)) );
 }
 
 
 void TimelineGraphique::updateTweedyDatas()
 {
     std::cout << "TimelineGraphique::updateTweedyDatas a" << std::endl;
-    _qmlView->rootContext()->setContextProperty("timelineData",&_timelineData);
-    std::cout << "TimelineGraphique::updateTweedyDatas b" << std::endl;
-    _qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
+    _qmlView->rootContext()->setContextProperty("tweedyTimelineData",&_timelineData);
     std::cout << "TimelineGraphique::updateTweedyDatas end" << std::endl;
+}
+
+
+void TimelineGraphique::onQmlFileChanged( const QString &file )
+{
+//    std::cout << "TimelineGraphique::onQmlFileChanged: " << file.toStdString() << std::endl;
+//    _qmlView->setSource( QUrl::fromLocalFile(file) );
+//	_qmlView->update();
+//	_qmlView->repaint();
+//	updateTweedyDatas();
 }

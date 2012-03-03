@@ -15,7 +15,7 @@ Item {
         id: lineCursor
         width: 5
         //x: triangle.width /2 -1
-        height: timeline.height
+        height: tweedyTimeline.height
 
     }
 
@@ -29,7 +29,7 @@ Item {
             onXChanged: {
                     var xCursor = cursor.x /100;
                     console.log("x curseur : ", xCursor);
-                    timelineData.play(xCursor);
+                    tweedyTimelineData.play(xCursor);
             }
         }
 

@@ -18,7 +18,7 @@ class TimelineDataWrapper : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QObjectListModel* clips READ getClips NOTIFY clipsChanged)
+    Q_PROPERTY(QObjectListModel* tweedyClips READ getTweedyClips NOTIFY tweedyClipsChanged)
     Q_PROPERTY(int maxtime READ getMaxtime NOTIFY maxtimeChanged)
 
 public:
@@ -31,14 +31,14 @@ public:
     {
         _timeInDrag = other._timeInDrag;
         _readyToDrag = other._readyToDrag;
-        _clips.setObjectList( other._clips.objectList() );
+        _tweedyClips.setObjectList( other._tweedyClips.objectList() );
         return *this;
     }
     ~TimelineDataWrapper();
 
-    QObjectListModel* getClips()
+    QObjectListModel* getTweedyClips()
 	{
-		return &_clips;
+		return &_tweedyClips;
 	}
 //	int clipsCount( ) const;
 //	ClipDataWrapper* clips( int index ) const;
@@ -61,14 +61,14 @@ private:
 #endif
     int _timeInDrag;
     bool _readyToDrag;
-    QObjectListModel _clips;
+    QObjectListModel _tweedyClips;
 
 
 Q_SIGNALS:
     void fullUpdate();
 
 Q_SIGNALS:
-    void clipsChanged();
+    void tweedyClipsChanged();
     void maxtimeChanged();
     void timeChanged(int time);
 
