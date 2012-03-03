@@ -1,3 +1,5 @@
+#ifndef _ANIMAL_HPP_
+#define _ANIMAL_HPP_
 
 #include <QtCore/QObject>
 #include <QtCore/QString>
@@ -25,3 +27,4 @@ private:
 	QString m_size;
 };
 
+#endif

@@ -1,3 +1,6 @@
+#ifndef _ANIMALMODEL_HPP_
+#define _ANIMALMODEL_HPP_
+
 #include "Animal.hpp"
 
 #include <QtCore/QAbstractListModel>
@@ -22,7 +25,10 @@ public:
 
 	QVariant data( const QModelIndex & index, int role = Qt::DisplayRole ) const;
 
+//	QList<Animal>& getAnimals() { return m_animals; }
+	
 private:
 	QList<Animal> m_animals;
 };
 
+#endif

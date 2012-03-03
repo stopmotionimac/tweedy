@@ -279,8 +279,10 @@ void QObjectListModel::clear()
     beginRemoveRows(QModelIndex(), 0, m_objects.count() - 1);
     m_objects.clear();
     endRemoveRows();
+	
     Q_EMIT countChanged();
 }
+
 
 /*!
     \internal
