@@ -21,7 +21,7 @@ TimelineGraphique::TimelineGraphique(QWidget * parent)
     _qmlView = new QDeclarativeView(this);
 
     _qmlView->rootContext()->setContextProperty( "timelineData", &_timelineData );
-    _qmlView->rootContext()->setContextProperty( "clipsData", &_timelineData.getClips() );
+//    _qmlView->rootContext()->setContextProperty( "clipsData", &_timelineData.getClips() );
     _qmlView->setSource(QUrl::fromLocalFile("src/tweedy/gui/timelineGraphique/timelineQML.qml"));
 
     _qmlView->setResizeMode(QDeclarativeView::SizeRootObjectToView);

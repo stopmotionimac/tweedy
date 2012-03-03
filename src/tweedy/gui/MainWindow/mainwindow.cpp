@@ -270,7 +270,7 @@ void MainWindow::createWidgetViewer()
     viewerImg->getTempsSlider()->setTickPosition(QSlider::TicksAbove);
     //signal : valueChanged() : Emitted when the slider's value has changed.
     connect(viewerImg->getTempsSlider(),SIGNAL(valueChanged(int)), this, SLOT(writeTime(int)));
-    viewerImg->getTempsSlider()->setMaximum(timeline->getTimeline()->maxTime());
+    viewerImg->getTempsSlider()->setMaximum(timeline->getTimeline()->getMaxTime());
 
 }
 
@@ -443,7 +443,7 @@ void MainWindow::writeTime(int newValue)
 
     timeline->getTableWidget()->setCurrentCell(0,newValue);
 
-    if (newValue == timeline->getTimeline()->maxTime())
+    if (newValue == timeline->getTimeline()->getMaxTime())
         newValue = -1;
 
     viewerImg->getTimeLabel()->setNum(newValue);

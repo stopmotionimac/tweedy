@@ -26,8 +26,9 @@ void CmdInsertClip::runDo(){
     Timeline& timeline = Projet::getInstance().getTimeline();
     
     //créer un nouveau clip
-    Clip clip(_filename, timeline.getId() , "clip" + boost::lexical_cast<std::string>(timeline.getNbClip()++) );
-    
+    Clip clip(_filename, timeline.getId() , "clip" + boost::lexical_cast<std::string>(timeline.getNbClip()) );
+    timeline.setNbClip( timeline.getNbClip()+1 );
+	
     _clipTemp = clip;
     
     //inserer le clip dans la timeline a la nouvelle position

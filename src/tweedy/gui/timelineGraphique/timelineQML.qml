@@ -23,6 +23,10 @@ Rectangle {
                 radius: 10
                 color:"#e28a26"
 
+				Text {
+					text: object.timeIn
+				}
+
 /*
                 //image du clip
                 Image {
@@ -36,7 +40,7 @@ Rectangle {
                     //source: "../../../../" + object.imgPath
                   }
 */
-                //zone de drag and drop
+                // zone de translate
                 MouseArea {
                     id:dragNdrop
                     anchors.fill: parent
@@ -93,13 +97,13 @@ Rectangle {
 
     }//end Component
 
-    Repeater {
+    ListView {
         id: listClips
         width:  parent.width
         height:  parent.height
         anchors.fill: parent
 
-        model : clipsData
+        model : timelineData.clips
         delegate : clipDelegate
     }
 

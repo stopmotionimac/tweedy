@@ -18,7 +18,7 @@ class TimelineDataWrapper : public QObject
 {
     Q_OBJECT
 
-    //Q_PROPERTY(QObjectListModel clips READ getClips NOTIFY clipsChanged)
+    Q_PROPERTY(QObjectListModel* clips READ getClips NOTIFY clipsChanged)
     Q_PROPERTY(int maxtime READ getMaxtime NOTIFY maxtimeChanged)
 
 public:
@@ -36,16 +36,17 @@ public:
     }
     ~TimelineDataWrapper();
 
-    QObjectListModel& getClips()
+    QObjectListModel* getClips()
 	{
-		return _clips;
+		return &_clips;
 	}
 //	int clipsCount( ) const;
 //	ClipDataWrapper* clips( int index ) const;
 
-    Timeline& getTimeline() const { return Projet::getInstance().getTimeline(); }
+    Timeline& getTimeline() { return Projet::getInstance().getTimeline(); }
+    const Timeline& getTimeline() const { return Projet::getInstance().getTimeline(); }
 
-    int getMaxtime() const { return getTimeline().maxTime(); }
+    int getMaxtime() const { return getTimeline().getMaxTime(); }
 
     Q_INVOKABLE void play(int time);
 

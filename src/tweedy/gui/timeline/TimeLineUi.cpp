@@ -151,7 +151,7 @@ void TimeLineUi::updateTable()
      
     //Timeline timeline = Projet::getInstance()->getTimeline();
     //fill the whole table with blanks
-    for (unsigned int i=0; i<_timeline->maxTime(); ++i)
+    for (unsigned int i=0; i<_timeline->getMaxTime(); ++i)
     {
         _table->insertColumn(i);
         
@@ -182,11 +182,13 @@ void TimeLineUi::updateTable()
         }
     }
     
-    /*icon for real time
+	/*
+	// icon for real time
     QIcon icon( QString::fromStdString("img/flux.jpg") );
     QTableWidgetItem *newItem = new QTableWidgetItem(icon,"");
-    _table->setItem(0, _timeline->maxTime(), newItem);*/
-   
+    _table->setItem(0, _timeline->maxTime(), newItem);
+	*/
+
     _table->setDragEnabled(true);
     _table->verticalHeader()->setMovable(true);
     _table->setCurrentCell(0,currentTime);
@@ -197,9 +199,9 @@ void TimeLineUi::updateTable()
 
 void TimeLineUi::increaseTime()
 {
-    if (_time>-1 && _time < _timeline->maxTime())
+    if (_time>-1 && _time < _timeline->getMaxTime())
         ++ _time;
-    if (_time == _timeline->maxTime())
+    if (_time == _timeline->getMaxTime())
         _time = 0; 
         
     Q_EMIT timeChanged(_time);
@@ -260,7 +262,7 @@ void TimeLineUi::handle_nextAction_triggered()
             _time = s.first;
             break;
         }
-        if ((*s.second)->timeOut() > _time && (*s.second)->timeOut() < _timeline->maxTime())
+        if ((*s.second)->timeOut() > _time && (*s.second)->timeOut() < _timeline->getMaxTime())
         {
             lastClip = false;
             _time = (*s.second)->timeOut();
@@ -301,7 +303,7 @@ void TimeLineUi::handle_plusAction_triggered()
 { 
     
    int currentCell = _table->currentColumn();
-   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
+   if ( currentCell > -1 && currentCell < _timeline->getMaxTime() )
    {
        
         // création d'une action ActClipSetTimeRange
@@ -318,7 +320,7 @@ void TimeLineUi::handle_plusAction_triggered()
 void TimeLineUi::handle_minusAction_triggered()
 { 
    int currentCell = _table->currentColumn();
-   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
+   if ( currentCell > -1 && currentCell < _timeline->getMaxTime() )
    {
        
         // création d'une action ActClipSetTimeRange
@@ -334,7 +336,7 @@ void TimeLineUi::handle_minusAction_triggered()
 void TimeLineUi::handle_blankBeforeAction_triggered()
 {
    int currentCell = _table->currentColumn();
-   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
+   if ( currentCell > -1 && currentCell < _timeline->getMaxTime() )
    {
        
        // création d'une action ActAddBlankBeforeClip
@@ -353,7 +355,7 @@ void TimeLineUi::handle_blankBeforeAction_triggered()
 void TimeLineUi::handle_blankAfterAction_triggered()
 {
    int currentCell = _table->currentColumn();
-   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
+   if ( currentCell > -1 && currentCell < _timeline->getMaxTime() )
    {
       
        // création d'une action ActAddBlankAfterClip
@@ -370,7 +372,7 @@ void TimeLineUi::deleteKey_activated()
 {
   
    int currentCell = _table->currentColumn();
-   if ( currentCell > -1 && currentCell < _timeline->maxTime() )
+   if ( currentCell > -1 && currentCell < _timeline->getMaxTime() )
    {
        
        //creation de l'action ActDeleteClip
