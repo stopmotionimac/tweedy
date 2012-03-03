@@ -9,7 +9,7 @@ Rectangle {
 
 	Component {
 		id: myItemDelegate
-
+		
 		Rectangle {
 			id: myClip
 			width: parent.parent.width
@@ -50,7 +50,7 @@ Rectangle {
 					else
 					{
 						console.log("qml asks to remove a data.")
-						myQmlWrapper.remove( index + 1 );
+						myQmlWrapper.remove( index );
 					}
 				}
 			}
@@ -63,12 +63,16 @@ Rectangle {
 				console.log("qml myClip destruction !")
 			}
 
+			ListView.onRemove: SequentialAnimation {
+				PropertyAction { target: myClip; property: "ListView.delayRemove"; value: true }
+				NumberAnimation { target: myClip; property: "height"; to: 0; duration: 250; easing.type: Easing.InOutQuad }
+
+				// Make sure delayRemove is set back to false so that the item can be destroyed
+				PropertyAction { target: myClip; property: "ListView.delayRemove"; value: false }
+			}
 		}
 		
-		/*
-		Item {
-			ListView.delayRemove: true
-		}*/
+
 	}//end Component
 
 	ListView {
