@@ -49,7 +49,7 @@ public:
     void increaseTimeOut(int value){ _timeOut += value; }
    
     
-    Id& getId(){ return _id; }
+    const Id& getId() const { return _id; }
     
 protected :
     boost::filesystem::path _imgPath;

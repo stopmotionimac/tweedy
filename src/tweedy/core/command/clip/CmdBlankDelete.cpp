@@ -40,14 +40,14 @@ void CmdBlankDelete::undo()
     int currentTimeTemp = _currentTime;
     
     //tant qu'on ne trouve pas le premier clip et qu'on reste dans la timeline
-    while(!timeline.findCurrentClip(idClip,currentTimeTemp) && currentTimeTemp <= timeline.maxTime())
+    while(!timeline.findCurrentClip(idClip,currentTimeTemp) && currentTimeTemp <= timeline.getMaxTime())
     {
         ++currentTimeTemp;
     }
     
     //lorsqu'on sort de la boucle
     //si l'on a pas trouvé de clip
-    if(currentTimeTemp > timeline.maxTime())
+    if(currentTimeTemp > timeline.getMaxTime())
     {
         currentTimeTemp = _currentTime-1;
         //on doit trouver le clip avant le temps courant
