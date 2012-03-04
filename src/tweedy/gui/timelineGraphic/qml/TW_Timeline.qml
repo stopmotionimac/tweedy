@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 1.1
 
 Rectangle {
 	id: tw_timeline
@@ -51,7 +51,7 @@ Rectangle {
 			width: parent.width
 			height: parent.height - y
 			color: '#00ff00'
-
+			
 			// delegate clip component
 			Component {
 				id: tw_clipDelegate
@@ -80,8 +80,26 @@ Rectangle {
 
 				model : _tw_timelineData.clips
 				delegate : tw_clipDelegate
+				/*
+				MouseArea {
+					id: tw_clipsListHandle
+					drag.axis: "XAxis"
+					anchors.fill: tw_clipsList
+					drag.target: tw_allTracks
+					//preventStealing: true
+
+					onEntered: {
+						console.log("qml tw_clipsListHandle onEntered.")
+					}
+
+					onReleased: {
+						console.log("qml tw_clipsListHandle onReleased.")
+					}
+				}
+				*/
 			}
 		}
+		
 		// time manipulator item
 		TW_Cursor {
 			id: tw_timeCursor
