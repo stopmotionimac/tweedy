@@ -1,7 +1,7 @@
 #ifndef __SAMPLES_H
 #define __SAMPLES_H
 
-#include <gphoto2/gphoto2-camera.h>
+#include<gphoto2/gphoto2-camera.h>
 #include<gphoto2/gphoto2-context.h>
 
 int sample_autodetect (CameraList *list, GPContext *context);

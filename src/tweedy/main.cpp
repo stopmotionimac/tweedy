@@ -1,8 +1,7 @@
 #include <tweedy/core/Projet.hpp>
 #include <tweedy/gui/TweedyApp.hpp>
 
-//#include <tweedy/gui/timesheet/TimeSheet.h>
-#include <tweedy/gui/MainWindow/mainwindow.h>
+#include <tweedy/gui/mainWindow/MainWindow.hpp>
 
 #include <QtGui/QApplication>
 #include <QtGui/QMainWindow>
@@ -10,7 +9,7 @@
 
 #include <iostream>
 
-int main( int argc, char *argv[] )
+int main( int argc, char* argv[] )
 {
 	//init the Projet's singleton
 
@@ -59,7 +58,7 @@ int main( int argc, char *argv[] )
 
 	//        UndoView* undoView = new UndoView(&projet.getCommandManager());
 	//
-	//        QWidget * undoWidget = new UndoWidget(undoView);
+	//        QWidget* undoWidget = new UndoWidget(undoView);
 	//        undoWidget->setWindowTitle("Command List");
 	//        undoWidget->show();
 

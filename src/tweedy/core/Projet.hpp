@@ -2,7 +2,7 @@
 #define PROJET_HPP
 
 #include <tweedy/core/Singleton.hpp>
-#include "tweedy/core/Gphoto/Gphoto.hpp"
+#include <tweedy/core/gphoto/Gphoto.hpp>
 #include <tweedy/core/Timeline.hpp>
 #include <tweedy/core/ChutierMediaExt.hpp>
 #include <tweedy/core/Imedia.hpp>

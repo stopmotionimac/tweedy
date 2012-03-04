@@ -1,7 +1,9 @@
-#include "ViewerTweedy.h"
 #include "ui_ViewerTweedy.h"
 
+#include "ViewerTweedy.hpp"
+
 #include <tweedy/core/Projet.hpp>
+
 
 struct ViewerTweedyUpdater
 {

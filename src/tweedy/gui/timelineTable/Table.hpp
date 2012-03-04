@@ -1,13 +1,13 @@
-#ifndef TABLETIMELINE_H
-#define TABLETIMELINE_H
+#ifndef _TWEEDY_TABLE_HPP_
+#define _TWEEDY_TABLE_HPP_
 
 #include <QtGui/QTableWidget>
 
-class TableTimeline : public QTableWidget
+class Table : public QTableWidget
 {
     Q_OBJECT
 public:
-    explicit TableTimeline(QWidget *parent = 0);
+    explicit Table(QWidget *parent = 0);
 
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);

@@ -15,8 +15,7 @@ Item {
         id: lineCursor
         width: 5
         //x: triangle.width /2 -1
-        height: tweedyTimeline.height
-
+        height: tw_timeline.height
     }
 
     MouseArea {
