@@ -18,6 +18,7 @@ class TimelineDataWrapper : public QObject
 
 	Q_PROPERTY( QObjectListModel* clips READ getClips NOTIFY clipsChanged )
 	Q_PROPERTY( int maxTime READ getMaxTime NOTIFY maxTimeChanged )
+    Q_PROPERTY( int timeIn READ getTimeIn NOTIFY timeChanged )
 
 public:
 	explicit TimelineDataWrapper( QObject *parent = 0 );
@@ -56,13 +57,19 @@ public:
 		return getTimeline().getMaxTime();
 	}
 
+        int getTimeIn() const
+        {
+                return _timeInDrag;
+        }
+
 	Q_INVOKABLE void play( int time );
 
-	Q_INVOKABLE void setTimeInDrag( int mousePosition )
+        Q_INVOKABLE void setTimeInDrag( int timeIn )
 	{
-		_timeInDrag = mousePosition / 100;
+                _timeInDrag = timeIn;
 		_readyToDrag = true;
-	}
+                Q_EMIT timeChanged(_timeInDrag);
+        }
 	Q_INVOKABLE void translate( int mousePosition );
 
 	Q_INVOKABLE void displayCursor( QString );
