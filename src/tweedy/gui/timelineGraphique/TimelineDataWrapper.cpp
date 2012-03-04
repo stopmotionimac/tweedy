@@ -59,7 +59,7 @@ void TimelineDataWrapper::updateListe()
     }
 
     std::cout << "TimelineDataWrapper::updateListe _clips.size(): " << _clips.size() << std::endl;
-    Q_EMIT clipsChanged();
+    //Q_EMIT clipsChanged();
 
     Q_EMIT fullUpdate();
     std::cout << "TimelineDataWrapper::updateListe end" << std::endl;

@@ -7,6 +7,7 @@ Rectangle {
     height: 200
     color: "#414042"
 
+
     /*Column {
         spacing: 10
         y:10
@@ -75,6 +76,10 @@ Rectangle {
                     drag.maximumX: timelineData.maxtime * 100 - 100
                     drag.target: parent
 
+                    onClicked: {
+                        var xCursor = parent.x /100;
+                        timelineData.play(xCursor);
+                    }
 
                     onEntered: {
                         timelineData.setTimeInDrag(parent.x)
