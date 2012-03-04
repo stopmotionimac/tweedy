@@ -49,6 +49,10 @@ Rectangle {
 			console.log("qml tw_clipHandle onPressed.")
 			_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale);
 			parent.z = 9999;
+
+                onEntered: {
+                        //console.log("qml tw_clipHandle onEntered.")
+                        //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
 		}
 
 		onReleased: {
