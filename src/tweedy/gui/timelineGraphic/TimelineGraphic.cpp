@@ -22,7 +22,7 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
 
 	_qmlView = new QDeclarativeView( this );
 
-	_qmlView->rootContext()->setContextProperty( "tw_timelineData", &_timelineData );
+	_qmlView->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
 	//    _qmlView->rootContext()->setContextProperty( "clipsData", &_timelineData.getClips() );
 	_qmlView->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
 

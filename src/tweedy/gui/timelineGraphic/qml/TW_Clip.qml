@@ -1,7 +1,106 @@
 import QtQuick 1.0
-//import MyClipData 1.0
 
+Rectangle {
+	id: tw_clip
 
+	//anchors.fill: parent
+	width: (object.timeOut - object.timeIn) * tw_timelineScale // * 0.5
+	height: tw_timeline.height
+
+	x: object.timeIn * tw_timelineScale
+	
+	border.color: "black"
+	border.width: 2
+	radius: 10
+	color:"#e28a26"
+	
+	Text {
+		text: object.timeIn
+	}
+	/*
+	onVisibleChanged: {
+		console.log("qml tweedyClipDelegate onVisibleChanged.")
+		console.log("object.timeIn: " + object.timeIn)
+		console.log("object.timeOut: " + object.timeOut)
+	}
+	*/
+
+	// image du Clip
+	Image {
+		id:image
+		anchors.top: parent.top
+		anchors.margins: 2
+		width: parent.width
+		height: parent.height
+		fillMode: Image.PreserveAspectFit
+		smooth: true
+		source:object.imgPath
+		asynchronous: true
+		//source: "../../../../" + object.imgPath
+		}
+
+	// zone de deplacement
+	MouseArea {
+		id: tw_clipHandle
+
+		anchors.fill: parent
+		hoverEnabled: true
+		//drag.axis: "XAxis"
+		//drag.minimumX: 0
+		//drag.maximumX: _tw_timelineData.maxtime * tw_timelineScale - tw_timelineScale
+		//drag.target: parent
+
+		onEntered: {
+			console.log("qml tw_clipHandle onEntered.")
+			_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
+		}
+
+		onReleased: {
+			console.log("qml tw_clipHandle onReleased.")
+			_tw_timelineData.translate(parent.x / tw_timelineScale)
+		}
+	}
+
+	// zone gauche pour l'agrandissement du clip
+	MouseArea {
+		id: tw_clipLeftHandle
+
+		width: tw_handleWidth
+		height: tw_clip.height
+		hoverEnabled: true
+
+		onEntered: {
+			_tw_timelineData.displayCursor("scale");
+			console.log("qml tw_clipLeftHandle onEntered.")
+		}
+		onExited: {
+			_tw_timelineData.displayCursor("none")
+			console.log("qml tw_clipLeftHandle onExited.")
+		}
+	}
+
+	// zone droite pour l'agrandissement du clip
+	MouseArea {
+		id: tw_clipRightHandle
+
+		width: tw_handleWidth
+		height: tw_clip.height
+		anchors.right: parent.right
+		//x: tw_clip.width - width
+		hoverEnabled: true
+
+		onEntered: {
+			_tw_timelineData.displayCursor("scale");
+			console.log("qml tw_clipRightHandle onEntered.")
+		}
+		onExited: {
+			_tw_timelineData.displayCursor("none")
+			console.log("qml tw_clipRightHandle onExited.")
+		}
+	}
+}
+
+/*
 Rectangle {
     id: clip
     width: 100
@@ -21,7 +120,7 @@ Rectangle {
         }
     }
 
-    /* drag and drop horizontal */
+    // drag and drop horizontal
     MouseArea {
         anchors.fill: parent
         drag.target: clip
@@ -71,3 +170,4 @@ Rectangle {
     }
 
 }
+*/

@@ -1,7 +1,7 @@
 import QtQuick 1.0
 
 Item {
-    id: cursor
+    id: tw_cursor
 
     /*Image {
         id: triangle
@@ -12,28 +12,37 @@ Item {
     }*/
 
     Rectangle {
-        id: lineCursor
-        width: 5
-        //x: triangle.width /2 -1
+        id: tw_cursorLine
+        width: 2
+        x: tw_cursorTop.width/2 - width/2
         height: tw_timeline.height
+		color: 'white'
     }
-
+    Rectangle {
+        id: tw_cursorTop
+        width: 10
+        height: 20
+		color: 'white'
+    }
     MouseArea {
-        anchors.fill: lineCursor
-        drag.target: cursor
+        id: tw_cursorHandle
+        anchors.fill: tw_cursorTop
+        drag.target: tw_cursor
         drag.axis: Drag.XAxis
         onReleased: {
-            lineCursor.color= 'white';
+            tw_cursorLine.color= 'white';
+            tw_cursorTop.color= 'white';
             console.log("onReleased");
             onXChanged: {
-                    var xCursor = cursor.x /100;
+                    var xCursor = tw_cursor.x / tw_timelineScale;
                     console.log("x curseur : ", xCursor);
-                    tweedyTimelineData.play(xCursor);
+                    _tw_timelineData.play(xCursor);
             }
         }
 
         onEntered: {
-            lineCursor.color= 'red';
+            tw_cursorLine.color= 'red';
+            tw_cursorTop.color= 'red';
             console.log("toucheeeee");
         }
 
