@@ -16,8 +16,8 @@ class TimelineDataWrapper : public QObject
 {
 	Q_OBJECT
 
-	Q_PROPERTY( QObjectListModel* tw_clips READ getClips NOTIFY clipsChanged )
-	Q_PROPERTY( int tw_maxTime READ getMaxTime NOTIFY maxTimeChanged )
+	Q_PROPERTY( QObjectListModel* clips READ getClips NOTIFY clipsChanged )
+	Q_PROPERTY( int maxTime READ getMaxTime NOTIFY maxTimeChanged )
 
 public:
 	explicit TimelineDataWrapper( QObject *parent = 0 );

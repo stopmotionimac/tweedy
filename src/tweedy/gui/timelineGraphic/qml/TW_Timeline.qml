@@ -10,43 +10,82 @@ Rectangle {
 
 	property int tw_timelineScale: 50
 	property int tw_handleWidth: 10
+	
+	Rectangle {
+		id: tw_allTracks
+		
+		//anchors.top: parent.top
+		//anchors.left: parent.left
+		//anchors.bottom: parent.bottom
+		color: '#0000ff'
+		x: 0
+		y: 0
+		width: ( _tw_timelineData.maxTime + 10) * tw_timelineScale
+		height: parent.height
+		
+		// zone de deplacement
+		MouseArea {
+			id: tw_allTracksHandle
 
-	// delegate clip component
-	Component {
-		id: tw_clipDelegate
+            //property int tw_dragMargin: 10 * tw_timelineScale
+			anchors.fill: tw_allTracks
+            drag.axis: "XAxis"
+            //drag.minimumX: tw_allTracks.x - tw_dragMargin
+            //drag.maximumX: (tw_allTracks.x+tw_allTracks.width) + tw_dragMargin
+			drag.target: tw_allTracks
 
-		Item {
-			// use of an itermediate item allows to have hole between clips
-			id: tw_clipContainer
+			onEntered: {
+				console.log("qml tw_allTracksHandle onEntered.")
+			}
 
-			// the current clip
-			TW_Clip { }
-
-			// for technical reason: delay the destruction allows an item to remove itself
-			ListView.onRemove: SequentialAnimation {
-				PropertyAction { target: tw_clipContainer; property: "ListView.delayRemove"; value: true } // start delay remove
-				// fake animation to delay the tw_clip destruction
-				NumberAnimation { target: tw_clipContainer; property: "height"; to: tw_clipContainer.height; duration: 1; easing.type: Easing.InOutQuad }
-				// Make sure delayRemove is set back to false so that the item can be destroyed
-				PropertyAction { target: tw_clipContainer; property: "ListView.delayRemove"; value: false } // end delay remove
+			onReleased: {
+				console.log("qml tw_allTracksHandle onReleased.")
 			}
 		}
-	}
+		
+		Rectangle {
+			id: tw_track
 
-	// list of clips
-	ListView {
-		id: tw_clipsList
+			x: 0
+			y: 20
+			width: parent.width
+			height: parent.height - y
+			color: '#00ff00'
 
-		anchors.fill: parent
-		orientation: ListView.Horizontal
+			// delegate clip component
+			Component {
+				id: tw_clipDelegate
 
-		model : _tw_timelineData.tw_clips
-		delegate : tw_clipDelegate
-	}
+				// the current clip
+				TW_Clip {
+					id: tw_clip
 
-	// time manipulator item
-	TW_Cursor {
-		id: tw_timeCursor
+					// for technical reason: delay the destruction allows an item to remove itself
+					ListView.onRemove: SequentialAnimation {
+						PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: true } // start delay remove
+						// fake animation to delay the tw_clip destruction
+						NumberAnimation { target: tw_clip; property: "height"; to: 0; duration: 100; easing.type: Easing.InOutQuad }
+						// Make sure delayRemove is set back to false so that the item can be destroyed
+						PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: false } // end delay remove
+					}
+				}
+			}
+
+			// list of clips
+			ListView {
+				id: tw_clipsList
+
+				anchors.fill: parent
+				orientation: ListView.Horizontal
+
+				model : _tw_timelineData.clips
+				delegate : tw_clipDelegate
+			}
+		}
+		// time manipulator item
+		TW_Cursor {
+			id: tw_timeCursor
+		}
 	}
 }
 

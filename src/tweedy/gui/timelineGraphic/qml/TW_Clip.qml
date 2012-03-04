@@ -5,9 +5,10 @@ Rectangle {
 
 	//anchors.fill: parent
 	width: (object.timeOut - object.timeIn) * tw_timelineScale // * 0.5
-	height: tw_timeline.height
+	height: tw_track.height
 
 	x: object.timeIn * tw_timelineScale
+	y: 0
 	
 	border.color: "black"
 	border.width: 2
@@ -17,19 +18,12 @@ Rectangle {
 	Text {
 		text: object.timeIn
 	}
-	/*
-	onVisibleChanged: {
-		console.log("qml tweedyClipDelegate onVisibleChanged.")
-		console.log("object.timeIn: " + object.timeIn)
-		console.log("object.timeOut: " + object.timeOut)
-	}
-	*/
 
 	// image du Clip
 	Image {
 		id:image
-		anchors.top: parent.top
-		anchors.margins: 2
+		anchors.fill: parent
+		anchors.margins: 5
 		width: parent.width
 		height: parent.height
 		fillMode: Image.PreserveAspectFit
@@ -43,12 +37,12 @@ Rectangle {
 	MouseArea {
 		id: tw_clipHandle
 
-		anchors.fill: parent
+		anchors.fill: tw_clip
 		hoverEnabled: true
-		//drag.axis: "XAxis"
 		//drag.minimumX: 0
-		//drag.maximumX: _tw_timelineData.maxtime * tw_timelineScale - tw_timelineScale
-		//drag.target: parent
+		//drag.maximumX: _tw_timelineData.maxTime * tw_timelineScale - tw_timelineScale
+		drag.target: tw_clip
+		drag.axis: "XAxis"
 
 		onEntered: {
 			console.log("qml tw_clipHandle onEntered.")

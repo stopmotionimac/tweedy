@@ -29,17 +29,23 @@ Item {
         anchors.fill: tw_cursorTop
         drag.target: tw_cursor
         drag.axis: Drag.XAxis
+		
         onReleased: {
             tw_cursorLine.color= 'white';
             tw_cursorTop.color= 'white';
             console.log("onReleased");
-            onXChanged: {
-                    var xCursor = tw_cursor.x / tw_timelineScale;
-                    console.log("x curseur : ", xCursor);
-                    _tw_timelineData.play(xCursor);
-            }
+        }
+        onPositionChanged: {
+            var xCursor = tw_cursor.x / tw_timelineScale;
+            console.log("onPositionChanged x curseur : ", xCursor);
+            _tw_timelineData.play(xCursor);
         }
 
+        onXChanged: {
+				var xCursor = tw_cursor.x / tw_timelineScale;
+                console.log("onXChanged x curseur : ", xCursor);
+				_tw_timelineData.play(xCursor);
+		}
         onEntered: {
             tw_cursorLine.color= 'red';
             tw_cursorTop.color= 'red';
