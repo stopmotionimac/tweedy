@@ -27,7 +27,7 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
 	_qmlView->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
 
 	_qmlView->setResizeMode( QDeclarativeView::SizeRootObjectToView );
-	_qmlView->setViewportUpdateMode( QGraphicsView::FullViewportUpdate ); // test
+//	_qmlView->setViewportUpdateMode( QGraphicsView::FullViewportUpdate ); // test
 
 	//    qmlRegisterType<ClipDataWrapper>("MyClipData",1,0,"ClipData");
 	//    qmlRegisterType<TimelineDataWrapper>("MyTimelineData",1,0,"TimelineData");
