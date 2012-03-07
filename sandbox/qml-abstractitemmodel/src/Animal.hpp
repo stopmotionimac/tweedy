@@ -13,6 +13,11 @@ public:
 	Animal();
 	Animal( const QString &type, const QString &size );
 	Animal( const Animal& other );
+	Animal& operator=( const Animal& other )
+	{
+		m_type = other.m_type;
+		m_size = other.m_size;
+	}
 
 	QString type( ) const;
 	QString size( ) const;
