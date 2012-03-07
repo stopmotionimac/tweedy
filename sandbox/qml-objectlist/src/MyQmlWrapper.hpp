@@ -35,6 +35,9 @@ public:
 	
 Q_SIGNALS:
 	void myModelChanged();
+
+public Q_SLOTS:
+	void modifyQmlData();
 	
 private:
 	QObjectListModel _model;
