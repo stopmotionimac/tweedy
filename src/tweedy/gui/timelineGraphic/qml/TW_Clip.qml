@@ -151,6 +151,7 @@ Item {
 
                     onReleased: {
                             console.log("qml tw_blankClipHandle onReleased.")
+
                             _tw_timelineData.translate(parent.x / tw_timelineScale)
                             parent.z = -1;
                     }

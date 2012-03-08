@@ -31,47 +31,24 @@ public:
 	TimelineDataWrapper& operator=(const TimelineDataWrapper& other )
 	{
 		_timeInDrag = other._timeInDrag;
-		_readyToDrag = other._readyToDrag;
-		_clips.setObjectList( other._clips.objectList() );
+                _clips.setObjectList( other._clips.objectList() );
 		return *this;
 	}
 	~TimelineDataWrapper();
 
-	QObjectListModel* getClips()
-	{
-		return &_clips;
-	}
-
-	Timeline& getTimeline()
-	{
-		return Projet::getInstance().getTimeline();
-	}
-
-	const Timeline& getTimeline() const
-	{
-		return Projet::getInstance().getTimeline();
-	}
-
-	int getMaxTime() const
-	{
-		return getTimeline().getMaxTime();
-	}
-
-        int getTimeIn() const
-        {
-                return _timeInDrag;
-        }
+        QObjectListModel* getClips(){ return &_clips; }
+        Timeline& getTimeline(){ return Projet::getInstance().getTimeline(); }
+        const Timeline& getTimeline() const{ return Projet::getInstance().getTimeline(); }
+        int getMaxTime() const{ return getTimeline().getMaxTime(); }
+        int getTimeIn() const{ return _timeInDrag; }
 
 	Q_INVOKABLE void play( int time );
-
         Q_INVOKABLE void setTimeInDrag( int timeIn )
 	{
                 _timeInDrag = timeIn;
-		_readyToDrag = true;
                 Q_EMIT timeChanged(_timeInDrag);
         }
 	Q_INVOKABLE void translate( int mousePosition );
-
 	Q_INVOKABLE void displayCursor( QString );
 
 private:
@@ -79,8 +56,7 @@ private:
 	boost::signals::scoped_connection _dataConnection;
 #endif
 	int _timeInDrag;
-	bool _readyToDrag;
-	QObjectListModel _clips;
+        QObjectListModel _clips;
 
 Q_SIGNALS:
 	void clipsChanged();

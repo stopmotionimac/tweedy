@@ -13,9 +13,9 @@
 #include <boost/bind.hpp>
 
 TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
-: QObject( parent )
-, _timeInDrag( 0 )
-, _readyToDrag( false )
+: QObject( parent ),
+  _timeInDrag(0)
+
 {
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper" << std::endl;
 	// connecter l'update de la TimelineDataWrapper au signalChanged de la timeline
@@ -56,30 +56,26 @@ void TimelineDataWrapper::updateListe()
 void TimelineDataWrapper::translate( int mousePosition )
 {
 	std::cout << "TimelineDataWrapper::dragNdrop" << std::endl;
-	//std::cout << index << std::endl;
-
-	//if (!_readyToDrag)
-	// return;
 
         std::cout << "moooouuuuusssssseeeee " << mousePosition << std::endl;
 
 	ActDragNDropTLToTL action;
 
-	if( _timeInDrag == mousePosition / 100 )
-	{
-		updateListe();
-		return;
-	}
+        int timeInDrop = _timeInDrag + mousePosition;
 
-	std::string filenameDepart, filenameArrivee;
+        if (timeInDrop < 0)
+            timeInDrop = 0;
+        if (timeInDrop >= getMaxTime())
+            timeInDrop = getMaxTime() - 1;
+
+        std::string filenameDepart, filenameArrivee;
 	bool foundDrag = getTimeline().findCurrentClip( filenameDepart, _timeInDrag );
-	bool foundDrop = getTimeline().findCurrentClip( filenameArrivee, mousePosition / 100 );
+        bool foundDrop = getTimeline().findCurrentClip( filenameArrivee, timeInDrop );
 
 	if( foundDrag && foundDrop )
-		getTimeline().moveElement( filenameDepart, mousePosition / 100 );
-	//action(filenameDepart, mousePosition/100);
+            action(filenameDepart, timeInDrop);
 
-	_readyToDrag = false;
+        updateListe();
 
 	std::cout << "TimelineDataWrapper::dragNdrop end" << std::endl;
 }
