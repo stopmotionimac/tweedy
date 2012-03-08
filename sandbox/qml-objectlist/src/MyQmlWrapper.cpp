@@ -6,7 +6,14 @@
 void MyQmlWrapper::modifyQmlData()
 {
 	static int i = 0;
-	const std::string iStr = boost::lexical_cast<std::string>( i );
-	getMyModel()->append( new MyDataObject( ("ZA"+iStr).c_str(), ("ZB"+iStr).c_str() ) );
+	
+	getMyModel()->clear();
+	for( int j = 0; j <= i; ++j )
+	{
+		const std::string iStr = boost::lexical_cast<std::string>( i );
+		const std::string jStr = boost::lexical_cast<std::string>( j );
+		getMyModel()->append( new MyDataObject( ("ZA"+iStr).c_str(), ("ZB"+jStr).c_str() ) );
+	}
+	++i;
 }
 
