@@ -321,6 +321,22 @@ void Timeline::deleteBlank( int time )
 	_signalChanged();
 }
 
+
+int Timeline::getBlankDuration(Clip* clip)
+{
+    OMapClip orderedClips = getOrderedClips();
+
+    BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
+    {
+            if( s.first > clip->timeIn() )
+            {
+                    return s.first - clip->timeOut();
+            }
+    }
+    return _maxTime - clip->timeOut();
+}
+
+
 boost::signal0<void>& Timeline::getSignalChanged()
 {
 	return _signalChanged;

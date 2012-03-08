@@ -38,39 +38,20 @@ void TimelineDataWrapper::updateListe()
 	std::cout << "TimelineDataWrapper::updateListe: " << i << std::endl;
 
 	_clips.clear();
-	/*
-	for( int j = i; j < i * 2; ++j )
-	{
-		ClipDataWrapper* blank = new ClipDataWrapper( "img/none.jpg", i * 2, ( i * 2 ) + 1, this );
-		_clips.append( blank );
-	}
-	*/
+
 	Timeline::OMapClip mapClips = getTimeline().getOrderedClips();
 	int previousTimeOut = 0;
 	BOOST_FOREACH( const Timeline::OMapClip::value_type& s, mapClips )
 	{
-		if ( s.first - previousTimeOut > 0 )
-		{
-			ClipDataWrapper* blank = new ClipDataWrapper( QString::fromStdString("img/none.jpg"), previousTimeOut, s.first, this) ;
-			_clips.append(blank);
-		}
-
-		ClipDataWrapper* c = new ClipDataWrapper( QString::fromStdString((*s.second)->imgPath().string()), s.first, (*s.second)->timeOut(), this) ;
-		_clips.append(c);
-
-		previousTimeOut = (*s.second)->timeOut();
-	}
-
-	if ( previousTimeOut < getTimeline().getMaxTime() )
-	{
-		ClipDataWrapper* c = new ClipDataWrapper( QString::fromStdString("img/none.jpg"), previousTimeOut, getTimeline().getMaxTime(), this) ;
+                ClipDataWrapper* c = new ClipDataWrapper( *(s.second), this) ;
 		_clips.append(c);
 	}
-	std::cout << "TimelineDataWrapper::updateListe _clips.size(): " << _clips.size() << std::endl;
+
 	Q_EMIT clipsChanged();
 	Q_EMIT maxTimeChanged();
 	std::cout << "TimelineDataWrapper::updateListe end" << std::endl;
 }
+
 
 void TimelineDataWrapper::translate( int mousePosition )
 {
