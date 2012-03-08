@@ -30,7 +30,7 @@ public:
         QString	getEmptyLabel () const;
         void setEmptyLabel( const QString & label );
         
-        QUndoGroup * group() const;
+//        QUndoGroup * group() const;
         
         void fill();
 
@@ -45,7 +45,7 @@ private:
     QIcon _icon;
     QString _emptyLabel;
     CommandManager& _cmdMan;
-    QUndoGroup * _undoGroup;
+//    QUndoGroup * _undoGroup;
     std::stack<QString> _pileString;
     
         
