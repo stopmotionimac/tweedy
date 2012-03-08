@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 1.1
 
 Rectangle {
 	id: tw_clip
@@ -9,6 +9,7 @@ Rectangle {
 
         //x: object.timeIn * tw_timelineScale
 	y: 0
+	z: -1
 	
 	border.color: "black"
 	border.width: 2
@@ -36,7 +37,7 @@ Rectangle {
 	// zone de deplacement
 	MouseArea {
 		id: tw_clipHandle
-
+		
 		anchors.fill: tw_clip
 		hoverEnabled: true
 		//drag.minimumX: 0
@@ -44,20 +45,22 @@ Rectangle {
 		drag.target: tw_clip
 		drag.axis: "XAxis"
 
-                onClicked: {
-                        _tw_timelineData.setTimeInDrag(object.timeIn)
-                }
 
+		onPressed: {
+			console.log("qml tw_clipHandle onPressed.")
+                        _tw_timelineData.setTimeInDrag(object.timeIn);
+			parent.z = 9999;
+			}
+			
                 onEntered: {
-                    //console.log("souris relachée")
-                    //console.log(object.timeIn)
-                    //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
-		}
+                        //console.log("qml tw_clipHandle onEntered.")
+                        //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
+			}
 
 		onReleased: {
-                        //console.log("qml tw_clipHandle onReleased.")
-                        //console.log(tw_clip.x)
-                        _tw_timelineData.translate(mouseX)
+			console.log("qml tw_clipHandle onReleased.")
+			_tw_timelineData.translate(parent.x / tw_timelineScale)
+			parent.z = -1;
 		}
 	}
 
@@ -74,7 +77,7 @@ Rectangle {
 			console.log("qml tw_clipLeftHandle onEntered.")
 		}
 		onExited: {
-			_tw_timelineData.displayCursor("none")
+			_tw_timelineData.displayCursor("none");
 			console.log("qml tw_clipLeftHandle onExited.")
 		}
 	}
@@ -94,7 +97,7 @@ Rectangle {
 			console.log("qml tw_clipRightHandle onEntered.")
 		}
 		onExited: {
-			_tw_timelineData.displayCursor("none")
+			_tw_timelineData.displayCursor("none");
 			console.log("qml tw_clipRightHandle onExited.")
 		}
 	}

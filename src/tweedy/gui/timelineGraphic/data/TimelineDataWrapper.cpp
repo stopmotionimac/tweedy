@@ -80,6 +80,8 @@ void TimelineDataWrapper::translate( int mousePosition )
 	//if (!_readyToDrag)
 	// return;
 
+        std::cout << "moooouuuuusssssseeeee " << mousePosition << std::endl;
+
 	ActDragNDropTLToTL action;
 
 	if( _timeInDrag == mousePosition / 100 )
