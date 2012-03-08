@@ -1,0 +1,11 @@
+Import('project', 'libs')
+
+project.StaticLibrary(
+	target=project.getName(),
+	dirs=['src'],
+	includes=['src'],
+	libraries=[
+		libs.qt4(uiFiles=project.scanFiles(['src'], accept=['*.ui']))
+		]
+	)
+

@@ -25,9 +25,12 @@ void CmdCapturePicture::runDo()
     
     Timeline& timeline = Projet::getInstance().getTimeline();
     
+	///@todo Why not use CmdInsertClip?
+	
     //créer un nouveau clip
-    Clip clip(_filename, timeline.getId() , "clip" + boost::lexical_cast<std::string>(timeline.getNbClip()++) );
-    
+    Clip clip(_filename, timeline.getId() , "clip" + boost::lexical_cast<std::string>(timeline.getNbClip()) );
+    timeline.setNbClip( timeline.getNbClip()+1 );
+	
     _newClip = clip;
     
     //on ajoute le clip au projet
@@ -39,7 +42,7 @@ void CmdCapturePicture::runDo()
    
     
     //on ajoute le clip a la fin de la timeline (a regler avec le temps reel)
-    clip.setPosition(timeline.maxTime(),timeline.maxTime()+1);
+    clip.setPosition(timeline.getMaxTime(),timeline.getMaxTime()+1);
     timeline.addClip(clip);
     
     
@@ -70,9 +73,9 @@ void CmdCapturePicture::redo()
     Timeline& timeline = Projet::getInstance().getTimeline();
     
     //remettre le clip dans la timeline
-    _newClip.setPosition(timeline.maxTime(),timeline.maxTime()+1);
+    _newClip.setPosition(timeline.getMaxTime(),timeline.getMaxTime()+1);
     timeline.addClip(_newClip);
-    timeline.setMaxTime();
+    timeline.updateMaxTime();
 }
 
 
