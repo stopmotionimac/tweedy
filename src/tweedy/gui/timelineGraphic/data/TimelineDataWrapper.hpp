@@ -16,11 +16,11 @@ class TimelineDataWrapper : public QObject
 {
 	Q_OBJECT
 
+public:
 	Q_PROPERTY( QObjectListModel* clips READ getClips NOTIFY clipsChanged )
 	Q_PROPERTY( int maxTime READ getMaxTime NOTIFY maxTimeChanged )
     Q_PROPERTY( int timeIn READ getTimeIn NOTIFY timeChanged )
 
-public:
 	explicit TimelineDataWrapper( QObject *parent = 0 );
 
 	TimelineDataWrapper( const TimelineDataWrapper& other )
@@ -28,13 +28,8 @@ public:
 		*this = other;
 	}
 
-	TimelineDataWrapper& operator=(const TimelineDataWrapper& other )
-	{
-		_timeInDrag = other._timeInDrag;
-		_readyToDrag = other._readyToDrag;
-		_clips.setObjectList( other._clips.objectList() );
-		return *this;
-	}
+	TimelineDataWrapper& operator=(const TimelineDataWrapper& other );
+	
 	~TimelineDataWrapper();
 
 	QObjectListModel* getClips()
@@ -86,6 +81,7 @@ Q_SIGNALS:
 	void clipsChanged();
 	void maxTimeChanged();
 	void timeChanged( int time );
+	void enableUpdatesSignal( const bool update );
 
 	public 
 Q_SLOTS:

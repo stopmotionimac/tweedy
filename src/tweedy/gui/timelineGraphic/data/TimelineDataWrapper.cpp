@@ -21,10 +21,19 @@ TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 	// connecter l'update de la TimelineDataWrapper au signalChanged de la timeline
 	_dataConnection = getTimeline().getSignalChanged().connect(
 								boost::bind( &TimelineDataWrapper::updateListe,
-								*this ) );
+								this ) );
 
 	updateListe();
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper end" << std::endl;
+}
+
+TimelineDataWrapper& TimelineDataWrapper::operator=(const TimelineDataWrapper& other )
+{
+	std::cout << "TimelineDataWrapper::operator=()" << std::endl;
+	_timeInDrag = other._timeInDrag;
+	_readyToDrag = other._readyToDrag;
+	_clips.setObjectList( other._clips.objectList() );
+	return *this;
 }
 
 TimelineDataWrapper::~TimelineDataWrapper()
@@ -33,8 +42,14 @@ TimelineDataWrapper::~TimelineDataWrapper()
 
 void TimelineDataWrapper::updateListe()
 {
+	// Prevent all connected widgets to not update content view at each
+	// modification step (which creates flick artefacts).
+	// Update/repaint widgets connected to this view at the end of all modifications.
+	Q_EMIT enableUpdatesSignal( false );
+	
 	static int i = 0;
 	++i;
+	std::cout << "TimelineDataWrapper ptr: " << this << std::endl;
 	std::cout << "TimelineDataWrapper::updateListe: " << i << std::endl;
 
 	_clips.clear();
@@ -67,9 +82,10 @@ void TimelineDataWrapper::updateListe()
 		_clips.append(c);
 	}
 	std::cout << "TimelineDataWrapper::updateListe _clips.size(): " << _clips.size() << std::endl;
-	Q_EMIT clipsChanged();
 	Q_EMIT maxTimeChanged();
 	std::cout << "TimelineDataWrapper::updateListe end" << std::endl;
+	
+	Q_EMIT enableUpdatesSignal( true );
 }
 
 void TimelineDataWrapper::translate( int mousePosition )
