@@ -7,7 +7,7 @@ Rectangle {
 	width: (object.timeOut - object.timeIn) * tw_timelineScale // * 0.5
 	height: tw_track.height
 
-	x: object.timeIn * tw_timelineScale
+        //x: object.timeIn * tw_timelineScale
 	y: 0
 	
 	border.color: "black"
@@ -49,13 +49,15 @@ Rectangle {
                 }
 
                 onEntered: {
-                        //console.log("qml tw_clipHandle onEntered.")
-                        //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
+                    //console.log("souris relachée")
+                    //console.log(object.timeIn)
+                    //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
 		}
 
 		onReleased: {
-			console.log("qml tw_clipHandle onReleased.")
-			_tw_timelineData.translate(parent.x / tw_timelineScale)
+                        //console.log("qml tw_clipHandle onReleased.")
+                        //console.log(tw_clip.x)
+                        _tw_timelineData.translate(mouseX)
 		}
 	}
 
