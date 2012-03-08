@@ -51,41 +51,33 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 
             int type = projectInstance.gPhotoInstance().getTypeWidget(widgetsVector.at(i));
 
-            //If radio
-            //if (projectInstance.gPhotoInstance().isRadioOrMenu(widgetsVector.at(i))) {
-            if (type == 5) {
+            switch( type )
+            {
+                case GP_WIDGET_RADIO:
+                {
+                    /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
 
-                //récupérer la valeur par défaut
-                //
-                //
-                projectInstance.gPhotoInstance().getValue(widgetsVector.at(i));
+                    GPhotoWidgetText * radio = new GPhotoWidgetText( widgetsVector.at(i)/*, this*/);
+                    /*make the menu*/
+                    QPushButton * buttonChoice = radio->makeMenu();
+                    layoutForOneParam->addWidget(buttonChoice);
+                    radio->putChoicesIntoMenu();
 
-                int nbChoices = projectInstance.gPhotoInstance().CountChoices(widgetsVector.at(i));
-                //std::cout<<"NB CHOICES : "<<nbChoices<<std::endl;
-
-                //For the QMenu
-                QMenu * menuChoice = new QMenu(this);
-                QPushButton * buttonChoice = new QPushButton(this);
-                buttonChoice->setMenu(menuChoice);
-
-                layoutForOneParam->addWidget(buttonChoice);
-
-
-                //get each choices to make a menu
-                for (int j = 0; j< nbChoices; ++j) {
-                    std::string choiceName = projectInstance.gPhotoInstance().getChoice(widgetsVector.at(i), j);
-                    //std::cout<<"NAME CHOICE => "<<choiceName<<std::endl;
-                    //menuChoice->addMenu(QString::fromStdString(choiceName));
-
-                    /*make the appropriate action*/
-                    _setValue = new QAction(this);
-                    _setValue = menuChoice->addAction(QString::fromStdString(choiceName));
-
-                    menuChoice->addAction(_setValue);
-                    connect(_setValue, SIGNAL(triggered()), this, SLOT(on_setValue_triggered(/*widgetsVector.at(i), choiceName*/)));
-
+                    //connect(_setValue, SIGNAL(setParamToGPhoto(CameraWidget&, void*)), this, SLOT(onSetValueToGPhoto(CameraWidget&, void*)));
+                    break;
                 }
+
+//                case GP_WIDGET_TOGGLE:
+//                {
+//                    break;
+//                }
+
+//                case GP_WIDGET_TEXT:
+//                {
+//                    break;
+//                }
             }
+
             //If toggle (yes/no)
             if (type == 4) {
 
@@ -129,9 +121,8 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 
 }
 
-void ConfigCamera::on_setValue_triggered(/*CameraWidget *widget, const void *value*/) {
-    Projet& projectInstance = Projet::getInstance();
-   // projectInstance.gPhotoInstance().setValue(widget, value);
-    std::cout<<"OK ACTION"<<std::endl;
 
+void ConfigCamera::on_setValueToGPhoto(CameraWidget * widget, const void *value) {
+    //    Projet& projectInstance = Projet::getInstance();
+    //   // projectInstance.gPhotoInstance().setValue(widget, value);
 }

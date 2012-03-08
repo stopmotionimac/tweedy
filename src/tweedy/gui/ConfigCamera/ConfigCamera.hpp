@@ -3,6 +3,10 @@
 
 #include <tweedy/core/Projet.hpp>
 
+#include <tweedy/gui/ConfigCamera/GPhotoWidgetText.hpp>
+#include <tweedy/gui/ConfigCamera/GPhotoWidgetRadio.hpp>
+#include <tweedy/gui/ConfigCamera/GPhotoWidgetToggle.hpp>
+
 #include <QtGui/QWidget>
 #include <QtGui/QToolButton>
 #include <QtGui/QLabel>
@@ -28,13 +32,18 @@ public:
    signals:
    void changeValueSignal(int i);
 */
+
+/*Q_SIGNALS:
+   void changeValueSignal(int i);
+*/
+
 private Q_SLOTS:
-   void on_setValue_triggered(/*CameraWidget * widget, const void *value*/);
+   //void on_setValue_triggered(/*CameraWidget * widget, const void *value*/);
+   void on_setValueToGPhoto(CameraWidget * widget, const void *value);
 
+//private:
 
-private:
-
-   QAction * _setValue;
+//   QAction * _setValue;
 
 };
 
