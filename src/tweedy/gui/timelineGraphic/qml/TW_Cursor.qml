@@ -25,14 +25,15 @@ Item {
         id: tw_cursorTop
         width: 10
         height: 20
-		color: 'white'
+        x: _tw_timelineData.timeIn * tw_timelineScale - 5
+        color: 'white'
     }
     Rectangle {
         id: tw_cursorLine
         width: 2
         height: tw_timeline.height
-		x: tw_cursorTop.width/2 - width/2
-		color: 'white'
+        x: _tw_timelineData.timeIn * tw_timelineScale//tw_cursorTop.width/2 - width/2
+        color: 'white'
     }
     MouseArea {
         id: tw_cursorHandle

@@ -34,13 +34,13 @@ Rectangle {
             //drag.maximumX: (tw_allTracks.x+tw_allTracks.width) + tw_dragMargin
 			drag.target: tw_allTracks
 
-			onEntered: {
+                        onEntered: {
 				console.log("qml tw_allTracksHandle onEntered.")
 			}
 
 			onReleased: {
-				console.log("qml tw_allTracksHandle onReleased.")
-			}
+                                console.log("qml tw_allTracksHandle onReleased.")
+                        }
 		}
 		
 		Rectangle {
@@ -80,7 +80,8 @@ Rectangle {
 
 				model : _tw_timelineData.clips
 				delegate : tw_clipDelegate
-				/*
+
+                                /*
 				MouseArea {
 					id: tw_clipsListHandle
 					drag.axis: "XAxis"
@@ -95,9 +96,11 @@ Rectangle {
 					onReleased: {
 						console.log("qml tw_clipsListHandle onReleased.")
 					}
-				}
-				*/
+                                }*/
+
 			}
+
+
 		}
 		
 		// time manipulator item
