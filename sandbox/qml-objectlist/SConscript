@@ -1,0 +1,24 @@
+Import('project', 'libs')
+
+project.Program(
+	target=project.getName(),
+	dirs=['src'],
+	libraries=[
+		libs.qt4(
+			uiFiles=project.scanFiles(['src'],accept=['*.ui']),
+			modules = [
+				'QtCore',
+				'QtOpenGL',
+				'QtGui',
+				'QtScript',
+				'QtDeclarative',
+				'QtXmlPatterns', # QML dependencies
+				'QtNetwork', # QML dependencies
+				'QtSvg', # QML dependencies
+				'QtSql', # QML dependencies
+				],
+			),
+		libs.QObjectListModel,
+		]
+	)
+

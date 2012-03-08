@@ -23,7 +23,7 @@ void CmdClipSetTimeRange::runDo(){
     Projet& projet = Projet::getInstance();
     std::cout << _idClip << _value << std::endl;
     projet.getTimeline().addTimeToClip(_idClip,_value);
-    std::cout << projet.getTimeline().maxTime() << std::endl;
+    std::cout << projet.getTimeline().getMaxTime() << std::endl;
     
     //_clip.setTimeOut(_clip.timeOut()+_value);
 }
@@ -38,7 +38,7 @@ void CmdClipSetTimeRange::undo(){
     Projet& projet = Projet::getInstance();
     projet.getTimeline().addTimeToClip(_idClip,-_value);
     
-    std::cout << projet.getTimeline().maxTime() << std::endl;
+    std::cout << projet.getTimeline().getMaxTime() << std::endl;
 
     std::cout << "undo" << std::endl;
 }
