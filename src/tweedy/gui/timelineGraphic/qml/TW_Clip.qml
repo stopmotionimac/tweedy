@@ -44,14 +44,23 @@ Rectangle {
 		drag.target: tw_clip
 		drag.axis: "XAxis"
 
+                onPressed: {
+                    tw_clip.color = "#FFFFFF"
+                }
+
                 onClicked: {
                         _tw_timelineData.setTimeInDrag(object.timeIn)
                 }
 
                 onEntered: {
+                    tw_clip.color = "#000000"
                         //console.log("qml tw_clipHandle onEntered.")
                         //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
 		}
+
+                onExited: {
+
+                }
 
 		onReleased: {
 			console.log("qml tw_clipHandle onReleased.")

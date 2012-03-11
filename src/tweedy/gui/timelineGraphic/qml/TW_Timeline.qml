@@ -27,12 +27,16 @@ Rectangle {
 		MouseArea {
 			id: tw_allTracksHandle
 
-            //property int tw_dragMargin: 10 * tw_timelineScale
+                        //property int tw_dragMargin: 10 * tw_timelineScale
 			anchors.fill: tw_allTracks
-            drag.axis: "XAxis"
-            //drag.minimumX: tw_allTracks.x - tw_dragMargin
-            //drag.maximumX: (tw_allTracks.x+tw_allTracks.width) + tw_dragMargin
+                        drag.axis: "XAxis"
+                        //drag.minimumX: tw_allTracks.x - tw_dragMargin
+                        //drag.maximumX: (tw_allTracks.x+tw_allTracks.width) + tw_dragMargin
 			drag.target: tw_allTracks
+
+                        onClicked: {
+                            tw_timeCursor.x = mouseX;
+                        }
 
 			onEntered: {
 				console.log("qml tw_allTracksHandle onEntered.")
@@ -50,7 +54,7 @@ Rectangle {
 			y: 20
 			width: parent.width
 			height: parent.height - y
-			color: '#00ff00'
+                        color: '#00ff00'
 
 			// delegate clip component
 			Component {
@@ -86,6 +90,10 @@ Rectangle {
 		TW_Cursor {
 			id: tw_timeCursor
 		}
+
+                Rectangle {
+
+                }
 	}
 }
 
