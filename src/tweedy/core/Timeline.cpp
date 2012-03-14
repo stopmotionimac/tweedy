@@ -8,7 +8,7 @@ Timeline::Timeline(const Id& idParent, const std::string& id)
 : Imedia(ImediaTypeTimeline), _maxTime(0), _nbClip(0),_id(idParent,id)
 {
   
-    
+   /* 
     Clip c1("img/tweedy0.jpg", getId() , "clip" + boost::lexical_cast<std::string>(_nbClip++) );
     c1.setPosition(0,1);
     
@@ -41,6 +41,7 @@ Timeline::Timeline(const Id& idParent, const std::string& id)
   
     
     setMaxTime();
+    * */
 }
 
 Timeline::Timeline(const Timeline& timeline) : Imedia(timeline),_id(timeline._id)
