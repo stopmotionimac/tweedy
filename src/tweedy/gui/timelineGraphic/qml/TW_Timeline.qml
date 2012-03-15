@@ -1,6 +1,9 @@
 import QtQuick 1.1
 
+
+//grey rect
 Rectangle {
+
         id: tw_timeline
         anchors.margins: 20
         anchors.fill: parent
@@ -11,6 +14,7 @@ Rectangle {
         property int tw_timelineScale: 50
         property int tw_handleWidth: 10
 
+        //blue rect
         Rectangle {
                 id: tw_allTracks
 
@@ -47,44 +51,45 @@ Rectangle {
                                 console.log("qml tw_allTracksHandle onReleased.")
                         }
                 }
+		
+                //green rect
+		Rectangle {
+			id: tw_track
 
-                Rectangle {
-                        id: tw_track
+			x: 0
+			y: 20
+			width: parent.width
+			height: parent.height - y
+			color: '#00ff00'
+			
+			// delegate clip component
+			Component {
+				id: tw_clipDelegate
 
-                        x: 0
-                        y: 20
-                        width: parent.width
-                        height: parent.height - y
-                        color: '#00ff00'
+				// the current clip
+				TW_Clip {
+					id: tw_clip
 
-                        // delegate clip component
-                        Component {
-                                id: tw_clipDelegate
+					// for technical reason: delay the destruction allows an item to remove itself
+					ListView.onRemove: SequentialAnimation {
+						PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: true } // start delay remove
+						// fake animation to delay the tw_clip destruction
+						NumberAnimation { target: tw_clip; property: "height"; to: 0; duration: 100; easing.type: Easing.InOutQuad }
+						// Make sure delayRemove is set back to false so that the item can be destroyed
+						PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: false } // end delay remove
+					}
+				}
+			}
 
-                                // the current clip
-                                TW_Clip {
-                                        id: tw_clip
+			// list of clips
+			ListView {
+				id: tw_clipsList
 
-                                        // for technical reason: delay the destruction allows an item to remove itself
-                                        ListView.onRemove: SequentialAnimation {
-                                                PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: true } // start delay remove
-                                                // fake animation to delay the tw_clip destruction
-                                                NumberAnimation { target: tw_clip; property: "height"; to: 0; duration: 100; easing.type: Easing.InOutQuad }
-                                                // Make sure delayRemove is set back to false so that the item can be destroyed
-                                                PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: false } // end delay remove
-                                        }
-                                }
-                        }
+				anchors.fill: parent
+				orientation: ListView.Horizontal
 
-                        // list of clips
-                        ListView {
-                                id: tw_clipsList
-
-                                anchors.fill: parent
-                                orientation: ListView.Horizontal
-
-                                model : _tw_timelineData.clips
-                                delegate : tw_clipDelegate
+				model : _tw_timelineData.clips
+				delegate : tw_clipDelegate
 
                                 /*
                                 MouseArea {
