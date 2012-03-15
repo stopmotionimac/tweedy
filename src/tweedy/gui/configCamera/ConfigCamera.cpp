@@ -25,7 +25,7 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
         QVBoxLayout * layoutForListOfParam = new QVBoxLayout(this);
 
         QWidget * widgetForListOfParam = new QWidget(this);
-        //Chance size in fonction of nuber of config
+        //Change size in fonction of nuber of config
 
         widgetForListOfParam->setLayout(layoutForListOfParam);
 
@@ -57,11 +57,11 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
                 {
                     /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
 
-                    GPhotoWidgetText * radio = new GPhotoWidgetText( widgetsVector.at(i)/*, this*/);
+                    GPhotoWidgetTextItems * textItems = new GPhotoWidgetTextItems( widgetsVector.at(i)/*, this*/);
                     /*make the menu*/
-                    QPushButton * buttonChoice = radio->makeMenu();
+                    QComboBox * buttonChoice = textItems->makeMenu();
                     layoutForOneParam->addWidget(buttonChoice);
-                    radio->putChoicesIntoMenu();
+                    textItems->putChoicesIntoMenu();
 
                     //connect(_setValue, SIGNAL(setParamToGPhoto(CameraWidget&, void*)), this, SLOT(onSetValueToGPhoto(CameraWidget&, void*)));
                     break;
@@ -122,7 +122,7 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 }
 
 
-void ConfigCamera::on_setValueToGPhoto(CameraWidget * widget, const void *value) {
-    //    Projet& projectInstance = Projet::getInstance();
-    //   // projectInstance.gPhotoInstance().setValue(widget, value);
-}
+//void ConfigCamera::on_setValueToGPhoto(CameraWidget * widget, const void *value) {
+//        Projet& projectInstance = Projet::getInstance();
+//       // projectInstance.gPhotoInstance().setValue(widget, value);
+//}
