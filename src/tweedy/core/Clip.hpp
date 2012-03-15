@@ -44,6 +44,7 @@ public:
     const boost::filesystem::path& imgPath() const { return _imgPath; }
     unsigned int timeIn() const { return _timeIn; }
     unsigned int timeOut() const { return _timeOut; }
+
     void setPosition(unsigned int ti, unsigned int to) { _timeIn = ti; _timeOut = to; }
     void increaseTimeIn(int value){ _timeIn += value; }
     void increaseTimeOut(int value){ _timeOut += value; }

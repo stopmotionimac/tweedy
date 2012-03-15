@@ -1,4 +1,4 @@
-import QtQuick 1.0
+import QtQuick 1.1
 
 Item {
     id: tw_cursor
@@ -10,7 +10,9 @@ Item {
         smooth: true
 
     }*/
+    //x = -tw_cursorTop.width/2
 
+	/*
     Rectangle {
         id: tw_cursorLine
         width: 2
@@ -18,11 +20,20 @@ Item {
         height: tw_timeline.height
 		color: 'white'
     }
+	*/
     Rectangle {
         id: tw_cursorTop
         width: 10
         height: 20
-		color: 'white'
+        x: _tw_timelineData.timeIn * tw_timelineScale - 5
+        color: 'white'
+    }
+    Rectangle {
+        id: tw_cursorLine
+        width: 2
+        height: tw_timeline.height
+        x: _tw_timelineData.timeIn * tw_timelineScale//tw_cursorTop.width/2 - width/2
+        color: 'white'
     }
     MouseArea {
         id: tw_cursorHandle
@@ -33,23 +44,16 @@ Item {
         onReleased: {
             tw_cursorLine.color= 'white';
             tw_cursorTop.color= 'white';
-            console.log("onReleased");
         }
         onPositionChanged: {
             var xCursor = tw_cursor.x / tw_timelineScale;
-            console.log("onPositionChanged x curseur : ", xCursor);
+            //console.log("onPositionChanged x curseur : ", xCursor);
             _tw_timelineData.play(xCursor);
         }
 
-        onXChanged: {
-				var xCursor = tw_cursor.x / tw_timelineScale;
-                console.log("onXChanged x curseur : ", xCursor);
-				_tw_timelineData.play(xCursor);
-		}
         onEntered: {
             tw_cursorLine.color= 'red';
             tw_cursorTop.color= 'red';
-            console.log("toucheeeee");
         }
 
 

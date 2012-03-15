@@ -51,6 +51,7 @@ public:
 	//void insertClip(const std::string& newClipName, double currentTime);
 	void addTimeToClip( const std::string& clipName, double decalage );
 	bool findCurrentClip( std::string & filename, int time ) const;
+        int getBlankDuration(Clip* clip);
 
 
 	const Id& getId() const;

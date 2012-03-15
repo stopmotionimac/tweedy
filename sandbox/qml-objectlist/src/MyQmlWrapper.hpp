@@ -18,6 +18,20 @@ class MyQmlWrapper : public QObject
 public:
     Q_PROPERTY( QObjectListModel* myModel READ getMyModel NOTIFY myModelChanged )
 	
+	MyQmlWrapper()
+	{}
+	MyQmlWrapper( const MyQmlWrapper& other )
+	{
+		*this = other;
+	}
+	MyQmlWrapper& operator=( const MyQmlWrapper& other )
+	{
+		std::cout << "MyQmlWrapper::operator=()" << std::endl;
+		_model.setObjectList( other._model.objectList() );
+	}
+	
+public:
+	
 	QObjectListModel* getMyModel() { return &_model; }
 	
     Q_INVOKABLE void add()
@@ -35,6 +49,9 @@ public:
 	
 Q_SIGNALS:
 	void myModelChanged();
+
+public Q_SLOTS:
+	void modifyQmlData();
 	
 private:
 	QObjectListModel _model;
