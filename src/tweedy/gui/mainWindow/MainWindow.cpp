@@ -44,6 +44,11 @@ MainWindow::MainWindow()
 	this->adjustSize();
 }
 
+MainWindow::~MainWindow()
+{
+
+}
+
 void MainWindow::createActions()
 {
 
@@ -102,6 +107,8 @@ void MainWindow::createStartWindow()
 
 	//creation fenetre de demarrage
 	_startWindowDialog = new StartWindow();
+	/// @todo Le titre est deja sette dans StartWindow !
+	/// Pourquoi ne pas tout faire dans StartWindow ??
 	_startWindowDialog->setWindowTitle( tr( "TWEEDY - stop motion software" ) );
 	_startWindowDialog->setWindowFlags( Qt::WindowStaysOnTopHint );
 	_startWindowDialog->setModal( false );
@@ -157,12 +164,10 @@ void MainWindow::createMenuBar()
 	_helpMenu = menuBar()->addMenu( tr( "Help" ) );
 	_helpMenu->addAction( _aboutAction );
 	_helpMenu->addAction( _aboutQtAction );
-
 }
 
 void MainWindow::createToolBar()
 {
-
 	_fileToolBar = addToolBar( "File" );
 	_fileToolBar->addAction( _newProjectAction );
 	_fileToolBar->addAction( _openProjectAction );
@@ -178,58 +183,71 @@ void MainWindow::createToolBar()
 
 void MainWindow::createWidgets()
 {
-	//Dock Chutier
+	{
+		// Dock Chutier
+		QDockWidget * chutierDock = new QDockWidget( "Media List", this );
+		{
+			_chutier = new Chutier( chutierDock );
+			chutierDock->setWidget( _chutier );
+			addDockWidget( Qt::TopDockWidgetArea, chutierDock );
+			_viewMenu->addAction( chutierDock->toggleViewAction() );
+			_viewMenu->addAction( _chutier->_viewerChutierDock->toggleViewAction() );
+		}
+		// Dock UndoWidget
+		QDockWidget * undoDock = new QDockWidget( "Command List", this );
+		{
+			_undoView = new UndoView( Projet::getInstance().getCommandManager(), undoDock );
+			_undoWidget = new UndoWidget( _undoView );
+			undoDock->setWidget( _undoWidget );
+			addDockWidget( Qt::TopDockWidgetArea, undoDock );
+			_viewMenu->addAction( undoDock->toggleViewAction() );
+		}
+		// Dock Config Camera
+		QDockWidget * configCameraDock = new QDockWidget( "Camera Configuration", this );
+		{
+			_configCamera = new ConfigCamera( configCameraDock );
+			configCameraDock->setWidget( ( _configCamera ) );
+			addDockWidget( Qt::TopDockWidgetArea, configCameraDock );
+			_viewMenu->addAction( configCameraDock->toggleViewAction() );
 
-	QDockWidget * chutierDock = new QDockWidget( "Media List", this );
-	_chutier = new Chutier( chutierDock );
-	chutierDock->setWidget( _chutier );
-	addDockWidget( Qt::TopDockWidgetArea, chutierDock );
-	_viewMenu->addAction( chutierDock->toggleViewAction() );
-	_viewMenu->addAction( _chutier->_viewerChutierDock->toggleViewAction() );
+		}
+		tabifyDockWidget( chutierDock, undoDock );
+		tabifyDockWidget( chutierDock, configCameraDock );
+		undoDock->setHidden( true );
+		undoDock->setFloating( true );
+		configCameraDock->setHidden( true );
+		configCameraDock->setFloating( true );
+	}
+	
+	{
+		// Dock Timeline Table
+		QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
+		_timelineTable = new TimelineTable( timelineDock );
+		timelineDock->setWidget( _timelineTable );
+		addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
+		_viewMenu->addAction( timelineDock->toggleViewAction() );
+		
+		connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+		connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
+	}
+	{
+		// Dock Timeline QML
+		QDockWidget * graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
+		_timelineGraphic = new TimelineGraphic( graphicTimelineDock );
+		graphicTimelineDock->setWidget( _timelineGraphic );
+		addDockWidget( Qt::BottomDockWidgetArea, graphicTimelineDock );
+//		graphicTimelineDock->setFloating( true );
+//		graphicTimelineDock->setHidden( true );
+		_viewMenu->addAction( graphicTimelineDock->toggleViewAction() );
+	}
 
-
-	//Dock Timeline
-
-	QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
-	_timelineTable = new TimelineTable( timelineDock );
-	timelineDock->setWidget( _timelineTable );
-	addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
-	_viewMenu->addAction( timelineDock->toggleViewAction() );
-
-	//Dock Viewer
-
+	// Dock Viewer
 	createWidgetViewer();
-
-	//Dock UndoWidget
-
-	QDockWidget * undoDock = new QDockWidget( "Command List" );
-
-	_undoView = new UndoView( Projet::getInstance().getCommandManager() );
-	_undoWidget = new UndoWidget( _undoView );
-	undoDock->setWidget( _undoWidget );
-	_viewMenu->addAction( undoDock->toggleViewAction() );
-
-	//Dock essai QML
-
-	QDockWidget * dockGraphicTimeline = new QDockWidget( "Graphic Timeline" );
-	_timelineGraphic = new TimelineGraphic( dockGraphicTimeline );
-	dockGraphicTimeline->setWidget( _timelineGraphic );
-	_viewMenu->addAction( dockGraphicTimeline->toggleViewAction() );
-
-
-	//Dock Config Camera
-
-	QDockWidget * configCameraDock = new QDockWidget( "Camera Configuration" );
-	_configCamera = new ConfigCamera( configCameraDock );
-	configCameraDock->setWidget( ( _configCamera ) );
-	_viewMenu->addAction( configCameraDock->toggleViewAction() );
-
-	connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+	
 }
 
 void MainWindow::createWidgetViewer()
 {
-
 	QDockWidget * contentViewerDock = new QDockWidget( "Viewer", this );
 	_viewerImg = new ViewerTweedy( contentViewerDock );
 	contentViewerDock->setWidget( _viewerImg );
@@ -240,6 +258,9 @@ void MainWindow::createWidgetViewer()
 	_viewerImg->getCaptureButton()->setDefaultAction( _captureAction );
 	_viewerImg->getCaptureButton()->setIconSize( QSize( 60, 60 ) );
 
+	/// @todo ne pas appeler la timeline depuis le viewer !
+	/// Mais emettre des signaux dans chacun et repasser par la MainWindow,
+	/// pour changer le temps.
 	//connexions boutons du viewer avec actions de la timeline
 	_viewerImg->getNextButton()->setDefaultAction( _timelineTable->getNextAction() );
 	_viewerImg->getNextButton()->setIconSize( QSize( 30, 30 ) );
@@ -250,7 +271,6 @@ void MainWindow::createWidgetViewer()
 	_viewerImg->getRetour0Button()->setDefaultAction( _timelineTable->getRetour0Action() );
 	_viewerImg->getRetour0Button()->setIconSize( QSize( 30, 30 ) );
 	//timer
-	connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
 	//connection slider
 	_viewerImg->getTempsSlider()->setTickPosition( QSlider::TicksAbove );
 	//signal : valueChanged() : Emitted when the slider's value has changed.
@@ -481,10 +501,5 @@ void MainWindow::on_loadProjectAction_triggered()
 
 	//std::cout << "chargement" << std::endl;
 	_timelineTable->updateTable();
-
-}
-
-MainWindow::~MainWindow()
-{
 
 }

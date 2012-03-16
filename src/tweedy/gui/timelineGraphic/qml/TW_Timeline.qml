@@ -1,23 +1,26 @@
 import QtQuick 1.1
 
+
+//grey rect
 Rectangle {
 	id: tw_timeline
 	anchors.margins: 20
 	anchors.fill: parent
 	width: 1000
 	height: 200
-	color: "#414042"
+        color: "#414042"
 
 	property int tw_timelineScale: 50
 	property int tw_handleWidth: 10
 	
+        //blue rect
 	Rectangle {
 		id: tw_allTracks
 		
 		//anchors.top: parent.top
 		//anchors.left: parent.left
 		//anchors.bottom: parent.bottom
-		color: '#0000ff'
+                color: '#0000ff'
 		x: 0
 		y: 0
 		width: ( _tw_timelineData.maxTime + 10) * tw_timelineScale
@@ -43,6 +46,7 @@ Rectangle {
                         }
 		}
 		
+                //green rect
 		Rectangle {
 			id: tw_track
 

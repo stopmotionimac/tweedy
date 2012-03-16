@@ -36,7 +36,7 @@ UndoView::UndoView( CommandManager& cmdManager, QWidget * parent )
 
 UndoView::~UndoView()
 {
-	delete this->_undoGroup;
+//	delete this->_undoGroup;
 }
 
 QIcon UndoView::cleanIcon() const
@@ -59,10 +59,10 @@ void UndoView::setEmptyLabel( const QString & label )
 	this->_emptyLabel = label;
 }
 
-QUndoGroup * UndoView::group() const
-{
-	return this->_undoGroup;
-}
+//QUndoGroup * UndoView::group() const
+//{
+//	return this->_undoGroup;
+//}
 
 void UndoView::fill()
 {

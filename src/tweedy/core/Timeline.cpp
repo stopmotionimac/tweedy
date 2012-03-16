@@ -5,14 +5,10 @@
 
 Timeline::Timeline( const Id& idParent, const std::string& id )
 
-: Imedia( ImediaTypeTimeline ), _maxTime( 2 ), _nbClip( 2 ), _id( idParent, id )
+: Imedia( ImediaTypeTimeline ), _maxTime( 2 ), _nbClip( 1 ), _id( idParent, id )
 /*: Imedia(ImediaTypeTimeline), _maxTime(1), _nbClip(1),_id(idParent,id)*/
 {
-	Clip blank( "img/none.jpg", getId(), "blank" );
-	blank.setPosition( 0, 1 );
-	_mapClip[blank.getId().getIdStringForm()] = blank;
-
-	Clip realTime( "img/flux.jpg", getId(), "flux" );
+        Clip realTime( "img/flux.jpg", getId(), "flux" );
 	realTime.setPosition( 1, 2 );
 	_mapClip[realTime.getId().getIdStringForm()] = realTime;
 
@@ -325,15 +321,18 @@ void Timeline::deleteBlank( int time )
 int Timeline::getBlankDuration(Clip* clip)
 {
     OMapClip orderedClips = getOrderedClips();
+    int previousTimeOut = 0;
 
     BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
     {
-            if( s.first > clip->timeIn() )
+            if( clip->timeIn() >= ( *s.second )->timeOut() )
             {
-                    return s.first - clip->timeOut();
+                    previousTimeOut = ( *s.second )->timeOut();
             }
+            else
+                break;
     }
-    return _maxTime - clip->timeOut();
+    return clip->timeIn() - previousTimeOut;
 }
 
 
