@@ -3,7 +3,6 @@ import QtQuick 1.0
 Item{
     id:tw_scrollArea
 
-
     Rectangle{
         id: tw_fullBar
         width:800
@@ -62,7 +61,7 @@ Item{
                        }
 
 
-                   _tw_timelineData.timelineScale = 800*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
+                   _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
                    tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
                }
            }

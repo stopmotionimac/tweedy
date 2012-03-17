@@ -14,6 +14,7 @@
 
 class TimelineDataWrapper : public QObject
 {
+
 	Q_OBJECT
 
 public:
@@ -30,8 +31,8 @@ public:
 	}
 
 	TimelineDataWrapper& operator=(const TimelineDataWrapper& other );
-	
-	~TimelineDataWrapper();
+
+	~TimelineDataWrapper( );
 
         QObjectListModel* getClips(){ return &_clips; }
         Timeline& getTimeline(){ return Projet::getInstance().getTimeline(); }
@@ -42,11 +43,12 @@ public:
         void setTimelineScale(int timelineScale) { _timelineScale = timelineScale; Q_EMIT timelineScaleChanged();  }
 
 	Q_INVOKABLE void play( int time );
-        Q_INVOKABLE void setTimeInDrag( int timeIn )
+
+	Q_INVOKABLE void setTimeInDrag( int timeIn )
 	{
-                _timeInDrag = timeIn;
-                Q_EMIT timeChanged(_timeInDrag);
-        }
+		_timeInDrag = timeIn;
+		Q_EMIT timeChanged( _timeInDrag );
+	}
 	Q_INVOKABLE void translate( int mousePosition );
 	Q_INVOKABLE void displayCursor( QString );
 
@@ -59,15 +61,17 @@ private:
         int _timelineScale;
 
 Q_SIGNALS:
-	void clipsChanged();
-	void maxTimeChanged();
+	void clipsChanged( );
+	void maxTimeChanged( );
 	void timeChanged( int time );
 	void enableUpdatesSignal( const bool update );
         void timelineScaleChanged();
 
-	public 
-Q_SLOTS:
-	void updateListe();
+public:
+	void coreDataChanged( );
+
+private:
+	void updateListe( );
 };
 
 
