@@ -23,6 +23,7 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
 	this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
 	this->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
 	this->setResizeMode( QDeclarativeView::SizeRootObjectToView );
+
 	connect( &_timelineData, SIGNAL( enableUpdatesSignal( const bool ) ), this, SLOT( onEnableUpdates( const bool ) ) );
 
 	_qmlFileWatcher.addPath( _timelineQmlFile );

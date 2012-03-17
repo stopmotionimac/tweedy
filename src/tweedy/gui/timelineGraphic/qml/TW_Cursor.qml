@@ -16,7 +16,7 @@ Item {
     Rectangle {
         id: tw_cursorLine
         width: 2
-        x: _tw_timelineData.timeIn * tw_timelineScale  //tw_cursorTop.width/2 - width/2
+        x: _tw_timelineData.timeIn * _tw_timelineData.timelineScale  //tw_cursorTop.width/2 - width/2
         height: tw_timeline.height
 		color: 'white'
     }
@@ -25,14 +25,14 @@ Item {
         id: tw_cursorTop
         width: 10
         height: 20
-        x: _tw_timelineData.timeIn * tw_timelineScale - 5
+        x: _tw_timelineData.timeIn * _tw_timelineData.timelineScale - 5
         color: 'white'
     }
     Rectangle {
         id: tw_cursorLine
         width: 2
         height: tw_timeline.height
-        x: _tw_timelineData.timeIn * tw_timelineScale//tw_cursorTop.width/2 - width/2
+        x: _tw_timelineData.timeIn * _tw_timelineData.timelineScale//tw_cursorTop.width/2 - width/2
         color: 'white'
     }
     MouseArea {
@@ -46,7 +46,7 @@ Item {
             tw_cursorTop.color= 'white';
         }
         onPositionChanged: {
-            var xCursor = tw_cursor.x / tw_timelineScale;
+            var xCursor = tw_cursor.x / _tw_timelineData.timelineScale;
             //console.log("onPositionChanged x curseur : ", xCursor);
             _tw_timelineData.play(xCursor);
         }

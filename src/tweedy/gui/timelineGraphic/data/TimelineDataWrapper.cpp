@@ -13,8 +13,9 @@
 #include <boost/bind.hpp>
 
 TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
-: QObject( parent )
-, _timeInDrag( 0 )
+: QObject( parent ),
+  _timeInDrag(0),
+  _timelineScale(50)
 {
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper" << std::endl;
 	// connecter l'update de la TimelineDataWrapper au signalChanged de la timeline
@@ -75,7 +76,7 @@ void TimelineDataWrapper::updateListe()
 
 void TimelineDataWrapper::translate( int mousePosition )
 {
-	std::cout << "TimelineDataWrapper::dragNdrop" << std::endl;
+	std::cout << "TimelineDataWrapper::translate" << std::endl;
 
 	std::cout << "moooouuuuusssssseeeee " << mousePosition << std::endl;
 
@@ -95,7 +96,7 @@ void TimelineDataWrapper::translate( int mousePosition )
 	if( foundDrag && foundDrop )
 		action( filenameDepart, timeInDrop );
 
-	std::cout << "TimelineDataWrapper::dragNdrop end" << std::endl;
+
 }
 
 void TimelineDataWrapper::displayCursor( QString typeCurseur )
