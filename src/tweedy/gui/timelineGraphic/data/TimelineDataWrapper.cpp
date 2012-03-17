@@ -14,7 +14,8 @@
 
 TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 : QObject( parent ),
-  _timeInDrag(0)
+  _timeInDrag(0),
+  _timelineScale(50)
 
 {
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper" << std::endl;
@@ -70,8 +71,6 @@ void TimelineDataWrapper::updateListe()
 
 void TimelineDataWrapper::translate( int mousePosition )
 {
-	std::cout << "TimelineDataWrapper::dragNdrop" << std::endl;
-
         std::cout << "moooouuuuusssssseeeee " << mousePosition << std::endl;
 
 	ActDragNDropTLToTL action;
@@ -92,7 +91,7 @@ void TimelineDataWrapper::translate( int mousePosition )
 
         updateListe();
 
-	std::cout << "TimelineDataWrapper::dragNdrop end" << std::endl;
+
 }
 
 void TimelineDataWrapper::displayCursor( QString typeCurseur )

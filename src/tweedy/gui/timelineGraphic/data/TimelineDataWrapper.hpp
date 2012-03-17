@@ -19,7 +19,8 @@ class TimelineDataWrapper : public QObject
 public:
 	Q_PROPERTY( QObjectListModel* clips READ getClips NOTIFY clipsChanged )
 	Q_PROPERTY( int maxTime READ getMaxTime NOTIFY maxTimeChanged )
-    Q_PROPERTY( int timeIn READ getTimeIn NOTIFY timeChanged )
+        Q_PROPERTY( int timeIn READ getTimeIn NOTIFY timeChanged )
+        Q_PROPERTY( int timelineScale READ getTimelineScale NOTIFY timelineScaleChanged )
 
 	explicit TimelineDataWrapper( QObject *parent = 0 );
 
@@ -37,6 +38,7 @@ public:
         const Timeline& getTimeline() const{ return Projet::getInstance().getTimeline(); }
         int getMaxTime() const{ return getTimeline().getMaxTime(); }
         int getTimeIn() const{ return _timeInDrag; }
+        int getTimelineScale() const{ return _timelineScale; }
 
 	Q_INVOKABLE void play( int time );
         Q_INVOKABLE void setTimeInDrag( int timeIn )
@@ -53,12 +55,14 @@ private:
 #endif
 	int _timeInDrag;
         QObjectListModel _clips;
+        int _timelineScale;
 
 Q_SIGNALS:
 	void clipsChanged();
 	void maxTimeChanged();
 	void timeChanged( int time );
 	void enableUpdatesSignal( const bool update );
+        void timelineScaleChanged();
 
 	public 
 Q_SLOTS:

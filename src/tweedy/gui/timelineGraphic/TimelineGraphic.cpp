@@ -24,6 +24,7 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
 	_qmlView->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
 	_qmlView->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
 	_qmlView->setResizeMode( QDeclarativeView::SizeRootObjectToView );
+
 	connect( &_timelineData, SIGNAL( enableUpdatesSignal( const bool ) ), this, SLOT( onEnableUpdates( const bool ) ) );
 
 	QVBoxLayout *layout = new QVBoxLayout( this );
