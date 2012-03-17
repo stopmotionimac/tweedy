@@ -15,7 +15,7 @@
 TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 : QObject( parent ),
   _timeInDrag(0),
-  _timelineScale(50)
+  _timelineScale(160)
 
 {
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper" << std::endl;

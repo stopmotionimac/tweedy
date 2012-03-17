@@ -20,7 +20,7 @@ public:
 	Q_PROPERTY( QObjectListModel* clips READ getClips NOTIFY clipsChanged )
 	Q_PROPERTY( int maxTime READ getMaxTime NOTIFY maxTimeChanged )
         Q_PROPERTY( int timeIn READ getTimeIn NOTIFY timeChanged )
-        Q_PROPERTY( int timelineScale READ getTimelineScale NOTIFY timelineScaleChanged )
+        Q_PROPERTY( int timelineScale READ getTimelineScale WRITE setTimelineScale NOTIFY timelineScaleChanged )
 
 	explicit TimelineDataWrapper( QObject *parent = 0 );
 
@@ -39,6 +39,7 @@ public:
         int getMaxTime() const{ return getTimeline().getMaxTime(); }
         int getTimeIn() const{ return _timeInDrag; }
         int getTimelineScale() const{ return _timelineScale; }
+        void setTimelineScale(int timelineScale) { _timelineScale = timelineScale; Q_EMIT timelineScaleChanged();  }
 
 	Q_INVOKABLE void play( int time );
         Q_INVOKABLE void setTimeInDrag( int timeIn )

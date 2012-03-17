@@ -239,6 +239,7 @@ void MainWindow::createWidgets()
 //		graphicTimelineDock->setFloating( true );
 //		graphicTimelineDock->setHidden( true );
 		_viewMenu->addAction( graphicTimelineDock->toggleViewAction() );
+
 	}
 
 	// Dock Viewer

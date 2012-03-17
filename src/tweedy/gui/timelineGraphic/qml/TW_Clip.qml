@@ -44,7 +44,7 @@ Item {
                                 //_tw_timelineData.setTimeInDrag(parent.x / _tw_timelineData.timelineScale)
                                 }
 
-                        onReleased: {
+                         onReleased: {
                                 console.log("qml tw_blankClipHandle onReleased.")
 
                                 _tw_timelineData.translate(mouseX)
