@@ -34,13 +34,12 @@ Rectangle {
             //drag.maximumX: (tw_allTracks.x+tw_allTracks.width) + tw_dragMargin
 			drag.target: tw_allTracks
 
-                        onEntered: {
+            onEntered: {
 				console.log("qml tw_allTracksHandle onEntered.")
 			}
-
 			onReleased: {
-                                console.log("qml tw_allTracksHandle onReleased.")
-                        }
+                console.log("qml tw_allTracksHandle onReleased.")
+			}
 		}
 		
 		Rectangle {
@@ -59,12 +58,12 @@ Rectangle {
 				// the current clip
 				TW_Clip {
 					id: tw_clip
-
+                    
 					// for technical reason: delay the destruction allows an item to remove itself
 					ListView.onRemove: SequentialAnimation {
 						PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: true } // start delay remove
 						// fake animation to delay the tw_clip destruction
-						NumberAnimation { target: tw_clip; property: "height"; to: 0; duration: 100; easing.type: Easing.InOutQuad }
+						NumberAnimation { target: tw_clip; property: "height"; to: height; duration: 1; easing.type: Easing.InOutQuad }
 						// Make sure delayRemove is set back to false so that the item can be destroyed
 						PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: false } // end delay remove
 					}

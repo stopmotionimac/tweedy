@@ -14,12 +14,13 @@
 
 class TimelineDataWrapper : public QObject
 {
+
 	Q_OBJECT
 
 public:
 	Q_PROPERTY( QObjectListModel* clips READ getClips NOTIFY clipsChanged )
 	Q_PROPERTY( int maxTime READ getMaxTime NOTIFY maxTimeChanged )
-    Q_PROPERTY( int timeIn READ getTimeIn NOTIFY timeChanged )
+	Q_PROPERTY( int timeIn READ getTimeIn NOTIFY timeChanged )
 
 	explicit TimelineDataWrapper( QObject *parent = 0 );
 
@@ -29,21 +30,41 @@ public:
 	}
 
 	TimelineDataWrapper& operator=(const TimelineDataWrapper& other );
-	
-	~TimelineDataWrapper();
 
-        QObjectListModel* getClips(){ return &_clips; }
-        Timeline& getTimeline(){ return Projet::getInstance().getTimeline(); }
-        const Timeline& getTimeline() const{ return Projet::getInstance().getTimeline(); }
-        int getMaxTime() const{ return getTimeline().getMaxTime(); }
-        int getTimeIn() const{ return _timeInDrag; }
+	~TimelineDataWrapper( );
+
+	QObjectListModel* getClips( )
+	{
+		return &_clips;
+	}
+
+	Timeline& getTimeline( )
+	{
+		return Projet::getInstance( ).getTimeline( );
+	}
+
+	const Timeline& getTimeline( ) const
+	{
+		return Projet::getInstance( ).getTimeline( );
+	}
+
+	int getMaxTime( ) const
+	{
+		return getTimeline( ).getMaxTime( );
+	}
+
+	int getTimeIn( ) const
+	{
+		return _timeInDrag;
+	}
 
 	Q_INVOKABLE void play( int time );
-        Q_INVOKABLE void setTimeInDrag( int timeIn )
+
+	Q_INVOKABLE void setTimeInDrag( int timeIn )
 	{
-                _timeInDrag = timeIn;
-                Q_EMIT timeChanged(_timeInDrag);
-        }
+		_timeInDrag = timeIn;
+		Q_EMIT timeChanged( _timeInDrag );
+	}
 	Q_INVOKABLE void translate( int mousePosition );
 	Q_INVOKABLE void displayCursor( QString );
 
@@ -52,17 +73,19 @@ private:
 	boost::signals::scoped_connection _dataConnection;
 #endif
 	int _timeInDrag;
-        QObjectListModel _clips;
+	QObjectListModel _clips;
 
 Q_SIGNALS:
-	void clipsChanged();
-	void maxTimeChanged();
+	void clipsChanged( );
+	void maxTimeChanged( );
 	void timeChanged( int time );
 	void enableUpdatesSignal( const bool update );
 
-	public 
-Q_SLOTS:
-	void updateListe();
+public:
+	void coreDataChanged( );
+
+private:
+	void updateListe( );
 };
 
 
