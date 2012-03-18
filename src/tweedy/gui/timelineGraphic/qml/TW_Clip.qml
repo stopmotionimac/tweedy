@@ -2,18 +2,103 @@ import QtQuick 1.1
 
 Item {
         id: tw_clipContainer
-        width: (object.timeOut - object.timeIn + object.blankDuration) * tw_timelineScale
+        width: (object.timeOut - object.timeIn + object.blankDuration) * _tw_timelineData.timelineScale
         height: tw_track.height
 
+
+
+        Rectangle {
+                id: tw_blankClip
+
+                width: object.blankDuration * _tw_timelineData.timelineScale // * 0.5
+                height: tw_track.height
+
+                y: 0
+                z: -1
+
+                border.color: "black"
+                border.width: 2
+                radius: 10
+                color:"black"
+
+                // zone de deplacement
+                MouseArea {
+                        id: tw_blankClipHandle
+
+                        anchors.fill: tw_blankClip
+                        hoverEnabled: true
+                        //drag.minimumX: 0
+                        //drag.maximumX: _tw_timelineData.maxTime * _tw_timelineData.timelineScale - _tw_timelineData.timelineScale
+                        drag.target: tw_blankClip
+                        drag.axis: "XAxis"
+
+
+                        onPressed: {
+                                console.log("qml tw_blankClipHandle onPressed.")
+                                _tw_timelineData.setTimeInDrag(object.timeIn);
+                                parent.z = 9999;
+                                }
+
+                        onEntered: {
+                                //console.log("qml tw_blankClipHandle onEntered.")
+                                //_tw_timelineData.setTimeInDrag(parent.x / _tw_timelineData.timelineScale)
+                                }
+
+                         onReleased: {
+                                console.log("qml tw_blankClipHandle onReleased.")
+
+                                _tw_timelineData.translate(mouseX)
+                                parent.z = -1;
+                        }
+                }
+
+                // zone gauche pour l'agrandissement du clip
+                MouseArea {
+                        id: tw_blankClipLeftHandle
+
+                        width: tw_handleWidth
+                        height: tw_clip.height
+                        hoverEnabled: true
+
+                        onEntered: {
+                                _tw_timelineData.displayCursor("scale");
+                                console.log("qml tw_blankClipLeftHandle onEntered.")
+                        }
+                        onExited: {
+                                _tw_timelineData.displayCursor("none");
+                                console.log("qml tw_blankClipLeftHandle onExited.")
+                        }
+                }
+
+                // zone droite pour l'agrandissement du clip
+                MouseArea {
+                        id: tw_blankClipRightHandle
+
+                        width: tw_handleWidth
+                        height: tw_clip.height
+                        anchors.right: parent.right
+                        //x: tw_clip.width - width
+                        hoverEnabled: true
+
+                        onEntered: {
+                                _tw_timelineData.displayCursor("scale");
+                                console.log("qml tw_blankClipRightHandle onEntered.")
+                        }
+                        onExited: {
+                                _tw_timelineData.displayCursor("none");
+                                console.log("qml tw_blankClipRightHandle onExited.")
+                        }
+                }
+        }//end blank clip
 
     Rectangle {
             id: tw_clip
 
             //anchors.fill: parent
-            width: (object.timeOut - object.timeIn) * tw_timelineScale // * 0.5
+            width: (object.timeOut - object.timeIn) * _tw_timelineData.timelineScale // * 0.5
             height: tw_track.height
 
-            //x: object.timeIn * tw_timelineScale
+            x: object.blankDuration * _tw_timelineData.timelineScale
             y: 0
             z: -1
 
@@ -47,7 +132,7 @@ Item {
                     anchors.fill: tw_clip
                     hoverEnabled: true
                     //drag.minimumX: 0
-                    //drag.maximumX: _tw_timelineData.maxTime * tw_timelineScale - tw_timelineScale
+                    //drag.maximumX: _tw_timelineData.maxTime * _tw_timelineData.timelineScale - _tw_timelineData.timelineScale
                     drag.target: tw_clip
                     drag.axis: "XAxis"
 
@@ -60,12 +145,12 @@ Item {
 
                     onEntered: {
                             //console.log("qml tw_clipHandle onEntered.")
-                            //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
+                            //_tw_timelineData.setTimeInDrag(parent.x / _tw_timelineData.timelineScale)
                             }
 
                     onReleased: {
                             console.log("qml tw_clipHandle onReleased.")
-                            _tw_timelineData.translate(parent.x / tw_timelineScale)
+                            _tw_timelineData.translate(parent.x / _tw_timelineData.timelineScale)
                             parent.z = -1;
                     }
             }
@@ -110,91 +195,7 @@ Item {
     }
 
 
-    Rectangle {
-            id: tw_blankClip
 
-            width: object.blankDuration * tw_timelineScale // * 0.5
-            height: tw_track.height
-            x:(object.timeOut - object.timeIn) * tw_timelineScale
-
-
-            y: 0
-            z: -1
-
-            border.color: "black"
-            border.width: 2
-            radius: 10
-            color:"black"
-
-            // zone de deplacement
-            MouseArea {
-                    id: tw_blankClipHandle
-
-                    anchors.fill: tw_blankClip
-                    hoverEnabled: true
-                    //drag.minimumX: 0
-                    //drag.maximumX: _tw_timelineData.maxTime * tw_timelineScale - tw_timelineScale
-                    drag.target: tw_blankClip
-                    drag.axis: "XAxis"
-
-
-                    onPressed: {
-                            console.log("qml tw_blankClipHandle onPressed.")
-                            _tw_timelineData.setTimeInDrag(object.timeIn);
-                            parent.z = 9999;
-                            }
-
-                    onEntered: {
-                            //console.log("qml tw_blankClipHandle onEntered.")
-                            //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
-                            }
-
-                    onReleased: {
-                            console.log("qml tw_blankClipHandle onReleased.")
-
-                            _tw_timelineData.translate(parent.x / tw_timelineScale)
-                            parent.z = -1;
-                    }
-            }
-
-            // zone gauche pour l'agrandissement du clip
-            MouseArea {
-                    id: tw_blankClipLeftHandle
-
-                    width: tw_handleWidth
-                    height: tw_clip.height
-                    hoverEnabled: true
-
-                    onEntered: {
-                            _tw_timelineData.displayCursor("scale");
-                            console.log("qml tw_blankClipLeftHandle onEntered.")
-                    }
-                    onExited: {
-                            _tw_timelineData.displayCursor("none");
-                            console.log("qml tw_blankClipLeftHandle onExited.")
-                    }
-            }
-
-            // zone droite pour l'agrandissement du clip
-            MouseArea {
-                    id: tw_blankClipRightHandle
-
-                    width: tw_handleWidth
-                    height: tw_clip.height
-                    anchors.right: parent.right
-                    //x: tw_clip.width - width
-                    hoverEnabled: true
-
-                    onEntered: {
-                            _tw_timelineData.displayCursor("scale");
-                            console.log("qml tw_blankClipRightHandle onEntered.")
-                    }
-                    onExited: {
-                            _tw_timelineData.displayCursor("none");
-                            console.log("qml tw_blankClipRightHandle onExited.")
-                    }
-            }
-    }
 
 
 
