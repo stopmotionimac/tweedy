@@ -61,8 +61,8 @@ public:
     void getValue(CameraWidget* widget);
     int get_config_value_string (Camera *camera, const char *key, char **str, GPContext *context);
     void setValue(CameraWidget *widget, const void *value);
-    int set_config_value_string (Camera *camera, const char *key, const char *val, GPContext *context);
-
+    //int set_config_value_string (Camera *camera, const char *key, const char *val, GPContext *context);
+    int set_config_value (Camera *camera, const char *key, const void * val, GPContext *context);
     void getSummary();
     void exitCamera();
     boost::filesystem::path captureToFile();

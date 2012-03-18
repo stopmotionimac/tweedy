@@ -9,7 +9,6 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
     /*Add as many layout as we have param on the camera*/
 
     int isConnected = projectInstance.tryToConnectCamera();
-    //std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
     if (isConnected == 0)
     {
         //Label for no camera connected
@@ -59,18 +58,33 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 
                     GPhotoWidgetTextItems * textItems = new GPhotoWidgetTextItems( widgetsVector.at(i)/*, this*/);
                     /*make the menu*/
-                    QComboBox * buttonChoice = textItems->makeMenu();
-                    layoutForOneParam->addWidget(buttonChoice);
+                    QComboBox * listChoice = textItems->makeMenu();
+                    layoutForOneParam->addWidget(listChoice);
                     textItems->putChoicesIntoMenu();
-
-                    //connect(_setValue, SIGNAL(setParamToGPhoto(CameraWidget&, void*)), this, SLOT(onSetValueToGPhoto(CameraWidget&, void*)));
                     break;
                 }
 
-//                case GP_WIDGET_TOGGLE:
-//                {
-//                    break;
-//                }
+                case GP_WIDGET_TOGGLE:
+                {
+                /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
+
+//                    GPhotoWidgetToggle * toggle = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
+//                    /*make the menu*/
+//                    QButtonGroup toggleChoice = toggle->makeButton();
+//                    layoutForOneParam->addWidget(&toggleChoice);
+//                    toggle->putChoicesIntoButtonGroup();
+
+                    GPhotoWidgetToggle * yes = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
+                    GPhotoWidgetToggle * no = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
+                    /*make the menu*/
+                    QRadioButton * toggleYes = yes->makeButton("yes");
+                    QRadioButton * toggleNo = no->makeButton("no");
+                    layoutForOneParam->addWidget(toggleYes);
+                    layoutForOneParam->addWidget(toggleNo);
+
+
+                    break;
+                }
 
 //                case GP_WIDGET_TEXT:
 //                {
@@ -79,17 +93,18 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
             }
 
             //If toggle (yes/no)
-            if (type == 4) {
+//            if (type == 4) {
 
-                //récupérer la valeur par défaut
-                //
-                //
+//                //récupérer la valeur par défaut
+//                //
+//                //
 
-                QRadioButton * yesChoice = new QRadioButton("yes", this);
-                layoutForOneParam->addWidget(yesChoice);
-                QRadioButton * noChoice = new QRadioButton("no", this);
-                layoutForOneParam->addWidget(noChoice);
-            }
+//                QRadioButton * yesChoice = new QRadioButton("yes", this);
+//                layoutForOneParam->addWidget(yesChoice);
+//                QRadioButton * noChoice = new QRadioButton("no", this);
+//                layoutForOneParam->addWidget(noChoice);
+//            }
+
             //If text
             if (type == 2) {
 
@@ -120,9 +135,3 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 
 
 }
-
-
-//void ConfigCamera::on_setValueToGPhoto(CameraWidget * widget, const void *value) {
-//        Projet& projectInstance = Projet::getInstance();
-//       // projectInstance.gPhotoInstance().setValue(widget, value);
-//}

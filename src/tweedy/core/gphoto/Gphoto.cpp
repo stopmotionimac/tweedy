@@ -358,14 +358,13 @@ out:
 }
 
 void Gphoto::setValue(CameraWidget *widget, const void *value){
-    //std::cout<<(char*)value<<std::endl;
-    //std::cout<<getNameOfAWidget(widget)<<std::endl;
-    //const char* valueChoice = (char*)value;
-    int ret = set_config_value_string (_camera, getNameOfAWidget(widget).data(), (char*)value, _context);
-    std::cout<<ret<<std::endl;
+    //int ret = set_config_value_string (_camera, getNameOfAWidget(widget).data(), (char*)value, _context);
+    int ret = set_config_value (_camera, getNameOfAWidget(widget).data(), value, _context);
+    //std::cout<<ret<<std::endl;
 }
 
-int Gphoto::set_config_value_string (Camera *camera, const char *key, const char *val, GPContext *context) {
+//int Gphoto::set_config_value_string (Camera *camera, const char *key, const char *val, GPContext *context) {
+int Gphoto::set_config_value (Camera *camera, const char *key, const void * val, GPContext *context) {
         CameraWidget		*widget = NULL, *child = NULL;
         CameraWidgetType	type;
         int			ret;
@@ -392,6 +391,7 @@ int Gphoto::set_config_value_string (Camera *camera, const char *key, const char
         case GP_WIDGET_MENU:
         case GP_WIDGET_RADIO:
         case GP_WIDGET_TEXT:
+        //case GP_WIDGET_TOGGLE:
                 break;
         default:
                 fprintf (stderr, "widget has bad type %d\n", type);
