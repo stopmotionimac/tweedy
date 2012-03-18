@@ -453,10 +453,3 @@ int Gphoto::_lookup_widget(CameraWidget*widget, const char *key, CameraWidget **
                 ret = gp_widget_get_child_by_label (widget, key, child);
         return ret;
 }
-
-
-//Settings of camera (canon)
-void Gphoto::setShutterSpeed() {
-//    canonShutterSpeedState shutter_speed = 0x5b;
-//    canon_int_set_shutter_speed(_camera, shutter_speed, _context);
-}

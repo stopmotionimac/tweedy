@@ -69,7 +69,6 @@ public:
     
     std::string doPreview(int i);
     int _lookup_widget(CameraWidget*widget, const char *key, CameraWidget **child);
-    void setShutterSpeed();
     //bool getVarCameraIsInit();
     void setVarCameraIsInit(bool var);
 
