@@ -86,10 +86,14 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
                     break;
                 }
 
-//                case GP_WIDGET_TEXT:
-//                {
-//                    break;
-//                }
+                case GP_WIDGET_TEXT:
+                {
+                    GPhotoWidgetTextField * textField = new GPhotoWidgetTextField( widgetsVector.at(i)/*, this*/);
+
+                    QLineEdit * text = textField->makeMenu();
+                    layoutForOneParam->addWidget(text);
+                    break;
+                }
             }
 
             //If toggle (yes/no)
@@ -106,19 +110,19 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 //            }
 
             //If text
-            if (type == 2) {
+//            if (type == 2) {
 
-                //récupérer la valeur par défaut
-                //
-                //
-                QLineEdit * textField = new QLineEdit(this);
-                layoutForOneParam->addWidget(textField);
+//                //récupérer la valeur par défaut
+//                //
+//                //
+//                QLineEdit * textField = new QLineEdit(this);
+//                layoutForOneParam->addWidget(textField);
 
-            }
-            //If date
-            if (type == 8) {
-                //don't work with gphoto
-            }
+//            }
+//            //If date
+//            if (type == 8) {
+//                //don't work with gphoto
+//            }
         }
 
         scrollArea->setWidget(widgetForListOfParam);

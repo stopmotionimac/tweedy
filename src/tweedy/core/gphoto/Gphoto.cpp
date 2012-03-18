@@ -304,70 +304,15 @@ int Gphoto::getTypeWidget(CameraWidget *widget) {
 
 void Gphoto::getValue(CameraWidget *widget) {
     char* value;
-    int ret = get_config_value_string (_camera, getNameOfAWidget(widget).data(), &value, _context);
-    //std::cout<<"VALUEGETTED : "<<value<<std::endl;
+    int ret = get_config_value (_camera, getNameOfAWidget(widget).data(), &value, _context);
+    std::cout<<"VALUEGETTED : "<<value<<std::endl;
 }
 
-int Gphoto::get_config_value_string (Camera *camera, const char *key, char **str, GPContext *context) {
+int Gphoto::get_config_value (Camera *camera, const char *key, char ** str, GPContext *context) {
         CameraWidget		*widget = NULL, *child = NULL;
         CameraWidgetType	type;
         int			ret;
         char			*val;
-
-        ret = gp_camera_get_config (camera, &widget, context);
-        if (ret < GP_OK) {
-                fprintf (stderr, "camera_get_config failed: %d\n", ret);
-                return ret;
-        }
-        ret = _lookup_widget (widget, key, &child);
-        if (ret < GP_OK) {
-                fprintf (stderr, "lookup widget failed: %d\n", ret);
-                goto out;
-        }
-
-        /* This type check is optional, if you know what type the label
-         * has already. If you are not sure, better check. */
-        ret = gp_widget_get_type (child, &type);
-        if (ret < GP_OK) {
-                fprintf (stderr, "widget get type failed: %d\n", ret);
-                goto out;
-        }
-        switch (type) {
-        case GP_WIDGET_MENU:
-        case GP_WIDGET_RADIO:
-        case GP_WIDGET_TEXT:
-                break;
-        default:
-                fprintf (stderr, "widget has bad type %d\n", type);
-                ret = GP_ERROR_BAD_PARAMETERS;
-                goto out;
-        }
-
-        /* This is the actual query call. Note that we just
-         * a pointer reference to the string, not a copy... */
-        ret = gp_widget_get_value (child, &val);
-        if (ret < GP_OK) {
-                fprintf (stderr, "could not query widget value: %d\n", ret);
-                goto out;
-        }
-        /* Create a new copy for our caller. */
-        *str = strdup (val);
-out:
-        gp_widget_free (widget);
-        return ret;
-}
-
-void Gphoto::setValue(CameraWidget *widget, const void *value){
-    //int ret = set_config_value_string (_camera, getNameOfAWidget(widget).data(), (char*)value, _context);
-    int ret = set_config_value (_camera, getNameOfAWidget(widget).data(), value, _context);
-    //std::cout<<ret<<std::endl;
-}
-
-//int Gphoto::set_config_value_string (Camera *camera, const char *key, const char *val, GPContext *context) {
-int Gphoto::set_config_value (Camera *camera, const char *key, const void * val, GPContext *context) {
-        CameraWidget		*widget = NULL, *child = NULL;
-        CameraWidgetType	type;
-        int			ret;
 
         ret = gp_camera_get_config (camera, &widget, context);
         if (ret < GP_OK) {
@@ -399,6 +344,66 @@ int Gphoto::set_config_value (Camera *camera, const char *key, const void * val,
                 goto out;
         }
 
+        /* This is the actual query call. Note that we just
+         * a pointer reference to the string, not a copy... */
+        ret = gp_widget_get_value (child, &val);
+        if (ret < GP_OK) {
+                fprintf (stderr, "could not query widget value: %d\n", ret);
+                goto out;
+        }
+        /* Create a new copy for our caller. */
+        *str = strdup(val);
+out:
+        gp_widget_free (widget);
+        return ret;
+}
+
+void Gphoto::setValue(CameraWidget *widget, const void *value){
+    //std::cout<<"IN SETVALUE"<<std::endl;
+    int ret = set_config_value (_camera, getNameOfAWidget(widget).data(), value, _context);
+    //std::cout<<ret<<std::endl;
+}
+
+//int Gphoto::set_config_value_string (Camera *camera, const char *key, const char *val, GPContext *context) {
+int Gphoto::set_config_value (Camera *camera, const char *key, const void * val, GPContext *context) {
+    //std::cout<<"IN SETCONFIGVALUE"<<std::endl;
+        CameraWidget		*widget = NULL, *child = NULL;
+        CameraWidgetType	type;
+        int			ret;
+
+        ret = gp_camera_get_config (camera, &widget, context);
+        if (ret < GP_OK) {
+                fprintf (stderr, "camera_get_config failed: %d\n", ret);
+                return ret;
+        }
+        std::cout<<"GETCONFIG OK"<<std::endl;
+        ret = _lookup_widget (widget, key, &child);
+        if (ret < GP_OK) {
+                fprintf (stderr, "lookup widget failed: %d\n", ret);
+                goto out;
+        }
+        std::cout<<"LOOKUP OK"<<std::endl;
+
+        /* This type check is optional, if you know what type the label
+         * has already. If you are not sure, better check. */
+        ret = gp_widget_get_type (child, &type);
+        if (ret < GP_OK) {
+                fprintf (stderr, "widget get type failed: %d\n", ret);
+                goto out;
+        }
+        std::cout<<"GET TYPE OK : "<<type<<std::endl;
+        switch (type) {
+        case GP_WIDGET_MENU:
+        case GP_WIDGET_RADIO:
+        case GP_WIDGET_TEXT:
+        //case GP_WIDGET_TOGGLE:
+                break;
+        default:
+                fprintf (stderr, "widget has bad type %d\n", type);
+                ret = GP_ERROR_BAD_PARAMETERS;
+                goto out;
+        }
+
         /* This is the actual set call. Note that we keep
          * ownership of the string and have to free it if necessary.
          */
@@ -407,12 +412,14 @@ int Gphoto::set_config_value (Camera *camera, const char *key, const void * val,
                 fprintf (stderr, "could not set widget value: %d\n", ret);
                 goto out;
         }
+        std::cout<<"SETVALUE OK"<<std::endl;
         /* This stores it on the camera again */
         ret = gp_camera_set_config (camera, widget, context);
         if (ret < GP_OK) {
                 fprintf (stderr, "camera_set_config failed: %d\n", ret);
                 return ret;
         }
+        std::cout<<"SET CONFIG OK"<<std::endl;
 out:
         gp_widget_free (widget);
         return ret;

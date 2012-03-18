@@ -8,6 +8,7 @@ GPhotoWidgetToggle::GPhotoWidgetToggle(CameraWidget * widget)
 QRadioButton * GPhotoWidgetToggle::makeButton(const QString name) {
     this->_name = name.toStdString();
     _button = new QRadioButton(name);
+    /*make the appropriate action*/
     QRadioButton::connect(_button, SIGNAL(toggled(bool)), this, SLOT(on_setValue_toggled(bool)));
     return _button;
 }
@@ -24,18 +25,22 @@ QRadioButton * GPhotoWidgetToggle::makeButton(const QString name) {
 //}
 
 void GPhotoWidgetToggle::on_setValue_toggled(bool checked){
-      //std::cout<<this->_name<<std::endl;
+
+    //std::cout<<this->_name<<std::endl;
     Projet& projectInstance = Projet::getInstance();
-    projectInstance.gPhotoInstance().setValue(_widget, (const void *)checked);
+
+    projectInstance.gPhotoInstance().getValue(_widget);
 
     if (this->_name == "yes")
     {
         if (checked)
         {
+            std::cout<<"yes"<<std::endl;
             checked = 1;/*normalement pas utile!*/
         }
         else
         {
+            std::cout<<"no"<<std::endl;
             checked = 0;
         }
     }
@@ -43,16 +48,15 @@ void GPhotoWidgetToggle::on_setValue_toggled(bool checked){
     {
         if (checked)
         {
+            std::cout<<"no"<<std::endl;
             checked  = 0;
         }
         else
         {
+            std::cout<<"yes"<<std::endl;
             checked = 1;/*normalement pas utile*/
         }
     }
-    projectInstance.gPhotoInstance().setValue(_widget, (const void *)checked);
-
-//    const void * varChoice = valueChoice.toStdString().data();
-//    Projet& projectInstance = Projet::getInstance();
-//    projectInstance.gPhotoInstance().setValue(_widget, valueChoice.toStdString().data());
+    //PBLEME SEG FAULT
+    //projectInstance.gPhotoInstance().setValue(_widget, (const void *)checked);
 }
