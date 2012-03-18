@@ -14,16 +14,16 @@
 
 TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 : QObject( parent ),
-  _timeInDrag(0)
-
+  _timeInDrag(0),
+  _timelineScale(160)
 {
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper" << std::endl;
 	// connecter l'update de la TimelineDataWrapper au signalChanged de la timeline
 	_dataConnection = getTimeline().getSignalChanged().connect(
-								boost::bind( &TimelineDataWrapper::updateListe,
-								this ) );
+		boost::bind( &TimelineDataWrapper::coreDataChanged,
+					this ) );
 
-	updateListe();
+	//	updateListe();
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper end" << std::endl;
 }
 
@@ -39,13 +39,18 @@ TimelineDataWrapper::~TimelineDataWrapper()
 {
 }
 
+void TimelineDataWrapper::coreDataChanged()
+{
+	updateListe();
+}
+
 void TimelineDataWrapper::updateListe()
 {
 	// Prevent all connected widgets to not update content view at each
 	// modification step (which creates flick artefacts).
 	// Update/repaint widgets connected to this view at the end of all modifications.
 	Q_EMIT enableUpdatesSignal( false );
-	
+
 	static int i = 0;
 	++i;
 	std::cout << "TimelineDataWrapper ptr: " << this << std::endl;
@@ -55,44 +60,43 @@ void TimelineDataWrapper::updateListe()
 
 	Timeline::OMapClip mapClips = getTimeline().getOrderedClips();
 	int previousTimeOut = 0;
+
 	BOOST_FOREACH( const Timeline::OMapClip::value_type& s, mapClips )
 	{
-                ClipDataWrapper* c = new ClipDataWrapper( *(s.second), this) ;
-		_clips.append(c);
+		ClipDataWrapper* c = new ClipDataWrapper( *( s.second ), this );
+		_clips.append( c );
 	}
 
 	Q_EMIT maxTimeChanged();
 	std::cout << "TimelineDataWrapper::updateListe end" << std::endl;
-	
-	Q_EMIT enableUpdatesSignal( true );
-}
 
+	Q_EMIT enableUpdatesSignal( true );
+
+}
 
 void TimelineDataWrapper::translate( int mousePosition )
 {
-	std::cout << "TimelineDataWrapper::dragNdrop" << std::endl;
+	std::cout << "TimelineDataWrapper::translate" << std::endl;
 
-        std::cout << "moooouuuuusssssseeeee " << mousePosition << std::endl;
+	std::cout << "moooouuuuusssssseeeee " << mousePosition << std::endl;
 
 	ActDragNDropTLToTL action;
 
-        int timeInDrop = _timeInDrag + mousePosition;
+	int timeInDrop = _timeInDrag + mousePosition;
 
-        if (timeInDrop < 0)
-            timeInDrop = 0;
-        if (timeInDrop >= getMaxTime())
-            timeInDrop = getMaxTime() - 1;
+	if( timeInDrop < 0 )
+		timeInDrop = 0;
+	if( timeInDrop >= getMaxTime() )
+		timeInDrop = getMaxTime() - 1;
 
-        std::string filenameDepart, filenameArrivee;
+	std::string filenameDepart, filenameArrivee;
 	bool foundDrag = getTimeline().findCurrentClip( filenameDepart, _timeInDrag );
-        bool foundDrop = getTimeline().findCurrentClip( filenameArrivee, timeInDrop );
+	bool foundDrop = getTimeline().findCurrentClip( filenameArrivee, timeInDrop );
 
 	if( foundDrag && foundDrop )
-            action(filenameDepart, timeInDrop);
+		action( filenameDepart, timeInDrop );
 
-        updateListe();
 
-	std::cout << "TimelineDataWrapper::dragNdrop end" << std::endl;
 }
 
 void TimelineDataWrapper::displayCursor( QString typeCurseur )
