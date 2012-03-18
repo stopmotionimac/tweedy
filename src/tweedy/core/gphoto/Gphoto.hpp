@@ -58,8 +58,10 @@ public:
     int CountChoices (CameraWidget* widget);
     std::string getChoice(CameraWidget* widget, int choiceNumber);
     int getTypeWidget(CameraWidget* widget);
+    int _lookup_widget(CameraWidget*widget, const char *key, CameraWidget **child);
     void getValue(CameraWidget* widget);
     int get_config_value (Camera *camera, const char *key, char **str, GPContext *context);
+    int get_config_value (Camera *camera, const char *key, int * str, GPContext *context);
     void setValue(CameraWidget *widget, const void *value);
     //int set_config_value_string (Camera *camera, const char *key, const char *val, GPContext *context);
     int set_config_value (Camera *camera, const char *key, const void * val, GPContext *context);
@@ -68,7 +70,6 @@ public:
     boost::filesystem::path captureToFile();
     
     std::string doPreview(int i);
-    int _lookup_widget(CameraWidget*widget, const char *key, CameraWidget **child);
     //bool getVarCameraIsInit();
     void setVarCameraIsInit(bool var);
 

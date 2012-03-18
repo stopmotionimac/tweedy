@@ -109,17 +109,7 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 //                layoutForOneParam->addWidget(noChoice);
 //            }
 
-            //If text
-//            if (type == 2) {
-
-//                //récupérer la valeur par défaut
-//                //
-//                //
-//                QLineEdit * textField = new QLineEdit(this);
-//                layoutForOneParam->addWidget(textField);
-
-//            }
-//            //If date
+            //If date
 //            if (type == 8) {
 //                //don't work with gphoto
 //            }

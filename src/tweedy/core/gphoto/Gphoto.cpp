@@ -302,10 +302,66 @@ int Gphoto::getTypeWidget(CameraWidget *widget) {
     return type;
 }
 
+int Gphoto::_lookup_widget(CameraWidget*widget, const char *key, CameraWidget **child) {
+        int ret;
+        ret = gp_widget_get_child_by_name (widget, key, child);
+        if (ret < GP_OK)
+                ret = gp_widget_get_child_by_label (widget, key, child);
+        return ret;
+}
+
 void Gphoto::getValue(CameraWidget *widget) {
-    char* value;
+    int value;
     int ret = get_config_value (_camera, getNameOfAWidget(widget).data(), &value, _context);
     std::cout<<"VALUEGETTED : "<<value<<std::endl;
+}
+
+int Gphoto::get_config_value (Camera *camera, const char *key, int * str, GPContext *context){
+    CameraWidget		*widget = NULL, *child = NULL;
+    CameraWidgetType	type;
+    int			ret;
+    int			val;
+
+    ret = gp_camera_get_config (camera, &widget, context);
+    if (ret < GP_OK) {
+            fprintf (stderr, "camera_get_config failed: %d\n", ret);
+            return ret;
+    }
+    ret = _lookup_widget (widget, key, &child);
+    if (ret < GP_OK) {
+            fprintf (stderr, "lookup widget failed: %d\n", ret);
+            goto out;
+    }
+
+    /* This type check is optional, if you know what type the label
+     * has already. If you are not sure, better check. */
+    ret = gp_widget_get_type (child, &type);
+    if (ret < GP_OK) {
+            fprintf (stderr, "widget get type failed: %d\n", ret);
+            goto out;
+    }
+    switch (type) {
+    case GP_WIDGET_TOGGLE:
+            break;
+    default:
+            fprintf (stderr, "widget has bad type %d\n", type);
+            ret = GP_ERROR_BAD_PARAMETERS;
+            goto out;
+    }
+
+    /* This is the actual query call. Note that we just
+     * a pointer reference to the string, not a copy... */
+    ret = gp_widget_get_value (child, &val);
+    if (ret < GP_OK) {
+            fprintf (stderr, "could not query widget value: %d\n", ret);
+            goto out;
+    }
+    /* Create a new copy for our caller. */
+    std::cout<<val<<std::endl;
+    *str = val;
+out:
+    gp_widget_free (widget);
+    return ret;
 }
 
 int Gphoto::get_config_value (Camera *camera, const char *key, char ** str, GPContext *context) {
@@ -451,12 +507,4 @@ int Gphoto::tryToConnectCamera()
 	}
          //std::cout<<"CAMERAISIT à FALSE"<<std::endl;
         return 1;
-}
-
-int Gphoto::_lookup_widget(CameraWidget*widget, const char *key, CameraWidget **child) {
-        int ret;
-        ret = gp_widget_get_child_by_name (widget, key, child);
-        if (ret < GP_OK)
-                ret = gp_widget_get_child_by_label (widget, key, child);
-        return ret;
 }
