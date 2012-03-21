@@ -21,6 +21,9 @@ Item {
 		color: 'white'
     }
 	*/
+
+    scale: tw_cursorHandle.pressed ? 1.2 : 1.0
+
     Rectangle {
         id: tw_cursorTop
         width: 10

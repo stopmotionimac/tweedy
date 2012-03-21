@@ -135,7 +135,14 @@ Item {
                     //drag.maximumX: _tw_timelineData.maxTime * tw_timelineScale - tw_timelineScale
                     drag.target: tw_clip
                     drag.axis: "XAxis"
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
 
+                    onClicked: {
+                        if (mouse.button == Qt.RightButton)
+                        {
+                            console.log("Qt.RightButton")
+                        }
+                    }
 
                     onPressed: {
                             console.log("qml tw_clipHandle onPressed.")
@@ -171,6 +178,9 @@ Item {
                             _tw_timelineData.displayCursor("none");
                             console.log("qml tw_clipLeftHandle onExited.")
                     }
+                    onPressed: {
+                        console.log("qml tw_clipRightHandle onPressed.")
+                    }
             }
 
             // zone droite pour l'agrandissement du clip
@@ -190,6 +200,9 @@ Item {
                     onExited: {
                             _tw_timelineData.displayCursor("none");
                             console.log("qml tw_clipRightHandle onExited.")
+                    }
+                    onPressed: {
+                        console.log("qml tw_clipRightHandle onPressed.")
                     }
             }
     }

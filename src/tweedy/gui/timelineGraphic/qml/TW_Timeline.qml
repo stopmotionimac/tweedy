@@ -27,6 +27,75 @@ Rectangle {
                 width: ( _tw_timelineData.maxTime + 10) * tw_timelineScale
                 height: parent.height
 
+                Rectangle {
+                    id : tw_graduation
+                    x: 0
+                    y: 0
+                    width: parent.width
+                    height: tw_allTracks.height - tw_track.height
+                    color: "#ff66ff"
+
+                    Row {
+
+                            Repeater {
+
+                                model : _tw_timelineData.maxTime
+
+                                Column {
+
+                                    Rectangle {
+                                        id: tw_graduation_top
+                                        y:0
+                                        height: tw_graduation.height / 2
+                                        width: tw_timelineScale
+                                        color: 'red'
+                                    }
+
+                                    Rectangle {
+                                        id: tw_graduation_bottom
+                                        y: tw_graduation.height
+                                        height: tw_graduation.height /2 -1
+                                        width: tw_timelineScale
+                                        border.width: 2
+                                        color: "yellow"
+
+                                        Text {
+                                            id: tw_frame
+                                            text: index
+                                        }
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+
+                    /*Grid {
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
+                            rows: 2
+                            columns: _tw_timelineData.maxTime * tw_timelineScale
+                            spacing: tw_timelineScale
+
+                            Repeater {
+                                model: _tw_timelineData.maxTime
+
+                                Text {
+                                    id: tw_frame
+                                    text: index
+                                }
+                            }
+
+                            Rectangle { color: "#aa6666"; width: 50; height: 50 }
+                            Rectangle { color: "#aaaa66"; width: 50; height: 50 }
+                            Rectangle { color: "#9999aa"; width: 50; height: 50 }
+                            Rectangle { color: "#6666aa"; width: 50; height: 50 }
+                   }*/
+
+
                 // zone de deplacement
                 MouseArea {
                         id: tw_allTracksHandle
