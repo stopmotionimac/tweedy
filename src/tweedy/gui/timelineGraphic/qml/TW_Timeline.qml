@@ -48,6 +48,7 @@ Rectangle {
             }
         }
 
+
         //green rect
         Rectangle {
             id: tw_track
@@ -106,8 +107,18 @@ Rectangle {
 
             }
 
-
+            Rectangle {
+                        id: tw_marker
+                        x: 0//_tw_timelineData.timeMarker * _tw_timelineData.timelineScale
+                        y: 0
+                        width: 0
+                        height: tw_track.height
+                        color: '#ff0000'
+                    }
         }
+
+
+
 
         // scrollBar item
         TW_scrollBar {
