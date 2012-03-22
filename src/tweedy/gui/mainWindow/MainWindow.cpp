@@ -233,12 +233,13 @@ void MainWindow::createWidgets()
 	{
 		// Dock Timeline QML
 		QDockWidget * graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
-		_timelineGraphic = new TimelineGraphic( graphicTimelineDock );
+		_timelineGraphic = new TimelineGraphic( NULL );
 		graphicTimelineDock->setWidget( _timelineGraphic );
 		addDockWidget( Qt::BottomDockWidgetArea, graphicTimelineDock );
 //		graphicTimelineDock->setFloating( true );
 //		graphicTimelineDock->setHidden( true );
 		_viewMenu->addAction( graphicTimelineDock->toggleViewAction() );
+
 	}
 
 	// Dock Viewer
