@@ -479,15 +479,6 @@ void MainWindow::on_saveProjectAction_triggered()
 	//std::cout << "sauvegarde" << std::endl;
 }
 
-/*
-void save_schedule(const bus_schedule &s, const char * filename){
-	// make an archive
-	std::ofstream ofs(filename);
-	boost::archive::text_oarchive oa(ofs);
-	oa << s;
-}
- */
-
 //chargement du projet
 
 void MainWindow::on_loadProjectAction_triggered()
