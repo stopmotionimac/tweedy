@@ -17,7 +17,7 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
 : QDeclarativeView( parent )
 , _timelineQmlFile( "src/tweedy/gui/timelineGraphic/qml/TW_Timeline.qml" )
 {
-	std::cout << "TimelineGraphique::TimelineGraphique" << std::endl;
+        std::cout << "TimelineGraphique::TimelineGraphique" << std::endl;
 	qmlRegisterType<QObjectListModel>();
 
 	this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );

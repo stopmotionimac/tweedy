@@ -93,7 +93,6 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
 }
 
 
-
 void TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
     // si les 2 sont égaux on ne fait rien
@@ -121,38 +120,8 @@ void TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 
         action( filenameDepart, timeToDrop );
     }
-
-    //si le 2eme correspond a un blank on regarde la diff entre timeout précedent et timein suivant et on change
-
-    //on recherche le clip
-
-    //dans tous les cas on update
-
-
-    /*std::cout << "TimelineDataWrapper::translate" << std::endl;
-
-	std::cout << "moooouuuuusssssseeeee " << mousePosition << std::endl;
-
-	ActDragNDropTLToTL action;
-
-	int timeInDrop = _timeInDrag + mousePosition;
-
-	if( timeInDrop < 0 )
-		timeInDrop = 0;
-	if( timeInDrop >= getMaxTime() )
-		timeInDrop = getMaxTime() - 1;
-
-	std::string filenameDepart, filenameArrivee;
-	bool foundDrag = getTimeline().findCurrentClip( filenameDepart, _timeInDrag );
-	bool foundDrop = getTimeline().findCurrentClip( filenameArrivee, timeInDrop );
-
-	if( foundDrag && foundDrop )
-                action( filenameDepart, timeInDrop );*/
-
-    std::cout << timeInClipToDrag << " =================>>>> " << timeToDrop << std::endl;
-
-
 }
+
 
 void TimelineDataWrapper::displayCursor( QString typeCurseur )
 {
