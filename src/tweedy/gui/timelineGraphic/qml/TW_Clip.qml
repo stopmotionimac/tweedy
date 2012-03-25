@@ -7,6 +7,9 @@ Item {
 
         scale: tw_clipHandle.pressed ? 1.03 : 1.0
 
+        property int timeInClipSelected : 0
+        property int markerPosition : -1
+
         Rectangle {
                 id: tw_blankClip
 
@@ -29,27 +32,18 @@ Item {
                         hoverEnabled: true
                         //drag.minimumX: 0
                         //drag.maximumX: _tw_timelineData.maxTime * _tw_timelineData.timelineScale - _tw_timelineData.timelineScale
-                        drag.target: tw_blankClip
-                        drag.axis: "XAxis"
+                        //drag.target: tw_blankClip
+                        //drag.axis: "XAxis"
 
 
                         onPressed: {
                                 console.log("qml tw_blankClipHandle onPressed.")
-                                _tw_timelineData.setTimeInDrag(object.timeIn);
+
+                                //timeInBlankSelected = object.timeIn
                                 parent.z = 9999;
-                                }
-
-                        onEntered: {
-                                //console.log("qml tw_blankClipHandle onEntered.")
-                                //_tw_timelineData.setTimeInDrag(parent.x / _tw_timelineData.timelineScale)
-                                }
-
-                         onReleased: {
-                                console.log("qml tw_blankClipHandle onReleased.")
-
-                                _tw_timelineData.translate(mouseX)
-                                parent.z = -1;
                         }
+
+
                 }
 
                 // zone gauche pour l'agrandissement du clip
@@ -150,14 +144,35 @@ Item {
                     }
 
                     onPressed: {
-                        tw_timeCursor.x = object.timeIn;
-                        _tw_timelineData.setTimeInDrag(object.timeIn)
-                        //parent.z = 9999;
+                            console.log("qml tw_clipHandle onPressed.")
+                            timeInClipSelected = object.timeIn
+                            parent.z = 9999;
+                     }
+
+                    onPositionChanged: {
+                        if(parent.x / _tw_timelineData.timelineScale >= 1)
+                            markerPosition = _tw_timelineData.getMarkerPosition(timeInClipSelected + parent.x / _tw_timelineData.timelineScale, 1)
+                        else
+                            markerPosition = -1
+                        if(parent.x / _tw_timelineData.timelineScale < 0)
+                            markerPosition = _tw_timelineData.getMarkerPosition(timeInClipSelected + parent.x / _tw_timelineData.timelineScale, 0)
+
+                        if (markerPosition == -1)
+                            tw_marker.width = 0
+                        else
+                        {
+                            tw_marker.width = 400 / _tw_timelineData.timelineScale
+                            tw_marker.x = markerPosition * _tw_timelineData.timelineScale - tw_marker.width / 2
+                        }
+
+                        console.log (markerPosition)
+
                     }
 
                     onReleased: {
-                            _tw_timelineData.translate(parent.x / _tw_timelineData.timelineScale)
-                            //parent.z = -1;
+                            markerPosition = -1
+                            _tw_timelineData.translate(timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale)
+                            parent.z = -1;
                     }
             }
 

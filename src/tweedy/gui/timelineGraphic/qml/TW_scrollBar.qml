@@ -3,9 +3,12 @@ import QtQuick 1.0
 Item{
     id:tw_scrollArea
 
+    property int scrollRightPressed : 0
+    property int scrollLeftPressed : 0
+
     Rectangle{
         id: tw_fullBar
-        width:800
+        width:tw_timeline.width
         height:25
         y:25 + tw_track.height
         color: 'purple'
@@ -39,10 +42,23 @@ Item{
                   _tw_timelineData.displayCursor("scale");
                }
                onExited: {
-                  _tw_timelineData.displayCursor("none");
+                   _tw_timelineData.displayCursor("none");
+               }
+               onPressed:{
+                   scrollLeftPressed = 1
+               }
+
+               onPositionChanged: {
+                   if ( scrollLeftPressed == 1 )
+                        if (tw_scrollBar.x + mouseX > 0 && tw_scrollBar.width - mouseX > 5*tw_fullBar.width/_tw_timelineData.maxTime)
+                        {
+                           tw_scrollBar.width -= mouseX
+                           tw_scrollBar.x += mouseX
+                        }
                }
                onReleased:{
-                   console.log(mouseX)
+                   scrollLeftPressed = 0
+
                    if (tw_scrollBar.x + mouseX < 0)
                    {
                        tw_scrollBar.width += tw_scrollBar.x
@@ -78,23 +94,32 @@ Item{
                 onExited: {
                     _tw_timelineData.displayCursor("none");
                 }
+
+                onPressed:{
+                    scrollRightPressed = 1
+                }
+
+                onPositionChanged: {
+                    if ( scrollRightPressed == 1 )
+                         if (tw_scrollBar.x + tw_scrollBar.width + mouseX < tw_fullBar.width && tw_scrollBar.width+mouseX > 5*tw_fullBar.width/_tw_timelineData.maxTime)
+                                tw_scrollBar.width += mouseX
+
+                }
+
                 onReleased:{
-                    console.log(mouseX)
+                    scrollRightPressed = 0
+
                     if (tw_scrollBar.x + tw_scrollBar.width +mouseX > tw_fullBar.width)
                         tw_scrollBar.width = tw_fullBar.width - tw_scrollBar.x
                     else
                     {
                         if (tw_scrollBar.width + mouseX < tw_fullBar.width*5/_tw_timelineData.maxTime)
-                        {
-                            console.log("oihsgr")
                             tw_scrollBar.width = tw_fullBar.width*5/_tw_timelineData.maxTime
-                        }
                         else
                             tw_scrollBar.width += mouseX
                     }
 
-
-                    _tw_timelineData.timelineScale = 800*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
+                    _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
 
                 }
             }

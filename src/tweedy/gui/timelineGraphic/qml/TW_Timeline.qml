@@ -102,8 +102,8 @@ Rectangle {
                 /*console.log(tw_graduation.x);
                 console.log(mouseX);
                 console.log(tw_timeCursor.x)*/
-                _tw_timelineData.play(tw_timeCursor.x / _tw_timelineData.timelineScale);
-                //_tw_timelineData.setTimeInDrag(tw_timeCursor.x / _tw_timelineData.timelineScale)
+                //_tw_timelineData.play(tw_timeCursor.x / _tw_timelineData.timelineScale);
+                _tw_timelineData.setTimeInDrag(tw_timeCursor.x / _tw_timelineData.timelineScale)
             }
 
             onEntered: {
@@ -113,6 +113,7 @@ Rectangle {
                 console.log("qml tw_allTracksHandle onReleased.")
             }
         }
+
 
         Rectangle {
             id: tw_track
@@ -155,8 +156,18 @@ Rectangle {
 
             }
 
-
+            Rectangle {
+                        id: tw_marker
+                        x: 0//_tw_timelineData.timeMarker * _tw_timelineData.timelineScale
+                        y: 0
+                        width: 0
+                        height: tw_track.height
+                        color: '#ff0000'
+                    }
         }
+
+
+
 
         // scrollBar item
         TW_scrollBar {
