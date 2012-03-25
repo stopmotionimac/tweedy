@@ -9,7 +9,6 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
     /*Add as many layout as we have param on the camera*/
 
     int isConnected = projectInstance.tryToConnectCamera();
-    //std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
     if (isConnected == 0)
     {
         //Label for no camera connected
@@ -25,7 +24,7 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
         QVBoxLayout * layoutForListOfParam = new QVBoxLayout(this);
 
         QWidget * widgetForListOfParam = new QWidget(this);
-        //Chance size in fonction of nuber of config
+        //Change size in fonction of nuber of config
 
         widgetForListOfParam->setLayout(layoutForListOfParam);
 
@@ -51,67 +50,69 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 
             int type = projectInstance.gPhotoInstance().getTypeWidget(widgetsVector.at(i));
 
-            //If radio
-            //if (projectInstance.gPhotoInstance().isRadioOrMenu(widgetsVector.at(i))) {
-            if (type == 5) {
+            switch( type )
+            {
+                case GP_WIDGET_RADIO:
+                {
+                    /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
 
-                //récupérer la valeur par défaut
-                //
-                //
-                projectInstance.gPhotoInstance().getValue(widgetsVector.at(i));
+                    GPhotoWidgetTextItems * textItems = new GPhotoWidgetTextItems( widgetsVector.at(i)/*, this*/);
+                    /*make the menu*/
+                    QComboBox * listChoice = textItems->makeMenu();
+                    layoutForOneParam->addWidget(listChoice);
+                    textItems->putChoicesIntoMenu();
+                    break;
+                }
 
-                int nbChoices = projectInstance.gPhotoInstance().CountChoices(widgetsVector.at(i));
-                //std::cout<<"NB CHOICES : "<<nbChoices<<std::endl;
+                case GP_WIDGET_TOGGLE:
+                {
+                /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
 
-                //For the QMenu
-                QMenu * menuChoice = new QMenu(this);
-                QPushButton * buttonChoice = new QPushButton(this);
-                buttonChoice->setMenu(menuChoice);
+//                    GPhotoWidgetToggle * toggle = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
+//                    /*make the menu*/
+//                    QButtonGroup toggleChoice = toggle->makeButton();
+//                    layoutForOneParam->addWidget(&toggleChoice);
+//                    toggle->putChoicesIntoButtonGroup();
 
-                layoutForOneParam->addWidget(buttonChoice);
+                    GPhotoWidgetToggle * yes = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
+                    GPhotoWidgetToggle * no = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
+                    /*make the menu*/
+                    QRadioButton * toggleYes = yes->makeButton("yes");
+                    QRadioButton * toggleNo = no->makeButton("no");
+                    layoutForOneParam->addWidget(toggleYes);
+                    layoutForOneParam->addWidget(toggleNo);
 
 
-                //get each choices to make a menu
-                for (int j = 0; j< nbChoices; ++j) {
-                    std::string choiceName = projectInstance.gPhotoInstance().getChoice(widgetsVector.at(i), j);
-                    //std::cout<<"NAME CHOICE => "<<choiceName<<std::endl;
-                    //menuChoice->addMenu(QString::fromStdString(choiceName));
+                    break;
+                }
 
-                    /*make the appropriate action*/
-                    _setValue = new QAction(this);
-                    _setValue = menuChoice->addAction(QString::fromStdString(choiceName));
+                case GP_WIDGET_TEXT:
+                {
+                    GPhotoWidgetTextField * textField = new GPhotoWidgetTextField( widgetsVector.at(i)/*, this*/);
 
-                    menuChoice->addAction(_setValue);
-                    connect(_setValue, SIGNAL(triggered()), this, SLOT(on_setValue_triggered(/*widgetsVector.at(i), choiceName*/)));
-
+                    QLineEdit * text = textField->makeMenu();
+                    layoutForOneParam->addWidget(text);
+                    break;
                 }
             }
+
             //If toggle (yes/no)
-            if (type == 4) {
+//            if (type == 4) {
 
-                //récupérer la valeur par défaut
-                //
-                //
+//                //récupérer la valeur par défaut
+//                //
+//                //
 
-                QRadioButton * yesChoice = new QRadioButton("yes", this);
-                layoutForOneParam->addWidget(yesChoice);
-                QRadioButton * noChoice = new QRadioButton("no", this);
-                layoutForOneParam->addWidget(noChoice);
-            }
-            //If text
-            if (type == 2) {
+//                QRadioButton * yesChoice = new QRadioButton("yes", this);
+//                layoutForOneParam->addWidget(yesChoice);
+//                QRadioButton * noChoice = new QRadioButton("no", this);
+//                layoutForOneParam->addWidget(noChoice);
+//            }
 
-                //récupérer la valeur par défaut
-                //
-                //
-                QLineEdit * textField = new QLineEdit(this);
-                layoutForOneParam->addWidget(textField);
-
-            }
             //If date
-            if (type == 8) {
-                //don't work with gphoto
-            }
+//            if (type == 8) {
+//                //don't work with gphoto
+//            }
         }
 
         scrollArea->setWidget(widgetForListOfParam);
@@ -126,12 +127,5 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
     //scrollArea->setBackgroundRole(QPalette::Dark);
     //scrollArea->addLayout(layoutForListOfParam);
 
-
-}
-
-void ConfigCamera::on_setValue_triggered(/*CameraWidget *widget, const void *value*/) {
-    Projet& projectInstance = Projet::getInstance();
-   // projectInstance.gPhotoInstance().setValue(widget, value);
-    std::cout<<"OK ACTION"<<std::endl;
 
 }

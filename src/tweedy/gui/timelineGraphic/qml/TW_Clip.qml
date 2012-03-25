@@ -2,15 +2,15 @@ import QtQuick 1.1
 
 Item {
         id: tw_clipContainer
-        width: (object.timeOut - object.timeIn + object.blankDuration) * tw_timelineScale
+        width: (object.timeOut - object.timeIn + object.blankDuration) * _tw_timelineData.timelineScale
         height: tw_track.height
 
-
+        scale: tw_clipHandle.pressed ? 1.03 : 1.0
 
         Rectangle {
                 id: tw_blankClip
 
-                width: object.blankDuration * tw_timelineScale // * 0.5
+                width: object.blankDuration * _tw_timelineData.timelineScale // * 0.5
                 height: tw_track.height
 
                 y: 0
@@ -28,7 +28,7 @@ Item {
                         anchors.fill: tw_blankClip
                         hoverEnabled: true
                         //drag.minimumX: 0
-                        //drag.maximumX: _tw_timelineData.maxTime * tw_timelineScale - tw_timelineScale
+                        //drag.maximumX: _tw_timelineData.maxTime * _tw_timelineData.timelineScale - _tw_timelineData.timelineScale
                         drag.target: tw_blankClip
                         drag.axis: "XAxis"
 
@@ -41,13 +41,13 @@ Item {
 
                         onEntered: {
                                 //console.log("qml tw_blankClipHandle onEntered.")
-                                //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
+                                //_tw_timelineData.setTimeInDrag(parent.x / _tw_timelineData.timelineScale)
                                 }
 
-                        onReleased: {
+                         onReleased: {
                                 console.log("qml tw_blankClipHandle onReleased.")
 
-                                _tw_timelineData.translate(parent.x / tw_timelineScale)
+                                _tw_timelineData.translate(mouseX)
                                 parent.z = -1;
                         }
                 }
@@ -95,10 +95,10 @@ Item {
             id: tw_clip
 
             //anchors.fill: parent
-            width: (object.timeOut - object.timeIn) * tw_timelineScale // * 0.5
+            width: (object.timeOut - object.timeIn) * _tw_timelineData.timelineScale // * 0.5
             height: tw_track.height
 
-            x: object.blankDuration * tw_timelineScale
+            x: object.blankDuration * _tw_timelineData.timelineScale
             y: 0
             z: -1
 
@@ -106,10 +106,6 @@ Item {
             border.width: 2
             radius: 10
             color:"#e28a26"
-
-            Text {
-                    text: object.timeIn
-            }
 
             // image du Clip
             Image {
@@ -132,7 +128,7 @@ Item {
                     anchors.fill: tw_clip
                     hoverEnabled: true
                     //drag.minimumX: 0
-                    //drag.maximumX: _tw_timelineData.maxTime * tw_timelineScale - tw_timelineScale
+                    //drag.maximumX: _tw_timelineData.maxTime * _tw_timelineData.timelineScale - _tw_timelineData.timelineScale
                     drag.target: tw_clip
                     drag.axis: "XAxis"
                     acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -142,23 +138,26 @@ Item {
                         {
                             console.log("Qt.RightButton")
                         }
+                        parent.color= '#F47A00'
+                    }
+
+                    onEntered: {
+                        parent.color= '#FDAE37'
+                    }
+
+                    onExited:  {
+                        parent.color = '#e28a26'
                     }
 
                     onPressed: {
-                            console.log("qml tw_clipHandle onPressed.")
-                            _tw_timelineData.setTimeInDrag(object.timeIn);
-                            parent.z = 9999;
-                            }
-
-                    onEntered: {
-                            //console.log("qml tw_clipHandle onEntered.")
-                            //_tw_timelineData.setTimeInDrag(parent.x / tw_timelineScale)
-                            }
+                        tw_timeCursor.x = object.timeIn;
+                        _tw_timelineData.setTimeInDrag(object.timeIn)
+                        //parent.z = 9999;
+                    }
 
                     onReleased: {
-                            console.log("qml tw_clipHandle onReleased.")
-                            _tw_timelineData.translate(parent.x / tw_timelineScale)
-                            parent.z = -1;
+                            _tw_timelineData.translate(parent.x / _tw_timelineData.timelineScale)
+                            //parent.z = -1;
                     }
             }
 
@@ -172,11 +171,11 @@ Item {
 
                     onEntered: {
                             _tw_timelineData.displayCursor("scale");
-                            console.log("qml tw_clipLeftHandle onEntered.")
+
                     }
                     onExited: {
                             _tw_timelineData.displayCursor("none");
-                            console.log("qml tw_clipLeftHandle onExited.")
+
                     }
                     onPressed: {
                         console.log("qml tw_clipRightHandle onPressed.")
@@ -195,11 +194,9 @@ Item {
 
                     onEntered: {
                             _tw_timelineData.displayCursor("scale");
-                            console.log("qml tw_clipRightHandle onEntered.")
                     }
                     onExited: {
                             _tw_timelineData.displayCursor("none");
-                            console.log("qml tw_clipRightHandle onExited.")
                     }
                     onPressed: {
                         console.log("qml tw_clipRightHandle onPressed.")

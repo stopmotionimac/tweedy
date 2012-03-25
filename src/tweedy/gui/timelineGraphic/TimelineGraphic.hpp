@@ -9,7 +9,7 @@
 #include <QtGui/QWidget>
 #include <QtDeclarative/QDeclarativeView>
 
-class TimelineGraphic : public QWidget
+class TimelineGraphic : public QDeclarativeView
 {
 	Q_OBJECT
 public:
@@ -24,7 +24,7 @@ public:
 	{
 		return _timelineData;
 	}
-
+		
 private:
 	void updateData();
 	
@@ -33,12 +33,7 @@ private Q_SLOTS:
 	void onEnableUpdates( const bool update );
 
 private:
-#ifndef Q_MOC_RUN
-	boost::signals::scoped_connection _dataConnection;
-#endif
 	TimelineDataWrapper _timelineData;
-
-	QDeclarativeView* _qmlView;
 
 	QString _timelineQmlFile;
 	QFileSystemWatcher _qmlFileWatcher;

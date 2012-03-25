@@ -9,6 +9,9 @@
 #include <boost/filesystem.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/ptr_container/serialize_ptr_unordered_map.hpp>
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/serialization/string.hpp>
 
 class ChutierMediaExt
 {
@@ -56,7 +59,7 @@ public:
 private :
         typedef boost::ptr_unordered_map<std::string, MediaExt> UOMapMediaExt;
         UOMapMediaExt _mapMediaExt;
-        
+        /*
         friend class boost::serialization::access;
     
         template<class Archive>
@@ -68,6 +71,7 @@ private :
 
 
         }
+        */
         
 };
 
