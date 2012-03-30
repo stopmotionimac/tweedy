@@ -3,6 +3,7 @@ import QtQuick 1.1
 
 //grey rect
 Rectangle {
+
     id: tw_timeline
     anchors.fill: parent
     //width: 800
@@ -14,20 +15,76 @@ Rectangle {
     property int tw_xPositionChanged :0
     property int tw_scrollPositionChanged:0
 
-    //blue rect
     Rectangle {
         id: tw_allTracks
 
         //anchors.top: parent.top
         //anchors.left: parent.left
         //anchors.bottom: parent.bottom
-        color: '#0000ff'
+        color: "#ACB6B5"
         x: 0
         y: 0
         //width: ( _tw_timelineData.maxTime + 10) * _tw_timelineData.timelineScale
         width: _tw_timelineData.maxTime * _tw_timelineData.timelineScale
         //width: parent.width
         height: parent.height
+
+        Rectangle {
+
+                id : tw_graduation
+                x: 0
+                y: 0
+                width: parent.width
+                height: tw_allTracks.height - tw_track.height -25
+                color: "#ACB6B5"
+
+                Row {
+
+                    Repeater {
+
+                        model : _tw_timelineData.maxTime
+
+                        Row {
+
+                            Column {
+
+                                Rectangle {
+                                    id: tw_graduation_top
+                                    y:0
+                                    height: tw_graduation.height
+                                    width: _tw_timelineData.timelineScale -2
+                                    color: '#ACB6B5'
+
+                                    Text {
+                                        id: tw_frame
+                                        text: index
+                                        y: tw_graduation.y +5
+                                    }
+
+                                }
+
+                                Rectangle {
+                                    id: tw_graduation_bottom
+                                    height: 2
+                                    y: tw_graduation_top.height - tw_graduation_bottom.height
+                                    width: tw_graduation_top.width
+                                    color: 'black'
+                                }
+                            }
+
+                            Rectangle {
+                                id: tw_graduation_verticalLine
+                                color: 'black'
+                                x: tw_graduation.width
+                                y : tw_graduation.height /2
+                                width: 2
+                                height:tw_graduation.height /2
+                            }
+
+                        }
+                    }
+                }
+        }
 
         // zone de deplacement
         MouseArea {
@@ -40,6 +97,15 @@ Rectangle {
                         //drag.maximumX: (tw_allTracks.x+tw_allTracks.width) + tw_dragMargin
             //drag.target: tw_allTracks
 
+            onClicked: {
+                tw_timeCursor.x = tw_graduation.x + mouseX;
+                /*console.log(tw_graduation.x);
+                console.log(mouseX);
+                console.log(tw_timeCursor.x)*/
+                //_tw_timelineData.play(tw_timeCursor.x / _tw_timelineData.timelineScale);
+                _tw_timelineData.setTimeInDrag(tw_timeCursor.x / _tw_timelineData.timelineScale)
+            }
+
             onEntered: {
                 console.log("qml tw_allTracksHandle onEntered.")
             }
@@ -48,7 +114,7 @@ Rectangle {
             }
         }
 
-        //green rect
+
         Rectangle {
             id: tw_track
 
@@ -56,7 +122,7 @@ Rectangle {
             y: 25
             width: parent.width
             height: parent.height - 2*y
-            color: '#00ff00'
+            color: '#ACB6B5'
 
             // delegate clip component
             Component {
@@ -79,6 +145,7 @@ Rectangle {
 
             // list of clips
             ListView {
+
                 id: tw_clipsList
 
                 anchors.fill: parent
@@ -87,27 +154,20 @@ Rectangle {
                 model : _tw_timelineData.clips
                 delegate : tw_clipDelegate
 
-                /*
-                MouseArea {
-                id: tw_clipsListHandle
-                drag.axis: "XAxis"
-                anchors.fill: tw_clipsList
-                drag.target: tw_allTracks
-                //preventStealing: true
-
-                onEntered: {
-                console.log("qml tw_clipsListHandle onEntered.")
-                }
-
-                onReleased: {
-                console.log("qml tw_clipsListHandle onReleased.")
-                }
-                                            }*/
-
             }
 
-
+            Rectangle {
+                        id: tw_marker
+                        x: 0//_tw_timelineData.timeMarker * _tw_timelineData.timelineScale
+                        y: 0
+                        width: 0
+                        height: tw_track.height
+                        color: '#ff0000'
+                    }
         }
+
+
+
 
         // scrollBar item
         TW_scrollBar {
@@ -121,4 +181,5 @@ Rectangle {
 
 
     }
+
 }
