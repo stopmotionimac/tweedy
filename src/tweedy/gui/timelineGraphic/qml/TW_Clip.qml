@@ -10,6 +10,9 @@ Item {
         property int timeInClipSelected : 0
         property int markerPosition : -1
 
+        property int clipRightPressed : 0
+        property int clipLeftPressed : 0
+
         Rectangle {
                 id: tw_blankClip
 
@@ -135,7 +138,15 @@ Item {
                         {
                             console.log("Qt.RightButton")
                         }
-                        parent.color= '#F47A00'
+                        tw_timeCursor.x = object.timeIn * _tw_timelineData.timelineScale;
+                        _tw_timelineData.displayCurrentClip(tw_timeCursor.x / _tw_timelineData.timelineScale)
+
+                        timeInClipSelected = tw_timeCursor.x / _tw_timelineData.timelineScale
+
+                        console.log( " timeInClipSelected" + timeInClipSelected)
+
+                        parent.color = 'red'
+
                     }
 
                     onEntered: {
@@ -143,20 +154,25 @@ Item {
                     }
 
                     onExited:  {
-                        parent.color = '#e28a26'
+                        parent.z = -1;
+                        if( timeInClipSelected == object.timeIn  )
+                        {
+                            parent.color= 'red'
+                        }
+                        else parent.color = '#e28a26'
                     }
 
                     onPressed: {
                             console.log("qml tw_clipHandle onPressed.")
                             timeInClipSelected = object.timeIn
                             parent.z = 9999;
+                            parent.color = 'red'
                     }
                     onDoubleClicked:{
                         doubleClickedBlank = -1
                         timeInDoubleClickedClip = object.timeIn
                         _tw_timelineData.displayClip(timeInDoubleClickedClip)
                     }
-
                     onPositionChanged: {
                         if(parent.x / _tw_timelineData.timelineScale >= 1)
                             markerPosition = _tw_timelineData.getMarkerPosition(timeInClipSelected + parent.x / _tw_timelineData.timelineScale, 1)
@@ -172,12 +188,12 @@ Item {
                             tw_marker.width = 400 / _tw_timelineData.timelineScale
                             tw_marker.x = markerPosition * _tw_timelineData.timelineScale - tw_marker.width / 2
                         }
+
                     }
 
                     onReleased: {
                             markerPosition = -1
                             _tw_timelineData.translate(timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale)
-                            parent.z = -1;
                     }
             }
 
@@ -205,21 +221,34 @@ Item {
             // zone droite pour l'agrandissement du clip
             MouseArea {
                     id: tw_clipRightHandle
-
-                    width: tw_handleWidth
+                    width: 10
                     height: tw_clip.height
                     anchors.right: parent.right
-                    //x: tw_clip.width - width
+                    x: tw_clip.width - width
                     hoverEnabled: true
+                    drag.target: tw_clip
+                    drag.axis: "XAxis"
 
                     onEntered: {
-                            _tw_timelineData.displayCursor("scale");
+                        _tw_timelineData.displayCursor("scale");
                     }
                     onExited: {
                             _tw_timelineData.displayCursor("none");
                     }
                     onPressed: {
-                        console.log("qml tw_clipRightHandle onPressed.")
+                        clipRightPressed = 1
+                        console.log("mouse X clip Released"+mouseX);
+                    }
+                    onReleased:{
+                        clipRightPressed = 0
+
+                        console.log("mouse X clip Released"+mouseX);
+
+                        if( tw_clip.width + mouseX * _tw_timelineData.timelineScale > tw_clip.width )
+                        {
+                            tw_clip.width = tw_clip.width + mouseX * _tw_timelineData.timelineScale
+                        }
+
                     }
             }
     }

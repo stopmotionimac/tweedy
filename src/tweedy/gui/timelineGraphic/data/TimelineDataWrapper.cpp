@@ -25,6 +25,7 @@ TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 		boost::bind( &TimelineDataWrapper::coreDataChanged,
 					this ) );
 
+
         updateListe();
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper end" << std::endl;
 }
@@ -138,37 +139,9 @@ void TimelineDataWrapper::displayCursor( QString typeCurseur )
 	QApplication::setOverrideCursor( curseur );
 }
 
-/*
-QDeclarativeListProperty<ClipDataWrapper> TimelineDataWrapper::getClips()
-{
-	return QDeclarativeListProperty<ClipDataWrapper>( this, _clips );
-}
-
-int TimelineDataWrapper::clipsCount() const
-{
-	return _clips.count();
-}
-
-ClipDataWrapper* TimelineDataWrapper::clips( int index ) const
-{
-	return _clips.at( index );
-}
- */
-
-void TimelineDataWrapper::play( int time )
+void TimelineDataWrapper::displayCurrentClip( int time )
 {
 	Q_EMIT timeChanged( time );
-	/*std::cout<<time<<std::endl;
-	std::string  idClip = "";
-	std::string filename = "img/none.jpg";
-
-
-	bool isClip = _timelineCore->findCurrentClip(idClip,time);
-	if(isClip)
-	{
-	 filename = _timelineCore->mapClip()[idClip].imgPath().string();
-	}
-	_displayPixmap = new QPixmap( QString::fromStdString(filename) );*/
 }
 
 

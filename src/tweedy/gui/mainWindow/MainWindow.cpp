@@ -51,11 +51,6 @@ MainWindow::~MainWindow()
 
 }
 
-void MainWindow::resizeEvent( QResizeEvent * event )
-{
-    _timelineGraphic->getTimelineDataWrapper().emitTimelineScaleChanged();
-}
-
 void MainWindow::createActions()
 {
 
@@ -462,6 +457,8 @@ void MainWindow::writeTime( int newValue )
 
 	_viewerImg->getTimeLabel()->setNum( newValue );
 	_viewerImg->getTempsSlider()->setSliderPosition( newValue );
+
+        _timelineGraphic->getTimelineDataWrapper()._currentTime = newValue ;
 }
 
 /*
