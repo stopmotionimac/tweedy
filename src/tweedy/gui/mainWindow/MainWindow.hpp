@@ -32,6 +32,7 @@ class MainWindow : public QMainWindow
 public:
 	MainWindow();
 	~MainWindow();
+        void resizeEvent( QResizeEvent * event );
 
 public Q_SLOTS:
 	void on_captureAction_triggered();

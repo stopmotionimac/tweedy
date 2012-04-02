@@ -41,12 +41,19 @@ MainWindow::MainWindow()
 	connect( this->_timelineTable, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 	connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 
+        connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+
 	this->adjustSize();
 }
 
 MainWindow::~MainWindow()
 {
 
+}
+
+void MainWindow::resizeEvent( QResizeEvent * event )
+{
+    _timelineGraphic->getTimelineDataWrapper().emitTimelineScaleChanged();
 }
 
 void MainWindow::createActions()
@@ -219,28 +226,30 @@ void MainWindow::createWidgets()
 		configCameraDock->setFloating( true );
 	}
 	
+        {
+                // Dock Timeline QML
+                QDockWidget * graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
+                _timelineGraphic = new TimelineGraphic( NULL );
+                graphicTimelineDock->setWidget( _timelineGraphic );
+                addDockWidget( Qt::BottomDockWidgetArea, graphicTimelineDock );
+    //		graphicTimelineDock->setFloating( true );
+    //		graphicTimelineDock->setHidden( true );
+                _viewMenu->addAction( graphicTimelineDock->toggleViewAction() );
+
+        }
+
 	{
 		// Dock Timeline Table
 		QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
-		_timelineTable = new TimelineTable( timelineDock );
-		timelineDock->setWidget( _timelineTable );
+                _timelineTable = new TimelineTable( timelineDock );
+                timelineDock->setWidget( _timelineTable );
 		addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
 		_viewMenu->addAction( timelineDock->toggleViewAction() );
 		
-		connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
-		connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
+                connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+                connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
 	}
-	{
-		// Dock Timeline QML
-		QDockWidget * graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
-		_timelineGraphic = new TimelineGraphic( NULL );
-		graphicTimelineDock->setWidget( _timelineGraphic );
-		addDockWidget( Qt::BottomDockWidgetArea, graphicTimelineDock );
-//		graphicTimelineDock->setFloating( true );
-//		graphicTimelineDock->setHidden( true );
-		_viewMenu->addAction( graphicTimelineDock->toggleViewAction() );
 
-	}
 
 	// Dock Viewer
 	createWidgetViewer();

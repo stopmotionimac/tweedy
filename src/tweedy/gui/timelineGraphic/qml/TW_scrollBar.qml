@@ -30,7 +30,7 @@ Item{
                 drag.maximumX: tw_fullBar.width - tw_scrollBar.width
                 onReleased:{
                     tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
-
+                    tw_graduation.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
                 }
              }
             // zone gauche pour l'agrandissement du zoom
@@ -77,7 +77,6 @@ Item{
                            tw_scrollBar.x += mouseX
                        }
 
-                   ratio = tw_fullBar.width / tw_scrollBar.width
 
                    _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
                    tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
@@ -121,7 +120,6 @@ Item{
                             tw_scrollBar.width += mouseX
                     }
 
-                    ratio = tw_fullBar.width / tw_scrollBar.width
                     _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
 
                 }
