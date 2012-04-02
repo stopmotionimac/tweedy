@@ -18,7 +18,6 @@ private Q_SLOTS:
      GPhotoWidgetToggle (CameraWidget* widget);
      CameraWidget * getWidget() { return _widget; }
      QRadioButton * makeButton(const QString name);
-//     void putChoicesIntoButtonGroup(const QString name);
 
  private:
      CameraWidget * _widget;

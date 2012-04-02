@@ -37,84 +37,62 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
 
         for (int i = 0; i<widgetsVector.size(); ++i) {
 
-            QWidget * widgetOfOneParam = new QWidget(this);
-            layoutForListOfParam->addWidget(widgetOfOneParam);
-            QHBoxLayout * layoutForOneParam = new QHBoxLayout(this);
-            widgetOfOneParam->setLayout(layoutForOneParam);
-
-            //Label (What param)
-            QLabel * labelParam = new QLabel(this);
-            labelParam->setText(QString::fromStdString(projectInstance.gPhotoInstance().getNameOfAWidget(widgetsVector.at(i))));
-            layoutForOneParam->addWidget(labelParam);
-
-
             int type = projectInstance.gPhotoInstance().getTypeWidget(widgetsVector.at(i));
 
-            switch( type )
-            {
-                case GP_WIDGET_RADIO:
-                {
-                    /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
+            //Label (What param)
+            //Can evolve with Gphoto
+            if (type == GP_WIDGET_RADIO  || type == GP_WIDGET_TEXT) {
+                QWidget * widgetOfOneParam = new QWidget(this);
+                layoutForListOfParam->addWidget(widgetOfOneParam);
+                QHBoxLayout * layoutForOneParam = new QHBoxLayout(this);
+                widgetOfOneParam->setLayout(layoutForOneParam);
 
-                    GPhotoWidgetTextItems * textItems = new GPhotoWidgetTextItems( widgetsVector.at(i)/*, this*/);
-                    /*make the menu*/
-                    QComboBox * listChoice = textItems->makeMenu();
-                    layoutForOneParam->addWidget(listChoice);
-                    textItems->putChoicesIntoMenu();
-                    break;
+                QLabel * labelParam = new QLabel(this);
+                labelParam->setText(QString::fromStdString(projectInstance.gPhotoInstance().getNameOfAWidget(widgetsVector.at(i))));
+                layoutForOneParam->addWidget(labelParam);
+
+                switch( type )
+                {
+                    case GP_WIDGET_RADIO:
+                    {
+                        /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
+
+                        GPhotoWidgetTextItems * textItems = new GPhotoWidgetTextItems( widgetsVector.at(i)/*, this*/);
+                        /*make the menu*/
+                        QComboBox * listChoice = textItems->makeMenu();
+                        layoutForOneParam->addWidget(listChoice);
+                        textItems->putChoicesIntoMenu();
+                        break;
+                    }
+
+                    // CASE TOGGLE DON'T REALLY WORK WITH QPHOTO (don't keep the value) //
+    //                case GP_WIDGET_TOGGLE:
+    //                {
+    //                /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
+    //                    GPhotoWidgetToggle * yes = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
+    //                    GPhotoWidgetToggle * no = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
+    //                    /*make the menu*/
+    //                    QRadioButton * toggleYes = yes->makeButton("yes");
+    //                    QRadioButton * toggleNo = no->makeButton("no");
+    //                    layoutForOneParam->addWidget(toggleYes);
+    //                    layoutForOneParam->addWidget(toggleNo);
+
+
+    //                    break;
+    //                }
+
+                    case GP_WIDGET_TEXT:
+                    {
+                        GPhotoWidgetTextField * textField = new GPhotoWidgetTextField( widgetsVector.at(i)/*, this*/);
+
+                        QLineEdit * text = textField->makeMenu();
+                        layoutForOneParam->addWidget(text);
+                        break;
+                    }
                 }
 
-                case GP_WIDGET_TOGGLE:
-                {
-                /*NPO RECUPERER LA VALEUR PAR DEFAULT*/
-
-//                    GPhotoWidgetToggle * toggle = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
-//                    /*make the menu*/
-//                    QButtonGroup toggleChoice = toggle->makeButton();
-//                    layoutForOneParam->addWidget(&toggleChoice);
-//                    toggle->putChoicesIntoButtonGroup();
-
-                    GPhotoWidgetToggle * yes = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
-                    GPhotoWidgetToggle * no = new GPhotoWidgetToggle( widgetsVector.at(i)/*, this*/);
-                    /*make the menu*/
-                    QRadioButton * toggleYes = yes->makeButton("yes");
-                    QRadioButton * toggleNo = no->makeButton("no");
-                    layoutForOneParam->addWidget(toggleYes);
-                    layoutForOneParam->addWidget(toggleNo);
-
-
-                    break;
-                }
-
-                case GP_WIDGET_TEXT:
-                {
-                    GPhotoWidgetTextField * textField = new GPhotoWidgetTextField( widgetsVector.at(i)/*, this*/);
-
-                    QLineEdit * text = textField->makeMenu();
-                    layoutForOneParam->addWidget(text);
-                    break;
-                }
             }
-
-            //If toggle (yes/no)
-//            if (type == 4) {
-
-//                //récupérer la valeur par défaut
-//                //
-//                //
-
-//                QRadioButton * yesChoice = new QRadioButton("yes", this);
-//                layoutForOneParam->addWidget(yesChoice);
-//                QRadioButton * noChoice = new QRadioButton("no", this);
-//                layoutForOneParam->addWidget(noChoice);
-//            }
-
-            //If date
-//            if (type == 8) {
-//                //don't work with gphoto
-//            }
         }
-
         scrollArea->setWidget(widgetForListOfParam);
     }
 
