@@ -21,6 +21,8 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include <iostream>
 #include <iomanip>
@@ -483,6 +485,7 @@ void MainWindow::on_saveProjectAction_triggered()
         
         const std::string fileNameEDLExport = "./test_edl.edl";
         std::ofstream myFlux(fileNameEDLExport.c_str());
+        
         if(myFlux)
         {
             int i = 1;
@@ -496,10 +499,23 @@ void MainWindow::on_saveProjectAction_triggered()
             myFlux << "TITLE: Tweedy" << std::endl;
             myFlux << std::endl;
             
+            /*  work directory */
+            //myFlux << "*WORK DIR = TWEEDY/IMG"<<std::endl;
+            //myFlux << std::endl;
+            
             BOOST_FOREACH( const OMapClip::value_type& s, mapClip )
             {
                 Clip* clip = *s->second;
                 int length = clip->timeOut() - clip->timeIn();
+                
+                
+                
+                
+                std::vector<std::string> strs;
+                const std::string st = clip->getImgPath().string();
+                boost::split(strs, st,boost::is_any_of("/"));
+                std::string nameImg = strs.back();
+                
                 
                 /*convertir la lgr du clip en base 24*/
                 int nbframe = length * (24./fps);
@@ -517,7 +533,7 @@ void MainWindow::on_saveProjectAction_triggered()
                         : boost::lexical_cast<std::string>(nbframe);
                 
                  
-                myFlux << boost::lexical_cast<std::string>(i) +"\t" + "AX\t" + "V\t" + "C\t" + 
+                myFlux << boost::lexical_cast<std::string>(i) + "  AX       V     C        " + 
                         "01:00:00:00 01:" + smin + ":" + ssec + ":" + sframe ;
                
                
@@ -560,6 +576,10 @@ void MainWindow::on_saveProjectAction_triggered()
                 myFlux << " 00:" + smin + ":" + ssec + ":" + sframe <<std::endl;
                 
                 ++i;
+                
+                
+                /* etablir le nom de l'image */
+                myFlux << "* FROM CLIP NAME: " + nameImg << std::endl<<std::endl;
             }
             
             

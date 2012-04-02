@@ -42,6 +42,7 @@ public:
     ~Clip(){}
     
     const boost::filesystem::path& imgPath() const { return _imgPath; }
+    boost::filesystem::path& getImgPath() { return _imgPath;}
     unsigned int timeIn() const { return _timeIn; }
     unsigned int timeOut() const { return _timeOut; }
 
