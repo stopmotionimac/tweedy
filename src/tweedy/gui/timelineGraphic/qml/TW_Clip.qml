@@ -150,9 +150,6 @@ Item {
                             tw_marker.width = 400 / _tw_timelineData.timelineScale
                             tw_marker.x = markerPosition * _tw_timelineData.timelineScale - tw_marker.width / 2
                         }
-
-                        console.log (markerPosition)
-
                     }
 
                     onReleased: {

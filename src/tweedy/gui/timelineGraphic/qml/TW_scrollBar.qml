@@ -6,6 +6,7 @@ Item{
     property int scrollRightPressed : 0
     property int scrollLeftPressed : 0
 
+
     Rectangle{
         id: tw_fullBar
         width:tw_timeline.width
@@ -76,6 +77,7 @@ Item{
                            tw_scrollBar.x += mouseX
                        }
 
+                   ratio = tw_fullBar.width / tw_scrollBar.width
 
                    _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
                    tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
@@ -119,13 +121,15 @@ Item{
                             tw_scrollBar.width += mouseX
                     }
 
+                    ratio = tw_fullBar.width / tw_scrollBar.width
                     _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
 
                 }
-            }
 
-        }
+            }//end rightMouseArea
 
-    }
+        }//end yellow rect
 
-}
+    }//end purple rect
+
+}//end item
