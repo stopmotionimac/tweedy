@@ -139,22 +139,25 @@ void Chutier::on_importAction_triggered()
 
 	BOOST_FOREACH( const QString& fileName, fileNames )
 	{
+            
 		QListWidgetItem *item = new QListWidgetItem( QIcon( fileName ), fileName, _listWidgetImport );
 
 		_listWidgetImport->addItem( item );
 
 		_tabWidget->setCurrentWidget( _listWidgetImport );
-
+            
 		/*add media imported to chutier core*/
 		boost::filesystem::path nameOfFileToImport( fileName.toStdString() );
 		ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
 		chutierMediaExt.importMediaToChutier( nameOfFileToImport );
-		//chutierMediaExt.printMapMediaExt();
+		chutierMediaExt.printMapMediaExt();
 	}
+        this->updateChutier();
 }
 
 void Chutier::on_deleteAction_triggered()
 {
+        /*
 	//bug quand on supprime tout
 	QList<QListWidgetItem *> fileSelected = _listWidgetImport->selectedItems();
 	for( int i = 0; i < fileSelected.count(); ++i )
@@ -166,6 +169,7 @@ void Chutier::on_deleteAction_triggered()
 		}
 
 	}
+         */
 }
 
 void Chutier::changedPixmap( int row, int column )
@@ -189,6 +193,35 @@ void Chutier::contextMenuEvent( QContextMenuEvent *event )
 	menu.addAction( _importAction );
 	menu.exec( event->globalPos() );
 
+}
+
+/*
+ actualise le chutier
+ */
+void Chutier::updateChutier()
+{
+    Projet& projectInstance = Projet::getInstance();
+   
+    /*
+    typedef boost::ptr_unordered_map<std::string, MediaExt> MapMedia_t;
+    MapMedia_t mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
+   */
+    boost::ptr_unordered_map<std::string, MediaExt> mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
+    std::cout<<mapMediaExt.size()<<std::endl;
+    
+    /*
+    BOOST_FOREACH( MapMedia_t::value_type s, mapMediaExt)
+    {
+        std::cout << "looooool" << std::endl;
+        QListWidgetItem *item = new QListWidgetItem( QIcon( QString::fromStdString(s->first) ), QString::fromStdString(s->first) , _listWidgetImport );
+
+        _listWidgetImport->addItem( item );
+
+        _tabWidget->setCurrentWidget( _listWidgetImport );
+    }
+    */
+    
+    
 }
 
 Chutier::~Chutier()

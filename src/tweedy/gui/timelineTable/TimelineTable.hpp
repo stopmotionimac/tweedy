@@ -88,6 +88,7 @@ public:
 		return _zeroAction;
 	}
 
+        int getFps(){   return _fps;}
 
 	public 
 Q_SLOTS:

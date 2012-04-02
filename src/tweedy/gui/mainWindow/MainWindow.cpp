@@ -476,8 +476,99 @@ void MainWindow::on_saveProjectAction_triggered()
 	std::ofstream ofs( filename );
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();
-
+        ofs.close();
+        
 	//std::cout << "sauvegarde" << std::endl;
+        std::cout << "export EDL" << std::endl;
+        
+        const std::string fileNameEDLExport = "./test_edl.edl";
+        std::ofstream myFlux(fileNameEDLExport.c_str());
+        if(myFlux)
+        {
+            int i = 1;
+            double fps = _timelineTable->getFps();
+            
+            typedef boost::ptr_map<unsigned int, Clip*> OMapClip;
+            Timeline timeline = Projet::getInstance().getTimeline();
+            OMapClip mapClip = timeline.getOrderedClips();
+         
+            /* code pour générer le fichier edl*/
+            myFlux << "TITLE: Tweedy" << std::endl;
+            myFlux << std::endl;
+            
+            BOOST_FOREACH( const OMapClip::value_type& s, mapClip )
+            {
+                Clip* clip = *s->second;
+                int length = clip->timeOut() - clip->timeIn();
+                
+                /*convertir la lgr du clip en base 24*/
+                int nbframe = length * (24./fps);
+                int min = nbframe/(24*24);
+                int sec = (nbframe-(min*24*24))/24;
+                nbframe -= min*24*24 + sec*24;
+                
+                std::string smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
+                        : boost::lexical_cast<std::string>(min);
+                
+                std::string ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
+                        : boost::lexical_cast<std::string>(sec);
+                
+                std::string sframe = nbframe<10 ? "0"+boost::lexical_cast<std::string>(nbframe) 
+                        : boost::lexical_cast<std::string>(nbframe);
+                
+                 
+                myFlux << boost::lexical_cast<std::string>(i) +"\t" + "AX\t" + "V\t" + "C\t" + 
+                        "01:00:00:00 01:" + smin + ":" + ssec + ":" + sframe ;
+               
+               
+                /*établir le temps de début du clip*/
+                
+                int startFrame = clip->timeIn() * (24./fps);
+                //int hour = startFrame/(24*24*24);
+                min = startFrame/(24*24);
+                sec = (startFrame-(min*24*24))/24;
+                startFrame -= min*24*24 + sec*24;
+                
+                smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
+                        : boost::lexical_cast<std::string>(min);
+                
+                ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
+                        : boost::lexical_cast<std::string>(sec);
+                
+                sframe = startFrame<10 ? "0"+boost::lexical_cast<std::string>(startFrame) 
+                        : boost::lexical_cast<std::string>(startFrame);
+                
+                 myFlux << " 00:" + smin + ":" + ssec + ":" + sframe ;
+                
+                
+                /*établir le temps de fin du clip*/
+               
+                int endFrame = clip->timeOut() * (24./fps);
+                min = endFrame/(24*24);
+                sec = (endFrame-(min*24*24))/24;
+                endFrame -= min*24*24 + sec*24;
+                
+                smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
+                        : boost::lexical_cast<std::string>(min);
+                
+                ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
+                        : boost::lexical_cast<std::string>(sec);
+                
+                sframe = endFrame<10 ? "0"+boost::lexical_cast<std::string>(endFrame) 
+                        : boost::lexical_cast<std::string>(endFrame);
+                
+                myFlux << " 00:" + smin + ":" + ssec + ":" + sframe <<std::endl;
+                
+                ++i;
+            }
+            
+            
+        }
+        else
+        {
+            std::cout << "Impossible d'ouvrir le fichier d'export EDL" << std::endl;
+        }
+        
 }
 
 //chargement du projet
@@ -493,5 +584,6 @@ void MainWindow::on_loadProjectAction_triggered()
 
 	//std::cout << "chargement" << std::endl;
 	_timelineTable->updateTable();
+        _chutier->updateChutier();
 
 }

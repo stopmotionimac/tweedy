@@ -38,6 +38,8 @@ public:
 	{
 		return *_tabWidget;
 	}
+        
+        void updateChutier();
 
 	public
 Q_SLOTS:

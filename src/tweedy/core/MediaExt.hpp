@@ -1,6 +1,7 @@
 #ifndef MEDIAEXT_HPP
 #define MEDIAEXT_HPP
 
+#include <boost/noncopyable.hpp>
 #include <boost/filesystem/path.hpp>
 #include <tweedy/core/Imedia.hpp>
 #include <boost/serialization/base_object.hpp>
@@ -14,6 +15,7 @@ public:
         this->_name = url;
     }
 
+    MediaExt* clone() const;
 
 private:
 
@@ -22,7 +24,7 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version) {
         // serialize base class information
-        //ar & boost::serialization::base_object<Imedia>(*this);
+        ar & boost::serialization::base_object<Imedia>(*this);
 
     }
 
