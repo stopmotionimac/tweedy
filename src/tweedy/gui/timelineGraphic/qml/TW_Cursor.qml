@@ -31,7 +31,7 @@ Item {
         }
         onPositionChanged: {
             var xCursor = tw_cursor.x / _tw_timelineData.timelineScale;
-            _tw_timelineData.displayCurrentClip(xCursor);
+            _tw_timelineData.displayCurrentClip(xCursor - tw_track.x/ _tw_timelineData.timelineScale);
         }
 
         onEntered: {
