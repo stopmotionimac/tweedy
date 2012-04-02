@@ -48,11 +48,10 @@ Chutier::Chutier( QWidget *parent )
 
         _viewerChutier->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
         _viewerChutier->setScaledContents( false );
-        _viewerChutier->setMinimumSize( 400, 250 );
 
         //widgets disposition
 	QHBoxLayout * layoutBoutons = new QHBoxLayout();
-	layoutBoutons->addStretch();
+        layoutBoutons->addStretch();
 	layoutBoutons->addWidget( _importButton );
 	layoutBoutons->addWidget( _deleteButton );
 
@@ -103,22 +102,22 @@ Chutier::Chutier( QWidget *parent )
 		_listWidgetCapture->addItem( item );
 	}
 
-        //image par defaut
         QPixmap defaultImage( "img/noPhotoSelected.jpg" );
-        QPixmap p1( defaultImage.scaled ( defaultImage.width(),defaultImage.height(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation ) );
-        _viewerChutier->setMinimumSize(p1.width(),p1.height());
+        _viewerChutier->setMinimumSize(defaultImage.width(),defaultImage.height());
+        QPixmap p1( defaultImage.scaled ( _viewerChutier->width(), _viewerChutier->height(), Qt::KeepAspectRatioByExpanding ) );
         _viewerChutier->setPixmap( p1 );
+        _viewerChutier->adjustSize();
 
 	connect( _listWidgetImport, SIGNAL( itemSelectionChanged() ), this, SLOT( on_photo_selected_import() ) );
 	connect( _listWidgetCapture, SIGNAL( itemSelectionChanged() ), this, SLOT( on_photo_selected_capture() ) );
 	connect( _importAction, SIGNAL( triggered() ), this, SLOT( on_importAction_triggered() ) );
-	connect( _deleteAction, SIGNAL( triggered() ), this, SLOT( on_deleteAction_triggered() ) );
+        connect( _deleteAction, SIGNAL( triggered() ), this, SLOT( on_deleteAction_triggered() ) );
 }
 
 void Chutier::on_photo_selected_import()
 {
 	QPixmap pixmap( _listWidgetImport->currentItem()->text() );
-	pixmap.scaled( _viewerChutier->width(), _viewerChutier->height(), Qt::KeepAspectRatioByExpanding );
+        pixmap.scaled( _viewerChutier->size(), Qt::KeepAspectRatioByExpanding );
 	_viewerChutier->setPixmap( pixmap );
 
 }
