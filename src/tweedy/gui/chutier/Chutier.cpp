@@ -13,6 +13,7 @@
 
 #include <iostream>
 
+typedef boost::ptr_unordered_map<std::string, MediaExt> MapMedia_t;
 
 Chutier::Chutier( QWidget *parent )
 : QWidget( parent )
@@ -157,18 +158,18 @@ void Chutier::on_importAction_triggered()
 
 void Chutier::on_deleteAction_triggered()
 {
-        
-	//bug quand on supprime tout
+    
 	QList<QListWidgetItem *> fileSelected = _listWidgetImport->selectedItems();
-	for( int i = 0; i < fileSelected.count(); ++i )
+	BOOST_FOREACH( const QListWidgetItem* currentItem, fileSelected )
 	{
-		if( _listWidgetImport->count() != 0 )
-		{
-			QListWidgetItem * item = _listWidgetImport->takeItem( i );
-                        //item->text()
-		}
+                std::string path = currentItem->text().toStdString();
+                        
+                MapMedia_t& mapMediaExt = Projet::getInstance().getChutierMediaExt().getMapMediaExt();
+                MediaExt& media = mapMediaExt[path];
+                Projet::getInstance().getChutierMediaExt().deleteMediaFromChutier(media);
 
 	}
+        this->updateChutier();
         
 }
 
@@ -205,8 +206,8 @@ void Chutier::updateChutier()
     Projet& projectInstance = Projet::getInstance();
    
     
-    typedef boost::ptr_unordered_map<std::string, MediaExt> MapMedia_t;
-    MapMedia_t mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
+    
+    MapMedia_t& mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
    
 //    const boost::ptr_unordered_map<std::string, MediaExt>& mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
     //std::cout<<mapMediaExt.size()<<std::endl;
