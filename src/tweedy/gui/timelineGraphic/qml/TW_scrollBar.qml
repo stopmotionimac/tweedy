@@ -11,14 +11,14 @@ Item{
         width:tw_timeline.width
         height:25
         y:25 + tw_track.height
-        color: 'purple'
+        color: "#ACB6B5"
 
         //yellow rect
         Rectangle {
             id: tw_scrollBar
             width: _tw_timelineData.maxTime<5 ? parent.width : parent.width*5/_tw_timelineData.maxTime
             height: 25
-            color: 'yellow'
+            color: '#FFCC66'
 
             MouseArea {
                 id: tw_scrollBarHandle
@@ -30,6 +30,12 @@ Item{
                 onReleased:{
                     tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
                     tw_graduation.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
+                }
+                onEntered: {
+                    parent.color = "#FFFF99"
+                }
+                onExited: {
+                    parent.color = '#FFCC66'
                 }
              }
             // zone gauche pour l'agrandissement du zoom

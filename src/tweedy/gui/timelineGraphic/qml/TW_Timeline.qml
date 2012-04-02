@@ -99,11 +99,7 @@ Rectangle {
 
             onClicked: {
                 tw_timeCursor.x = tw_graduation.x + mouseX;
-                /*console.log(tw_graduation.x);
-                console.log(mouseX);
-                console.log(tw_timeCursor.x)*/
-                //_tw_timelineData.play(tw_timeCursor.x / _tw_timelineData.timelineScale);
-                _tw_timelineData.setTimeInDrag(tw_timeCursor.x / _tw_timelineData.timelineScale)
+                _tw_timelineData.displayCurrentClip(tw_timeCursor.x / _tw_timelineData.timelineScale)
             }
 
             onEntered: {

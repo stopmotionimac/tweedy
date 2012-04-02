@@ -453,6 +453,8 @@ void MainWindow::writeTime( int newValue )
 
 	_viewerImg->getTimeLabel()->setNum( newValue );
 	_viewerImg->getTempsSlider()->setSliderPosition( newValue );
+
+        _timelineGraphic->getTimelineDataWrapper()._currentTime = newValue ;
 }
 
 /*

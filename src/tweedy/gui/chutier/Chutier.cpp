@@ -31,7 +31,7 @@ Chutier::Chutier( QWidget *parent )
 	_importAction = new QAction( QIcon( "img/icones/import.png" ), "Import", this );
 	_deleteAction = new QAction( QIcon( "img/icones/delete.png" ), "Delete", this );
 
-	//affecter actions aux QToolButton
+        //actions to QToolButton
 	_importButton->setDefaultAction( _importAction );
 	_deleteButton->setDefaultAction( _deleteAction );
 	_importButton->setIconSize( QSize( 25, 25 ) );
@@ -43,15 +43,14 @@ Chutier::Chutier( QWidget *parent )
 	_viewerChutierDock = new QDockWidget( "Media List Viewer", this );
 	_viewerChutier = new QLabel( _viewerChutierDock );
 	_viewerChutier->setBackgroundRole( QPalette::Dark );
-	_viewerChutier->setScaledContents( false );
-	_viewerChutierDock->setWidget( _viewerChutier );
-	_viewerChutier->setSizePolicy( QSizePolicy::Expanding, QSizePolicy::Expanding );
-	_tabWidget->setSizePolicy( QSizePolicy::Preferred, QSizePolicy::Preferred );
+        _viewerChutierDock->setWidget( _viewerChutier );
 
-	//en dur ??????
-	_viewerChutier->setMaximumSize( 600, 400 );
 
-	//disposition des widgets
+        _viewerChutier->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+        _viewerChutier->setScaledContents( false );
+        _viewerChutier->setMinimumSize( 400, 250 );
+
+        //widgets disposition
 	QHBoxLayout * layoutBoutons = new QHBoxLayout();
 	layoutBoutons->addStretch();
 	layoutBoutons->addWidget( _importButton );
@@ -71,7 +70,7 @@ Chutier::Chutier( QWidget *parent )
 
 	Projet& projectInstance = Projet::getInstance();
 
-	/*to add media to chutier media ext*/
+        //to add media to chutier media ext
 	ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
 
 	boost::ptr_unordered_map<std::string, MediaExt>::iterator iter;
@@ -104,10 +103,11 @@ Chutier::Chutier( QWidget *parent )
 		_listWidgetCapture->addItem( item );
 	}
 
-
-	//image par defaut
-	QString defaultImage( "img/noPhotoSelected.jpg" );
-	_viewerChutier->setPixmap( defaultImage );
+        //image par defaut
+        QPixmap defaultImage( "img/noPhotoSelected.jpg" );
+        QPixmap p1( defaultImage.scaled ( defaultImage.width(),defaultImage.height(), Qt::KeepAspectRatioByExpanding, Qt::SmoothTransformation ) );
+        _viewerChutier->setMinimumSize(p1.width(),p1.height());
+        _viewerChutier->setPixmap( p1 );
 
 	connect( _listWidgetImport, SIGNAL( itemSelectionChanged() ), this, SLOT( on_photo_selected_import() ) );
 	connect( _listWidgetCapture, SIGNAL( itemSelectionChanged() ), this, SLOT( on_photo_selected_capture() ) );
