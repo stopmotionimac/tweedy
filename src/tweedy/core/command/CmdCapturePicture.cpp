@@ -64,7 +64,7 @@ void CmdCapturePicture::undo()
     timeline.deleteClip(_newClip.getId().getIdStringForm());
     
     //effacer le blanc de la timeline
-    timeline.deleteBlank(_newClip.timeIn());
+    timeline.deleteBlank(&_newClip);
     
 }
 

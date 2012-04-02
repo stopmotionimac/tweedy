@@ -13,19 +13,10 @@ QRadioButton * GPhotoWidgetToggle::makeButton(const QString name) {
     return _button;
 }
 
-//void GPhotoWidgetToggle::putChoicesIntoButtonGroup(const QString name) {
-//    Projet& projectInstance = Projet::getInstance();
-
-////    QRadioButton * yesChoice = new QRadioButton("yes"/*, this*/);
-////    QRadioButton * noChoice = new QRadioButton("no"/*, this*/);
-////    _buttonGourp->addButton(yesChoice);
-////    _buttonGourp->addButton(noChoice);
-
-//    QRadioButton::connect(_button, SIGNAL(ButtonReleased(int)), this, SLOT(on_setValue_released(int)));
-//}
-
 void GPhotoWidgetToggle::on_setValue_toggled(bool checked){
 
+    //Gphoto needs 2 for "yes" and 0 for "no"!
+    int value;
     //std::cout<<this->_name<<std::endl;
     Projet& projectInstance = Projet::getInstance();
 
@@ -36,12 +27,14 @@ void GPhotoWidgetToggle::on_setValue_toggled(bool checked){
         if (checked)
         {
             std::cout<<"yes"<<std::endl;
-            checked = 1;/*normalement pas utile!*/
+            //checked = 1;
+            value = 2;
         }
         else
         {
             std::cout<<"no"<<std::endl;
-            checked = 0;
+            //checked = 0;
+            value = 0;
         }
     }
     else
@@ -49,14 +42,18 @@ void GPhotoWidgetToggle::on_setValue_toggled(bool checked){
         if (checked)
         {
             std::cout<<"no"<<std::endl;
-            checked  = 0;
+            //checked  = 0;
+            value = 0;
         }
         else
         {
             std::cout<<"yes"<<std::endl;
-            checked = 1;/*normalement pas utile*/
+            //checked = 1;
+            value = 2;
         }
     }
-    //PBLEME SEG FAULT
-    //projectInstance.gPhotoInstance().setValue(_widget, (const void *)checked);
+    //projectInstance.gPhotoInstance().getValue(_widget);
+    projectInstance.gPhotoInstance().setValueInt(_widget, value);
+    //projectInstance.gPhotoInstance().getValue(_widget);
+
 }

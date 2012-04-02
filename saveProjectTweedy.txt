@@ -1,3 +1,4 @@
+
 22 serialization::archive 9 0 0 0 0 15 15 0 0 15 17 /timeline1/clip14 3 1 0
 0 0 0 0 0 2 0 9 timeline1 6 clip14 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy6.jpg 0 1 16 /timeline1/clip9 3
 1 2 0 9 timeline1 5 clip9 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy1.jpg 5 6 15 /timeline1/flux 3
