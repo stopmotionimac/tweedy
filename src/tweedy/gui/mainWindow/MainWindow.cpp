@@ -107,8 +107,7 @@ void MainWindow::createActions()
 
 void MainWindow::createStartWindow()
 {
-
-        //creation fenetre de demarrage
+        //creation of the start window
         _startWindowDialog = new StartWindow();
         /// @todo Le titre est deja sette dans StartWindow !
         /// Pourquoi ne pas tout faire dans StartWindow ??
@@ -117,7 +116,7 @@ void MainWindow::createStartWindow()
         _startWindowDialog->setModal( false );
         _startWindowDialog->showNormal();
 
-        //mettre la fenetre au centre de l'ecran
+        //pu the window on the screen center
         const QRect screen = QApplication::desktop()->screenGeometry();
         _startWindowDialog->move( screen.center() - _startWindowDialog->rect().center() );
 
@@ -164,7 +163,6 @@ void MainWindow::createMenuBar()
 
         _paramsMenu = menuBar()->addMenu( tr( "Configuration" ) );
         _paramsMenu->addAction(_configAction);
-        //_paramsMenu->addAction(_configAction);
 
         _helpMenu = menuBar()->addMenu( tr( "Help" ) );
         _helpMenu->addAction( _aboutAction );
@@ -207,22 +205,10 @@ void MainWindow::createWidgets()
                         addDockWidget( Qt::TopDockWidgetArea, undoDock );
                         _viewMenu->addAction( undoDock->toggleViewAction() );
                 }
-                // Dock Config Camera
-//                QDockWidget * configCameraDock = new QDockWidget( "Camera Configuration", this );
-//                {
-//                        _configCamera = new ConfigCamera( configCameraDock );
-//                        configCameraDock->setWidget( ( _configCamera ) );
-//                        addDockWidget( Qt::TopDockWidgetArea, configCameraDock );
-//                        _viewMenu->addAction( configCameraDock->toggleViewAction() );
 
-//                }
                 tabifyDockWidget( chutierDock, undoDock );
-                //A VOIR SI A ENLEVER OU PAS//???//
-                //tabifyDockWidget( chutierDock, configCameraDock );
                 undoDock->setHidden( true );
                 undoDock->setFloating( true );
-                //configCameraDock->setHidden( true );
-                //configCameraDock->setFloating( true );
         }
 
         {
@@ -291,7 +277,6 @@ void MainWindow::on_captureAction_triggered()
         Projet& projectInstance = project();
 
         int isConnected = projectInstance.tryToConnectCamera();
-        //std::cout<<"IS CONNECTED ?"<<isConnected<<std::endl;
         if( isConnected == 0 )
         {
                 QMessageBox::about( this, tr( "Warning" ), tr( "No camera connected to the computer" ) );
@@ -299,28 +284,6 @@ void MainWindow::on_captureAction_triggered()
         }
         else
         {
-                //std::cout<<"Camera connected"<<std::endl;
-
-                //without action
-
-
-
-
-                //Give picture to application and timeline
-                /*projectInstance.gPhotoInstance().setFolderToSavePictures(projectInstance.getProjectFolder());
-                boost::filesystem::path fn = projectInstance.gPhotoInstance().captureToFile();
-                std::cout<<"FN : "<<fn<<std::endl;
-
-                Timeline& timeline = projectInstance.getTimeline();
-                Clip clipFromPicture (fn,timeline.getId(),"clip" + boost::lexical_cast<std::string>(timeline.getNbClip()++));
-                clipFromPicture.setPosition(timeline.maxTime(), timeline.maxTime()+1 );
-                projectInstance.addImedia( clipFromPicture );
-                timeline.addClip(clipFromPicture);*/
-
-
-
-
-
                 //take HD picture
 
                 Projet& project = Projet::getInstance();
@@ -386,7 +349,6 @@ void MainWindow::on_searchFolderProjectButton_clicked()
         boost::filesystem::create_directory( pathFolder );
         boost::filesystem::path pathFolderPictures = pathFolder / "pictures";
         boost::filesystem::create_directory( pathFolderPictures );
-        //projectInstance.gPhotoInstance().setFolderToSavePictures(pathFolder/*Pictures*/);
 }
 
 //fonction a completer pour creer un nouveau projet
@@ -449,19 +411,15 @@ void MainWindow::on_aboutAction_triggered()
 }
 
 void MainWindow::on_configAction_triggered(){
-                    QDockWidget * configCameraDock = new QDockWidget( "Camera Configuration", this );
-                    {
-                            _configCamera = new ConfigCamera( configCameraDock );
-                            configCameraDock->setWidget( ( _configCamera ) );
-                            addDockWidget( Qt::TopDockWidgetArea, configCameraDock );
-                            _viewMenu->addAction( configCameraDock->toggleViewAction() );
+    QDockWidget * configCameraDock = new QDockWidget( "Camera Configuration", this );
+    {
+        _configCamera = new ConfigCamera( configCameraDock );
+        configCameraDock->setWidget( ( _configCamera ) );
+        addDockWidget( Qt::TopDockWidgetArea, configCameraDock );
+        _viewMenu->addAction( configCameraDock->toggleViewAction() );
 
-                    }
-
-//                    configCameraDock->setHidden( true );
-                    configCameraDock->setFloating( true );
-
-    //_configCamera = new ConfigCamera();
+    }
+    configCameraDock->setFloating( true );
 }
 
 //_______________ Write time in label and select the good cell _________________
@@ -479,7 +437,7 @@ void MainWindow::writeTime( int newValue )
 }
 
 /*
-  Creer la barre de statut
+  Create the status bar
  */
 void MainWindow::createStatusBar()
 {
@@ -489,8 +447,7 @@ void MainWindow::createStatusBar()
 
 }
 
-
-//sauvegarde du projet
+//save the project
 
 void MainWindow::on_saveProjectAction_triggered()
 {
@@ -500,20 +457,9 @@ void MainWindow::on_saveProjectAction_triggered()
         boost::archive::text_oarchive oa( ofs );
         oa << project();
 
-        //std::cout << "sauvegarde" << std::endl;
 }
 
-/*
-void save_schedule(const bus_schedule &s, const char * filename){
-        // make an archive
-        std::ofstream ofs(filename);
-        boost::archive::text_oarchive oa(ofs);
-        oa << s;
-}
- */
-
-//chargement du projet
-
+//load the project
 void MainWindow::on_loadProjectAction_triggered()
 {
         // open the archive
@@ -523,7 +469,6 @@ void MainWindow::on_loadProjectAction_triggered()
 
         ia >> project();
 
-        //std::cout << "chargement" << std::endl;
         _timelineTable->updateTable();
 
 }

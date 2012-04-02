@@ -15,9 +15,8 @@
 #include <tweedy/gui/timelineGraphic/TimelineGraphic.hpp>
 #include <tweedy/gui/configCamera/ConfigCamera.hpp>
 #include <tweedy/gui/aboutTweedy/AboutTweedy.hpp>
-//SOL
 #include <tweedy/gui/configCamera/ConfigCamera.hpp>
-//
+
 #include <QtGui/QMainWindow>
 #include <QtGui/QListWidget>
 #include <QtGui/QWidget>
@@ -79,9 +78,7 @@ private:
         QAction* _quitAction;
         QAction* _undoAction;
         QAction* _redoAction;
-        //SOL
         QAction* _configAction;
-        //
         QAction* _aboutAction;
         QAction* _aboutQtAction;
 
