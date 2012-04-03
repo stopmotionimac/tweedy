@@ -508,7 +508,7 @@ void MainWindow::on_saveProjectAction_triggered()
                 Clip* clip = *s->second;
                 int length = clip->timeOut() - clip->timeIn();
                 
-                
+                int absoluteFps = 24;
                 
                 
                 std::vector<std::string> strs;
@@ -516,70 +516,17 @@ void MainWindow::on_saveProjectAction_triggered()
                 boost::split(strs, st,boost::is_any_of("/"));
                 std::string nameImg = strs.back();
                 
-                
-                /*convertir la lgr du clip en base 24*/
-                int nbframe = length * (24./fps);
-                int min = nbframe/(24*24);
-                int sec = (nbframe-(min*24*24))/24;
-                nbframe -= min*24*24 + sec*24;
-                
-                std::string smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
-                        : boost::lexical_cast<std::string>(min);
-                
-                std::string ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
-                        : boost::lexical_cast<std::string>(sec);
-                
-                std::string sframe = nbframe<10 ? "0"+boost::lexical_cast<std::string>(nbframe) 
-                        : boost::lexical_cast<std::string>(nbframe);
-                
-                 
-                myFlux << boost::lexical_cast<std::string>(i) + "  AX       V     C        " + 
-                        "01:00:00:00 01:" + smin + ":" + ssec + ":" + sframe ;
-               
-               
-                /*établir le temps de début du clip*/
-                
-                int startFrame = clip->timeIn() * (24./fps);
-                //int hour = startFrame/(24*24*24);
-                min = startFrame/(24*24);
-                sec = (startFrame-(min*24*24))/24;
-                startFrame -= min*24*24 + sec*24;
-                
-                smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
-                        : boost::lexical_cast<std::string>(min);
-                
-                ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
-                        : boost::lexical_cast<std::string>(sec);
-                
-                sframe = startFrame<10 ? "0"+boost::lexical_cast<std::string>(startFrame) 
-                        : boost::lexical_cast<std::string>(startFrame);
-                
-                 myFlux << " 00:" + smin + ":" + ssec + ":" + sframe ;
-                
-                
-                /*établir le temps de fin du clip*/
-               
-                int endFrame = clip->timeOut() * (24./fps);
-                min = endFrame/(24*24);
-                sec = (endFrame-(min*24*24))/24;
-                endFrame -= min*24*24 + sec*24;
-                
-                smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
-                        : boost::lexical_cast<std::string>(min);
-                
-                ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
-                        : boost::lexical_cast<std::string>(sec);
-                
-                sframe = endFrame<10 ? "0"+boost::lexical_cast<std::string>(endFrame) 
-                        : boost::lexical_cast<std::string>(endFrame);
-                
-                myFlux << " 00:" + smin + ":" + ssec + ":" + sframe <<std::endl;
-                
-                ++i;
-                
+                myFlux << boost::lexical_cast<std::string>(i) + "  AX       V     C        " ;
+                myFlux << generateTimeData(0,fps,absoluteFps) ;
+                myFlux << " " + generateTimeData(length,fps,absoluteFps) ;
+                myFlux << " " + generateTimeData(clip->timeIn(),fps,absoluteFps) ;
+                myFlux << " " + generateTimeData(clip->timeOut(),fps,absoluteFps) << std::endl ;
                 
                 /* etablir le nom de l'image */
                 myFlux << "* FROM CLIP NAME: " + nameImg << std::endl<<std::endl;
+                
+                ++i;
+                
             }
             
             
@@ -606,4 +553,30 @@ void MainWindow::on_loadProjectAction_triggered()
 	_timelineTable->updateTable();
         _chutier->updateChutier();
 
+}
+
+std::string MainWindow::generateTimeData(int value, int choosenFps, int absoluteFps)
+{
+    double cAbsoluteFps = static_cast<double>(absoluteFps);
+    
+    //convertir la lgr du clip en base 24
+    int nbframe = value * (absoluteFps/choosenFps);
+    int hour = nbframe/std::pow(cAbsoluteFps,3);
+    int min = (nbframe % static_cast<int>(std::pow(cAbsoluteFps,3)))/std::pow(cAbsoluteFps,2);
+    int sec = (nbframe % static_cast<int>(std::pow(cAbsoluteFps,2)))/absoluteFps;
+    nbframe = nbframe % absoluteFps ;
+    
+    std::string shour = hour<10 ? "0"+boost::lexical_cast<std::string>(hour) 
+            : boost::lexical_cast<std::string>(hour);
+
+    std::string smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
+            : boost::lexical_cast<std::string>(min);
+
+    std::string ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
+            : boost::lexical_cast<std::string>(sec);
+
+    std::string sframe = nbframe<10 ? "0"+boost::lexical_cast<std::string>(nbframe) 
+            : boost::lexical_cast<std::string>(nbframe);
+
+    return shour + ":" + smin + ":" + ssec + ":" + sframe ;
 }

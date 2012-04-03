@@ -47,6 +47,8 @@ public Q_SLOTS:
 	void on_loadProjectAction_triggered();
 	void on_aboutAction_triggered();
 	void on_acceptedNewProjectWindow();
+        
+        std::string generateTimeData(int, int, int);
 
 private:
 	Projet& project()
