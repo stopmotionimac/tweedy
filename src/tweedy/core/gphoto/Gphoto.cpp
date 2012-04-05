@@ -37,28 +37,49 @@ static boost::filesystem::path capture_to_file( Camera *camera, GPContext *conte
 
 	//printf("Capturing.\n");
 
-	/* NOP: This gets overridden in the library to /capt0000.jpg */
-	strcpy( camera_file_path.folder, "/" );
-        strcpy( camera_file_path.name, "foo.jpg" );
-	retval = gp_camera_capture( camera, GP_CAPTURE_IMAGE, &camera_file_path, context );
-	//printf("  Retval: %d\n", retval);
+            /* NOP: This gets overridden in the library to /capt0000.jpg */
+            strcpy( camera_file_path.folder, "/" );
+            strcpy( camera_file_path.name, "foo.jpg" );
+            retval = gp_camera_capture( camera, GP_CAPTURE_IMAGE, &camera_file_path, context );
+            //printf("  Retval: %d\n", retval);
 
-	//printf("Pathname on the camera: %s/%s\n", camera_file_path.folder, camera_file_path.name);
+            //printf("Pathname on the camera: %s/%s\n", camera_file_path.folder, camera_file_path.name);
 
-	fn /= camera_file_path.name;
-	const char * fnToOpen = fn.string().data();
-	std::cout << fnToOpen << std::endl;
+            fn /= camera_file_path.name;
+            const char * fnToOpen = fn.string().data();
+            std::cout << fnToOpen << std::endl;
 
-	//folder/file on computer
-	fd = open( fnToOpen, O_CREAT | O_WRONLY, 0644 );
-	retval = gp_file_new_from_fd( &file, fd );
-	//printf("  Retval: %d\n", retval);
-	retval = gp_camera_file_get( camera, camera_file_path.folder, camera_file_path.name, GP_FILE_TYPE_NORMAL, file, context );
-	//printf("  Retval: %d\n", retval);
+            //folder/file on computer
+            fd = open( fnToOpen, O_CREAT | O_WRONLY, 0644 );
+            retval = gp_file_new_from_fd( &file, fd );
+            //printf("  Retval: %d\n", retval);
+            retval = gp_camera_file_get( camera, camera_file_path.folder, camera_file_path.name, GP_FILE_TYPE_NORMAL, file, context );
+            //printf("  Retval: %d\n", retval);
 
-	//printf("Deleting.\n");
-	retval = gp_camera_file_delete( camera, camera_file_path.folder, camera_file_path.name, context );
-	//printf("  Retval: %d\n", retval);
+            //printf("Deleting.\n");
+            retval = gp_camera_file_delete( camera, camera_file_path.folder, camera_file_path.name, context );
+            //printf("  Retval: %d\n", retval);
+
+
+
+        //For raw format
+            //SI ON PREND LE RAW, IL NE PEUT PAS PRENDRE LE JPG, MEME SI ON EST EN DOUBLE MODE
+            //LE RAW POSE SOUCIS DANS TWEEDY A L'AFFICHAGE (EN PLUS EST LOURD) (.CR2)
+//        std::string fnTpsString = fn.string();
+
+//        fnTpsString.insert( fnTpsString.size() - 4, "_RAW" );
+
+//        const char * fnToOpenRaw = fnTpsString.data();
+//        std::cout << fnToOpenRaw << std::endl;
+
+//        //folder/file on computer
+//        fd = open( fnToOpenRaw, O_CREAT | O_WRONLY, 0644 );
+//        retval = gp_file_new_from_fd( &file, fd );
+//        //printf("  Retval: %d\n", retval);
+
+        //retval = gp_camera_file_get( camera, camera_file_path.folder, camera_file_path.name, GP_FILE_TYPE_RAW, file, context );
+
+        //retval = gp_camera_file_get( camera, camera_file_path.folder, camera_file_path.name, GP_FILE_TYPE_PREVIEW, file, context );
 
 	gp_file_free( file );
         return fn;
