@@ -43,9 +43,11 @@ public:
 	void moveElement( std::string filename, int newPosition );
 	void addClip( const Clip& clip );
 	void deleteClip( const std::string& clipName );
+        void deleteClip(Clip* clip);
 
 	void addBlank( const std::string& clipName, bool blankBefore = false );
-	void deleteBlank( int time );
+        void deleteBlank(int time );
+        void deleteBlank(Clip* clip);
 
 	void insertClip( Clip& newClip, double currentTime );
 	//void insertClip(const std::string& newClipName, double currentTime);

@@ -41,7 +41,13 @@ MainWindow::MainWindow()
         connect( this->_timelineTable, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
         connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 
-        this->adjustSize();
+//<<<<<<< HEAD
+//        this->adjustSize();
+//=======
+        connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+
+	this->adjustSize();
+//>>>>>>> 2451d8e91c0984e1a1a60c7e55ac1e30fedeb693
 }
 
 MainWindow::~MainWindow()
@@ -222,20 +228,32 @@ void MainWindow::createWidgets()
                 connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
                 connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
         }
+
         {
                 // Dock Timeline QML
                 QDockWidget * graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
                 _timelineGraphic = new TimelineGraphic( NULL );
                 graphicTimelineDock->setWidget( _timelineGraphic );
                 addDockWidget( Qt::BottomDockWidgetArea, graphicTimelineDock );
-//		graphicTimelineDock->setFloating( true );
-//		graphicTimelineDock->setHidden( true );
+
                 _viewMenu->addAction( graphicTimelineDock->toggleViewAction() );
 
         }
 
         // Dock Viewer
         createWidgetViewer();
+
+//        {
+//                // Dock Timeline Table
+//                QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
+//                _timelineTable = new TimelineTable( timelineDock );
+//                timelineDock->setWidget( _timelineTable );
+//                addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
+//                _viewMenu->addAction( timelineDock->toggleViewAction() );
+
+//                connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+//                connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
+//        }
 
 }
 
@@ -332,9 +350,7 @@ void MainWindow::on_newProjectAction_triggered()
 void MainWindow::on_searchFolderProjectButton_clicked()
 {
         QFileDialog * fileDialog = new QFileDialog();
-        QString fileName = fileDialog->getExistingDirectory( this,
-                                                                                                                 tr( "Choose folder for project" ),
-                                                                                                                 QString( boost::filesystem::initial_path().string().c_str() ) );
+        QString fileName = fileDialog->getExistingDirectory( this, tr( "Choose folder for project" ),QString( boost::filesystem::initial_path().string().c_str() ) );
 
         _newProjectDialog->getFolderProjectLineEdit()->setText( fileName );
 
@@ -416,7 +432,6 @@ void MainWindow::on_configAction_triggered(){
         _configCamera = new ConfigCamera( configCameraDock );
         configCameraDock->setWidget( ( _configCamera ) );
         addDockWidget( Qt::TopDockWidgetArea, configCameraDock );
-        _viewMenu->addAction( configCameraDock->toggleViewAction() );
 
     }
     configCameraDock->setFloating( true );
@@ -432,8 +447,10 @@ void MainWindow::writeTime( int newValue )
         if( newValue == _timelineTable->getTimeline().getMaxTime() )
                 newValue = -1;
 
-        _viewerImg->getTimeLabel()->setNum( newValue );
-        _viewerImg->getTempsSlider()->setSliderPosition( newValue );
+	_viewerImg->getTimeLabel()->setNum( newValue );
+	_viewerImg->getTempsSlider()->setSliderPosition( newValue );
+
+        _timelineGraphic->getTimelineDataWrapper()._currentTime = newValue ;
 }
 
 /*

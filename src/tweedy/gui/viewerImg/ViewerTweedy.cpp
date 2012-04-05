@@ -26,8 +26,7 @@ ViewerTweedy::ViewerTweedy( QWidget *parent )
 {
 	_ui->setupUi( this );
 	_currentTime = 0;
-	_onionAction = new QAction( "onion", this );
-	//_onionAction->setShortcut(QKeySequence("Space"));
+        _onionAction = new QAction( "onion", this );
 	_onionAction->setStatusTip( "Option Onion Skin" );
 	_previewTimer = new QTimer( this );
 
@@ -42,20 +41,10 @@ ViewerTweedy::ViewerTweedy( QWidget *parent )
 	connect( _onionAction, SIGNAL( triggered() ), this, SLOT( handle_onionAction_triggered() ) );
 	connect( _previewTimer, SIGNAL( timeout() ), this, SLOT( updatePreview() ) );
 
-	//_ui->onionButton->setDefaultAction(_onionAction);
+        getViewerLabel()->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
+        getViewerLabel()->setScaledContents( false );
 
-	//    this->getViewerLabel()->setAlignment(Qt::AlignHCenter);
-	//    this->getViewerLabel()->pixmap()->scaled(this->getViewerLabel()->pixmap()->size(),Qt::KeepAspectRatio);
-	//    this->getViewerLabel()->adjustSize();
-
-	//QPixmap p(&this->getViewerLabel()->pixmap()); // load pixmap
-	int w = this->getViewerLabel()->width();
-	int h = this->getViewerLabel()->height();
-
-	// set a scaled pixmap to a w x h window keeping its aspect ratio
-	//    this->getViewerLabel()->setPixmap(this->getViewerLabel()->pixmap().scaled(w,h,Qt::KeepAspectRatioByExpanding));
-	this->getViewerLabel()->pixmap()->scaled( w, h, Qt::KeepAspectRatioByExpanding );
-	this->getViewerLabel()->setMaximumSize( 600, 350 );
+        this->getViewerLabel()->setMinimumSize(this->getViewerLabel()->pixmap()->size());
 
 
 }
@@ -106,7 +95,7 @@ void ViewerTweedy::displayChanged( int time )
 	_currentTime = time;
 	Timeline* timeline = &( Projet::getInstance().getTimeline() );
 	std::string idClip = "";
-	std::string filename = "img/none.jpg";
+        std::string filename = "img/none.jpg";
 
 	/*if (time == timeline->maxTime()) {
 		//afficher le temps reel
@@ -126,19 +115,15 @@ void ViewerTweedy::displayChanged( int time )
 
 		if( idClip.find( "flux" ) != std::string::npos )
 		{
-			//filename = "img/noCameraDetected.jpg";
 			_previewTimer->start( 50 );
 		}
 	}
 
+        QPixmap img( QString::fromStdString( filename ) );
+        QPixmap p( img.scaled ( getViewerLabel()->size(), Qt::KeepAspectRatioByExpanding ) );
+        this->getViewerLabel()->setPixmap( p );
+        this->getViewerLabel()->adjustSize();
 
-
-
-
-	QPixmap img( QString::fromStdString( filename ) );
-	img.scaled( this->geometry().size(), Qt::KeepAspectRatioByExpanding );
-
-	this->getViewerLabel()->setPixmap( img );
 	handle_onionAction_triggered();
 
 }

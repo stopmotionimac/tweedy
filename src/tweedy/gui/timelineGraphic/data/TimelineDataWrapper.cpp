@@ -1,5 +1,7 @@
 #include "TimelineDataWrapper.hpp"
 #include <tweedy/core/action/ActDragNDropTLToTL.hpp>
+#include <tweedy/core/action/ActDeleteClip.hpp>
+
 
 #include <QtGui/QCursor>
 #include <QtGui/QApplication>
@@ -23,7 +25,8 @@ TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 		boost::bind( &TimelineDataWrapper::coreDataChanged,
 					this ) );
 
-	//	updateListe();
+
+        updateListe();
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper end" << std::endl;
 }
 
@@ -78,6 +81,8 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
    timeToDrop = std::max(timeToDrop,0);
    timeToDrop = std::min(timeToDrop,getMaxTime() - 1);
 
+   std::cout << timeToDrop << std::endl;
+
    std::string filename;
    bool isClip = getTimeline().findCurrentClip(filename , timeToDrop );
 
@@ -93,14 +98,16 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
 }
 
 
-void TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
+
+
+int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
     // si les 2 sont égaux on ne fait rien
 
     if (timeInClipToDrag == timeToDrop)
     {
         updateListe();
-        return;
+        return -1;
     }
     else
     {
@@ -109,16 +116,21 @@ void TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
         timeToDrop = std::max(timeToDrop,0);
         timeToDrop = std::min(timeToDrop,getMaxTime() - 1);
 
-        std::string filenameDepart;
-        bool isClip = getTimeline().findCurrentClip(filenameDepart , timeInClipToDrag );
+        std::string filenameDepart, filenameArrivee;
+        bool isCliptoDrag = getTimeline().findCurrentClip(filenameDepart , timeInClipToDrag );
+        bool isCliptoDrop = getTimeline().findCurrentClip(filenameArrivee , timeToDrop );
 
-        if (!isClip)
+        if (!isCliptoDrop)
         {
             updateListe();
-            return;
+            return -1;
         }
 
+        int returnedValue = getTimeline().mapClip()[filenameArrivee].timeIn();
         action( filenameDepart, timeToDrop );
+
+        return returnedValue;
+
     }
 }
 
@@ -135,35 +147,42 @@ void TimelineDataWrapper::displayCursor( QString typeCurseur )
 	QApplication::setOverrideCursor( curseur );
 }
 
-/*
-QDeclarativeListProperty<ClipDataWrapper> TimelineDataWrapper::getClips()
-{
-	return QDeclarativeListProperty<ClipDataWrapper>( this, _clips );
-}
-
-int TimelineDataWrapper::clipsCount() const
-{
-	return _clips.count();
-}
-
-ClipDataWrapper* TimelineDataWrapper::clips( int index ) const
-{
-	return _clips.at( index );
-}
- */
-
-void TimelineDataWrapper::play( int time )
+void TimelineDataWrapper::displayCurrentClip( int time )
 {
 	Q_EMIT timeChanged( time );
-	/*std::cout<<time<<std::endl;
-	std::string  idClip = "";
-	std::string filename = "img/none.jpg";
-
-
-	bool isClip = _timelineCore->findCurrentClip(idClip,time);
-	if(isClip)
-	{
-	 filename = _timelineCore->mapClip()[idClip].imgPath().string();
-	}
-	_displayPixmap = new QPixmap( QString::fromStdString(filename) );*/
 }
+
+
+void TimelineDataWrapper::deleteItem( int time ){
+
+    //creation de l'action ActDeleteClip
+    ActDeleteClip action;
+
+    //declenchement de l'action
+    action( time );
+
+}
+
+/*void TimelineDataWrapper::deleteClip( int time ){
+
+    std::string filename;
+    Timeline t = getTimeline();
+
+    t.findCurrentClip(filename,time);
+    Clip* clip = &(getTimeline().mapClip()[filename]);
+
+    t.deleteClip(clip);
+
+}
+
+void TimelineDataWrapper::deleteBlank( int time ){
+
+    std::string filename;
+    Timeline t = getTimeline();
+
+    t.findCurrentClip(filename,time);
+    Clip* clip = &(getTimeline().mapClip()[filename]);
+
+    t.deleteBlank(clip);
+
+}*/
