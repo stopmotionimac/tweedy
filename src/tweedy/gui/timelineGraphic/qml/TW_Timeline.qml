@@ -4,24 +4,33 @@ import QtQuick 1.1
 //grey rect
 Rectangle {
 
+
     id: tw_timeline
     anchors.fill: parent
     //width: 800
     color: "#414042"
 
+    Connections{
+        target: _tw_dropArea
+        onDropPositionChanged :
+        {
+            _tw_graphicTimeline.insertElement( (_tw_dropArea.dropPosition-tw_track.x) / _tw_timelineData.timelineScale )
+            timeInClipSelected = (_tw_dropArea.dropPosition-tw_track.x) / _tw_timelineData.timelineScale
+        }
+    }
 
     focus:true
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete){
-            if (timeInDoubleClickedClip > -1 )
+            if (timeInClipSelected > -1 )
             {
-                _tw_timelineData.deleteItem(timeInDoubleClickedClip);
-                timeInDoubleClickedClip = -1;
+                _tw_timelineData.deleteItem(timeInClipSelected);
+                timeInClipSelected = -1;
             }
-            if (doubleClickedBlank > -1)
+            if (timeBlankSelected > -1)
             {
-                _tw_timelineData.deleteItem(doubleClickedBlank - 1);
-                doubleClickedBlank = -1;
+                _tw_timelineData.deleteItem(timeBlankSelected - 1);
+                timeBlankSelected = -1;
             }
         }
    }
@@ -33,6 +42,9 @@ Rectangle {
     property int tw_scrollPositionChanged:0
     property int timeInDoubleClickedClip : -1
     property int doubleClickedBlank : -1
+    property int timeInClipSelected : -1
+    property int timeBlankSelected : -1
+
 
     Rectangle {
         id: tw_allTracks
@@ -117,8 +129,12 @@ Rectangle {
             //drag.target: tw_allTracks
 
             onClicked: {
-                tw_timeCursor.x = tw_graduation.x + mouseX;
-                _tw_timelineData.displayCurrentClip(tw_timeCursor.x / _tw_timelineData.timelineScale)
+                tw_timeCursor.x = mouseX;
+                _tw_timelineData.displayCurrentClip( (tw_timeCursor.x-tw_track.x)/_tw_timelineData.timelineScale)
+                doubleClickedBlank = -1
+                timeInClipSelected = -1
+                timeInDoubleClickedClip = -1
+
             }
 
             onEntered: {
@@ -173,9 +189,10 @@ Rectangle {
 
             Rectangle {
                         id: tw_marker
-                        x: 0//_tw_timelineData.timeMarker * _tw_timelineData.timelineScale
+                        x: 0
                         y: 0
-                        width: 0
+                        width : _tw_timelineData.timelineScale / 20
+                        visible: false
                         height: tw_track.height
                         color: '#ff0000'
                     }
@@ -196,5 +213,7 @@ Rectangle {
 
 
     }
+
+
 
 }

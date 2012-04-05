@@ -81,6 +81,8 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
    timeToDrop = std::max(timeToDrop,0);
    timeToDrop = std::min(timeToDrop,getMaxTime() - 1);
 
+   std::cout << timeToDrop << std::endl;
+
    std::string filename;
    bool isClip = getTimeline().findCurrentClip(filename , timeToDrop );
 
@@ -96,14 +98,16 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
 }
 
 
-void TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
+
+
+int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
     // si les 2 sont égaux on ne fait rien
 
     if (timeInClipToDrag == timeToDrop)
     {
         updateListe();
-        return;
+        return -1;
     }
     else
     {
@@ -119,10 +123,14 @@ void TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
         if (!isCliptoDrop)
         {
             updateListe();
-            return;
+            return -1;
         }
 
+        int returnedValue = getTimeline().mapClip()[filenameArrivee].timeIn();
         action( filenameDepart, timeToDrop );
+
+        return returnedValue;
+
     }
 }
 

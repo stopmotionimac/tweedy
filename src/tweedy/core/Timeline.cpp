@@ -313,7 +313,7 @@ void Timeline::deleteBlank( int time )
 }
 
 
-//nouvelle fonctions de suppression
+/*nouvelle fonctions de suppression
 void Timeline::deleteBlank(Clip* clip)
 {
         int blankDuration = getBlankDuration(clip);
@@ -351,7 +351,7 @@ void Timeline::deleteClip(Clip* clip)
         _signalChanged();
 }
 
-
+*/
 
 int Timeline::getBlankDuration(Clip* clip)
 {

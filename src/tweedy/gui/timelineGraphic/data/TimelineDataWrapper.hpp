@@ -47,13 +47,14 @@ public:
         int getCurrentTime() const{ return _currentTime; }
 
         Q_INVOKABLE void displayCurrentClip( int time );
-        Q_INVOKABLE void translate( int timeInClipToDrag, int timeToDrop );
+        Q_INVOKABLE int translate( int timeInClipToDrag, int timeToDrop );
 	Q_INVOKABLE void displayCursor( QString );
         Q_INVOKABLE int getMarkerPosition( int timeToAdd, bool positiveMove );
         Q_INVOKABLE void displayClip( int time ){ Q_EMIT displayChanged( 0, time ); }
         Q_INVOKABLE void deleteItem( int time );
         /*Q_INVOKABLE void deleteClip( int time );
         Q_INVOKABLE void deleteBlank( int time );*/
+
 
 private:
 #ifndef Q_MOC_RUN
