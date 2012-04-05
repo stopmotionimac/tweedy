@@ -298,11 +298,10 @@ int Gphoto::_lookup_widget(CameraWidget*widget, const char *key, CameraWidget **
                 ret = gp_widget_get_child_by_label (widget, key, child);
         return ret;
 }
-
+/*Works for int*/
 void Gphoto::getValue(CameraWidget *widget) {
     int value;
     int ret = get_config_value (_camera, getNameOfAWidget(widget).data(), &value, _context);
-    std::cout<<"VALUEGETTED : "<<value<<std::endl;
 }
 
 int Gphoto::get_config_value (Camera *camera, const char *key, int * str, GPContext *context){

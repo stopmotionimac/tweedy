@@ -87,7 +87,6 @@ Chutier::Chutier( QWidget *parent )
 		_listWidgetImport->addItem( item );
 	}
 
-	//DOIT POUVOIR ETRE APPELE A L'ACTION DE LA PRISE DE PHOTO
 	/*to add media to chutier pictures*/
 	ChutierMediaExt chutierPicture = projectInstance.getChutierPictures();
 
@@ -149,7 +148,9 @@ void Chutier::on_importAction_triggered()
 		boost::filesystem::path nameOfFileToImport( fileName.toStdString() );
 		ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
 		chutierMediaExt.importMediaToChutier( nameOfFileToImport );
-		//chutierMediaExt.printMapMediaExt();
+                chutierMediaExt.printMapMediaExt();
+  //OK          //std::cout<<&chutierMediaExt<<std::endl
+  //COHERANT    //std::cout<<chutierMediaExt.getMapMediaExt().size()<<std::endl;
 	}
 }
 

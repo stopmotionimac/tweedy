@@ -109,7 +109,7 @@ get_config_value_string (Camera *camera, const char *key, char **str, GPContext 
         CameraWidget		*widget = NULL, *child = NULL;
         CameraWidgetType	type;
         int			ret;
-        char			*val;
+        //char			*val;
 
         ret = gp_camera_get_config (camera, &widget, context);
         if (ret < GP_OK) {
@@ -129,16 +129,18 @@ get_config_value_string (Camera *camera, const char *key, char **str, GPContext 
                 fprintf (stderr, "widget get type failed: %d\n", ret);
                 goto out;
         }
-        switch (type) {
-        case GP_WIDGET_MENU:
-        case GP_WIDGET_RADIO:
-        case GP_WIDGET_TEXT:
-                break;
-        default:
-                fprintf (stderr, "widget has bad type %d\n", type);
-                ret = GP_ERROR_BAD_PARAMETERS;
-                goto out;
-        }
+//        switch (type) {
+//        case GP_WIDGET_MENU:
+//        case GP_WIDGET_RADIO:
+//        case GP_WIDGET_TEXT:
+//                break;
+//        default:
+//                fprintf (stderr, "widget has bad type %d\n", type);
+//                ret = GP_ERROR_BAD_PARAMETERS;
+//                goto out;
+//        }
+        std::cout<<"AVT GET_VALUE"<<std::endl;
+        int val;
 
         /* This is the actual query call. Note that we just
          * a pointer reference to the string, not a copy... */
@@ -147,8 +149,10 @@ get_config_value_string (Camera *camera, const char *key, char **str, GPContext 
                 fprintf (stderr, "could not query widget value: %d\n", ret);
                 goto out;
         }
+        std::cout<<"APRES GET_VALUE"<<std::endl;
+        std::cout<<val<<std::endl;
         /* Create a new copy for our caller. */
-        *str = strdup (val);
+        //*str = strdup (val);
 out:
         gp_widget_free (widget);
         return ret;
@@ -350,8 +354,12 @@ int main(int argc, char **argv) {
 //        }
         //END PREVIEW
 
-
-
+        //GET AND SET CONFIG TOGGLE
+        char * val;
+        ret = get_config_value_string(camera, "bulb", &val, context);
+        std::cout<<"RET : "<<ret<<std::endl;
+        std::cout<<"VAL RETURNED : "<<val<<std::endl;
+        //ENDOF GET AND SET CONFIG TOGGLE
 
         /*to set camera config we have to know tha camera owner*/
         /*Get the camera owner . if there is no owner set a default one*/
