@@ -34,6 +34,19 @@ Rectangle {
     property int timeInDoubleClickedClip : -1
     property int doubleClickedBlank : -1
 
+    property double tw_displayMinWidth: 5
+
+    property double tw_displayIn: 0
+    property double tw_displayOut: 7 //_tw_timelineData.maxTime
+    property double tw_displayLength: tw_displayOut - tw_displayIn
+    //property double tw_diplayScale: tw_displayLength / _tw_timelineData.maxTime
+    property double tw_scaleTimeToPix: tw_displayLength / tw_timeline.width
+
+    property double tw_displayInPix: tw_displayIn * tw_scaleTimeToPix
+    property double tw_displayOutPix: tw_displayOut * tw_scaleTimeToPix
+    property double tw_displayLengthPix: tw_displayLength * tw_scaleTimeToPix
+
+
     Rectangle {
         id: tw_allTracks
 
@@ -65,29 +78,17 @@ Rectangle {
 
                         Row {
 
-                            Column {
+                            Rectangle {
+                                id: tw_graduation_top
+                                y:0
+                                height: tw_graduation.height
+                                width: _tw_timelineData.timelineScale -2
+                                color: '#ACB6B5'
 
-                                Rectangle {
-                                    id: tw_graduation_top
-                                    y:0
-                                    height: tw_graduation.height
-                                    width: _tw_timelineData.timelineScale -2
-                                    color: '#ACB6B5'
-
-                                    Text {
-                                        id: tw_frame
-                                        text: index
-                                        y: tw_graduation.y +5
-                                    }
-
-                                }
-
-                                Rectangle {
-                                    id: tw_graduation_bottom
-                                    height: 2
-                                    y: tw_graduation_top.height - tw_graduation_bottom.height
-                                    width: tw_graduation_top.width
-                                    color: 'black'
+                                Text {
+                                    id: tw_frame
+                                    text: index
+                                    y: tw_graduation.y +5
                                 }
                             }
 
@@ -117,7 +118,7 @@ Rectangle {
             //drag.target: tw_allTracks
 
             onClicked: {
-                tw_timeCursor.x = tw_graduation.x + mouseX;
+                tw_timeCursor.x = tw_graduation.x + mouseX - tw_track.x;
                 _tw_timelineData.displayCurrentClip(tw_timeCursor.x / _tw_timelineData.timelineScale)
             }
 

@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "tw_utility.js" as Tw_utility
 
 Item{
     id:tw_scrollArea
@@ -17,8 +18,9 @@ Item{
         //yellow rect
         Rectangle {
             id: tw_scrollBar
-            width: _tw_timelineData.maxTime<5 ? parent.width : parent.width*5/_tw_timelineData.maxTime
             height: 25
+            x: tw_displayInPix
+            width: tw_displayLengthPix
             color: '#FFCC66'
 
             MouseArea {
@@ -28,9 +30,11 @@ Item{
                 drag.target: parent
                 drag.minimumX: 0
                 drag.maximumX: tw_fullBar.width - tw_scrollBar.width
-                onReleased:{
-                    tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
-                    tw_graduation.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
+                onPositionChanged: {
+                    Tw_utility.setDisplayIn( tw_scrollBar.x * _tw_timelineData.maxTime / tw_fullBar.width )
+                    Tw_utility.setDisplayOut( tw_scrollBar.x+tw_scrollBar.width * _tw_timelineData.maxTime / tw_fullBar.width )
+                    //tw_track.x =
+                    //tw_graduation.x =
                 }
                 onEntered: {
                     parent.color = "#FFFF99"
@@ -57,36 +61,19 @@ Item{
 
                onPositionChanged: {
                    if ( scrollLeftPressed == 1 )
-                        if (tw_scrollBar.x + mouseX > 0 && tw_scrollBar.width - mouseX > 5*tw_fullBar.width/_tw_timelineData.maxTime)
-                        {
-                           tw_scrollBar.width -= mouseX
-                           tw_scrollBar.x += mouseX
-                        }
+                   {
+                       print( "Tw_utility.setDisplayIn: ", tw_scrollBar.x );
+                       print( "mouseX: ", mouseX);
+                       print( "_tw_timelineData.maxTime:", _tw_timelineData.maxTime);
+                       print( "tw_fullBar.width:", tw_fullBar.width );
+                       Tw_utility.setDisplayIn( (tw_scrollBar.x + mouseX) * _tw_timelineData.maxTime / tw_fullBar.width );
+                   }
                }
                onReleased:{
                    scrollLeftPressed = 0
-
-                   if (tw_scrollBar.x + mouseX < 0)
-                   {
-                       tw_scrollBar.width += tw_scrollBar.x
-                       tw_scrollBar.x = 0
-                   }
-                   else
-                       if (tw_scrollBar.width - mouseX < tw_fullBar.width*5/_tw_timelineData.maxTime)
-                       {
-                           tw_scrollBar.x += tw_scrollBar.width - tw_fullBar.width*5/_tw_timelineData.maxTime
-                           tw_scrollBar.width = tw_fullBar.width*5/_tw_timelineData.maxTime
-                       }
-                       else
-                       {
-                           tw_scrollBar.width += - mouseX
-                           tw_scrollBar.x += mouseX
-                       }
-
-
-                   _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
-                   tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
                }
+
+
            }
            // zone droite pour l'agrandissement du zoom
            MouseArea {
@@ -108,26 +95,13 @@ Item{
 
                 onPositionChanged: {
                     if ( scrollRightPressed == 1 )
-                         if (tw_scrollBar.x + tw_scrollBar.width + mouseX < tw_fullBar.width && tw_scrollBar.width+mouseX > 5*tw_fullBar.width/_tw_timelineData.maxTime)
-                                tw_scrollBar.width += mouseX
-
+                    {
+                        Tw_utility.setDisplayOut( (tw_scrollBar.x+tw_scrollBar.width + mouseX) * _tw_timelineData.maxTime / tw_fullBar.width )
+                    }
                 }
 
                 onReleased:{
                     scrollRightPressed = 0
-
-                    if (tw_scrollBar.x + tw_scrollBar.width +mouseX > tw_fullBar.width)
-                        tw_scrollBar.width = tw_fullBar.width - tw_scrollBar.x
-                    else
-                    {
-                        if (tw_scrollBar.width + mouseX < tw_fullBar.width*5/_tw_timelineData.maxTime)
-                            tw_scrollBar.width = tw_fullBar.width*5/_tw_timelineData.maxTime
-                        else
-                            tw_scrollBar.width += mouseX
-                    }
-
-                    _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
-
                 }
 
             }//end rightMouseArea

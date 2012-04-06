@@ -1,17 +1,24 @@
-var component;
-var sprite;
 
-function createSpriteObjects( nbClip )
+function setDisplayIn( vIn )
 {
-    component = Qt.createComponent("TW_Clip.qml");
-    var i = 0;
-    for( i=0; i<nbClip; ++i )
-    {
-        sprite = component.createObject( timeline, {"x": 100*i, "y": 10} );
-    }
+    var tIn = vIn;
+    if( tIn < 0 )
+        tIn = 0;
+    if( tw_displayOut - tIn < tw_displayMinWidth )
+        tIn = tw_displayOut - tw_displayMinWidth;
 
-    if( sprite == null )
-	{
-        console.log("Error creating object");
-    }
+    tw_timeline.tw_displayIn = tIn;
+    print("setDisplayIn:", tIn);
+}
+
+function setDisplayOut( vOut )
+{
+    var tOut = vOut;
+    if( tOut > _tw_timelineData.maxTime )
+        tOut = _tw_timelineData.maxTime;
+    if( vOut - tw_displayIn < tw_displayMinWidth )
+        tOut = tw_displayIn + tw_displayMinWidth;
+
+    tw_timeline.tw_displayOut = tOut;
+    print("setDisplayOut:", tOut);
 }

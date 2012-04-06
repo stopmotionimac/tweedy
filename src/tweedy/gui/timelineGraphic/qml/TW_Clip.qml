@@ -138,8 +138,8 @@ Item {
                         {
                             console.log("Qt.RightButton")
                         }
-                        tw_timeCursor.x = object.timeIn * _tw_timelineData.timelineScale;
-                        _tw_timelineData.displayCurrentClip(tw_timeCursor.x / _tw_timelineData.timelineScale)
+                        //tw_timeCursor.x = object.timeIn * _tw_timelineData.timelineScale;
+                        //_tw_timelineData.displayCurrentClip(tw_timeCursor.x / _tw_timelineData.timelineScale)
 
                         timeInClipSelected = tw_timeCursor.x / _tw_timelineData.timelineScale
 
@@ -201,6 +201,7 @@ Item {
             MouseArea {
                     id: tw_clipLeftHandle
 
+                    anchors.left: parent.left
                     width: tw_handleWidth
                     height: tw_clip.height
                     hoverEnabled: true
@@ -221,13 +222,11 @@ Item {
             // zone droite pour l'agrandissement du clip
             MouseArea {
                     id: tw_clipRightHandle
-                    width: 10
+                    width: tw_handleWidth
                     height: tw_clip.height
                     anchors.right: parent.right
-                    x: tw_clip.width - width
+                    //x: tw_clip.width - tw_handleWidth
                     hoverEnabled: true
-                    drag.target: tw_clip
-                    drag.axis: "XAxis"
 
                     onEntered: {
                         _tw_timelineData.displayCursor("scale");
