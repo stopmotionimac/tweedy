@@ -10,15 +10,6 @@ Rectangle {
     //width: 800
     color: "#414042"
 
-    Connections{
-        target: _tw_dropArea
-        onDropPositionChanged :
-        {
-            _tw_graphicTimeline.insertElement( (_tw_dropArea.dropPosition-tw_track.x) / _tw_timelineData.timelineScale )
-            timeInClipSelected = (_tw_dropArea.dropPosition-tw_track.x) / _tw_timelineData.timelineScale
-        }
-    }
-
     focus:true
     Keys.onPressed: {
         if (event.key == Qt.Key_Delete){
@@ -165,11 +156,13 @@ Rectangle {
 
                     // for technical reason: delay the destruction allows an item to remove itself
                     ListView.onRemove: SequentialAnimation {
-                        PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: true } // start delay remove
-                        // fake animation to delay the tw_clip destruction
-                        NumberAnimation { target: tw_clip; property: "height"; to: height; duration: 1; easing.type: Easing.InOutQuad }
-                        // Make sure delayRemove is set back to false so that the item can be destroyed
-                        PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: false } // end delay remove
+						PropertyAction { target: tw_clip; property: "width"; value: 0 } // to not create an offset for the newly inserted items
+						PropertyAction { target: tw_clip; property: "visible"; value: false }
+						PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: true } // start delay remove
+						// fake animation to delay the tw_clip destruction
+						NumberAnimation { target: tw_clip; property: "height"; to: 0; duration: 1; easing.type: Easing.InOutQuad } // to force a time delay of one frame
+						// Make sure delayRemove is set back to false so that the item can be destroyed
+						PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: false } // end delay remove
                     }
                 }
             }
@@ -188,17 +181,24 @@ Rectangle {
             }
 
             Rectangle {
-                        id: tw_marker
-                        x: 0
-                        y: 0
-                        width : _tw_timelineData.timelineScale / 20
-                        visible: false
-                        height: tw_track.height
-                        color: '#ff0000'
-                    }
+                id: tw_marker
+                x: 0
+                y: 0
+                width : _tw_timelineData.timelineScale / 20
+                visible: false
+                height: tw_track.height
+                color: '#ff0000'
+            }
+
+            Connections {
+                target: _tw_dropArea
+                onDropPositionChanged :
+                {
+                    _tw_graphicTimeline.insertElement( (_tw_dropArea.dropPosition-tw_track.x) / _tw_timelineData.timelineScale )
+                    timeInClipSelected = (_tw_dropArea.dropPosition-tw_track.x) / _tw_timelineData.timelineScale
+                }
+            }
         }
-
-
 
 
         // scrollBar item
