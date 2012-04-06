@@ -14,5 +14,5 @@ QLineEdit * GPhotoWidgetTextField::makeMenu() {
 
 void GPhotoWidgetTextField::on_setValue_textChanged(const QString & valueChoice){
     Projet& projectInstance = Projet::getInstance();
-    projectInstance.gPhotoInstance().setValue(_widget, valueChoice.toStdString().data());
+    projectInstance.gPhotoInstance().setValueString(_widget, valueChoice.toStdString().data());
 }

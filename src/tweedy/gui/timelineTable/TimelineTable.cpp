@@ -107,9 +107,9 @@ void TimelineTable::createActions()
 	_blankAfterAction->setStatusTip( "Empty frame after the clip" );
 	connect( _blankAfterAction, SIGNAL( triggered() ), this, SLOT( handle_blankAfterAction_triggered() ) );
 
-	_deleteKey = new QShortcut( this );
+        /*_deleteKey = new QShortcut( this );
 	_deleteKey->setKey( QKeySequence( "DEL" ) );
-	connect( _deleteKey, SIGNAL( activated() ), this, SLOT( deleteKey_activated() ) );
+        connect( _deleteKey, SIGNAL( activated() ), this, SLOT( deleteKey_activated() ) );*/
 
 
 }
