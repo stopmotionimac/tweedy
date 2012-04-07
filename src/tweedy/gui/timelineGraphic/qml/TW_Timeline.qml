@@ -1,4 +1,6 @@
 import QtQuick 1.1
+import DragNDrop 1.0
+
 
 // Window container
 Rectangle
@@ -20,6 +22,7 @@ Rectangle
     property int timeInClipSelected : -1
     property int timeBlankSelected : -1
 
+
     Keys.onPressed:
     {
 		// delete key is pressed
@@ -38,6 +41,7 @@ Rectangle
             }
         }
    }
+
 
     Rectangle
 	{
@@ -77,12 +81,11 @@ Rectangle
             onClicked: parent.moveTimeTo(mouseX)
             onEntered: parent.moveTimeTo(mouseX)
             onReleased: parent.moveTimeTo(mouseX)
-			onPositionChanged: parent.moveTimeTo(mouseX)
+            onPositionChanged: parent.moveTimeTo(mouseX)
         }
 
 
-        Rectangle
-		{
+        Rectangle{
             id: tw_track
 
             x: 0
@@ -116,8 +119,7 @@ Rectangle
             }
 
             // List of clips
-            ListView
-			{
+            ListView{
                 id: tw_clipsList
 
                 anchors.fill: parent
@@ -127,8 +129,7 @@ Rectangle
                 delegate : tw_clipDelegate
             }
 
-            HorizontalGradient
-			{
+            HorizontalGradient{
                 id: tw_insertMarker
                 x: 0
                 y: 0
@@ -136,27 +137,59 @@ Rectangle
                 visible: false
                 height: tw_track.height
 				
-				gradient: Gradient {
-					GradientStop { position: 0.0; color: Qt.rgba(1, 0, 0, 0) }
-					GradientStop { position: 0.40; color: Qt.rgba(1, 0, 0, .4) }
-					GradientStop { position: 0.41; color: Qt.rgba(1, 0, 0, 1) }
-					GradientStop { position: 0.59; color: Qt.rgba(1, 0, 0, 1) }
-					GradientStop { position: 0.60; color: Qt.rgba(1, 0, 0, .4) }
-					GradientStop { position: 1.0; color: Qt.rgba(1, 0, 0, 0) }
-				}
+                gradient: Gradient {
+                    GradientStop { position: 0.0; color: Qt.rgba(1, 0, 0, 0) }
+                    GradientStop { position: 0.40; color: Qt.rgba(1, 0, 0, .4) }
+                    GradientStop { position: 0.41; color: Qt.rgba(1, 0, 0, 1) }
+                    GradientStop { position: 0.59; color: Qt.rgba(1, 0, 0, 1) }
+                    GradientStop { position: 0.60; color: Qt.rgba(1, 0, 0, .4) }
+                    GradientStop { position: 1.0; color: Qt.rgba(1, 0, 0, 0) }
+                }
             }
 
-            Connections
-			{
-                target: _tw_dropArea
-                onDropPositionChanged:
-				{
-					console.log("onDropPositionChanged")
-                    _tw_graphicTimeline.insertElement( (_tw_dropArea.dropPosition-tw_track.x) / _tw_timelineData.timelineScale )
-                    timeInClipSelected = (_tw_dropArea.dropPosition-tw_track.x) / _tw_timelineData.timelineScale
+
+            Rectangle{
+                width : parent.width
+                height : parent.height
+                color : "transparent"
+
+                DropArea{
+                    id: dropArea
+                    anchors.fill: parent
+
+                    onDragMove:{
+                        var markerPosition = -1
+                        markerPosition = _tw_timelineData.getMarkerPosition( (position-tw_track.x) / _tw_timelineData.timelineScale, false )
+
+                        if( markerPosition != -1 )
+                        {
+                                tw_insertMarker.visible = true
+                                tw_insertMarker.x = markerPosition * _tw_timelineData.timelineScale - tw_insertMarker.width / 2
+                        }
+
+                    }
+
+                    onDragLeave:{
+                        tw_insertMarker.visible = false
+                    }
+
+                    onDrop:
+                    {
+                        tw_insertMarker.visible = false
+
+                        _tw_dropArea.insertElement( (position-tw_track.x) / _tw_timelineData.timelineScale )
+
+                        timeInClipSelected = ((position-tw_track.x)/_tw_timelineData.timelineScale)
+                        if (timeInClipSelected > (position-tw_track.x)/_tw_timelineData.timelineScale)
+                            timeInClipSelected -= 1
+
+                        print ( " timeInClipSelected", timeInClipSelected)
+                    }
                 }
             }
         }
+
+
 
         // time manipulator item
         TW_TimeCursor

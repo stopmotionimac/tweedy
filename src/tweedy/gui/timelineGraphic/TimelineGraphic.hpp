@@ -18,27 +18,25 @@ class TimelineGraphic : public QDeclarativeView
 public:
 	TimelineGraphic( QWidget * parent );
         ~TimelineGraphic();
+        TimelineDataWrapper& getTimelineDataWrapper()
+        {
+                return _timelineData;
+        }
+
+
 
 private:
 	TimelineGraphic( const TimelineGraphic& );
 	TimelineGraphic& operator=( const TimelineGraphic& );
-	
-public:
-	TimelineDataWrapper& getTimelineDataWrapper()
-	{
-		return _timelineData;
-	}
-
-        void dragEnterEvent(QDragEnterEvent *event);
-        void dropEvent(QDropEvent *event);
-        //void setDropPosition(int pos){ _dropPos = pos;}
-        void setUrlList(QList<QUrl> urlList){ _urlList = urlList; }
-        //int getDropPosition(){ return _dropPos; }
-        Q_INVOKABLE void insertElement( int position );
-
-private:
 	void updateData();
-        QList<QUrl> _urlList;
+
+        TimelineDataWrapper _timelineData;
+        DropArea* _dropArea;
+        QString _timelineQmlFile;
+        QFileSystemWatcher _qmlFileWatcher;
+
+
+
 
 	
 private Q_SLOTS:
@@ -46,12 +44,6 @@ private Q_SLOTS:
 	void onEnableUpdates( const bool update );
 
 
-
-private:
-	TimelineDataWrapper _timelineData;
-        DropArea* _dropArea;
-	QString _timelineQmlFile;
-	QFileSystemWatcher _qmlFileWatcher;
 };
 
 #endif

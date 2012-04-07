@@ -74,6 +74,11 @@ public:
 
 	boost::signal0<void>& getSignalChanged();
 
+        std::vector<std::string> getUrlList(){ return _urlList; }
+        void setUrlList(std::string url){ _urlList.push_back(url); }
+        void clearUrlList(){ _urlList.clear(); }
+
+
 private:
 
 	unsigned int _nbClip;
@@ -97,6 +102,8 @@ private:
 		if( Archive::is_loading::value )
 			_signalChanged();
 	}
+
+        std::vector<std::string> _urlList;
 
 };
 

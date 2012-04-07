@@ -2,26 +2,36 @@
 #define DropArea_H
 
 #include <QtDeclarative/QDeclarativeItem>
+#include <tweedy/core/Timeline.hpp>
+#include <tweedy/core/Projet.hpp>
 
 
 class DropArea : public QDeclarativeItem
 {
     Q_OBJECT
-    Q_PROPERTY( int dropPosition READ getDropPosition NOTIFY dropPositionChanged)
 
 public:
-    DropArea():
-        _position(0)
-        {}
+    DropArea()
+    {
+        setAcceptDrops(true);
+    }
 
-    void setDropPosition(int pos){ _position = pos; Q_EMIT dropPositionChanged(); }
-    int getDropPosition(){ return _position; }
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event);
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event);
+    void dragLeaveEvent(QGraphicsSceneDragDropEvent *event);
+    void dropEvent(QGraphicsSceneDragDropEvent *event);
+    Timeline* getTimeline(){ return &(Projet::getInstance().getTimeline()); }
+
+    Q_INVOKABLE void insertElement( int position );
 
 Q_SIGNALS:
-    void dropPositionChanged();
+    void dragEnter(int position);
+    void dragMove(int position);
+    void dragLeave();
+    void drop(int position);
 
 private:
-    int _position;
+
 
 };
 
