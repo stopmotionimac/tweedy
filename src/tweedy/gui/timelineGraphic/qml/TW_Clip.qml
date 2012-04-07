@@ -237,13 +237,17 @@ Item {
                     onReleased:{
                         clipRightPressed = 0
 
-                        console.log("mouse X clip Released"+mouseX);
+                        console.log("ggggggggggggggggggggggggg"+mouseX);
 
                         if( tw_clip.width + mouseX * _tw_timelineData.timelineScale > tw_clip.width )
                         {
                             tw_clip.width = tw_clip.width + mouseX * _tw_timelineData.timelineScale
                         }
 
+                    }
+
+                    onPositionChanged: {
+                        console.log("onPositionChanged"+mouseX);
                     }
             }
     }

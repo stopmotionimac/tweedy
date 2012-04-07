@@ -35,7 +35,7 @@ Rectangle {
                 x: 0
                 y: 0
                 width: parent.width
-                height: tw_allTracks.height - tw_track.height -25
+                height: tw_allTracks.height - tw_track.height - 25
                 color: "#ACB6B5"
 
                 Row {
