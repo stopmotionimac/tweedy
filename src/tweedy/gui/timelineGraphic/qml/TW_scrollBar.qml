@@ -9,7 +9,7 @@ Item{
 
     Rectangle{
         id: tw_fullBar
-        width:tw_timeline.width
+        width:tw_timelineWindow.width
         height:25
         y:25 + tw_track.height
         color: "#ACB6B5"
