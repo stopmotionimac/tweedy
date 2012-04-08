@@ -16,6 +16,7 @@
 #include <tweedy/gui/configCamera/ConfigCamera.hpp>
 #include <tweedy/gui/aboutTweedy/AboutTweedy.hpp>
 #include <tweedy/gui/configCamera/ConfigCamera.hpp>
+#include <tweedy/gui/ExportWidget/ExportWidget.hpp>
 
 #include <QtGui/QMainWindow>
 #include <QtGui/QListWidget>
@@ -52,6 +53,7 @@ public Q_SLOTS:
         void on_aboutAction_triggered();
         void on_configAction_triggered();
         void on_acceptedNewProjectWindow();
+        void on_exportAction_triggered();
 
 
 private:
@@ -87,6 +89,7 @@ private:
         QAction* _aboutQtAction;
 
         QAction* _captureAction;
+        QAction* _exportAction;
 
         QToolBar* _fileToolBar;
         QToolBar* _editToolBar;
@@ -102,6 +105,7 @@ private:
         QWidget* _undoWidget;
         TimelineGraphic* _timelineGraphic;
         ConfigCamera* _configCamera;
+        ExportWidget* _exportWidget;
         /// @}
 
         /// @brief Modal widgets

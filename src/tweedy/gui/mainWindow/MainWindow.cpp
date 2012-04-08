@@ -103,6 +103,10 @@ void MainWindow::createActions()
 	_captureAction = new QAction( QIcon( "img/icones/capture.png" ), "Capture", this );
 	_captureAction->setShortcut( QKeySequence( "Retour" ) );
 	connect( _captureAction, SIGNAL( triggered() ), this, SLOT( on_captureAction_triggered() ) );
+        
+        _exportAction = new QAction( "Export", this );
+        _exportAction->setStatusTip( "Export your timeline" );
+        connect( _exportAction, SIGNAL( triggered() ), this, SLOT( on_exportAction_triggered() ) );
 
 	//save the project
 	connect( _saveProjectAction, SIGNAL( triggered() ), this, SLOT( on_saveProjectAction_triggered() ) );
@@ -160,6 +164,7 @@ void MainWindow::createMenuBar()
 	menuBar()->addSeparator();
 	_fileMenu->addAction( _saveProjectAction );
 	_fileMenu->addAction( _saveAsProjectAction );
+        _fileMenu->addAction( _exportAction );
 	_fileMenu->addAction( _quitAction );
 
 	_editMenu = menuBar()->addMenu( tr( "&Edit" ) );
@@ -464,63 +469,6 @@ void MainWindow::on_saveProjectAction_triggered()
         ofs.close();
         
 	//std::cout << "sauvegarde" << std::endl;
-        std::cout << "export EDL" << std::endl;
-        
-        const std::string fileNameEDLExport = "./test_edl.edl";
-        std::ofstream myFlux(fileNameEDLExport.c_str());
-        
-        if(myFlux)
-        {
-            int i = 1;
-            double fps = _timelineTable->getFps();
-            
-            typedef boost::ptr_map<unsigned int, Clip*> OMapClip;
-            Timeline timeline = Projet::getInstance().getTimeline();
-            OMapClip mapClip = timeline.getOrderedClips();
-         
-            /* code pour générer le fichier edl*/
-            myFlux << "TITLE: Tweedy" << std::endl;
-            myFlux << std::endl;
-            
-            /*  work directory */
-            //myFlux << "*WORK DIR = TWEEDY/IMG"<<std::endl;
-            //myFlux << std::endl;
-            
-            BOOST_FOREACH( const OMapClip::value_type& s, mapClip )
-            {
-                Clip* clip = *s->second;
-                
-                if( clip->timeOut() != timeline.getMaxTime() )
-                {
-                    int length = clip->timeOut() - clip->timeIn();
-
-                    int absoluteFps = 24;
-
-
-                    std::vector<std::string> strs;
-                    const std::string st = clip->getImgPath().string();
-                    boost::split(strs, st,boost::is_any_of("/"));
-                    std::string nameImg = strs.back();
-
-                    myFlux << boost::lexical_cast<std::string>(i) + "  AX       V     C        " ;
-                    myFlux << generateTimeData(0,fps,absoluteFps) ;
-                    myFlux << " " + generateTimeData(length,fps,absoluteFps) ;
-                    myFlux << " " + generateTimeData(clip->timeIn(),fps,absoluteFps) ;
-                    myFlux << " " + generateTimeData(clip->timeOut(),fps,absoluteFps) << std::endl ;
-
-                    /* etablir le nom de l'image */
-                    myFlux << "* FROM CLIP NAME: " + nameImg << std::endl<<std::endl;
-                }
-                ++i;
-                
-            }
-            
-            
-        }
-        else
-        {
-            std::cout << "Impossible d'ouvrir le fichier d'export EDL" << std::endl;
-        }
         
 }
 
@@ -541,6 +489,18 @@ void MainWindow::on_loadProjectAction_triggered()
         _chutier->updateChutier();
 
 }
+
+
+
+void MainWindow::on_exportAction_triggered()
+{
+    _exportWidget = new ExportWidget( );
+    _exportWidget->show();
+
+}
+
+
+
 
 
 std::string MainWindow::generateTimeData(int value, int choosenFps, int absoluteFps)
