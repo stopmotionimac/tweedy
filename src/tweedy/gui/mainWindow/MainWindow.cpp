@@ -43,13 +43,12 @@ MainWindow::MainWindow()
         connect( this->_timelineTable, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
         connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 
-//<<<<<<< HEAD
 //        this->adjustSize();
-//=======
+
         connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
 
 	this->adjustSize();
-//>>>>>>> 2451d8e91c0984e1a1a60c7e55ac1e30fedeb693
+
 }
 
 MainWindow::~MainWindow()
@@ -503,25 +502,28 @@ void MainWindow::on_saveProjectAction_triggered()
             BOOST_FOREACH( const OMapClip::value_type& s, mapClip )
             {
                 Clip* clip = *s->second;
-                int length = clip->timeOut() - clip->timeIn();
                 
-                int absoluteFps = 24;
-                
-                
-                std::vector<std::string> strs;
-                const std::string st = clip->getImgPath().string();
-                boost::split(strs, st,boost::is_any_of("/"));
-                std::string nameImg = strs.back();
-                
-                myFlux << boost::lexical_cast<std::string>(i) + "  AX       V     C        " ;
-                myFlux << generateTimeData(0,fps,absoluteFps) ;
-                myFlux << " " + generateTimeData(length,fps,absoluteFps) ;
-                myFlux << " " + generateTimeData(clip->timeIn(),fps,absoluteFps) ;
-                myFlux << " " + generateTimeData(clip->timeOut(),fps,absoluteFps) << std::endl ;
-                
-                /* etablir le nom de l'image */
-                myFlux << "* FROM CLIP NAME: " + nameImg << std::endl<<std::endl;
-                
+                if( clip->timeOut() != timeline.getMaxTime() )
+                {
+                    int length = clip->timeOut() - clip->timeIn();
+
+                    int absoluteFps = 24;
+
+
+                    std::vector<std::string> strs;
+                    const std::string st = clip->getImgPath().string();
+                    boost::split(strs, st,boost::is_any_of("/"));
+                    std::string nameImg = strs.back();
+
+                    myFlux << boost::lexical_cast<std::string>(i) + "  AX       V     C        " ;
+                    myFlux << generateTimeData(0,fps,absoluteFps) ;
+                    myFlux << " " + generateTimeData(length,fps,absoluteFps) ;
+                    myFlux << " " + generateTimeData(clip->timeIn(),fps,absoluteFps) ;
+                    myFlux << " " + generateTimeData(clip->timeOut(),fps,absoluteFps) << std::endl ;
+
+                    /* etablir le nom de l'image */
+                    myFlux << "* FROM CLIP NAME: " + nameImg << std::endl<<std::endl;
+                }
                 ++i;
                 
             }

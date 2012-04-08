@@ -3,16 +3,19 @@
 
 #include <QtGui/QWidget>
 
+namespace Ui {
+    class ExportWidget;
+}
+
 class ExportWidget : public QWidget{
     Q_OBJECT
 
 public:
-    ExportWidget();
+    explicit ExportWidget(QWidget *parent = 0);
+    ~ExportWidget();
     
 private:
-
-    
-            
+    Ui::ExportWidget* _ui;         
 };
 
 

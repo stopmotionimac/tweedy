@@ -35,22 +35,23 @@ public:
         ~MainWindow();
 
 public Q_SLOTS:
-
-	void on_captureAction_triggered();
-	void on_newProjectAction_triggered();
-	void on_searchFolderProjectButton_clicked();
-	void on_openProjectAction_triggered();
-	void on_saveAsProjectAction_triggered();
-	void on_undoButton_clicked();
-	void on_redoButton_clicked();
-	void writeTime( int newValue );
-	void on_close_window();
-	void on_saveProjectAction_triggered();
-	void on_loadProjectAction_triggered();
-	void on_aboutAction_triggered();
-	void on_acceptedNewProjectWindow();
         
         std::string generateTimeData(int, int, int);
+
+        void on_captureAction_triggered();
+        void on_newProjectAction_triggered();
+        void on_searchFolderProjectButton_clicked();
+        void on_openProjectAction_triggered();
+        void on_saveAsProjectAction_triggered();
+        void on_undoButton_clicked();
+        void on_redoButton_clicked();
+        void writeTime( int newValue );
+        void on_close_window();
+        void on_saveProjectAction_triggered();
+        void on_loadProjectAction_triggered();
+        void on_aboutAction_triggered();
+        void on_configAction_triggered();
+        void on_acceptedNewProjectWindow();
 
 
 private:
