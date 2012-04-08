@@ -27,59 +27,24 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
     _dropArea = new DropArea();
 
     std::cout << "TimelineGraphique::TimelineGraphique" << std::endl;
-        qmlRegisterType<QObjectListModel>();
+    qmlRegisterType<QObjectListModel>();
+    qmlRegisterType<DropArea>("DragNDrop", 1, 0, "DropArea");
 
 
-        this->rootContext()->setContextProperty( "_tw_graphicTimeline", this );
-	this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
-        this->rootContext()->setContextProperty( "_tw_dropArea", _dropArea );
+    this->rootContext()->setContextProperty( "_tw_graphicTimeline", this );
+    this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
+    this->rootContext()->setContextProperty( "_tw_dropArea", _dropArea );
 
-	this->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
-        this->setResizeMode( QDeclarativeView::SizeRootObjectToView );
+    this->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
+    this->setResizeMode( QDeclarativeView::SizeRootObjectToView );
 
-	connect( &_timelineData, SIGNAL( enableUpdatesSignal( const bool ) ), this, SLOT( onEnableUpdates( const bool ) ) );
+    connect( &_timelineData, SIGNAL( enableUpdatesSignal( const bool ) ), this, SLOT( onEnableUpdates( const bool ) ) );
 
-	_qmlFileWatcher.addPath( _timelineQmlFile );
-	connect( &_qmlFileWatcher, SIGNAL( fileChanged( const QString & ) ), this, SLOT( onQmlFileChanged( const QString & ) ) );
+    _qmlFileWatcher.addPath( _timelineQmlFile );
+    connect( &_qmlFileWatcher, SIGNAL( fileChanged( const QString & ) ), this, SLOT( onQmlFileChanged( const QString & ) ) );
 }
 
 
-
-void TimelineGraphic::dragEnterEvent(QDragEnterEvent *event)
-{
-    event->setAccepted(true);
-
-     //on recupere le mimeData (ce que l'on drag)
-     const QMimeData* mimeData = event->mimeData();
-
-     _dropArea->setDropPosition(event->pos().x());
-     setUrlList(mimeData->urls());
-
-     event->acceptProposedAction();
-
-}
-
-
- void TimelineGraphic::dropEvent(QDropEvent *event)
-{
-
-}
-
-void TimelineGraphic::insertElement( int position )
- {
-     ActDragNDropChutToTL actionChutToTl;
-
-     std::cout << "TableTimeline::dropEvent" << std::endl;
-
-     for( int i = 0; i < _urlList.size(); ++i )
-     {
-             QString text = _urlList.at( i ).path();
-             std::string filename = text.toStdString();
-
-             actionChutToTl( filename, position );
-     }
-
- }
 
 
 void TimelineGraphic::onEnableUpdates( const bool update )
