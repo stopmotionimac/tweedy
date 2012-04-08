@@ -10,25 +10,42 @@
 #include <QtGui/QVBoxLayout>
 #include <QtCore/QUrl>
 
+#include <QtGui/QDragEnterEvent>
+#include <QtGui/QDragMoveEvent>
+#include <QtGui/QDropEvent>
+
+#include <tweedy/core/action/ActDragNDropChutToTL.hpp>
+
 #include <iostream>
 
 
 TimelineGraphic::TimelineGraphic( QWidget * parent )
 : QDeclarativeView( parent )
+
 , _timelineQmlFile( "src/tweedy/gui/timelineGraphic/qml/TW_Timeline.qml" )
 {
-        std::cout << "TimelineGraphique::TimelineGraphique" << std::endl;
-	qmlRegisterType<QObjectListModel>();
+    _dropArea = new DropArea();
 
-	this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
-	this->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
-	this->setResizeMode( QDeclarativeView::SizeRootObjectToView );
+    std::cout << "TimelineGraphique::TimelineGraphique" << std::endl;
+    qmlRegisterType<QObjectListModel>();
+    qmlRegisterType<DropArea>("DragNDrop", 1, 0, "DropArea");
 
-	connect( &_timelineData, SIGNAL( enableUpdatesSignal( const bool ) ), this, SLOT( onEnableUpdates( const bool ) ) );
 
-	_qmlFileWatcher.addPath( _timelineQmlFile );
-	connect( &_qmlFileWatcher, SIGNAL( fileChanged( const QString & ) ), this, SLOT( onQmlFileChanged( const QString & ) ) );
+    this->rootContext()->setContextProperty( "_tw_graphicTimeline", this );
+    this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
+    this->rootContext()->setContextProperty( "_tw_dropArea", _dropArea );
+
+    this->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
+    this->setResizeMode( QDeclarativeView::SizeRootObjectToView );
+
+    connect( &_timelineData, SIGNAL( enableUpdatesSignal( const bool ) ), this, SLOT( onEnableUpdates( const bool ) ) );
+
+    _qmlFileWatcher.addPath( _timelineQmlFile );
+    connect( &_qmlFileWatcher, SIGNAL( fileChanged( const QString & ) ), this, SLOT( onQmlFileChanged( const QString & ) ) );
 }
+
+
+
 
 void TimelineGraphic::onEnableUpdates( const bool update )
 {
@@ -43,4 +60,9 @@ void TimelineGraphic::onQmlFileChanged( const QString &file )
 	this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
 	this->update();
 	this->repaint();
+}
+
+TimelineGraphic::~TimelineGraphic(){
+    delete _dropArea;
+
 }

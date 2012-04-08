@@ -10,7 +10,7 @@ boost::ptr_unordered_map<std::string, MediaExt>& ChutierMediaExt::getMapMediaExt
 }
 
 void ChutierMediaExt::printMapMediaExt() {
-    //std::cout<<"PRINT MAP MED EXT : "<<std::endl;
+    std::cout<<"PRINT MAP MED EXT : "<<std::endl;
     UOMapMediaExt::iterator iter;
     for (iter = _mapMediaExt.begin(); iter != _mapMediaExt.end(); ++iter) {
         std::cout<<iter->first<<std::endl;

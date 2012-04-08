@@ -8,14 +8,14 @@ Item {
     Rectangle {
         id: tw_cursorTop
         width: 10
-        height: tw_allTracks.height - tw_track.height - 25
+        height: tw_graduation.height
         x: - tw_cursorTop.width/2
         color: 'red'
     }
     Rectangle {
         id: tw_cursorLine
         width: 2
-        height: tw_timeline.height
+        height: tw_timelineWindow.height - 25
         x: _tw_timelineData.timeIn * _tw_timelineData.timelineScale
         color: 'red'
     }
@@ -31,7 +31,7 @@ Item {
         }
         onPositionChanged: {
             var xCursor = tw_cursor.x / _tw_timelineData.timelineScale;
-            _tw_timelineData.displayCurrentClip(xCursor);
+            _tw_timelineData.displayCurrentClip(xCursor - tw_track.x/ _tw_timelineData.timelineScale);
         }
 
         onEntered: {
