@@ -1,26 +1,12 @@
-<<<<<<< HEAD
-22 serialization::archive 9 0 0 0 0 7 11 0 0 5 16 /timeline1/clip1 3 1 0
-0 0 0 0 0 2 0 9 timeline1 5 clip1 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy0.jpg 0 1 16 /timeline1/clip4 3
-1 2 0 9 timeline1 5 clip4 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy3.jpg 6 10 16 /timeline1/clip3 3
-2 2 0 9 timeline1 5 clip3 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy2.jpg 3 6 15 /timeline1/flux 3
-3 2 0 9 timeline1 4 flux 12 img/flux.jpg 10 11 16 /timeline1/clip2 3
-4 2 0 9 timeline1 5 clip2 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy1.jpg 1 3 1 0 9 timeline1 0 0 0 0 4 88 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/none.jpg 8 1 0
-5 0 0 440836800 88 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/none.jpg 2 99 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/noPhotoSelected.jpg 8
-6 382875536 99 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/noPhotoSelected.jpg 2 94 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/fondTweedy.jpg 8
-7 444326512 94 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/fondTweedy.jpg 2 88 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/logo.png 8
-8 44569488 88 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/logo.png 2
-=======
-22 serialization::archive 9 0 0 0 0 18 14 0 0 12 17 /timeline1/clip15 3 1 0
-0 0 0 0 0 2 0 9 timeline1 6 clip15 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy3.jpg 4 5 15 /timeline1/flux 3
-1 2 0 9 timeline1 4 flux 12 img/flux.jpg 13 14 17 /timeline1/clip14 3
-2 2 0 9 timeline1 6 clip14 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy2.jpg 8 9 17 /timeline1/clip13 3
-3 2 0 9 timeline1 6 clip13 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy1.jpg 9 10 17 /timeline1/clip17 3
-4 2 0 9 timeline1 6 clip17 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy5.jpg 7 8 16 /timeline1/clip4 3
-5 2 0 9 timeline1 5 clip4 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy2.jpg 12 13 17 /timeline1/clip12 3
-6 2 0 9 timeline1 6 clip12 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy0.jpg 10 11 16 /timeline1/clip3 3
-7 2 0 9 timeline1 5 clip3 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy1.jpg 2 3 17 /timeline1/clip11 3
-8 2 0 9 timeline1 6 clip11 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy6.jpg 11 12 16 /timeline1/clip8 3
-9 2 0 9 timeline1 5 clip8 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy6.jpg 0 1 16 /timeline1/clip7 3
-10 2 0 9 timeline1 5 clip7 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy4.jpg 1 2 17 /timeline1/clip16 3
-11 2 0 9 timeline1 6 clip16 52 /home/julien/Bureau/Imac/Ptut/tweedy/img/tweedy4.jpg 5 6 1 0 9 timeline1
->>>>>>> 024691150f2cacd75cc0f4cac5763bf5e0b99121
+22 serialization::archive 9 0 0 0 0 4 10 0 0 4 16 /timeline1/clip1 3 1 0
+0 0 0 0 0 2 0 9 timeline1 5 clip1 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy3.jpg 0 6 16 /timeline1/clip3 3
+1 2 0 9 timeline1 5 clip3 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy2.jpg 7 8 15 /timeline1/flux 3
+2 2 0 9 timeline1 4 flux 12 img/flux.jpg 9 10 16 /timeline1/clip2 3
+3 2 0 9 timeline1 5 clip2 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy5.jpg 6 7 1 0 9 timeline1 0 0 0 0 7 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy3.jpg 8 1 0
+4 0 0 1892715712 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy3.jpg 2 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy5.jpg 8
+5 1892715712 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy5.jpg 2 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy4.jpg 8
+6 1892715712 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy4.jpg 2 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy2.jpg 8
+7 1892715712 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy2.jpg 2 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy1.jpg 8
+8 1892715712 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy1.jpg 2 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy0.jpg 8
+9 91 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy0.jpg 2 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy6.jpg 8
+10 1892715712 91 /Users/nexus_21/Documents/Cours IMAC /Cours IMAC 2/Projet tut/Tweedy/tweedy/img/tweedy6.jpg 2
