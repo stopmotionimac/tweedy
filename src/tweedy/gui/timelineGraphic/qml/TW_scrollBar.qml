@@ -6,18 +6,34 @@ Item{
     property int scrollRightPressed : 0
     property int scrollLeftPressed : 0
 
-
     Rectangle{
         id: tw_fullBar
-        width:tw_timelineWindow.width
+        width:(tw_timelineWindow.width < _tw_timelineData.maxTime * ratio) ? tw_timelineWindow.width : _tw_timelineData.maxTime * ratio
         height:25
         y:25 + tw_track.height
         color: "#ACB6B5"
 
+        MouseArea{
+            id: tw_fullBarHandle
+            anchors.fill: parent
+            onPressed:{
+                if (mouseX > tw_scrollBar.x)
+                    tw_scrollBar.x = mouseX - tw_scrollBar.width
+                else
+                    tw_scrollBar.x = mouseX
+
+                tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * ratio / tw_fullBar.width
+                tw_graduation.x = tw_track.x
+            }
+
+
+        }
+
+
         //yellow rect
         Rectangle {
             id: tw_scrollBar
-            width: _tw_timelineData.maxTime<5 ? parent.width : parent.width*5/_tw_timelineData.maxTime
+            width: _tw_timelineData.maxTime<5 ? _tw_timelineData.maxTime * ratio : parent.width*5/_tw_timelineData.maxTime
             height: 25
             color: '#FFCC66'
 
@@ -29,7 +45,7 @@ Item{
                 drag.minimumX: 0
                 drag.maximumX: tw_fullBar.width - tw_scrollBar.width
                 onPositionChanged: {
-                    tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
+                    tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * ratio / tw_fullBar.width
                     tw_graduation.x = tw_track.x
                 }
                 onEntered: {
@@ -56,7 +72,7 @@ Item{
                }
 
                onPositionChanged: {
-                   if ( scrollLeftPressed == 1 )
+                   if ( scrollLeftPressed == 1 && _tw_timelineData.maxTime > 5)
                    {
                        if (tw_scrollBar.x + mouseX < 0)
                        {
@@ -76,10 +92,9 @@ Item{
                            }
 
 
-                       _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
-                       tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
+                       ratio = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
+                       tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * ratio / tw_fullBar.width
 
-                       //tw_graduation.x = tw_scrollBar.width/tw_fullBar.width
 
                     }
                }
@@ -108,22 +123,23 @@ Item{
                 }
 
                 onPositionChanged: {
-                    if ( scrollRightPressed == 1 )
+                    if ( scrollRightPressed == 1 && _tw_timelineData.maxTime > 5)
                     {
-                        if (tw_scrollBar.x + tw_scrollBar.width +mouseX > tw_fullBar.width)
-                            tw_scrollBar.width = tw_fullBar.width - tw_scrollBar.x
-                        else
-                        {
-                            if (tw_scrollBar.width + mouseX < tw_fullBar.width*5/_tw_timelineData.maxTime)
-                                tw_scrollBar.width = tw_fullBar.width*5/_tw_timelineData.maxTime
+                            if (tw_scrollBar.x + tw_scrollBar.width +mouseX > tw_fullBar.width)
+                                tw_scrollBar.width = tw_fullBar.width - tw_scrollBar.x
                             else
-                                tw_scrollBar.width += mouseX
-                        }
+                            {
+                                if (tw_scrollBar.width + mouseX < tw_fullBar.width*5/_tw_timelineData.maxTime)
+                                    tw_scrollBar.width = tw_fullBar.width*5/_tw_timelineData.maxTime
+                                else
+                                    tw_scrollBar.width += mouseX
+                            }
 
-                        _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
+                            ratio = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
                     }
-
                 }
+
+
 
                 onReleased:{
                     scrollRightPressed = 0

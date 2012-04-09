@@ -1,7 +1,7 @@
 #ifndef EXPORTWIDGET_HPP
 #define EXPORTWIDGET_HPP
 
-#include <QWidget>
+#include <QtGui/QWidget>
 
 namespace Ui {
     class ExportWidget;

@@ -3,7 +3,7 @@ import QtQuick 1.1
 Item
 {
 	id:	tw_clipContainer
-	width: ( object.timeOut - object.timeIn + object.blankDuration ) * _tw_timelineData.timelineScale
+        width: ( object.timeOut - object.timeIn + object.blankDuration ) * ratio
 	height: tw_track.height
 
 	scale: tw_clipHandle.pressed ? 1.05: 1.0
@@ -15,7 +15,7 @@ Item
 	Rectangle
 	{
 		id: tw_blankClip
-		width: object.blankDuration * _tw_timelineData.timelineScale // * 0.5
+                width: object.blankDuration * ratio // * 0.5
 		height: tw_track.height
 		y: 0
 		z: -1
@@ -99,10 +99,10 @@ Item
 		id: tw_clip
 
 		// anchors.fill: parent
-		width: ( object.timeOut - object.timeIn ) * _tw_timelineData.timelineScale // * 0.5
+                width: ( object.timeOut - object.timeIn ) * ratio // * 0.5
 		height: tw_track.height
 
-		x: object.blankDuration * _tw_timelineData.timelineScale
+                x: object.blankDuration * ratio
 		y: 0
 		z: 0
 
@@ -133,7 +133,7 @@ Item
 			anchors.fill: tw_clip
 			hoverEnabled: true
 			//drag.minimumX: 0
-			//drag.maximumX: _tw_timelineData.maxTime * _tw_timelineData.timelineScale - _tw_timelineData.timelineScale
+                        //drag.maximumX: _tw_timelineData.maxTime * ratio - ratio
 			drag.target: tw_clip
 			drag.axis: "XAxis"
 			acceptedButtons: Qt.LeftButton | Qt.RightButton
@@ -149,9 +149,9 @@ Item
 			onClicked:
 			{
 				/*
-				_tw_timelineData.displayCurrentClip(tw_timeCursor.x / _tw_timelineData.timelineScale)
+                                _tw_timelineData.displayCurrentClip(tw_timeCursor.x / ratio)
 
-				timeInClipSelected = tw_timeCursor.x / _tw_timelineData.timelineScale
+                                timeInClipSelected = tw_timeCursor.x / ratio
 
 				console.log( " timeInClipSelected" + timeInClipSelected)
 
@@ -194,15 +194,15 @@ Item
                                         //z = 9999;
 					var markerPosition = -1
 
-					if( parent.x / _tw_timelineData.timelineScale >= 1 )
-						markerPosition = _tw_timelineData.getMarkerPosition( timeInClipSelected + parent.x / _tw_timelineData.timelineScale - object.blankDuration, true )
-					if( parent.x / _tw_timelineData.timelineScale < 0 )
-						markerPosition = _tw_timelineData.getMarkerPosition( timeInClipSelected + parent.x / _tw_timelineData.timelineScale - object.blankDuration, false )
+                                        if( parent.x / ratio >= 1 )
+                                                markerPosition = _tw_timelineData.getMarkerPosition( timeInClipSelected + parent.x / ratio - object.blankDuration, true )
+                                        if( parent.x / ratio < 0 )
+                                                markerPosition = _tw_timelineData.getMarkerPosition( timeInClipSelected + parent.x / ratio - object.blankDuration, false )
 
 					if( markerPosition != -1 )
 					{
 						tw_insertMarker.visible = true
-						tw_insertMarker.x = markerPosition * _tw_timelineData.timelineScale - tw_insertMarker.width / 2
+                                                tw_insertMarker.x = markerPosition * ratio - tw_insertMarker.width / 2
 					}
 				}
 			}
@@ -215,9 +215,9 @@ Item
 
 				if( clipSelected )
 				{
-					print( "timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale", timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale )
+                                        print( "timeInClipSelected, timeInClipSelected + parent.x / ratio", timeInClipSelected, timeInClipSelected + parent.x / ratio )
 					var selectedClip = -1
-						selectedClip = _tw_timelineData.translate( timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale - object.blankDuration )
+                                                selectedClip = _tw_timelineData.translate( timeInClipSelected, timeInClipSelected + parent.x / ratio - object.blankDuration )
 					if( selectedClip != -1 )
 						timeInClipSelected = selectedClip
 				}
@@ -296,9 +296,9 @@ Item
 
                                 console.log( "mouse X clip Released" + mouseX );
 
-                                if( tw_clip.width + mouseX * _tw_timelineData.timelineScale > tw_clip.width )
+                                if( tw_clip.width + mouseX * ratio > tw_clip.width )
                                 {
-                                        tw_clip.width = tw_clip.width + mouseX * _tw_timelineData.timelineScale
+                                        tw_clip.width = tw_clip.width + mouseX * ratio
                                 }
                         }
                 }*/

@@ -12,7 +12,7 @@ Rectangle
     implicitHeight: 300
     focus: true
 
-    //property int _tw_timelineData.timelineScale: 50
+    //property int ratio: 50
     property int tw_handleWidth: 10
     property int tw_widthChanged :0
     property int tw_xPositionChanged :0
@@ -21,6 +21,8 @@ Rectangle
     property int doubleClickedBlank : -1
     property int timeInClipSelected : -1
     property int timeBlankSelected : -1
+    property int ratio : tw_timelineWindow.width / 5
+
 
 
     Keys.onPressed:
@@ -39,6 +41,7 @@ Rectangle
                 _tw_timelineData.deleteItem(timeBlankSelected - 1);
                 timeBlankSelected = -1;
             }
+            ratio = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
         }
     }
 
@@ -49,18 +52,19 @@ Rectangle
 
         color: "#ACB6B5"
         //color: "red"
-        width: _tw_timelineData.maxTime * _tw_timelineData.timelineScale
+        width: _tw_timelineData.maxTime * ratio
         height: parent.height
 
         // Graduation block
         TW_Graduation
         {
             id: tw_graduation
+
         }
 
         function moveTimeTo( mouseX ) {
                 tw_timeCursor.x = mouseX
-                _tw_timelineData.displayCurrentClip( (tw_timeCursor.x-tw_track.x)/_tw_timelineData.timelineScale)
+                _tw_timelineData.displayCurrentClip( (tw_timeCursor.x-tw_track.x)/ratio)
                 doubleClickedBlank = -1
                 timeInClipSelected = -1
                 timeInDoubleClickedClip = -1
@@ -71,7 +75,7 @@ Rectangle
         {
             id: tw_allTracksHandle
             anchors.fill: parent
-	
+
             onClicked: parent.moveTimeTo(mouseX)
             onEntered: parent.moveTimeTo(mouseX)
             onReleased: parent.moveTimeTo(mouseX)
@@ -127,7 +131,7 @@ Rectangle
                 id: tw_insertMarker
                 x: 0
                 y: 0
-                width : _tw_timelineData.timelineScale / 5
+                width : ratio / 5
                 visible: false
                 height: tw_track.height
 				
@@ -143,7 +147,7 @@ Rectangle
 
 
             Rectangle{
-                width : parent.width
+                width : tw_timelineWindow.width
                 height : parent.height
                 color : "transparent"
 
@@ -151,14 +155,20 @@ Rectangle
                     id: dropArea
                     anchors.fill: parent
 
+
                     onDragMove:{
                         var markerPosition = -1
-                        markerPosition = _tw_timelineData.getMarkerPosition( (position-tw_track.x) / _tw_timelineData.timelineScale, false )
+                        var timeInsertion = (position) / ratio
+
+                        if(timeInsertion > _tw_timelineData.maxTime)
+                            markerPosition = _tw_timelineData.maxTime
+                        else
+                            markerPosition = _tw_timelineData.getMarkerPosition( timeInsertion, false )
 
                         if( markerPosition != -1 )
                         {
                                 tw_insertMarker.visible = true
-                                tw_insertMarker.x = markerPosition * _tw_timelineData.timelineScale - tw_insertMarker.width / 2
+                                tw_insertMarker.x = markerPosition * ratio - tw_insertMarker.width / 2
                         }
 
                     }
@@ -169,12 +179,17 @@ Rectangle
 
                     onDrop:
                     {
+                        var timeInsertion = (position) / ratio
                         tw_insertMarker.visible = false
 
-                        _tw_dropArea.insertElement( (position-tw_track.x) / _tw_timelineData.timelineScale )
+                        if(timeInsertion > _tw_timelineData.maxTime)
+                            timeInsertion = _tw_timelineData.maxTime
 
-                        timeInClipSelected = ((position-tw_track.x)/_tw_timelineData.timelineScale)
-                        if (timeInClipSelected > (position-tw_track.x)/_tw_timelineData.timelineScale)
+                        _tw_dropArea.insertElement(timeInsertion)
+
+                        timeInClipSelected = (timeInsertion)
+
+                        if (timeInClipSelected > timeInsertion)
                             timeInClipSelected -= 1
 
                         print ( " timeInClipSelected", timeInClipSelected)
