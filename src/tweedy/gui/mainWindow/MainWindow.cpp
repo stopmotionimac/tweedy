@@ -291,30 +291,25 @@ void MainWindow::on_captureAction_triggered()
 	if( isConnected == 0 )
 	{
 		QMessageBox::about( this, tr( "Warning" ), tr( "No camera connected to the computer" ) );
-		//std::cout<<"No camera connected to the computer"<<std::endl;
 	}
 	else
 	{
 		//take HD picture
-
 		Projet& project = Projet::getInstance();
 
 		project.gPhotoInstance().setFolderToSavePictures( project.getProjectFolder() );
 
 		//take the picture's filename
 		boost::filesystem::path filenameHD = project.gPhotoInstance().captureToFile();
-                std::cout<<"FILENAMEHD"<<filenameHD<<std::endl;
 
 		//make a LD picture
 		QImage img( QString::fromStdString( filenameHD.string() ) );
 		QImage petiteImg = img.scaled( QSize( 600, 350 ) );
 
                 std::string filenameLD = filenameHD.string();
-		filenameLD.insert( filenameLD.size() - 4, "_LD" );
+                filenameLD.insert( filenameLD.size() - 4, "_LD" );
                 int pos = filenameLD.find("HD/");
-                //std::cout<<"POS : "<<pos<<std::endl;
                 filenameLD.erase(filenameLD.begin()+37, filenameLD.begin()+40);
-                std::cout<<"filenameLD : "<<filenameLD<<std::endl;
 
 		petiteImg.save( QString::fromStdString( filenameLD ) );
 
@@ -357,12 +352,10 @@ void MainWindow::on_searchFolderProjectButton_clicked()
 	Projet& projectInstance = Projet::getInstance();
 	boost::filesystem::path pathFolder( fileName.toStdString() );
 	projectInstance.setProjectFolder( pathFolder );
-	std::cout << pathFolder << std::endl;
 
 	/*Create corresponding folders*/
 	pathFolder /= "projet";
-        //std::cout <<"PATHFOLDER"<< pathFolder << std::endl;
-	boost::filesystem::create_directory( pathFolder );
+        boost::filesystem::create_directory( pathFolder );
 	boost::filesystem::path pathFolderPictures = pathFolder / "pictures";
 	boost::filesystem::create_directory( pathFolderPictures );
         boost::filesystem::path pathFolderPicturesHD = pathFolderPictures / "HD";
@@ -476,9 +469,6 @@ void MainWindow::on_saveProjectAction_triggered()
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();
         ofs.close();
-        
-	//std::cout << "sauvegarde" << std::endl;
-        
 }
 
 
@@ -493,8 +483,7 @@ void MainWindow::on_loadProjectAction_triggered()
 
 	ia >> project();
         
-	//std::cout << "chargement" << std::endl;
-	//_timelineTable->updateTable();
+        //_timelineTable->updateTable();
         _chutier->updateChutier();
 
 }

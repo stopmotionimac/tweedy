@@ -21,12 +21,10 @@ Id& Projet::getId()
 void Projet::addImedia(Imedia & media)
 {
     using namespace boost::assign;
-   //std::cout<<media->getNameMedia().string()<<std::endl;
     ptr_map_insert( _mapMedia )( media.getNameMedia().string(), media );
 }
 
 boost::filesystem::path Projet::getNameImedia(Imedia & imedia) {
-    //std::cout<<imedia.getNameMedia().filename()<<std::endl;
     return imedia.getNameMedia().filename();
 }
 
@@ -38,16 +36,11 @@ ChutierMediaExt& Projet::getChutierPictures() {
     return _chutierPictures;
 }
 
-//void Projet::makeChutier() {
-//    _chutier.createChutierMediaExt();
-//    //test import to chutier
-//    boost::filesystem::path url("projet/mediasExt/test.jpg");
-//    _chutier.importMediaToChutier(url);
-//}
+
 
 void Projet::printAllMedia() {
     boost::ptr_unordered_map<std::string, Imedia*>::iterator iter;
-    //std::cout<<"PRINT MAP APPLI"<<std::endl;
+    std::cout<<"PRINT MAP APPLI"<<std::endl;
     for (iter = this->_mapMedia.begin(); iter != _mapMedia.end(); ++iter)
     {
         std::cout<<iter->first<<std::endl;
@@ -58,7 +51,6 @@ void Projet::printAllMedia() {
 //Functions for gPhotoInstance
 int Projet::tryToConnectCamera() {
     int retval = gPhotoInstance().tryToConnectCamera();
-    //std::cout<<"RETVAL"<<retval<<std::endl;
     return retval;
 }
 
