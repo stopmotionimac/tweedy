@@ -45,7 +45,7 @@ public:
     int initCamera();
     int tryToConnectCamera();
     //sera changé en fonction du choix de l'utilisateur pour son dossier de save
-    void setFolderToSavePictures(boost::filesystem::path path) { _fileName = path; _fileName /="projet/pictures"; /*std::cout<<"PROJECT/PICTURE FOLDER : "<<_fileName<<std::endl;*/ }
+    void setFolderToSavePictures(boost::filesystem::path path) { _fileName = path; _fileName /="projet/pictures/HD"; /*std::cout<<"PROJECT/PICTURE FOLDER : "<<_fileName<<std::endl;*/ }
     //void doPreview();
 
     void findMainWidget();

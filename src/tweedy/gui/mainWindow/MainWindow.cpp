@@ -223,17 +223,17 @@ void MainWindow::createWidgets()
 		undoDock->setFloating( true );
 	}
 
-	//        {
-	//                // Dock Timeline Table
-	//                QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
-	//                _timelineTable = new TimelineTable( timelineDock );
-	//                timelineDock->setWidget( _timelineTable );
-	//                addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
-	//                _viewMenu->addAction( timelineDock->toggleViewAction() );
-	//
-	//                connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
-	//                connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
-	//        }
+//                {
+//                        // Dock Timeline Table
+//                        QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
+//                        _timelineTable = new TimelineTable( timelineDock );
+//                        timelineDock->setWidget( _timelineTable );
+//                        addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
+//                        _viewMenu->addAction( timelineDock->toggleViewAction() );
+
+//                        connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+//                        connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
+//                }
 
 	{
 		// Dock Timeline QML
@@ -303,13 +303,19 @@ void MainWindow::on_captureAction_triggered()
 
 		//take the picture's filename
 		boost::filesystem::path filenameHD = project.gPhotoInstance().captureToFile();
+                std::cout<<"FILENAMEHD"<<filenameHD<<std::endl;
 
 		//make a LD picture
 		QImage img( QString::fromStdString( filenameHD.string() ) );
 		QImage petiteImg = img.scaled( QSize( 600, 350 ) );
 
-		std::string filenameLD = filenameHD.string();
+                std::string filenameLD = filenameHD.string();
 		filenameLD.insert( filenameLD.size() - 4, "_LD" );
+                int pos = filenameLD.find("HD/");
+                //std::cout<<"POS : "<<pos<<std::endl;
+                filenameLD.erase(filenameLD.begin()+37, filenameLD.begin()+40);
+                std::cout<<"filenameLD : "<<filenameLD<<std::endl;
+
 		petiteImg.save( QString::fromStdString( filenameLD ) );
 
 		ActCapturePicture action;
@@ -352,12 +358,15 @@ void MainWindow::on_searchFolderProjectButton_clicked()
 	boost::filesystem::path pathFolder( fileName.toStdString() );
 	projectInstance.setProjectFolder( pathFolder );
 	std::cout << pathFolder << std::endl;
+
 	/*Create corresponding folders*/
 	pathFolder /= "projet";
-	std::cout << pathFolder << std::endl;
+        //std::cout <<"PATHFOLDER"<< pathFolder << std::endl;
 	boost::filesystem::create_directory( pathFolder );
 	boost::filesystem::path pathFolderPictures = pathFolder / "pictures";
 	boost::filesystem::create_directory( pathFolderPictures );
+        boost::filesystem::path pathFolderPicturesHD = pathFolderPictures / "HD";
+        boost::filesystem::create_directory( pathFolderPicturesHD );
 }
 
 //fonction a completer pour creer un nouveau projet

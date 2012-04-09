@@ -216,7 +216,10 @@ std::string Gphoto::doPreview(int i) {
                             exit(1);
                     }
 
-                    sprintf(outputFile, "/home/solvejg/Bureau/projet/pictures/snapshot-%03d.jpg", i);
+                    //std::cout<<"OUTPUTFILE AVT"<<outputFile<<std::endl;
+                    //sprintf(outputFile, "/home/solvejg/Bureau/projet/pictures/snapshot-%03d.jpg", i);
+                    //std::cout<<"OUTPUTFILE APRES"<<outputFile<<std::endl;
+
                     ret = gp_file_save(file, outputFile);
                     if (ret != GP_OK) {
                             fprintf(stderr,"gp_camera_capture_preview(%d): %d\n", i, ret);
