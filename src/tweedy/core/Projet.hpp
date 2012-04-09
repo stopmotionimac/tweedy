@@ -82,7 +82,7 @@ private:
   void serialize(Archive& ar, const unsigned int version)
   {
      ar & _timeline;
-     //ar & _chutierMediaExt;
+     ar & _chutierMediaExt;
   }
 
 };

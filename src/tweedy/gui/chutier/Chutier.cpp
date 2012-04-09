@@ -13,6 +13,7 @@
 
 #include <iostream>
 
+typedef boost::ptr_unordered_map<std::string, MediaExt> MapMedia_t;
 
 Chutier::Chutier( QWidget *parent )
 : QWidget( parent )
@@ -137,35 +138,42 @@ void Chutier::on_importAction_triggered()
 
 	BOOST_FOREACH( const QString& fileName, fileNames )
 	{
+            /*
 		QListWidgetItem *item = new QListWidgetItem( QIcon( fileName ), fileName, _listWidgetImport );
 
 		_listWidgetImport->addItem( item );
 
 		_tabWidget->setCurrentWidget( _listWidgetImport );
-
+            */
 		/*add media imported to chutier core*/
 		boost::filesystem::path nameOfFileToImport( fileName.toStdString() );
-		ChutierMediaExt chutierMediaExt = projectInstance.getChutierMediaExt();
+		ChutierMediaExt& chutierMediaExt = projectInstance.getChutierMediaExt();
 		chutierMediaExt.importMediaToChutier( nameOfFileToImport );
-                chutierMediaExt.printMapMediaExt();
+
+		chutierMediaExt.printMapMediaExt();
+
   //OK          //std::cout<<&chutierMediaExt<<std::endl
   //COHERANT    //std::cout<<chutierMediaExt.getMapMediaExt().size()<<std::endl;
-	}
+
+        }
+        this->updateChutier();
 }
 
 void Chutier::on_deleteAction_triggered()
 {
-	//bug quand on supprime tout
+    
 	QList<QListWidgetItem *> fileSelected = _listWidgetImport->selectedItems();
-	for( int i = 0; i < fileSelected.count(); ++i )
+	BOOST_FOREACH( const QListWidgetItem* currentItem, fileSelected )
 	{
-		if( _listWidgetImport->count() != 0 )
-		{
-			QListWidgetItem * item = _listWidgetImport->takeItem( i );
-			delete item;
-		}
+                std::string path = currentItem->text().toStdString();
+                        
+                MapMedia_t& mapMediaExt = Projet::getInstance().getChutierMediaExt().getMapMediaExt();
+                MediaExt& media = mapMediaExt[path];
+                Projet::getInstance().getChutierMediaExt().deleteMediaFromChutier(media);
 
 	}
+        this->updateChutier();
+        
 }
 
 void Chutier::changedPixmap( int row, int column )
@@ -189,6 +197,36 @@ void Chutier::contextMenuEvent( QContextMenuEvent *event )
 	menu.addAction( _importAction );
 	menu.exec( event->globalPos() );
 
+}
+
+/*
+ actualise le chutier
+ */
+void Chutier::updateChutier()
+{
+    _listWidgetImport->clear();
+    
+    Projet& projectInstance = Projet::getInstance();
+   
+    
+    
+    MapMedia_t& mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
+   
+//    const boost::ptr_unordered_map<std::string, MediaExt>& mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
+    //std::cout<<mapMediaExt.size()<<std::endl;
+    
+    
+    BOOST_FOREACH( MapMedia_t::value_type s, mapMediaExt)
+    {
+        QListWidgetItem *item = new QListWidgetItem( QIcon( QString::fromStdString(s->first) ), QString::fromStdString(s->first) , _listWidgetImport );
+
+        _listWidgetImport->addItem( item );
+
+        _tabWidget->setCurrentWidget( _listWidgetImport );
+    }
+    
+    
+    
 }
 
 Chutier::~Chutier()

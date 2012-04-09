@@ -21,6 +21,8 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include <iostream>
 #include <iomanip>
@@ -41,9 +43,12 @@ MainWindow::MainWindow()
 //	connect( this->_timelineTable, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 	connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 
-	connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+//        this->adjustSize();
+
+        connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
 
 	this->adjustSize();
+
 }
 
 MainWindow::~MainWindow()
@@ -98,6 +103,10 @@ void MainWindow::createActions()
 	_captureAction = new QAction( QIcon( "img/icones/capture.png" ), "Capture", this );
 	_captureAction->setShortcut( QKeySequence( "Retour" ) );
 	connect( _captureAction, SIGNAL( triggered() ), this, SLOT( on_captureAction_triggered() ) );
+        
+        _exportAction = new QAction( "Export", this );
+        _exportAction->setStatusTip( "Export your timeline" );
+        connect( _exportAction, SIGNAL( triggered() ), this, SLOT( on_exportAction_triggered() ) );
 
 	//save the project
 	connect( _saveProjectAction, SIGNAL( triggered() ), this, SLOT( on_saveProjectAction_triggered() ) );
@@ -155,6 +164,7 @@ void MainWindow::createMenuBar()
 	menuBar()->addSeparator();
 	_fileMenu->addAction( _saveProjectAction );
 	_fileMenu->addAction( _saveAsProjectAction );
+        _fileMenu->addAction( _exportAction );
 	_fileMenu->addAction( _quitAction );
 
 	_editMenu = menuBar()->addMenu( tr( "&Edit" ) );
@@ -456,8 +466,12 @@ void MainWindow::on_saveProjectAction_triggered()
 	std::ofstream ofs( filename );
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();
-
+        ofs.close();
+        
+	//std::cout << "sauvegarde" << std::endl;
+        
 }
+
 
 //load the project
 
@@ -469,7 +483,48 @@ void MainWindow::on_loadProjectAction_triggered()
 	boost::archive::text_iarchive ia( ifs );
 
 	ia >> project();
+        
+	//std::cout << "chargement" << std::endl;
+	//_timelineTable->updateTable();
+        _chutier->updateChutier();
 
-//	_timelineTable->updateTable();
+}
 
+
+
+void MainWindow::on_exportAction_triggered()
+{
+    _exportWidget = new ExportWidget( );
+    _exportWidget->show();
+
+}
+
+
+
+
+
+std::string MainWindow::generateTimeData(int value, int choosenFps, int absoluteFps)
+{
+    double cAbsoluteFps = static_cast<double>(absoluteFps);
+    
+    //convertir la lgr du clip en base 24
+    int nbframe = value * (absoluteFps/choosenFps);
+    int hour = nbframe/std::pow(cAbsoluteFps,3);
+    int min = (nbframe % static_cast<int>(std::pow(cAbsoluteFps,3)))/std::pow(cAbsoluteFps,2);
+    int sec = (nbframe % static_cast<int>(std::pow(cAbsoluteFps,2)))/absoluteFps;
+    nbframe = nbframe % absoluteFps ;
+    
+    std::string shour = hour<10 ? "0"+boost::lexical_cast<std::string>(hour) 
+            : boost::lexical_cast<std::string>(hour);
+
+    std::string smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
+            : boost::lexical_cast<std::string>(min);
+
+    std::string ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
+            : boost::lexical_cast<std::string>(sec);
+
+    std::string sframe = nbframe<10 ? "0"+boost::lexical_cast<std::string>(nbframe) 
+            : boost::lexical_cast<std::string>(nbframe);
+
+    return shour + ":" + smin + ":" + ssec + ":" + sframe ;
 }

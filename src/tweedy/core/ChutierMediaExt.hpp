@@ -55,11 +55,11 @@ public:
         }
 
         void printMapMediaExt ();
-
+        
 private :
         typedef boost::ptr_unordered_map<std::string, MediaExt> UOMapMediaExt;
         UOMapMediaExt _mapMediaExt;
-        /*
+        
         friend class boost::serialization::access;
     
         template<class Archive>
@@ -71,7 +71,7 @@ private :
 
 
         }
-        */
+        
         
 };
 
