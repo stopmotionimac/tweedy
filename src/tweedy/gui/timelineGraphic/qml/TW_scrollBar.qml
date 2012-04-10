@@ -10,7 +10,7 @@ Item{
 
     Rectangle{
         id: tw_fullBar
-        width:tw_timeline.width
+        width:tw_timelineWindow.width
         height:25
         y:25 + tw_track.height
         color: "#ACB6B5"
@@ -33,8 +33,6 @@ Item{
                 onPositionChanged: {
                     Tw_utility.setDisplayIn( tw_scrollBar.x * _tw_timelineData.maxTime / tw_fullBar.width )
                     Tw_utility.setDisplayOut( tw_scrollBar.x+tw_scrollBar.width * _tw_timelineData.maxTime / tw_fullBar.width )
-                    //tw_track.x =
-                    //tw_graduation.x =
                 }
                 onEntered: {
                     parent.color = "#FFFF99"
@@ -72,8 +70,6 @@ Item{
                onReleased:{
                    scrollLeftPressed = 0
                }
-
-
            }
            // zone droite pour l'agrandissement du zoom
            MouseArea {
@@ -103,11 +99,7 @@ Item{
                 onReleased:{
                     scrollRightPressed = 0
                 }
-
             }//end rightMouseArea
-
         }//end yellow rect
-
     }//end purple rect
-
 }//end item

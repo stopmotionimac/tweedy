@@ -24,7 +24,6 @@ void GPhotoWidgetTextItems::putChoicesIntoMenu() {
 }
 
 void GPhotoWidgetTextItems::on_setValue_activated(const QString & valueChoice){
-    //std::cout<<valueChoice.toStdString() <<std::endl;
     //const void * varChoice = valueChoice.toStdString().data();
     Projet& projectInstance = Projet::getInstance();
     projectInstance.gPhotoInstance().setValueString(_widget, valueChoice.toStdString().data());
