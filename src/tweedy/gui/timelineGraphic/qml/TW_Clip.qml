@@ -21,9 +21,9 @@ Item
 		z: -1
 
 		border.color: ( doubleClickedBlank != object.timeIn ) ? "black" : "white"
-                border.width: 1
+		border.width: 1
 		radius: 10
-                color: ( timeBlankSelected != object.timeIn ) ? "black" : "#FF3300"
+		color: ( timeBlankSelected != object.timeIn ) ? "black" : "#FF3300"
 
 		// zone de deplacement
 		MouseArea
@@ -34,16 +34,16 @@ Item
 			hoverEnabled: true
 			
 			onPressed:
-			{
+				{
 				clipSelected = false
-                                timeBlankSelected = object.timeIn
-                                timeInClipSelected = -1
+				timeBlankSelected = object.timeIn
+				timeInClipSelected = -1
 			}
 
 			onDoubleClicked:
-			{
+				{
 				timeInDoubleClickedClip = -1
-                                doubleClickedBlank = object.timeIn
+				doubleClickedBlank = object.timeIn
 			}
 
 
@@ -59,12 +59,12 @@ Item
 			hoverEnabled: true
 
 			onEntered:
-			{
+				{
 				_tw_timelineData.displayCursor( "scale" );
 				console.log( "qml tw_blankClipLeftHandle onEntered." )
 			}
 			onExited:
-			{
+				{
 				_tw_timelineData.displayCursor( "none" );
 				console.log( "qml tw_blankClipLeftHandle onExited." )
 			}
@@ -82,12 +82,12 @@ Item
 			hoverEnabled: true
 
 			onEntered:
-			{
+				{
 				_tw_timelineData.displayCursor( "scale" );
 				console.log( "qml tw_blankClipRightHandle onEntered." )
 			}
 			onExited:
-			{
+				{
 				_tw_timelineData.displayCursor( "none" );
 				console.log( "qml tw_blankClipRightHandle onExited." )
 			}
@@ -109,7 +109,7 @@ Item
 		border.color: ( timeInDoubleClickedClip != object.timeIn ) ? "black": "white"
 		border.width: 2
 		radius: 10
-                color: ( timeInClipSelected != object.timeIn ) ? "#e28a26": "#FF3300"
+		color: ( timeInClipSelected != object.timeIn ) ? "#e28a26": "#FF3300"
 
 		// image du Clip (Vignette)
 		Image
@@ -117,12 +117,12 @@ Item
 			id: image
 			anchors.fill: parent
 			anchors.margins: 5
-				width: parent.width
-				height: parent.height
-				fillMode: Image.PreserveAspectFit
-				smooth: true // better visual quality but slower
-				source: object.imgPath // image source file path
-				asynchronous: true // enable asynchronous load
+			width: parent.width
+			height: parent.height
+			fillMode: Image.PreserveAspectFit
+			smooth: true // better visual quality but slower
+			source: object.imgPath // image source file path
+			asynchronous: true // enable asynchronous load
 		}
 
 		// zone de deplacement
@@ -139,7 +139,7 @@ Item
 			acceptedButtons: Qt.LeftButton | Qt.RightButton
 
 			onEntered:
-			{
+				{
 				if( timeInClipSelected != object.timeIn )
 				{
 					parent.color = '#FDAE37'
@@ -147,7 +147,7 @@ Item
 			}
 
 			onClicked:
-			{
+				{
 				/*
 				_tw_timelineData.displayCurrentClip(tw_timeCursor.x / _tw_timelineData.timelineScale)
 
@@ -158,40 +158,40 @@ Item
 				parent.color = 'red'
 				console.log("qml tw_clipHandle onPressed.")
 				timeInClipSelected = object.timeIn
-				*/
+				 */
 			}
 
 			onExited:
-			{
+				{
 				if( timeInClipSelected != object.timeIn )
 					parent.color = '#e28a26'
 			}
 
 			onPressed:
-			{
+				{
 				timeBlankSelected = -1
 
 				clipSelected = true
 				console.log( "qml tw_clipHandle onPressed." )
 				timeInClipSelected = object.timeIn
 
-                                parent.color = '#FF3300'
+				parent.color = '#FF3300'
 			}
 
 			onDoubleClicked:
-			{
+				{
 				doubleClickedBlank = -1
 				timeInDoubleClickedClip = object.timeIn
 				_tw_timelineData.displayClip( timeInDoubleClickedClip )
 			}
 
 			onPositionChanged:
-			{
+				{
 				if( clipSelected )
 				{
 					//console.log( "z:", tw_clip.z )
 					tw_clip.z = 9999;
-                                        //z = 9999;
+					//z = 9999;
 					var markerPosition = -1
 
 					if( parent.x / _tw_timelineData.timelineScale >= 1 )
@@ -208,7 +208,7 @@ Item
 			}
 
 			onReleased:
-			{
+				{
 				tw_clip.z = 0;
 				//z = -1;
 				tw_insertMarker.visible = false
@@ -217,7 +217,7 @@ Item
 				{
 					print( "timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale", timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale )
 					var selectedClip = -1
-						selectedClip = _tw_timelineData.translate( timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale - object.blankDuration )
+					selectedClip = _tw_timelineData.translate( timeInClipSelected, timeInClipSelected + parent.x / _tw_timelineData.timelineScale - object.blankDuration )
 					if( selectedClip != -1 )
 						timeInClipSelected = selectedClip
 				}
@@ -234,39 +234,39 @@ Item
 			hoverEnabled: true
 
 			onEntered:
-			{
-                                _tw_timelineData.displayCursor( "scale" );
+				{
+				_tw_timelineData.displayCursor( "scale" );
 			}
 			onExited:
-			{
+				{
 				_tw_timelineData.displayCursor( "none" );
 
 			}
 			onPressed:
-                        {
-                            clipLeftPressed = 1
-                            //console.log( "qml tw_clipRightHandle onPressed." )
+				{
+				clipLeftPressed = 1
+				//console.log( "qml tw_clipRightHandle onPressed." )
 			}
-                        onPositionChanged: {
-                            if ( clipLeftPressed == 1 )
-                            {
-                                if( object.timeIn > 0 )
-                                {
-                                    //console.log("aaaaaaaeeeeeeeeeeeeeeezaezarezr")
-                                    console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
-                                }
+			onPositionChanged: {
+				if ( clipLeftPressed == 1 )
+				{
+					if( object.timeIn > 0 )
+					{
+						//console.log("aaaaaaaeeeeeeeeeeeeeeezaezarezr")
+						console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
+					}
 
-                            }
-                        }
+				}
+			}
 
-                        onReleased:
-                        {
-                            console.log( "mouse X clip Released" + mouseX );
-                            clipLeftPressed = 0
-                        }
-                }
+			onReleased:
+				{
+				console.log( "mouse X clip Released" + mouseX );
+				clipLeftPressed = 0
+			}
+		}
 
-                /*// zone droite pour l'agrandissement du clip
+		/*// zone droite pour l'agrandissement du clip
                 MouseArea
                 {
                         id: tw_clipRightHandle

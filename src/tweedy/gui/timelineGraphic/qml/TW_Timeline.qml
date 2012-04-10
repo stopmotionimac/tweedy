@@ -24,7 +24,7 @@ Rectangle
 
 
     Keys.onPressed:
-    {
+	{
 		// delete key is pressed
         if (event.key == Qt.Key_Delete)
 		{
@@ -59,11 +59,11 @@ Rectangle
         }
 
         function moveTimeTo( mouseX ) {
-                tw_timeCursor.x = mouseX
-                _tw_timelineData.displayCurrentClip( (tw_timeCursor.x-tw_track.x)/_tw_timelineData.timelineScale)
-                doubleClickedBlank = -1
-                timeInClipSelected = -1
-                timeInDoubleClickedClip = -1
+			tw_timeCursor.x = mouseX
+			_tw_timelineData.displayCurrentClip( (tw_timeCursor.x-tw_track.x)/_tw_timelineData.timelineScale)
+			doubleClickedBlank = -1
+			timeInClipSelected = -1
+			timeInDoubleClickedClip = -1
         }
 		
         // zone de deplacement
@@ -79,7 +79,7 @@ Rectangle
         }
 
 
-        Rectangle{
+        Rectangle {
             id: tw_track
 
             x: 0
@@ -113,7 +113,7 @@ Rectangle
             }
 
             // List of clips
-            ListView{
+            ListView {
                 id: tw_clipsList
 
                 anchors.fill: parent
@@ -123,7 +123,7 @@ Rectangle
                 delegate : tw_clipDelegate
             }
 
-            HorizontalGradient{
+            HorizontalGradient {
                 id: tw_insertMarker
                 x: 0
                 y: 0
@@ -142,33 +142,33 @@ Rectangle
             }
 
 
-            Rectangle{
+            Rectangle {
                 width : parent.width
                 height : parent.height
                 color : "transparent"
 
-                DropArea{
+                DropArea {
                     id: dropArea
                     anchors.fill: parent
 
-                    onDragMove:{
+                    onDragMove: {
                         var markerPosition = -1
                         markerPosition = _tw_timelineData.getMarkerPosition( (position-tw_track.x) / _tw_timelineData.timelineScale, false )
 
                         if( markerPosition != -1 )
                         {
-                                tw_insertMarker.visible = true
-                                tw_insertMarker.x = markerPosition * _tw_timelineData.timelineScale - tw_insertMarker.width / 2
+							tw_insertMarker.visible = true
+							tw_insertMarker.x = markerPosition * _tw_timelineData.timelineScale - tw_insertMarker.width / 2
                         }
 
                     }
 
-                    onDragLeave:{
+                    onDragLeave: {
                         tw_insertMarker.visible = false
                     }
 
                     onDrop:
-                    {
+					{
                         tw_insertMarker.visible = false
 
                         _tw_dropArea.insertElement( (position-tw_track.x) / _tw_timelineData.timelineScale )
@@ -195,7 +195,4 @@ Rectangle
             id: tw_scrollArea
         }
     }
-
-
-
 }
