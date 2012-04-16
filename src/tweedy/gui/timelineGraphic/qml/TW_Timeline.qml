@@ -18,30 +18,33 @@ Rectangle
     property int tw_xPositionChanged :0
     property int tw_scrollPositionChanged:0
     property int timeInDoubleClickedClip : -1
-    property int doubleClickedBlank : -1
     property int timeInClipSelected : -1
-    property int timeBlankSelected : -1
+
     property int ratio : tw_timelineWindow.width / 5
 
 
 
     Keys.onPressed:
     {
-		// delete key is pressed
+        // delete key is pressed
         if (event.key == Qt.Key_Delete)
-		{
+        {
             console.log("Big background rectangle : delete key has been pressed")
-            if (timeInClipSelected > -1 )
-            {
+            if (timeInClipSelected > 0 )
                 _tw_timelineData.deleteItem(timeInClipSelected);
-                timeInClipSelected = -1;
-            }
-            if (timeBlankSelected > -1)
-            {
-                _tw_timelineData.deleteItem(timeBlankSelected - 1);
-                timeBlankSelected = -1;
-            }
+
             ratio = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
+        }
+        if (event.key == Qt.Key_Left)
+        {
+            if (timeInClipSelected > -1 )
+                timeInClipSelected --;
+
+        }
+        if (event.key == Qt.Key_Right)
+        {
+            if (timeInClipSelected < _tw_timelineData.maxTime - 1)
+                timeInClipSelected ++;
         }
     }
 

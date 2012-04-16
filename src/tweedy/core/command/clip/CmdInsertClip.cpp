@@ -56,10 +56,7 @@ void CmdInsertClip::undo(){
     
     //effacer le clip de la timeline
     timeline.deleteClip(_clipTemp.getId().getIdStringForm());
-    
-    //effacer le blanc de la timeline
-    timeline.deleteBlank(_newPosition);
-    
+            
 }
 
 

@@ -2,8 +2,6 @@
 
 #include <tweedy/core/Projet.hpp>
 #include <tweedy/core/action/ActClipSetTimeRange.hpp>
-#include <tweedy/core/action/ActAddBlankBeforeClip.hpp>
-#include <tweedy/core/action/ActAddBlankAfterClip.hpp>
 #include <tweedy/core/action/ActDeleteClip.hpp>
 
 #include <QtGui/QDragEnterEvent>
@@ -99,14 +97,6 @@ void TimelineTable::createActions()
 	_minusAction->setStatusTip( "Decrease duration of the clip" );
 	connect( _minusAction, SIGNAL( triggered() ), this, SLOT( handle_minusAction_triggered() ) );
 
-	_blankBeforeAction = new QAction( "Before", this );
-	_blankBeforeAction->setStatusTip( "Empty frame before the clip" );
-	connect( _blankBeforeAction, SIGNAL( triggered() ), this, SLOT( handle_blankBeforeAction_triggered() ) );
-
-	_blankAfterAction = new QAction( "After", this );
-	_blankAfterAction->setStatusTip( "Empty frame after the clip" );
-	connect( _blankAfterAction, SIGNAL( triggered() ), this, SLOT( handle_blankAfterAction_triggered() ) );
-
         /*_deleteKey = new QShortcut( this );
 	_deleteKey->setKey( QKeySequence( "DEL" ) );
         connect( _deleteKey, SIGNAL( activated() ), this, SLOT( deleteKey_activated() ) );*/
@@ -118,9 +108,6 @@ void TimelineTable::linkButtonsWithActions()
 {
 	_ui->plusButton->setDefaultAction( _plusAction );
 	_ui->minusButton->setDefaultAction( _minusAction );
-	_ui->blankBeforeButton->setDefaultAction( _blankBeforeAction );
-	_ui->blankAfterButton->setDefaultAction( _blankAfterAction );
-
 
 }
 
@@ -319,36 +306,7 @@ void TimelineTable::handle_minusAction_triggered()
 	}
 }
 
-void TimelineTable::handle_blankBeforeAction_triggered()
-{
-	int currentCell = _table->currentColumn();
-	if( currentCell > -1 && currentCell < getTimeline().getMaxTime() )
-	{
 
-		// création d'une action ActAddBlankBeforeClip
-		ActAddBlankBeforeClip action;
-
-		//declenchement de l'action
-		action( _time );
-
-
-	}
-
-
-}
-
-void TimelineTable::handle_blankAfterAction_triggered()
-{
-	int currentCell = _table->currentColumn();
-	if( currentCell > -1 && currentCell < getTimeline().getMaxTime() )
-	{
-		// création d'une action ActAddBlankAfterClip
-		ActAddBlankAfterClip action;
-
-		//declenchement de l'action
-		action( _time );
-	}
-}
 
 void TimelineTable::deleteKey_activated()
 {
