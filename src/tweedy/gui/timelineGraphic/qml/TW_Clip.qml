@@ -203,9 +203,15 @@ Item
 
                                 console.log( "mouse X clip Released" + mouseX );
 
+<<<<<<< HEAD
                                 if( tw_clip.width + mouseX * ratio > tw_clip.width )
                                 {
                                         tw_clip.width = tw_clip.width + mouseX * ratio
+=======
+                                if( tw_clip.width + mouseX > tw_clip.width )
+                                {
+                                        tw_clip.width = tw_clip.width + mouseX
+>>>>>>> 0a9ca004a94ebdc4f1b8c1863cc52b83a3834dbe
                                 }
                         }
                 }*/

@@ -27,6 +27,8 @@
 #include <QtGui/QStatusBar>
 #include <QtGui/QToolBar>
 
+#include <QtCore/QTimer>
+
 class MainWindow : public QMainWindow
 {
         Q_OBJECT
@@ -34,6 +36,33 @@ class MainWindow : public QMainWindow
 public:
         MainWindow();
         ~MainWindow();
+
+        QAction * getPlayPauseAction()
+        {
+                return _playPauseAction;
+        }
+
+        QAction * getNextAction()
+        {
+                return _nextAction;
+        }
+
+        QAction * getPreviousAction()
+        {
+                return _prevAction;
+        }
+
+        QAction * getRetour0Action()
+        {
+                return _zeroAction;
+        }
+
+        Timeline& getTimeline()
+        {
+                return Projet::getInstance().getTimeline();
+        }
+        int getFps(){ return _fps; }
+        unsigned int time() { return _time; }
 
 public Q_SLOTS:
         
@@ -55,6 +84,17 @@ public Q_SLOTS:
         void on_acceptedNewProjectWindow();
         void on_exportAction_triggered();
 
+        void handle_playPauseAction_triggered();
+        void handle_zeroAction_triggered();
+        void handle_nextAction_triggered();
+        void handle_prevAction_triggered();
+
+        void increaseTime();
+        void changeFps( int value ) { _fps = value; }
+
+Q_SIGNALS:
+        void timeChanged( int newValue );
+        void displayChanged( std::string filename );
 
 private:
         Projet& project()
@@ -91,16 +131,26 @@ private:
         QAction* _captureAction;
         QAction* _exportAction;
 
+        QAction* _playPauseAction;
+        QAction* _nextAction;
+        QAction* _prevAction;
+        QAction* _zeroAction;
+
         QToolBar* _fileToolBar;
         QToolBar* _editToolBar;
 
         QStatusBar* _statusBar;
 
+        bool _isPlaying;
+        QTimer* _timer;
+        int _fps;
+        int _time;
+
         /// @brief Widgets de la fenêtre qu'on ajoute en QDockWidget
         /// @{
         ViewerTweedy* _viewerImg;
         Chutier* _chutier;
-//        TimelineTable* _timelineTable;
+        //TimelineTable* _timelineTable;
         UndoView* _undoView;
         QWidget* _undoWidget;
         TimelineGraphic* _timelineGraphic;
