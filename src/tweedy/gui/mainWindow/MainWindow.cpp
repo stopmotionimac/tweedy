@@ -21,6 +21,8 @@
 
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
+#include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include <iostream>
 #include <iomanip>
@@ -41,9 +43,12 @@ MainWindow::MainWindow()
 //	connect( this->_timelineTable, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 	connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 
-	connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+//        this->adjustSize();
+
+        connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
 
 	this->adjustSize();
+
 }
 
 MainWindow::~MainWindow()
@@ -98,6 +103,10 @@ void MainWindow::createActions()
 	_captureAction = new QAction( QIcon( "img/icones/capture.png" ), "Capture", this );
 	_captureAction->setShortcut( QKeySequence( "Retour" ) );
 	connect( _captureAction, SIGNAL( triggered() ), this, SLOT( on_captureAction_triggered() ) );
+        
+        _exportAction = new QAction( "Export", this );
+        _exportAction->setStatusTip( "Export your timeline" );
+        connect( _exportAction, SIGNAL( triggered() ), this, SLOT( on_exportAction_triggered() ) );
 
 	//save the project
 	connect( _saveProjectAction, SIGNAL( triggered() ), this, SLOT( on_saveProjectAction_triggered() ) );
@@ -155,6 +164,7 @@ void MainWindow::createMenuBar()
 	menuBar()->addSeparator();
 	_fileMenu->addAction( _saveProjectAction );
 	_fileMenu->addAction( _saveAsProjectAction );
+        _fileMenu->addAction( _exportAction );
 	_fileMenu->addAction( _quitAction );
 
 	_editMenu = menuBar()->addMenu( tr( "&Edit" ) );
@@ -213,17 +223,17 @@ void MainWindow::createWidgets()
 		undoDock->setFloating( true );
 	}
 
-	//        {
-	//                // Dock Timeline Table
-	//                QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
-	//                _timelineTable = new TimelineTable( timelineDock );
-	//                timelineDock->setWidget( _timelineTable );
-	//                addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
-	//                _viewMenu->addAction( timelineDock->toggleViewAction() );
-	//
-	//                connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
-	//                connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
-	//        }
+//                {
+//                        // Dock Timeline Table
+//                        QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
+//                        _timelineTable = new TimelineTable( timelineDock );
+//                        timelineDock->setWidget( _timelineTable );
+//                        addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
+//                        _viewMenu->addAction( timelineDock->toggleViewAction() );
+
+//                        connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+//                        connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
+//                }
 
 	{
 		// Dock Timeline QML
@@ -281,12 +291,10 @@ void MainWindow::on_captureAction_triggered()
 	if( isConnected == 0 )
 	{
 		QMessageBox::about( this, tr( "Warning" ), tr( "No camera connected to the computer" ) );
-		//std::cout<<"No camera connected to the computer"<<std::endl;
 	}
 	else
 	{
 		//take HD picture
-
 		Projet& project = Projet::getInstance();
 
 		project.gPhotoInstance().setFolderToSavePictures( project.getProjectFolder() );
@@ -298,8 +306,11 @@ void MainWindow::on_captureAction_triggered()
 		QImage img( QString::fromStdString( filenameHD.string() ) );
 		QImage petiteImg = img.scaled( QSize( 600, 350 ) );
 
-		std::string filenameLD = filenameHD.string();
-		filenameLD.insert( filenameLD.size() - 4, "_LD" );
+                std::string filenameLD = filenameHD.string();
+                filenameLD.insert( filenameLD.size() - 4, "_LD" );
+                int pos = filenameLD.find("HD/");
+                filenameLD.erase(filenameLD.begin()+37, filenameLD.begin()+40);
+
 		petiteImg.save( QString::fromStdString( filenameLD ) );
 
 		ActCapturePicture action;
@@ -341,13 +352,14 @@ void MainWindow::on_searchFolderProjectButton_clicked()
 	Projet& projectInstance = Projet::getInstance();
 	boost::filesystem::path pathFolder( fileName.toStdString() );
 	projectInstance.setProjectFolder( pathFolder );
-	std::cout << pathFolder << std::endl;
+
 	/*Create corresponding folders*/
 	pathFolder /= "projet";
-	std::cout << pathFolder << std::endl;
-	boost::filesystem::create_directory( pathFolder );
+        boost::filesystem::create_directory( pathFolder );
 	boost::filesystem::path pathFolderPictures = pathFolder / "pictures";
 	boost::filesystem::create_directory( pathFolderPictures );
+        boost::filesystem::path pathFolderPicturesHD = pathFolderPictures / "HD";
+        boost::filesystem::create_directory( pathFolderPicturesHD );
 }
 
 //fonction a completer pour creer un nouveau projet
@@ -456,8 +468,9 @@ void MainWindow::on_saveProjectAction_triggered()
 	std::ofstream ofs( filename );
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();
-
+        ofs.close();
 }
+
 
 //load the project
 
@@ -469,7 +482,47 @@ void MainWindow::on_loadProjectAction_triggered()
 	boost::archive::text_iarchive ia( ifs );
 
 	ia >> project();
+        
+        //_timelineTable->updateTable();
+        _chutier->updateChutier();
 
-//	_timelineTable->updateTable();
+}
 
+
+
+void MainWindow::on_exportAction_triggered()
+{
+    _exportWidget = new ExportWidget( );
+    _exportWidget->show();
+
+}
+
+
+
+
+
+std::string MainWindow::generateTimeData(int value, int choosenFps, int absoluteFps)
+{
+    double cAbsoluteFps = static_cast<double>(absoluteFps);
+    
+    //convertir la lgr du clip en base 24
+    int nbframe = value * (absoluteFps/choosenFps);
+    int hour = nbframe/std::pow(cAbsoluteFps,3);
+    int min = (nbframe % static_cast<int>(std::pow(cAbsoluteFps,3)))/std::pow(cAbsoluteFps,2);
+    int sec = (nbframe % static_cast<int>(std::pow(cAbsoluteFps,2)))/absoluteFps;
+    nbframe = nbframe % absoluteFps ;
+    
+    std::string shour = hour<10 ? "0"+boost::lexical_cast<std::string>(hour) 
+            : boost::lexical_cast<std::string>(hour);
+
+    std::string smin = min<10 ? "0"+boost::lexical_cast<std::string>(min) 
+            : boost::lexical_cast<std::string>(min);
+
+    std::string ssec = sec<10 ? "0"+boost::lexical_cast<std::string>(sec) 
+            : boost::lexical_cast<std::string>(sec);
+
+    std::string sframe = nbframe<10 ? "0"+boost::lexical_cast<std::string>(nbframe) 
+            : boost::lexical_cast<std::string>(nbframe);
+
+    return shour + ":" + smin + ":" + ssec + ":" + sframe ;
 }

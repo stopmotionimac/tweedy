@@ -1,9 +1,0 @@
-22 serialization::archive 9 0 0 0 0 8 9 0 0 8 16 /timeline1/clip1 3 1 0
-0 0 0 0 0 2 0 9 timeline1 5 clip1 45 /home/stephanie/TWEEDY/tweedy/img/tweedy0.jpg 6 7 16 /timeline1/clip4 3
-1 2 0 9 timeline1 5 clip4 45 /home/stephanie/TWEEDY/tweedy/img/tweedy3.jpg 3 4 16 /timeline1/clip3 3
-2 2 0 9 timeline1 5 clip3 45 /home/stephanie/TWEEDY/tweedy/img/tweedy2.jpg 4 5 16 /timeline1/clip6 3
-3 2 0 9 timeline1 5 clip6 45 /home/stephanie/TWEEDY/tweedy/img/tweedy5.jpg 1 2 16 /timeline1/clip5 3
-4 2 0 9 timeline1 5 clip5 45 /home/stephanie/TWEEDY/tweedy/img/tweedy4.jpg 2 3 15 /timeline1/flux 3
-5 2 0 9 timeline1 4 flux 12 img/flux.jpg 8 9 16 /timeline1/clip7 3
-6 2 0 9 timeline1 5 clip7 45 /home/stephanie/TWEEDY/tweedy/img/tweedy6.jpg 0 1 16 /timeline1/clip2 3
-7 2 0 9 timeline1 5 clip2 45 /home/stephanie/TWEEDY/tweedy/img/tweedy1.jpg 5 6 1 0 9 timeline1
