@@ -120,8 +120,8 @@ Item
 				width: parent.width
 				height: parent.height
 				fillMode: Image.PreserveAspectFit
-				smooth: true // better visual quality but slower
-				source: object.imgPath // image source file path
+                                smooth: true // better visual quality but slower
+                                source: object.imgPath // image source file path
 				asynchronous: true // enable asynchronous load
 		}
 
@@ -296,9 +296,9 @@ Item
 
                                 console.log( "mouse X clip Released" + mouseX );
 
-                                if( tw_clip.width + mouseX * _tw_timelineData.timelineScale > tw_clip.width )
+                                if( tw_clip.width + mouseX > tw_clip.width )
                                 {
-                                        tw_clip.width = tw_clip.width + mouseX * _tw_timelineData.timelineScale
+                                        tw_clip.width = tw_clip.width + mouseX
                                 }
                         }
                 }*/
