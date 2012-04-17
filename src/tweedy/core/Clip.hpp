@@ -58,7 +58,7 @@ public:
    
     void setSelected (bool selected){ _selected = selected;}
     bool getSelected(){ return _selected; }
-    
+
     const Id& getId() const { return _id; }
     
 protected :
