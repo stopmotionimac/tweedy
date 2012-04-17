@@ -213,7 +213,8 @@ std::string Gphoto::doPreview(int i) {
                             fprintf(stderr,"gp_camera_capture_preview(%d): %d\n", i, ret);
                             exit(1);
                     }
-
+                    //A TESTER!!!!!!!
+                    sprintf(outputFile, "snapshot-%03d.jpg", i);
                     ret = gp_file_save(file, outputFile);
                     if (ret != GP_OK) {
                             fprintf(stderr,"gp_camera_capture_preview(%d): %d\n", i, ret);

@@ -63,10 +63,14 @@ public:
   
   Id& getId();
 
+  void setProjectFile(boost::filesystem::path projectFile){ _projectFile = projectFile;}
+  boost::filesystem::path& getProjectFile() { return _projectFile; }
+  
 private:
   ChutierMediaExt _chutierMediaExt;
   ChutierMediaExt _chutierPictures;
   boost::filesystem::path _projectFolder;
+  boost::filesystem::path _projectFile;
   int _value;
 
   boost::ptr_unordered_map<std::string, Imedia> _mapMedia;
@@ -83,6 +87,25 @@ private:
   {
      ar & _timeline;
      ar & _chutierMediaExt;
+     
+     
+     std::string s1;
+     std::string s2;
+     
+     if(Archive::is_saving::value)
+     {
+         s1 = _projectFolder.string();
+         s2 = _projectFile.string();
+     }    
+     ar & boost::serialization::make_nvp("string", s1);
+     ar & boost::serialization::make_nvp("string", s2);
+     if(Archive::is_loading::value)
+     {
+         _projectFolder = s1;
+         _projectFile = s2;
+     }
+     
+         
   }
 
 };

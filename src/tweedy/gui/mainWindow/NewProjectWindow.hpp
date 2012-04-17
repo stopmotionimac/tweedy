@@ -20,6 +20,12 @@ public:
     QToolButton * getSearchFolderProjectButton();
     QLineEdit * getFolderProjectLineEdit();
 
+public Q_SLOTS:
+    
+    void on_accept_clicked();
+    void on_reject_clicked();
+    
+    
 private:
     Ui::newProjectWindow *_ui;
 };
