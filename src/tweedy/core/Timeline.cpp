@@ -13,6 +13,7 @@ Timeline::Timeline( const Id& idParent, const std::string& id )
     blank.setPosition( 0, 1 );
     _mapClip[blank.getId().getIdStringForm()] = blank;
 
+
     Clip realTime( "img/flux.jpg", getId(), "flux" );
     realTime.setPosition( 1, 2 );
     _idRealTime = realTime.getId().getIdStringForm();
@@ -64,21 +65,26 @@ void Timeline::insertClip( Clip& newClip, double currentTime )
 {
         int duration = newClip.timeOut() - newClip.timeIn();
 
-        std::string clipName = findCurrentClip( currentTime );
-        int timeIn = _mapClip[clipName].timeIn();
+        if (currentTime < _maxTime && time > 0)
+        {
+            std::string clipName = findCurrentClip( currentTime );
+            currentTime = _mapClip[clipName].timeIn();
+        }
+
+        std::cout << "currentTime : " << currentTime << std::endl;
 
 	//décale les clips suivants
 
         BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
 	{
-		if( s.second->timeIn() >= timeIn )
+                if( s.second->timeIn() >= currentTime )
 		{
                         s.second->increaseTimeIn( duration );
                         s.second->increaseTimeOut( duration );
 		}
 	}
 
-        newClip.setPosition( timeIn, timeIn + duration );
+        newClip.setPosition( currentTime, currentTime+duration );
 	_mapClip[newClip.getId().getIdStringForm()] = newClip;
 
         _maxTime += duration;
