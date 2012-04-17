@@ -49,7 +49,7 @@ public Q_SLOTS:
         void writeTime( int newValue );
         void on_close_window();
         void on_saveProjectAction_triggered();
-        void on_loadProjectAction_triggered();
+        void on_loadProjectAction_triggered(const char*);
         void on_aboutAction_triggered();
         void on_configAction_triggered();
         void on_acceptedNewProjectWindow();

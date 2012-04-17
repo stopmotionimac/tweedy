@@ -3,6 +3,7 @@
 #include <tweedy/core/CommandManager.hpp>
 #include <tweedy/core/command/clip/CmdClipDelete.hpp>
 #include <tweedy/core/command/clip/CmdBlankDelete.hpp>
+#include <tweedy/core/command/GroupeUndoRedoCmd.hpp>
 
 ActDeleteClip::ActDeleteClip()
         :IAction("Action Delete Clip")
@@ -54,6 +55,21 @@ void ActDeleteClip::operator()(int currentTime)
             //ajout de la commande au commande manager
             CommandManager& cmdMng = projet.getCommandManager();
             cmdMng.pushNewCommand(cmd);
+            
+            IUndoRedoCommand* cmd2 = new CmdBlankDelete(currentTime, "Command Blank Delete");
+        
+            //ajout de la commande au commande manager
+            cmdMng.pushNewCommand(cmd2);
+            
+            /* fail */
+            /*
+            boost::ptr_vector<IUndoRedoCommand> listeCmd;
+            //listeCmd.push_back(cmd);
+            listeCmd.push_back(cmd2);
+            
+            IUndoRedoCommand* groupeCmd = new GroupeUndoRedoCmd(listeCmd,"Groupe command Delete");
+            cmdMng.pushNewCommand(groupeCmd);
+            */
         }
     }
     
