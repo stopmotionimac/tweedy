@@ -38,12 +38,10 @@ void CmdCapturePicture::runDo()
     //on ajoute la photo au chutier des pictures
     boost::filesystem::path filePath(_filename);
     Projet::getInstance().getChutierPictures().importMediaToChutier(filePath);
-    std::cout << _filename << std::endl;
-
 
     //on ajoute le clip a la fin de la timeline (a regler avec le temps reel)
     clip.setPosition(timeline.getMaxTime(),timeline.getMaxTime()+1);
-    timeline.addClip(clip);
+    timeline.insertClip(clip, clip.timeIn());
 
 
 }
@@ -74,8 +72,8 @@ void CmdCapturePicture::redo()
 
     //remettre le clip dans la timeline
     _newClip.setPosition(timeline.getMaxTime(),timeline.getMaxTime()+1);
-    timeline.addClip(_newClip);
-    timeline.updateMaxTime();
+    timeline.insertClip(_newClip, _newClip.timeIn());
+
 }
 
 

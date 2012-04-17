@@ -90,13 +90,13 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
 
 int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
-    // si les 2 sont égaux on ne fait rien
 
+
+    // si les 2 sont égaux on ne fait rien
     if (timeInClipToDrag == timeToDrop)
     {
-        std::cout << "ekljnjknelk" <<std::endl;
         updateListe();
-        return -1;
+        return timeInClipToDrag;
     }
     else
     {
@@ -144,16 +144,13 @@ void TimelineDataWrapper::deleteItem( int time ){
 
 }
 
-
-void TimelineDataWrapper::changeSelected( int time )
+void TimelineDataWrapper::unselectAll()
 {
-    for (int i=0; i<_clips.size(); ++i )
-    {
-        ClipDataWrapper * c = dynamic_cast< ClipDataWrapper *>(_clips[i]);
-        if (c->getTimeIn() == time)
-            c->setSelected(true);
-        else
-            c->setSelected(false);
-    }
+    getTimeline().unselectAll();
+}
 
+
+void TimelineDataWrapper::selectClip( int timeIn )
+{
+    getTimeline().selectClip(timeIn);
 }

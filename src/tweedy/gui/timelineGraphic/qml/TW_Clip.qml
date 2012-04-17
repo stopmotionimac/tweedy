@@ -60,30 +60,20 @@ Item
                                 }
                         }
 
-                        onClicked:
-                        {
-                                /*
-                                _tw_timelineData.displayCurrentClip(tw_timeCursor.x / ratio)
-
-                                timeInClipSelected = tw_timeCursor.x / ratio
-
-                                console.log( " timeInClipSelected" + timeInClipSelected)
-
-                                parent.color = 'red'
-                                console.log("qml tw_clipHandle onPressed.")
-                                timeInClipSelected = object.timeIn
-                                */
-                        }
 
 			onExited:
 			{
-                                if( timeInClipSelected != object.timeIn )
-                                        parent.color = '#e28a26'
+                            if( timeInClipSelected != object.timeIn )
+                                parent.color = '#e28a26'
 			}
 
 			onPressed:
 			{
                             clipPressed = true
+
+                            _tw_timelineData.unselectAll()
+                            _tw_timelineData.selectClip(object.timeIn)
+
                             timeInClipSelected = object.timeIn
                             parent.color = '#FF3300'
                         }
