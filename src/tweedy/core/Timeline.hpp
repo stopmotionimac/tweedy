@@ -24,9 +24,6 @@ public:
 	Timeline( const Id& idParent, const std::string& id );
 	Timeline( const Timeline& );
 
-	//void getlistPiste ();
-	//void addPiste (PisteClip & pisteClip);
-	//void supprPiste (PisteClip & pisteClip);
 
 	UOMapClip& mapClip()
 	{
@@ -42,19 +39,23 @@ public:
 	const OMapClip getOrderedClips() const;
 
 	void moveElement( std::string filename, int newPosition );
-	void addClip( const Clip& clip );
+        //void addClip( const Clip& clip );
 	void deleteClip( const std::string& clipName );
-	void deleteClip( Clip* clip );
 
-	void addBlank( const std::string& clipName, bool blankBefore = false );
-	void deleteBlank( int time );
-	void deleteBlank( Clip* clip );
+
+        /*void addBlank( const std::string& clipName, bool blankBefore = false );
+        void deleteBlank( int time );
+        void deleteBlank( Clip* clip );*/
 
 	void insertClip( Clip& newClip, double currentTime );
 	//void insertClip(const std::string& newClipName, double currentTime);
 	void addTimeToClip( const std::string& clipName, double decalage );
-	bool findCurrentClip( std::string & filename, int time ) const;
-	int getBlankDuration( Clip* clip );
+        std::string findCurrentClip(int time) const;
+
+        void selectClip(int timeIn);
+        void unselectAll();
+
+        //int getBlankDuration( Clip* clip );
 
 
 	const Id& getId() const;
@@ -77,6 +78,8 @@ public:
         std::vector<std::string> getUrlList(){ return _urlList; }
         void setUrlList(std::string url){ _urlList.push_back(url); }
         void clearUrlList(){ _urlList.clear(); }
+        std::string getIdRealTime() { return  _idRealTime; }
+
 
 
 private:
@@ -104,6 +107,7 @@ private:
 	}
 
         std::vector<std::string> _urlList;
+        std::string _idRealTime;
 
 };
 

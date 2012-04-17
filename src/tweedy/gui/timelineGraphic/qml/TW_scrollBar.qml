@@ -75,7 +75,7 @@ Rectangle {
                if ( scrollLeftPressed )
                {
                    print( "change displayIn" )
-                   tw_displayIn = mouseX * scrollBar_pixelToTime
+                   tw_displayIn = mapToItem( tw_timeScrollbar, mouseX, mouseY ).x * scrollBar_pixelToTime
                }
            }
            onReleased:{
@@ -105,7 +105,7 @@ Rectangle {
             onPositionChanged: {
                 if ( scrollRightPressed )
                 {
-                    tw_displayOut = mouseX * scrollBar_pixelToTime
+                    tw_displayOut = mapToItem( tw_timeScrollbar, mouseX, mouseY ).x * scrollBar_pixelToTime
                 }
             }
 

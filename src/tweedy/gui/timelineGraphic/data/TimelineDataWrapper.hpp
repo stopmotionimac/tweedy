@@ -20,8 +20,6 @@ class TimelineDataWrapper : public QObject
 public:
         Q_PROPERTY( QObjectListModel* clips READ getClips NOTIFY clipsChanged )
 	Q_PROPERTY( int maxTime READ getMaxTime NOTIFY maxTimeChanged )
-        //Q_PROPERTY( int timeIn READ getTimeIn NOTIFY timeChanged )
-        Q_PROPERTY( int timelineScale READ getTimelineScale WRITE setTimelineScale NOTIFY timelineScaleChanged )
         Q_PROPERTY( int timeMarker READ getTimeMarker NOTIFY timeMarkerChanged )
         Q_PROPERTY( int currentTime READ getCurrentTime NOTIFY currentTimeChanged)
 
@@ -41,8 +39,7 @@ public:
         const Timeline& getTimeline() const{ return Projet::getInstance().getTimeline(); }
         int getMaxTime() const{ return getTimeline().getMaxTime(); }
         //int getTimeIn() const{ return _timeInDrag; }
-        int getTimelineScale() const{ return _timelineScale; }
-        void setTimelineScale(int timelineScale) { _timelineScale = timelineScale; Q_EMIT timelineScaleChanged();  }
+
         int getTimeMarker() const{ return _timeMarker; }
         int getCurrentTime() const{ return _currentTime; }
 
@@ -52,8 +49,9 @@ public:
         Q_INVOKABLE int getMarkerPosition( int timeToAdd, bool positiveMove );
         Q_INVOKABLE void displayClip( int time ){ Q_EMIT displayChanged( 0, time ); }
         Q_INVOKABLE void deleteItem( int time );
-        /*Q_INVOKABLE void deleteClip( int time );
-        Q_INVOKABLE void deleteBlank( int time );*/
+        Q_INVOKABLE void unselectAll();
+        Q_INVOKABLE void selectClip( int timeIn );
+
 
 
 private:
@@ -61,7 +59,6 @@ private:
 	boost::signals::scoped_connection _dataConnection;
 #endif
         QObjectListModel _clips;
-        int _timelineScale;
         int _timeMarker;
 
 Q_SIGNALS:

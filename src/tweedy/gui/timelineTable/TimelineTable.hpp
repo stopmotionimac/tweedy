@@ -14,8 +14,6 @@
 #include <QtGui/QShortcut>
 #include <QtGui/QLabel>
 
-#include <QtCore/QTimer>
-
 #include <boost/format.hpp>
 
 #include <cstdlib>
@@ -34,12 +32,7 @@ class TimelineTable : public QWidget
 public:
 	TimelineTable( QWidget* parent );
 
-	~TimelineTable();
-
-	unsigned int time()
-	{
-		return _time;
-	}
+        ~TimelineTable();
 
 	Ui::TimelineTable* ui()
 	{
@@ -61,81 +54,34 @@ public:
 		return _table;
 	}
 
-	void createActions();
+        //void createActions();
 	void toolBar();
-	void linkButtonsWithActions();
-
+        //void linkButtonsWithActions();
 	void updateTable();
 	//void emitDisplayChanged();
 
-	QAction * getPlayPauseAction()
-	{
-		return _playPauseAction;
-	}
-
-	QAction * getNextAction()
-	{
-		return _nextAction;
-	}
-
-	QAction * getPreviousAction()
-	{
-		return _prevAction;
-	}
-
-	QAction * getRetour0Action()
-	{
-		return _zeroAction;
-	}
-
-        int getFps(){   return _fps;}
-
-	public 
-Q_SLOTS:
-	void increaseTime();
+public Q_SLOTS:
+        //void increaseTime();
 	//void writeTime(int newValue);
-	void getCurrentTime( int row, int column );
-
-	void changeFps( int value )
-	{
-		_fps = value;
-	}
-
-
-	void handle_playPauseAction_triggered();
-
-	void handle_zeroAction_triggered();
-
-	void handle_nextAction_triggered();
-	void handle_prevAction_triggered();
-
-	void handle_plusAction_triggered();
+        //void getCurrentTime( int row, int column );
+        /*void handle_plusAction_triggered();
 	void handle_minusAction_triggered();
 	void handle_blankBeforeAction_triggered();
 	void handle_blankAfterAction_triggered();
-	void deleteKey_activated();
+        void deleteKey_activated();*/
 
 Q_SIGNALS:
 	void timeChanged( int newValue );
-	void displayChanged( std::string filename );
+        void displayChanged( std::string filename );
 
 private:
 	Ui::TimelineTable* _ui;
-	int _fps;
-	int _time;
-	QTimer* _timer;
-	bool _isPlaying;
 	QIcon _defautIcon;
 
-	QAction* _playPauseAction;
-	QAction* _nextAction;
-	QAction* _prevAction;
-	QAction* _zeroAction;
-
-	QAction* _plusAction;
+        /*QAction* _plusAction;
 	QAction* _minusAction;
 	QAction* _blankBeforeAction;
-	QAction* _blankAfterAction;
+        QAction* _blankAfterAction;*/
 
 	QShortcut* _deleteKey;
 

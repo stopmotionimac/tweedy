@@ -30,7 +30,8 @@ void CmdInsertClip::runDo(){
     timeline.setNbClip( timeline.getNbClip()+1 );
 	
     _clipTemp = clip;
-    
+    _clipTemp.setPosition(_newPosition, _newPosition+1);
+
     //inserer le clip dans la timeline a la nouvelle position
     timeline.insertClip(_clipTemp, _newPosition);
 }
@@ -56,10 +57,7 @@ void CmdInsertClip::undo(){
     
     //effacer le clip de la timeline
     timeline.deleteClip(_clipTemp.getId().getIdStringForm());
-    
-    //effacer le blanc de la timeline
-    timeline.deleteBlank(_newPosition);
-    
+            
 }
 
 

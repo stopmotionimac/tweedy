@@ -179,13 +179,9 @@ void Chutier::on_deleteAction_triggered()
 void Chutier::changedPixmap( int row, int column )
 {
 	Timeline* timeline = &( Projet::getInstance().getTimeline() );
-	std::string idClip = "";
-	std::string filename = "img/none.jpg";
-	bool isClip = timeline->findCurrentClip( idClip, column );
-	if( isClip )
-	{
-		filename = timeline->mapClip()[idClip].imgPath().string();
-	}
+        std::string idClip = timeline->findCurrentClip( column );
+        std::string filename = timeline->mapClip()[idClip].imgPath().string();
+
 	QPixmap img( QString::fromStdString( filename ) );
 	_viewerChutier->setPixmap( img );
 }

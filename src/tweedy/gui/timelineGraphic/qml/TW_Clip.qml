@@ -21,7 +21,7 @@ Item
 
 		border.color: ( tw_timeInDoubleClickedClip != object.timeIn ) ? "black": "white"
 		border.width: 2
-		radius: 10
+        radius: 15
 		color: ( tw_timeInClipSelected != object.timeIn ) ? "#e28a26": "#FF3300"
 
 		// image du Clip (Vignette)

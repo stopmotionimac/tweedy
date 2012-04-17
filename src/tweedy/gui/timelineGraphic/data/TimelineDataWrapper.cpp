@@ -16,14 +16,12 @@
 
 TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 : QObject( parent ),
-  _timelineScale(160),
   _timeMarker(0)
 {
 	std::cout << "TimelineDataWrapper::TimelineDataWrapper" << std::endl;
 	// connecter l'update de la TimelineDataWrapper au signalChanged de la timeline
 	_dataConnection = getTimeline().getSignalChanged().connect(
-		boost::bind( &TimelineDataWrapper::coreDataChanged,
-					this ) );
+                boost::bind( &TimelineDataWrapper::coreDataChanged,this ) );
 
 
         updateListe();
@@ -81,33 +79,24 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
    timeToDrop = std::max(timeToDrop,0);
    timeToDrop = std::min(timeToDrop,getMaxTime() - 1);
 
-   std::cout << timeToDrop << std::endl;
-
-   std::string filename;
-   bool isClip = getTimeline().findCurrentClip(filename , timeToDrop );
-
-   if (!isClip)
-       return -1;
+   std::string filename = getTimeline().findCurrentClip(timeToDrop);
 
    if (positiveMove)
         return getTimeline().mapClip()[filename].timeOut();
    else
         return getTimeline().mapClip()[filename].timeIn();
-
-
 }
-
-
 
 
 int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
-    // si les 2 sont égaux on ne fait rien
 
+
+    // si les 2 sont égaux on ne fait rien
     if (timeInClipToDrag == timeToDrop)
     {
         updateListe();
-        return -1;
+        return timeInClipToDrag;
     }
     else
     {
@@ -116,15 +105,8 @@ int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
         timeToDrop = std::max(timeToDrop,0);
         timeToDrop = std::min(timeToDrop,getMaxTime() - 1);
 
-        std::string filenameDepart, filenameArrivee;
-        bool isCliptoDrag = getTimeline().findCurrentClip(filenameDepart , timeInClipToDrag );
-        bool isCliptoDrop = getTimeline().findCurrentClip(filenameArrivee , timeToDrop );
-
-        if (!isCliptoDrop)
-        {
-            updateListe();
-            return -1;
-        }
+        std::string filenameDepart = getTimeline().findCurrentClip(timeInClipToDrag );
+        std::string filenameArrivee = getTimeline().findCurrentClip(timeToDrop );
 
         int returnedValue = getTimeline().mapClip()[filenameArrivee].timeIn();
         action( filenameDepart, timeToDrop );
@@ -157,32 +139,18 @@ void TimelineDataWrapper::deleteItem( int time ){
 
     //creation de l'action ActDeleteClip
     ActDeleteClip action;
-
     //declenchement de l'action
-    action( time );
+    action(time);
 
 }
 
-/*void TimelineDataWrapper::deleteClip( int time ){
-
-    std::string filename;
-    Timeline t = getTimeline();
-
-    t.findCurrentClip(filename,time);
-    Clip* clip = &(getTimeline().mapClip()[filename]);
-
-    t.deleteClip(clip);
-
+void TimelineDataWrapper::unselectAll()
+{
+    getTimeline().unselectAll();
 }
 
-void TimelineDataWrapper::deleteBlank( int time ){
 
-    std::string filename;
-    Timeline t = getTimeline();
-
-    t.findCurrentClip(filename,time);
-    Clip* clip = &(getTimeline().mapClip()[filename]);
-
-    t.deleteBlank(clip);
-
-}*/
+void TimelineDataWrapper::selectClip( int timeIn )
+{
+    getTimeline().selectClip(timeIn);
+}

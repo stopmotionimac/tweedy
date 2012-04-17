@@ -23,7 +23,11 @@ public:
         _imgHeight(0), 
         _imgreduction(0), 
         _timeIn(0), 
-        _timeOut(0){ this->_name = url.filename();}
+        _timeOut(0),
+          _selected(false){
+
+        this->_name = url.filename();
+    }
     
     
     Clip()
@@ -34,7 +38,9 @@ public:
         _imgHeight(0), 
         _imgreduction(0), 
         _timeIn(0), 
-        _timeOut(0){}
+        _timeOut(0),
+          _selected(false){
+    }
    
 
     Clip& operator=(const Clip&);
@@ -50,7 +56,9 @@ public:
     void increaseTimeIn(int value){ _timeIn += value; }
     void increaseTimeOut(int value){ _timeOut += value; }
    
-    
+    void setSelected (bool selected){ _selected = selected;}
+    bool getSelected(){ return _selected; }
+
     const Id& getId() const { return _id; }
     
 protected :
@@ -61,6 +69,7 @@ protected :
     unsigned int _imgreduction;
     unsigned int _timeIn;
     unsigned int _timeOut;
+    bool _selected;
     
     Id _id;
 
