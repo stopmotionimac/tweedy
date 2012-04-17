@@ -3,6 +3,7 @@
 
 #include "data/ClipDataWrapper.hpp"
 #include "data/TimelineDataWrapper.hpp"
+#include "data/DropArea.hpp"
 
 #include <QtCore/QFileSystemWatcher>
 
@@ -12,31 +13,37 @@
 class TimelineGraphic : public QDeclarativeView
 {
 	Q_OBJECT
+
+
 public:
 	TimelineGraphic( QWidget * parent );
+        ~TimelineGraphic();
+        TimelineDataWrapper& getTimelineDataWrapper()
+        {
+                return _timelineData;
+        }
+
+
 
 private:
 	TimelineGraphic( const TimelineGraphic& );
 	TimelineGraphic& operator=( const TimelineGraphic& );
-	
-public:
-	TimelineDataWrapper& getTimelineDataWrapper()
-	{
-		return _timelineData;
-	}
-		
-private:
 	void updateData();
+
+        TimelineDataWrapper _timelineData;
+        DropArea* _dropArea;
+        QString _timelineQmlFile;
+        QFileSystemWatcher _qmlFileWatcher;
+
+
+
+
 	
 private Q_SLOTS:
 	void onQmlFileChanged( const QString &file );
 	void onEnableUpdates( const bool update );
 
-private:
-	TimelineDataWrapper _timelineData;
 
-	QString _timelineQmlFile;
-	QFileSystemWatcher _qmlFileWatcher;
 };
 
 #endif

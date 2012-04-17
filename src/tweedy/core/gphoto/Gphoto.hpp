@@ -44,16 +44,13 @@ public:
 
     int initCamera();
     int tryToConnectCamera();
-    //sera changé en fonction du choix de l'utilisateur pour son dossier de save
-    void setFolderToSavePictures(boost::filesystem::path path) { _fileName = path; _fileName /="projet/pictures"; /*std::cout<<"PROJECT/PICTURE FOLDER : "<<_fileName<<std::endl;*/ }
-    //void doPreview();
+    void setFolderToSavePictures(boost::filesystem::path path) { _fileName = path; _fileName /="projet/pictures/HD"; }
 
     void findMainWidget();
     CameraWidget * getMainWidget() { findMainWidget(); return _mainWidget; }
     void findChildrenOfOneWidget(CameraWidget* parentWidget);
     std::vector<CameraWidget*>& getWidgetsVector () { return _WidgetsVector; }
     std::string getNameOfAWidget(CameraWidget* widget);
-    //int& getIdOfAWidget(CameraWidget* widget);
     bool isRadioOrMenu(CameraWidget* widget);
     int CountChoices (CameraWidget* widget);
     std::string getChoice(CameraWidget* widget, int choiceNumber);
@@ -64,9 +61,7 @@ public:
     int get_config_value (Camera *camera, const char *key, int * str, GPContext *context);
     void setValueInt(CameraWidget *widget, /*const void **/int value);
     void setValueString(CameraWidget *widget, const void *value);
-    //int set_config_value_string (Camera *camera, const char *key, const char *val, GPContext *context);
     int set_config_value (Camera *camera, const char *key, const void * val, GPContext *context);
-    //int set_config_value (Camera *camera, const char *key, int val, GPContext *context);
     void getSummary();
     void exitCamera();
     boost::filesystem::path captureToFile();

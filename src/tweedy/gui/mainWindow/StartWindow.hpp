@@ -3,6 +3,7 @@
 
 #include <QtGui/QDialog>
 #include <QtGui/QToolButton>
+#include <QtGui/QListWidget>
 
 namespace Ui {
     class StartWindow;
@@ -17,6 +18,7 @@ public:
     ~StartWindow();
     QToolButton* getNewProjectButton();
     QToolButton* getOpenProjectButton();
+    QListWidget* getListRecentsProjects();
 
 private:
     Ui::StartWindow *_ui;

@@ -18,7 +18,7 @@ class ConfigCamera : public QWidget
     Q_OBJECT
 
 public:
-   ConfigCamera(QWidget *parent);
+   ConfigCamera(QWidget *parent = 0);
     ~ConfigCamera(){}
 
 private Q_SLOTS:
