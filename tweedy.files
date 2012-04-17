@@ -747,7 +747,6 @@ sandbox/testQt/src/HelloForm.cpp
 sandbox/testQt/src/HelloForm.h
 sandbox/testQt/src/HelloForm.ui
 sandbox/testQt/src/main.cpp
-saveProjectTweedy.txt
 src/tweedy/core/action/ActAddBlankAfterClip.cpp
 src/tweedy/core/action/ActAddBlankAfterClip.hpp
 src/tweedy/core/action/ActAddBlankBeforeClip.cpp

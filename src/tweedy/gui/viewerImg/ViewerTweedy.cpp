@@ -91,96 +91,58 @@ QSlider * ViewerTweedy::getTempsSlider()
 
 void ViewerTweedy::displayChanged( int time )
 {
-	//_ui->spinBox->setValue(0);
-	_currentTime = time;
-	Timeline* timeline = &( Projet::getInstance().getTimeline() );
-	std::string idClip = "";
-        std::string filename = "img/none.jpg";
+    _previewTimer->stop();
+    //_ui->spinBox->setValue(0);
+    _currentTime = time;
+    Timeline* timeline = &( Projet::getInstance().getTimeline() );
 
-	/*if (time == timeline->maxTime()) {
-		//afficher le temps reel
-		? ms
-		  20 img -> 1sec
-		  01 img -> 0.05 sec = 50 ms
+    std::string idClip = timeline->findCurrentClip( time );
+    std::string filename = timeline->mapClip()[idClip].imgPath().string();
 
-		_previewTimer->start(50);
-		//filename = "img/realTime.jpg";
-	}*/
+    if( idClip.find( "flux" ) != std::string::npos )
+        _previewTimer->start( 50 );
 
-	_previewTimer->stop();
-	bool isClip = timeline->findCurrentClip( idClip, time );
-	if( isClip )
-	{
-		filename = timeline->mapClip()[idClip].imgPath().string();
+    QPixmap img( QString::fromStdString( filename ) );
+    QPixmap p( img.scaled ( getViewerLabel()->size(), Qt::KeepAspectRatioByExpanding ) );
+    this->getViewerLabel()->setPixmap( p );
+    this->getViewerLabel()->adjustSize();
 
-		if( idClip.find( "flux" ) != std::string::npos )
-		{
-			_previewTimer->start( 50 );
-		}
-	}
-
-        QPixmap img( QString::fromStdString( filename ) );
-        QPixmap p( img.scaled ( getViewerLabel()->size(), Qt::KeepAspectRatioByExpanding ) );
-        this->getViewerLabel()->setPixmap( p );
-        this->getViewerLabel()->adjustSize();
-
-	handle_onionAction_triggered();
-
+    handle_onionAction_triggered();
 }
 
 void ViewerTweedy::handle_onionAction_triggered()
 {
 	int nbFrames = _ui->spinBox->value();
 	Timeline t = Projet::getInstance().getTimeline();
-	std::string idClip = "img/none.jpg";
-	std::string filename = "img/none.jpg";
 
-	int beginTime = _currentTime - nbFrames;
+        int beginTime = _currentTime - nbFrames;
 	if( beginTime < 0 )
 	{
 		nbFrames += beginTime;
 		beginTime = 0;
 	}
-	bool found = t.findCurrentClip( idClip, beginTime );
+
+        std::string idClip = t.findCurrentClip(beginTime );
+        std::string filename = t.mapClip()[idClip].imgPath().string();
 
 	QImage resultImage = QImage( QPixmap( QString::fromStdString( filename ) ).size(), QImage::Format_ARGB32_Premultiplied );
+        bool loaded = resultImage.load( QString::fromStdString( filename ) );
 
-	if( found )
-	{
-		filename = t.mapClip()[idClip].imgPath().string();
-	}
-
-	found = resultImage.load( QString::fromStdString( filename ) );
-
-	/*
-	//modification de la transparence ???
-    
-	for (int i=0; i<resultImage.colorCount(); ++i)
-	{
-		QColor c(resultImage.color(i));
-		c.setAlphaF(0.5);
-		resultImage.setColor(i, c.rgba());
-
-	}
-	 */
-
-	for( int i = 1; i <= nbFrames; ++i )
+        for( int i = 1; i <= nbFrames; ++i )
 	{
 		if( _currentTime - i < 0 )
 			break;
 
-		found = t.findCurrentClip( idClip, beginTime + i );
+                idClip = t.findCurrentClip(beginTime + i );
 		QImage destinationImage = QImage( QPixmap( QString::fromStdString( filename ) ).size(), QImage::Format_ARGB32_Premultiplied );
-
 		filename = t.mapClip()[idClip].imgPath().string();
 
-		found = destinationImage.load( QString::fromStdString( filename ) );
+                loaded = destinationImage.load( QString::fromStdString( filename ) );
 
 		QImage sourceImage( resultImage );
 
 		resultImage = calculateImage( sourceImage, destinationImage );
 	}
-
 
 	resultImage.scaled( this->geometry().size(), Qt::KeepAspectRatioByExpanding );
 	this->getViewerLabel()->setPixmap( QPixmap::fromImage( resultImage ) );

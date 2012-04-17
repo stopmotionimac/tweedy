@@ -61,10 +61,8 @@ void Table::startDrag( Qt::DropActions supportedActions )
 	{
 		QTableWidgetItem * item = this->itemFromIndex( idx );
 
-		std::string filename;
-		bool found = timeline->findCurrentClip( filename, item->column() );
-		if( found )
-			urls.push_back( QString::fromStdString( filename ) );
+                std::string filename = timeline->findCurrentClip( item->column() );
+                urls.push_back( QString::fromStdString( filename ) );
 	}
 	mimeData->setUrls( urls );
 
