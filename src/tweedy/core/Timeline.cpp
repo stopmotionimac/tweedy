@@ -5,14 +5,17 @@
 
 Timeline::Timeline( const Id& idParent, const std::string& id )
 : Imedia( ImediaTypeTimeline )
-, _maxTime( 1 )
-, _nbClip( 1 )
+, _maxTime( 2 )
+, _nbClip( 2 )
 , _id( idParent, id )
 {
-	Clip realTime( "img/flux.jpg", getId(), "flux" );
-        realTime.setPosition( 0, 1 );
-	_mapClip[realTime.getId().getIdStringForm()] = realTime;
+    Clip blank( "img/none.jpg", getId(), "none" );
+    blank.setPosition( 0, 1 );
+    _mapClip[blank.getId().getIdStringForm()] = blank;
 
+    Clip realTime( "img/flux.jpg", getId(), "flux" );
+    realTime.setPosition( 1, 2 );
+    _mapClip[realTime.getId().getIdStringForm()] = realTime;
 }
 
 
@@ -199,10 +202,17 @@ void Timeline::updateMaxTime()
 
 void Timeline::deleteClip(const std::string& clipName)
 {
+    //On recupere la duree du clip
     Clip c = _mapClip[clipName];
     int duration = c.timeOut() - c.timeIn();
-    UOMapClip mapClips = _mapClip;
-    BOOST_FOREACH( const UOMapClip::value_type& s, mapClips )
+
+    //on retire le clip de la map
+    UOMapClip::iterator it = _mapClip.find( clipName );
+    BOOST_ASSERT( it != _mapClip.end() );
+    _mapClip.erase( it );
+
+    //on décale les autres clips
+    BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
         if( s.second->timeIn() > c.timeIn() )
         {
@@ -210,8 +220,8 @@ void Timeline::deleteClip(const std::string& clipName)
             s.second->increaseTimeOut( -duration );
         }
     }
-    _mapClip.erase(c.imgPath().string());
-    updateMaxTime();
+
+    _maxTime -= duration;
     _signalChanged();
 }
 
