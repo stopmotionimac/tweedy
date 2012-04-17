@@ -1,141 +1,118 @@
-import QtQuick 1.0
+import QtQuick 1.1
 
-Item{
-    id:tw_scrollArea
+Rectangle {
+    id: tw_timeScrollbar
 
-    property int scrollRightPressed : 0
-    property int scrollLeftPressed : 0
+    property bool scrollRightPressed: false
+    property bool scrollLeftPressed: false
+    property double scrollBar_pixelToTime: tw_maxTime / width
+    property double scrollBar_timeToPixel: width / tw_maxTime
 
+    color: "#ACB6B5"
 
-    Rectangle{
-        id: tw_fullBar
-        width:tw_timelineWindow.width
-        height:25
-        y:25 + tw_track.height
-        color: "#ACB6B5"
+    Rectangle {
+        id: tw_scrollBarItem
 
-        //yellow rect
-        Rectangle {
-            id: tw_scrollBar
-            width: _tw_timelineData.maxTime<5 ? parent.width : parent.width*5/_tw_timelineData.maxTime
-            height: 25
-            color: '#FFCC66'
+        x: tw_displayIn * scrollBar_timeToPixel
+        width: tw_displayLength * scrollBar_timeToPixel
+        height: parent.height
 
-            MouseArea {
-                id: tw_scrollBarHandle
-                drag.axis: "XAxis"
-                anchors.fill: parent
-                drag.target: parent
-                drag.minimumX: 0
-                drag.maximumX: tw_fullBar.width - tw_scrollBar.width
-                onPositionChanged: {
-                    tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
-                    tw_graduation.x = tw_track.x
-                }
-                onEntered: {
-                    parent.color = "#FFFF99"
-                }
-                onExited: {
-                    parent.color = '#FFCC66'
-                }
-             }
-            // zone gauche pour l'agrandissement du zoom
-            MouseArea {
-               id: tw_scrollBarLeftHandle
-               width: tw_handleWidth
-               height: tw_scrollBar.height
-               hoverEnabled: true
-               onEntered: {
-                  _tw_timelineData.displayCursor("scale");
-               }
-               onExited: {
-                   _tw_timelineData.displayCursor("none");
-               }
-               onPressed:{
-                   scrollLeftPressed = 1
-               }
+        //color: '#FFCC66'
+        color: 'yellow'
 
-               onPositionChanged: {
-                   if ( scrollLeftPressed == 1 )
-                   {
-                       if (tw_scrollBar.x + mouseX < 0)
-                       {
-                           tw_scrollBar.width += tw_scrollBar.x
-                           tw_scrollBar.x = 0
-                       }
-                       else
-                           if (tw_scrollBar.width - mouseX < tw_fullBar.width*5/_tw_timelineData.maxTime)
-                           {
-                               tw_scrollBar.x += tw_scrollBar.width - tw_fullBar.width*5/_tw_timelineData.maxTime
-                               tw_scrollBar.width = tw_fullBar.width*5/_tw_timelineData.maxTime
-                           }
-                           else
-                           {
-                               tw_scrollBar.width += - mouseX
-                               tw_scrollBar.x += mouseX
-                           }
+        MouseArea {
+            id: tw_scrollBarItemHandle
+            anchors.fill: parent
 
+            //drag.axis: "XAxis"
+            //drag.target: parent
+            //drag.minimumX: 0
+            //drag.maximumX: tw_timeScrollbar.width - tw_scrollBarItem.width
 
-                       _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
-                       tw_track.x = - tw_scrollBar.x * _tw_timelineData.maxTime * _tw_timelineData.timelineScale / tw_fullBar.width
+            property double origDisplayIn
+            property double origDisplayOut
+            property double origMouseX
 
-                       //tw_graduation.x = tw_scrollBar.width/tw_fullBar.width
+            onPositionChanged: {
+                var offsetTime = ( mapToItem( tw_timeScrollbar, mouseX, mouseY ).x -origMouseX) * scrollBar_pixelToTime
+                tw_displayIn = origDisplayIn + offsetTime
+                tw_displayOut = origDisplayOut + offsetTime
+            }
+            onEntered: {
+                parent.color = "#FFFF99"
+            }
+            onPressed:{
+                origDisplayIn = tw_displayIn
+                origDisplayOut = tw_displayOut
+                origMouseX = mapToItem( tw_timeScrollbar, mouseX, mouseY ).x
+                print( "tw_scrollBarItemHandle pressed" )
+            }
+            onExited: {
+                parent.color = '#FFCC66'
+            }
+        }
 
-                    }
-               }
-               onReleased:{
-                   scrollLeftPressed = 0
-                }
-
-
+        // zone gauche pour l'agrandissement du zoom
+        MouseArea {
+           id: tw_scrollBarItemLeftHandle
+           anchors.left: parent.left
+           width: tw_handleWidth
+           height: parent.height
+           hoverEnabled: true
+           onEntered: {
+              _tw_timelineData.displayCursor("scale");
            }
-           // zone droite pour l'agrandissement du zoom
-           MouseArea {
-                id: tw_scrollBarRightHandle
-                width: tw_handleWidth
-                height: tw_scrollBar.height
-                anchors.right: parent.right
-                hoverEnabled: true
-                onEntered: {
-                    _tw_timelineData.displayCursor("scale");
+           onExited: {
+               _tw_timelineData.displayCursor("none");
+           }
+           onPressed:{
+               print( "tw_scrollBarItemLeftHandle pressed" )
+               scrollLeftPressed = true
+           }
+
+           onPositionChanged:
+           {
+               if ( scrollLeftPressed )
+               {
+                   print( "change displayIn" )
+                   tw_displayIn = mouseX * scrollBar_pixelToTime
+               }
+           }
+           onReleased:{
+               scrollLeftPressed = false
+            }
+       }
+
+       // zone droite pour l'agrandissement du zoom
+       MouseArea {
+            id: tw_scrollBarItemRightHandle
+            width: tw_handleWidth
+            height: tw_scrollBarItem.height
+            anchors.right: parent.right
+            hoverEnabled: true
+            onEntered: {
+                _tw_timelineData.displayCursor("scale");
+            }
+            onExited: {
+                _tw_timelineData.displayCursor("none");
+            }
+
+            onPressed:{
+                print( "tw_scrollBarItemRightHandle pressed" )
+                scrollRightPressed = true
+            }
+
+            onPositionChanged: {
+                if ( scrollRightPressed )
+                {
+                    tw_displayOut = mouseX * scrollBar_pixelToTime
                 }
-                onExited: {
-                    _tw_timelineData.displayCursor("none");
-                }
+            }
 
-                onPressed:{
-                    scrollRightPressed = 1
-                }
-
-                onPositionChanged: {
-                    if ( scrollRightPressed == 1 )
-                    {
-                        if (tw_scrollBar.x + tw_scrollBar.width +mouseX > tw_fullBar.width)
-                            tw_scrollBar.width = tw_fullBar.width - tw_scrollBar.x
-                        else
-                        {
-                            if (tw_scrollBar.width + mouseX < tw_fullBar.width*5/_tw_timelineData.maxTime)
-                                tw_scrollBar.width = tw_fullBar.width*5/_tw_timelineData.maxTime
-                            else
-                                tw_scrollBar.width += mouseX
-                        }
-
-                        _tw_timelineData.timelineScale = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
-                    }
-
-                }
-
-                onReleased:{
-                    scrollRightPressed = 0
-                }
-
-
-            }//end rightMouseArea
-
-
-
-        }//end yellow rect
-
-    }//end purple rect
-
-}//end item
+            onReleased: {
+                print( "tw_scrollBarItemRightHandle released" )
+                scrollRightPressed = false
+            }
+        }
+    }
+}
