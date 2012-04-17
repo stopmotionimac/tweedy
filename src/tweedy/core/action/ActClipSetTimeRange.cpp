@@ -22,36 +22,22 @@ ActClipSetTimeRange::~ActClipSetTimeRange()
 
 void ActClipSetTimeRange::operator()(int currentTime, int value)
 {
-    //récupérer le clip à traiter
-    std::string idClip = "";
-    
     Projet& projet = Projet::getInstance();
-    
     Timeline timeline = projet.getTimeline();
 
-    bool isClip = timeline.findCurrentClip(idClip,currentTime);
-    
-    
-    if(!isClip)
-        
-        std::cout<< "Clip not found" << std::endl;
-     
-    else{
-        //créer la commande 
-        
-        std::ostringstream oss;
-        oss<<value;
-        IUndoRedoCommand* cmd = new CmdClipSetTimeRange(idClip,"Commande Clip Set Time Range"+oss.str()
-                , value);
+    std::string idClip = timeline.findCurrentClip(currentTime);
 
-        //trouver le command Manager par l'application
+    std::ostringstream oss;
+    oss<<value;
+    IUndoRedoCommand* cmd = new CmdClipSetTimeRange(idClip,"Commande Clip Set Time Range"+oss.str()
+    , value);
+    //trouver le command Manager par l'application
 
-        CommandManager& cmdMng = projet.getCommandManager();
+    CommandManager& cmdMng = projet.getCommandManager();
 
-        //ajouter la commande au commande manager
-        cmdMng.pushNewCommand(cmd);
-    }
-    
+    //ajouter la commande au commande manager
+    cmdMng.pushNewCommand(cmd);
+
     std::cout << "Action done" << std::endl;
     
 }

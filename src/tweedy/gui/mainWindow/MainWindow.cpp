@@ -40,14 +40,19 @@ MainWindow::MainWindow()
 	createWidgets();
 	createStatusBar();
 
-//	connect( this->_timelineTable, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
+        _isPlaying = false;
+        _timer = new QTimer( this );
+        _fps = 8;
+        _time = 0;
+
+        connect( this, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 	connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
-
-//        this->adjustSize();
-
         connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
+        connect( _timer, SIGNAL( timeout() ), this, SLOT( increaseTime() ) );
 
 	this->adjustSize();
+
+        Q_EMIT timeChanged( _time );
 
 }
 
@@ -68,10 +73,13 @@ void MainWindow::createActions()
 	_openProjectAction->setShortcut( QKeySequence( "Ctrl+O" ) );
 	_openProjectAction->setStatusTip( "Open a project" );
 	connect( _openProjectAction, SIGNAL( triggered() ), this, SLOT( on_openProjectAction_triggered() ) );
+        //load the project
+        connect( _openProjectAction, SIGNAL( triggered() ), this, SLOT( on_loadProjectAction_triggered() ) );
 
 	_saveProjectAction = new QAction( QIcon( "img/icones/save1.png" ), "Save", this );
 	_saveProjectAction->setShortcut( QKeySequence( "Ctrl+S" ) );
 	_saveProjectAction->setStatusTip( "Save your project" );
+        connect( _saveProjectAction, SIGNAL( triggered() ), this, SLOT( on_saveProjectAction_triggered() ) );
 
 	_saveAsProjectAction = new QAction( "Save As", this );
 	//_saveProjectAction->setShortcut( QKeySequence( "Ctrl+S" ) );
@@ -108,11 +116,25 @@ void MainWindow::createActions()
         _exportAction->setStatusTip( "Export your timeline" );
         connect( _exportAction, SIGNAL( triggered() ), this, SLOT( on_exportAction_triggered() ) );
 
-	//save the project
-	connect( _saveProjectAction, SIGNAL( triggered() ), this, SLOT( on_saveProjectAction_triggered() ) );
+        _playPauseAction = new QAction( QIcon( "img/icones/play.png" ), "", this );
+        _playPauseAction->setShortcut( QKeySequence( "Space" ) );
+        _playPauseAction->setStatusTip( "Play" );
+        connect( _playPauseAction, SIGNAL( triggered() ), this, SLOT( handle_playPauseAction_triggered() ) );
 
-	//load the project
-	connect( _openProjectAction, SIGNAL( triggered() ), this, SLOT( on_loadProjectAction_triggered() ) );
+        _nextAction = new QAction( QIcon( "img/icones/next.png" ), "Next", this );
+        _nextAction->setShortcut( QKeySequence( "Alt+Right" ) );
+        _nextAction->setStatusTip( "Next clip" );
+        connect( _nextAction, SIGNAL( triggered() ), this, SLOT( handle_nextAction_triggered() ) );
+
+        _prevAction = new QAction( QIcon( "img/icones/previous.png" ), "Previous", this );
+        _prevAction->setShortcut( QKeySequence( "Alt+Left" ) );
+        _prevAction->setStatusTip( "Previous clip" );
+        connect( _prevAction, SIGNAL( triggered() ), this, SLOT( handle_prevAction_triggered() ) );
+
+        _zeroAction = new QAction( QIcon( "img/icones/retour0.png" ), "Reset", this );
+        _zeroAction->setShortcut( QKeySequence( "0" ) );
+        _zeroAction->setStatusTip( "Reset" );
+        connect( _zeroAction, SIGNAL( triggered() ), this, SLOT( handle_zeroAction_triggered() ) );
 
 }
 
@@ -266,20 +288,20 @@ void MainWindow::createWidgetViewer()
 	/// Mais emettre des signaux dans chacun et repasser par la MainWindow,
 	/// pour changer le temps.
 	//connexions boutons du viewer avec actions de la timeline
-	//        _viewerImg->getNextButton()->setDefaultAction( _timelineTable->getNextAction() );
-	//        _viewerImg->getNextButton()->setIconSize( QSize( 30, 30 ) );
-	//        _viewerImg->getPlayPauseButton()->setDefaultAction( _timelineTable->getPlayPauseAction() );
-	//        _viewerImg->getPlayPauseButton()->setIconSize( QSize( 30, 30 ) );
-	//        _viewerImg->getPreviousButton()->setDefaultAction( _timelineTable->getPreviousAction() );
-	//        _viewerImg->getPreviousButton()->setIconSize( QSize( 30, 30 ) );
-	//        _viewerImg->getRetour0Button()->setDefaultAction( _timelineTable->getRetour0Action() );
-	//        _viewerImg->getRetour0Button()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getNextButton()->setDefaultAction( getNextAction() );
+        _viewerImg->getNextButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getPlayPauseButton()->setDefaultAction( getPlayPauseAction() );
+        _viewerImg->getPlayPauseButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getPreviousButton()->setDefaultAction( getPreviousAction() );
+        _viewerImg->getPreviousButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getRetour0Button()->setDefaultAction( getRetour0Action() );
+        _viewerImg->getRetour0Button()->setIconSize( QSize( 30, 30 ) );
 	//timer
 	//connection slider
 	_viewerImg->getTempsSlider()->setTickPosition( QSlider::TicksAbove );
 	//signal : valueChanged() : Emitted when the slider's value has changed.
 	connect( _viewerImg->getTempsSlider(), SIGNAL( valueChanged( int ) ), this, SLOT( writeTime( int ) ) );
-	//        _viewerImg->getTempsSlider()->setMaximum( _timelineTable->getTimeline().getMaxTime() );
+        _viewerImg->getTempsSlider()->setMaximum( getTimeline().getMaxTime() );
 
 }
 
@@ -363,7 +385,6 @@ void MainWindow::on_searchFolderProjectButton_clicked()
 }
 
 //fonction a completer pour creer un nouveau projet
-
 void MainWindow::on_acceptedNewProjectWindow()
 {
 
@@ -451,24 +472,17 @@ void MainWindow::on_configAction_triggered()
 	configCameraDock->setFloating( true );
 }
 
-//_______________ Write time in label and select the good cell _________________
 
+//Write time in label
 void MainWindow::writeTime( int newValue )
 {
-//	_timelineTable->getTableWidget()->setCurrentCell( 0, newValue );
-
-//	if( newValue == _timelineTable->getTimeline().getMaxTime() )
-//		newValue = -1;
-
 	_viewerImg->getTimeLabel()->setNum( newValue );
 	_viewerImg->getTempsSlider()->setSliderPosition( newValue );
 
 	_timelineGraphic->getTimelineDataWrapper()._currentTime = newValue;
 }
 
-/*
-  Create the status bar
- */
+//Create the status bar
 void MainWindow::createStatusBar()
 {
 
@@ -478,7 +492,6 @@ void MainWindow::createStatusBar()
 }
 
 //save the project
-
 void MainWindow::on_saveProjectAction_triggered()
 {
 	//make an archive
@@ -492,7 +505,6 @@ void MainWindow::on_saveProjectAction_triggered()
 	oa << project();
         ofs.close();
 }
-
 
 //load the project
 
@@ -509,18 +521,12 @@ void MainWindow::on_loadProjectAction_triggered(const char* filename)
 
 }
 
-
-
 void MainWindow::on_exportAction_triggered()
 {
     _exportWidget = new ExportWidget( );
     _exportWidget->show();
 
 }
-
-
-
-
 
 std::string MainWindow::generateTimeData(int value, int choosenFps, int absoluteFps)
 {
@@ -546,4 +552,96 @@ std::string MainWindow::generateTimeData(int value, int choosenFps, int absolute
             : boost::lexical_cast<std::string>(nbframe);
 
     return shour + ":" + smin + ":" + ssec + ":" + sframe ;
+}
+
+/**
+ * @brief buttons slots
+ */
+void MainWindow::handle_playPauseAction_triggered()
+{
+        if( !_isPlaying )
+        {
+                _timer->start( 1000.0 / _fps );
+                _isPlaying = true;
+                _playPauseAction->setIcon( QIcon( "img/icones/pause.png" ) );
+                _playPauseAction->setStatusTip( "Mettre en pause" );
+        }
+        else
+        {
+                _timer->stop();
+                _isPlaying = false;
+                _playPauseAction->setIcon( QIcon( "img/icones/play.png" ) );
+                _playPauseAction->setStatusTip( "Lancer le montage" );
+        }
+}
+
+void MainWindow::handle_zeroAction_triggered()
+{
+        _time = 0;
+        Q_EMIT timeChanged( _time );
+
+}
+
+void MainWindow::handle_nextAction_triggered()
+{
+        Timeline::OMapClip orderedClips = getTimeline().getOrderedClips();
+        bool lastClip = true;
+
+        BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
+        {
+                if( s.first > _time )
+                {
+                        lastClip = false;
+                        _time = s.first;
+                        break;
+                }
+                if( ( *s.second )->timeOut() > _time && ( *s.second )->timeOut() < getTimeline().getMaxTime() )
+                {
+                        lastClip = false;
+                        _time = ( *s.second )->timeOut();
+                        break;
+                }
+        }
+
+        if( !lastClip )
+                Q_EMIT timeChanged( _time );
+
+}
+
+void MainWindow::handle_prevAction_triggered()
+{
+        Timeline::OMapClip orderedClips = getTimeline().getOrderedClips();
+        int currentTime = _time;
+        bool firstClip = true;
+
+        BOOST_FOREACH( const Timeline::OMapClip::value_type& s, orderedClips )
+        {
+                if( s.first < currentTime )
+                {
+                        firstClip = false;
+                        _time = s.first;
+                        if( ( *s.second )->timeOut() < currentTime )
+                                _time = ( *s.second )->timeOut();
+                }
+                else
+                        break;
+        }
+
+        if( !firstClip )
+                Q_EMIT timeChanged( _time );
+
+}
+
+
+/**
+ * @brief Increase current time or stop timer if last frame
+ */
+void MainWindow::increaseTime()
+{
+        if( _time>-1 && _time < getTimeline().getMaxTime() )
+                ++ _time;
+        if( _time == getTimeline().getMaxTime() )
+                _time = 0;
+
+        Q_EMIT timeChanged( _time );
 }
