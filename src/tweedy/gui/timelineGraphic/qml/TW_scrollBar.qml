@@ -17,17 +17,11 @@ Rectangle {
         width: tw_displayLength * scrollBar_timeToPixel
         height: parent.height
 
-        //color: '#FFCC66'
-        color: 'yellow'
+        color: ( tw_scrollBarItemHandle.containsMouse || tw_scrollBarItemHandle.pressed ) ? "#FFFF99" : "#FFCC66"
 
         MouseArea {
             id: tw_scrollBarItemHandle
             anchors.fill: parent
-
-            //drag.axis: "XAxis"
-            //drag.target: parent
-            //drag.minimumX: 0
-            //drag.maximumX: tw_timeScrollbar.width - tw_scrollBarItem.width
 
             property double origDisplayIn
             property double origDisplayOut
@@ -35,20 +29,12 @@ Rectangle {
 
             onPositionChanged: {
                 var offsetTime = ( mapToItem( tw_timeScrollbar, mouseX, mouseY ).x -origMouseX) * scrollBar_pixelToTime
-                tw_displayIn = origDisplayIn + offsetTime
-                tw_displayOut = origDisplayOut + offsetTime
-            }
-            onEntered: {
-                parent.color = "#FFFF99"
+                setDisplayInOut( origDisplayIn + offsetTime, origDisplayOut + offsetTime )
             }
             onPressed:{
                 origDisplayIn = tw_displayIn
                 origDisplayOut = tw_displayOut
                 origMouseX = mapToItem( tw_timeScrollbar, mouseX, mouseY ).x
-                print( "tw_scrollBarItemHandle pressed" )
-            }
-            onExited: {
-                parent.color = '#FFCC66'
             }
         }
 
@@ -74,8 +60,7 @@ Rectangle {
            {
                if ( scrollLeftPressed )
                {
-                   print( "change displayIn" )
-                   tw_displayIn = mapToItem( tw_timeScrollbar, mouseX, mouseY ).x * scrollBar_pixelToTime
+                   setDisplayIn( mapToItem( tw_timeScrollbar, mouseX, mouseY ).x * scrollBar_pixelToTime )
                }
            }
            onReleased:{
@@ -105,7 +90,7 @@ Rectangle {
             onPositionChanged: {
                 if ( scrollRightPressed )
                 {
-                    tw_displayOut = mapToItem( tw_timeScrollbar, mouseX, mouseY ).x * scrollBar_pixelToTime
+                    setDisplayOut( mapToItem( tw_timeScrollbar, mouseX, mouseY ).x * scrollBar_pixelToTime )
                 }
             }
 

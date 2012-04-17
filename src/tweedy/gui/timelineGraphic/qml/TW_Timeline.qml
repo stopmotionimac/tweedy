@@ -27,7 +27,9 @@ Rectangle
     property bool tw_inserting : false
 
     property int tw_realMaxTime: _tw_timelineData.maxTime
-    property int tw_maxTime: tw_realMaxTime > 10 ? tw_realMaxTime : 10
+    property int tw_displayMinLength: 10
+    property int tw_zoomMinLength: 5
+    property int tw_maxTime: tw_realMaxTime > tw_displayMinLength ? tw_realMaxTime : tw_displayMinLength
 
     // time coordinates are centralized here
     property double tw_currentTime: 0
@@ -57,6 +59,40 @@ Rectangle
         tw_doubleClickedBlank = -1
         tw_timeInClipSelected = -1
         tw_timeInDoubleClickedClip = -1
+    }
+
+    function clamp( val, min, max )
+    {
+        return Math.max(min, Math.min(max, val))
+    }
+    function setDisplayIn( timeIn )
+    {
+        var clampedTimeIn = clamp(timeIn, 0, tw_maxTime)
+        tw_displayIn = Math.min( clampedTimeIn, tw_displayOut - tw_zoomMinLength )
+    }
+    function setDisplayOut( timeOut )
+    {
+        var clampedTimeOut = clamp(timeOut, 0, tw_maxTime)
+        tw_displayOut = Math.max( clampedTimeOut, tw_displayIn + tw_zoomMinLength )
+    }
+    function setDisplayInOut( timeIn, timeOut )
+    {
+        var clampedTimeIn = timeIn
+        var clampedTimeOut = timeOut
+        var timeLength = ( timeOut - timeIn )
+        if( timeIn < 0 )
+        {
+            clampedTimeIn = 0
+            clampedTimeOut = timeLength
+        }
+        else if( timeOut > tw_maxTime )
+        {
+            clampedTimeOut = tw_maxTime
+            clampedTimeIn = clampedTimeOut - timeLength
+        }
+
+        setDisplayIn( clampedTimeIn )
+        setDisplayOut( clampedTimeOut )
     }
 
     Column
