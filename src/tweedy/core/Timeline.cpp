@@ -15,7 +15,8 @@ Timeline::Timeline( const Id& idParent, const std::string& id )
 
     Clip realTime( "img/flux.jpg", getId(), "flux" );
     realTime.setPosition( 1, 2 );
-    _mapClip[realTime.getId().getIdStringForm()] = realTime;
+    _idRealTime = realTime.getId().getIdStringForm();
+    _mapClip[_idRealTime] = realTime;
 }
 
 

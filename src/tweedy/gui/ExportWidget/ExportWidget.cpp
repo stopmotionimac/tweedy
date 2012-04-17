@@ -143,6 +143,10 @@ void ExportWidget::generateEDLExport(std::string filename, int globalFps, int co
                     const std::string st = clip->getImgPath().string();
                     boost::split(strs, st,boost::is_any_of("/"));
                     std::string nameImg = strs.back();
+                    if(nameImg.find("_LD") != std::string::npos)
+                    {
+                        nameImg.erase(nameImg.size()-7,3);
+                    }
 
                     myFlux << boost::lexical_cast<std::string>(i) + "  AX       V     C        " ;
                     myFlux << generateTimeData(0,fps,globalFps) ;

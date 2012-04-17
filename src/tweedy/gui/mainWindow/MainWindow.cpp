@@ -524,7 +524,7 @@ void MainWindow::on_loadProjectAction_triggered(const char* filename)
 void MainWindow::on_exportAction_triggered()
 {
     /* place the real time at the end of the timeline */
-    //project().getTimeline().moveElement("img/flux.jpg", getTimeline().getMaxTime());
+    project().getTimeline().moveElement(project().getTimeline().getIdRealTime(), project().getTimeline().getMaxTime()-1);
     
     _exportWidget = new ExportWidget( );
     _exportWidget->show();
