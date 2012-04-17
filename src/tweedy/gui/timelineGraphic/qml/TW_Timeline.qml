@@ -18,6 +18,7 @@ Rectangle
     property int tw_xPositionChanged :0
     property int tw_scrollPositionChanged:0
     property int timeInDoubleClickedClip : -1
+
     property int timeInClipSelected : -1
 
     property int ratio : tw_timelineWindow.width / 5
@@ -30,7 +31,7 @@ Rectangle
         if (event.key == Qt.Key_Delete)
         {
             console.log("Big background rectangle : delete key has been pressed")
-            if (timeInClipSelected > 0 )
+            if (timeInClipSelected > -1 )
                 _tw_timelineData.deleteItem(timeInClipSelected);
 
             ratio = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)

@@ -48,34 +48,39 @@ const Id& Timeline::getId() const
 	return _id;
 }
 
-void Timeline::addClip( const Clip& clip )
+/*void Timeline::addClip( const Clip& clip )
 {
-	_mapClip[clip.getId().getIdStringForm()] = clip;
-	updateMaxTime();
+        //_mapClip[clip.getId().getIdStringForm()] = clip;
+        //int duration = clip.timeOut() - clip.timeIn();
+        //maxTime +=
+    Clip copy = clip;
+    insertClip(copy, copy.timeIn());
+
 	_signalChanged();
-}
+}*/
 
 void Timeline::insertClip( Clip& newClip, double currentTime )
 {
+        int duration = newClip.timeOut() - newClip.timeIn();
+
         std::string clipName = findCurrentClip( currentTime );
         int timeIn = _mapClip[clipName].timeIn();
 
 	//décale les clips suivants
 
-	BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
+        BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
 	{
 		if( s.second->timeIn() >= timeIn )
 		{
-			s.second->increaseTimeIn( 1 );
-			s.second->increaseTimeOut( 1 );
+                        s.second->increaseTimeIn( duration );
+                        s.second->increaseTimeOut( duration );
 		}
 	}
 
-	newClip.setPosition( timeIn, timeIn + 1 );
+        newClip.setPosition( timeIn, timeIn + duration );
 	_mapClip[newClip.getId().getIdStringForm()] = newClip;
 
-
-	updateMaxTime();
+        _maxTime += duration;
 
 	_signalChanged();
 }
@@ -226,22 +231,20 @@ void Timeline::deleteClip(const std::string& clipName)
 }
 
 
-/*int Timeline::getBlankDuration( Clip* clip )
+void Timeline::unselectAll()
 {
-	OMapClip orderedClips = getOrderedClips();
-	int previousTimeOut = 0;
-
-	BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
+        BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
 	{
-		if( clip->timeIn() >= ( *s.second )->timeOut() )
-		{
-			previousTimeOut = ( *s.second )->timeOut();
-		}
-		else
-			break;
+                s.second->setSelected(false);
 	}
-	return clip->timeIn() - previousTimeOut;
-}*/
+
+}
+
+void Timeline::selectClip(int timeIn)
+{
+   OMapClip orderedClips = getOrderedClips();
+   orderedClips[timeIn]->setSelected(true);
+}
 
 boost::signal0<void>& Timeline::getSignalChanged()
 {

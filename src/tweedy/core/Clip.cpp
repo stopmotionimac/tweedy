@@ -14,4 +14,6 @@ Clip& Clip::operator=(const Clip& clip){
     
     _timeIn = clip._timeIn;
     _timeOut = clip._timeOut;
+
+    _selected = clip._selected;
 }

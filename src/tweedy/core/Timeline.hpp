@@ -24,9 +24,6 @@ public:
 	Timeline( const Id& idParent, const std::string& id );
 	Timeline( const Timeline& );
 
-	//void getlistPiste ();
-	//void addPiste (PisteClip & pisteClip);
-	//void supprPiste (PisteClip & pisteClip);
 
 	UOMapClip& mapClip()
 	{
@@ -42,7 +39,7 @@ public:
 	const OMapClip getOrderedClips() const;
 
 	void moveElement( std::string filename, int newPosition );
-	void addClip( const Clip& clip );
+        //void addClip( const Clip& clip );
 	void deleteClip( const std::string& clipName );
 
 
@@ -54,6 +51,9 @@ public:
 	//void insertClip(const std::string& newClipName, double currentTime);
 	void addTimeToClip( const std::string& clipName, double decalage );
         std::string findCurrentClip(int time) const;
+
+        void selectClip(int timeIn);
+        void unselectAll();
 
         //int getBlankDuration( Clip* clip );
 
