@@ -78,8 +78,8 @@ public:
         std::vector<std::string> getUrlList(){ return _urlList; }
         void setUrlList(std::string url){ _urlList.push_back(url); }
         void clearUrlList(){ _urlList.clear(); }
+        std::string getIdRealTime() { return  _idRealTime; }
 
-        std::string getIdRealTime(){ return _idRealTime; }
 
 
 private:

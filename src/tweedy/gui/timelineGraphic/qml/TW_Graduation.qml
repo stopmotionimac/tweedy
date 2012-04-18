@@ -3,33 +3,38 @@ import QtQuick 1.1
 Rectangle
 {
 	id: tw_graduation
-        width: parent.width
-        height: tw_multitrackContainer.height - tw_track.height - 25
-	color: "#ACB6B5"
+
+    property int nbFrames: tw_displayLength + 1
+
+    x: - (tw_displayIn - Math.floor(tw_displayIn) ) * tw_scaleTimeToPix
+    color: "#ACB6B5"
+
 	Row
 	{
+        anchors.fill: parent
 		Repeater
 		{
-                        model : _tw_timelineData.maxTime  //Model (how many)
-			Row
-			{
-				// Graduation top
-				Rectangle
-				{
-                                        id: tw_graduation_top           //ID
-                                        width: ratio
-                                        height: tw_graduation.height   //get height from tw_graduation
-                                        border.width: 2
-					border.color: "black"
-                                        color: '#ACB6B5'                          //color
-					
-					Text // display the frame number
-					{
-                                            id: tw_frame
-                                            anchors.centerIn: parent
-                                            text: index
-					}
-				}
+            model: nbFrames // Model (how many)
+
+            // Graduation top
+            Rectangle
+            {
+                id: tw_graduationFrame
+
+                height: tw_graduation.height
+                width: tw_scaleTimeToPix //* 1000
+                border.width: 2
+                border.color: "black"
+                color: "#ACB6B5"
+                //color: '#ACB6B5'
+
+                Text // display the frame number
+                {
+                    id: tw_frame
+                    anchors.centerIn: parent
+                    property int frameNumber: index + Math.floor(tw_displayIn)
+                    text: frameNumber
+                }
 			}
 		}
 	}

@@ -3,53 +3,56 @@ import QtQuick 1.1
 Item
 {
 	id:	tw_clipContainer
-        width: ( object.timeOut - object.timeIn ) * ratio
-	height: tw_track.height
 
-	scale: tw_clipHandle.pressed ? 1.05: 1.0
+    scale: tw_clipHandle.pressed ? 1.05: 1.0
 
-	property int clipRightPressed: 0
-	property int clipLeftPressed: 0
-        property bool clipPressed: false
+    property bool clipRightPressed: false
+    property bool clipLeftPressed: false
+	property bool clipSelected: false
 
-        Rectangle
+    width: ( object.timeOut - object.timeIn ) * tw_scaleTimeToPix
+    height: tw_track.height
+
+	Rectangle
 	{
-		id: tw_clip
+            id: tw_clip
 
-		// anchors.fill: parent
-                width: ( object.timeOut - object.timeIn ) * ratio
-		height: tw_track.height
+            anchors.fill: parent
 
-		border.color: ( timeInDoubleClickedClip != object.timeIn ) ? "black": "white"
-		border.width: 2
+            border.color: ( tw_timeInDoubleClickedClip != object.timeIn ) ? "black": "white"
+            border.width: 2
+                /*
                 radius: 10
-                color: ( _tw_timelineData.isSelected(object.timeIn) ) ?  "#FF3300":"#e28a26"
+                color: ( _tw_timelineData.isSelected(object.timeIn) ) ?  "#FF3300":"#e28a26"*/
+            radius: 15
+            color: ( tw_timeInClipSelected != object.timeIn ) ? "#e28a26": "#FF3300"
 
-		// image du Clip (Vignette)
+
+                // image du Clip (Vignette)
 		Image
 		{
 			id: image
 			anchors.fill: parent
 			anchors.margins: 5
-                        width: parent.width
-                        height: parent.height
-                        fillMode: Image.PreserveAspectFit
-                        smooth: true // better visual quality but slower
-                        source: object.imgPath // image source file path
-                        asynchronous: true // enable asynchronous load
+			width: parent.width
+			height: parent.height
+			fillMode: Image.PreserveAspectFit
+			smooth: true // better visual quality but slower
+			source: object.imgPath // image source file path
+			asynchronous: true // enable asynchronous load
 		}
 
-		// zone de deplacement
+        // zone de deplacement
 		MouseArea
 		{
 			id: tw_clipHandle
 
 			anchors.fill: tw_clip
-			hoverEnabled: true
-			//drag.minimumX: 0
-                        //drag.maximumX: _tw_timelineData.maxTime * ratio - ratio
-			drag.target: tw_clip
+            hoverEnabled: true
+			drag.target: tw_clipContainer
 			drag.axis: "XAxis"
+            drag.minimumX: -1
+            drag.maximumX: tw_realMaxTime * tw_scaleTimeToPix
 			acceptedButtons: Qt.LeftButton | Qt.RightButton
 
                         //0 -> not pressed
@@ -57,24 +60,54 @@ Item
                         //2 -> pressed and released
 
 			onEntered:
+/*
 			{
                                 if( timeInClipSelected != object.timeIn &&  controlPosition == 0)
                                 {
                                         parent.color = '#FDAE37'
                                 }
                         }
+*/
+                        {
+                            if( tw_timeInClipSelected != object.timeIn )
+                            {
+                                parent.color = '#FDAE37'
+                            }
+			}
 
+            /*
+			onClicked:
+            {
+                _tw_timelineData.displayCurrentClip(tw_timeCursor.x / tw_timelineScale)
+
+                timeInClipSelected = tw_timeCursor.x / tw_timelineScale
+>>>>>>> 53e9ed7c26ceb6fc88683acffeace29b6573d4fb
+
+				console.log( " timeInClipSelected" + timeInClipSelected)
+
+				parent.color = 'red'
+				console.log("qml tw_clipHandle onPressed.")
+                timeInClipSelected = object.timeIn
+			}
+            */
 
 			onExited:
+/*
 			{
                             if( timeInClipSelected != object.timeIn &&  controlPosition == 0)
                                 parent.color = '#e28a26'
+*/
+                        {
+                            if( tw_timeInClipSelected != object.timeIn )
+                                parent.color = '#e28a26'
+
 			}
 
 			onPressed:
-			{
-                            clipPressed = true
+                        {
+                            tw_timeBlankSelected = -1
 
+/*
                             if (controlPosition ! 2)
                             {
                                 _tw_timelineData.unselectAll()
@@ -83,40 +116,49 @@ Item
                             }
                             else
                                 _tw_timelineData.selectClip(object.timeIn)
+*/
+				clipSelected = true
+                //console.log( "qml tw_clipHandle onPressed." )
+				tw_timeInClipSelected = object.timeIn
+                                tw_insertPos = tw_timeInClipSelected
 
-                            timeInClipSelected = object.timeIn
-                            parent.color = '#FF3300'
-                        }
+				parent.color = '#FF3300'
+			}
 
 			onDoubleClicked:
-			{
-                                timeInDoubleClickedClip = object.timeIn
-                                _tw_timelineData.displayClip( timeInDoubleClickedClip )
+            {
+				tw_doubleClickedBlank = -1
+				tw_timeInDoubleClickedClip = object.timeIn
+				_tw_timelineData.displayClip( tw_timeInDoubleClickedClip )
 			}
 
 			onPositionChanged:
-			{
-                                if( clipPressed )
+            {
+                //console.log( "onPositionChanged A" )
+
+                if( clipSelected )
 				{
-					//console.log( "z:", tw_clip.z )
-					tw_clip.z = 9999;
-                                        //z = 9999;
+                    //console.log( "onPositionChanged B" )
+                    tw_clipContainer.z = 9999
 					var markerPosition = -1
 
-                                        if( parent.x / ratio >= 1 )
-                                                markerPosition = _tw_timelineData.getMarkerPosition( timeInClipSelected + parent.x / ratio, true )
-                                        if( parent.x / ratio < 0 )
-                                                markerPosition = _tw_timelineData.getMarkerPosition( timeInClipSelected + parent.x / ratio, false )
-
-					if( markerPosition != -1 )
-					{
-						tw_insertMarker.visible = true
-                                                tw_insertMarker.x = markerPosition * ratio - tw_insertMarker.width / 2
+                    var xTime = parent.x * tw_scalePixToTime
+                    var positiveMove = ( xTime >= 1 )
+                    var dstTime = Math.round( mapToItem( tw_track, mouseX, mouseY ).x * tw_scalePixToTime )
+                    markerPosition = _tw_timelineData.getMarkerPosition( dstTime, positiveMove )
+                    if( markerPosition != -1 )
+                    {
+                        //console.log( "onPositionChanged C" )
+                        //console.log( "markerPosition:", markerPosition )
+                        //console.log( "markerPosition * tw_scaleTimeToPix:", markerPosition * tw_scaleTimeToPix )
+                        tw_inserting = true
+                        tw_insertPos = markerPosition
 					}
 				}
-			}
+                    }
 
 			onReleased:
+/*
 			{
                             tw_clip.z = 0;
                             tw_insertMarker.visible = false
@@ -127,93 +169,118 @@ Item
                                 if( selectedClip != -1 )
                                 timeInClipSelected = selectedClip
                             }
-			}
+*/
+                        {
+                            tw_clipContainer.z = 0;
+                            tw_inserting = false
+
+                            if( clipSelected )
+                            {
+                                print("tw_insertPos", tw_insertPos)
+                                var selectedClip = -1
+                                selectedClip = _tw_timelineData.translate( tw_timeInClipSelected, tw_insertPos )
+                                if( selectedClip != -1 )
+                                    tw_timeInClipSelected = selectedClip
+                                clipSelected = false
+                            }
+
+                        }
 		}
 
 		// zone gauche pour l'agrandissement du clip
+        Rectangle
+        {
+            id: tw_clipLeftHandle
+
+            width: tw_handleWidth
+            height: tw_clip.height
+            anchors.left: tw_clip.left
+
+            color: "green"
+            visible: false
+        }
 		MouseArea
 		{
-			id: tw_clipLeftHandle
+            id: tw_clipLeftHandleMA
+            anchors.fill: tw_clipLeftHandle
 
-			width: tw_handleWidth
-			height: tw_clip.height
 			hoverEnabled: true
 
 			onEntered:
-			{
-                                _tw_timelineData.displayCursor( "scale" );
+            {
+				_tw_timelineData.displayCursor( "scale" );
+                tw_clipLeftHandle.visible = true
 			}
 			onExited:
-			{
+            {
 				_tw_timelineData.displayCursor( "none" );
-
+                tw_clipLeftHandle.visible = false
 			}
 			onPressed:
-                        {
-                            clipLeftPressed = 1
-                            //console.log( "qml tw_clipRightHandle onPressed." )
+            {
+				clipLeftPressed = 1
+				//console.log( "qml tw_clipRightHandle onPressed." )
+            }
+            onPositionChanged:
+            {
+				if ( clipLeftPressed == 1 )
+				{
+					if( object.timeIn > 0 )
+                    {
+                        console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
+					}
+
+				}
 			}
-                        onPositionChanged: {
-                            if ( clipLeftPressed == 1 )
-                            {
-                                if( object.timeIn > 0 )
-                                {
-                                    //console.log("aaaaaaaeeeeeeeeeeeeeeezaezarezr")
-                                    console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
-                                }
 
-                            }
-                        }
+			onReleased:
+            {
+				console.log( "mouse X clip Released" + mouseX );
+				clipLeftPressed = 0
+			}
+		}
 
-                        onReleased:
-                        {
-                            console.log( "mouse X clip Released" + mouseX );
-                            clipLeftPressed = 0
-                        }
-                }
+        // zone droite pour l'agrandissement du clip
+        Rectangle
+        {
+            id: tw_clipRightHandle
 
-                /*// zone droite pour l'agrandissement du clip
-                MouseArea
-                {
-                        id: tw_clipRightHandle
+            width: tw_handleWidth
+            height: tw_clip.height
+            anchors.right: tw_clip.right
 
-                        width: tw_handleWidth
-                        height: tw_clip.height
-                        //anchors.right: tw_clip.right
-                        hoverEnabled: true
+            color: "blue"
+            visible: false
+        }
+        MouseArea
+        {
+            id: tw_clipRightHandleMA
+            anchors.fill: tw_clipRightHandle
+            hoverEnabled: true
 
-                        onEntered:
-                        {
-                                //_tw_timelineData.displayCursor( "scale" );
-                            console.log("braaaaaaaaaaaaaaaaaaaaaaaaaaaaahh")
-                        }
-                        onExited:
-                        {
-                                _tw_timelineData.displayCursor( "none" );
-                        }
-                        onPressed:
-                        {
-                                clipRightPressed = 1
-                                console.log( "mouse X clip Released" + mouseX );
-                        }
-                        onReleased:
-                        {
-                                clipRightPressed = 0
-
-                                console.log( "mouse X clip Released" + mouseX );
-
-<<<<<<< HEAD
-                                if( tw_clip.width + mouseX * ratio > tw_clip.width )
-                                {
-                                        tw_clip.width = tw_clip.width + mouseX * ratio
-=======
-                                if( tw_clip.width + mouseX > tw_clip.width )
-                                {
-                                        tw_clip.width = tw_clip.width + mouseX
->>>>>>> 0a9ca004a94ebdc4f1b8c1863cc52b83a3834dbe
-                                }
-                        }
-                }*/
+            onEntered:
+            {
+                tw_clipRightHandle.visible = true
+                console.log( "R onEntered" );
+                _tw_timelineData.displayCursor( "scale" );
+            }
+            onExited:
+            {
+                _tw_timelineData.displayCursor( "none" );
+                tw_clipRightHandle.visible = false
+                console.log( "R onExited" );
+            }
+            onPressed:
+            {
+                clipRightPressed = 1
+                console.log( "R mouse X clip Released" + mouseX );
+            }
+            onReleased:
+            {
+                clipRightPressed = 0
+                console.log( "R mouse X clip Released" + mouseX );
+            }
+        }
 	}
 }
 
