@@ -861,3 +861,6 @@ tests/tweedy/undo/Somme.hpp
 tests/tweedy/undo/unitTest/main.cpp
 tools/sconsProject/compiler/gcc.txt
 tools/sconsProject/compiler/visual.txt
+src/tweedy/gui/timelineGraphic/data/DropArea.hpp
+src/tweedy/gui/timelineGraphic/data/DropArea.cpp
+src/tweedy/gui/timelineGraphic/qml/TW_Graduation.qml

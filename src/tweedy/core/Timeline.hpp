@@ -81,7 +81,6 @@ public:
         std::string getIdRealTime() { return  _idRealTime; }
 
 
-
 private:
 
 	unsigned int _nbClip;

@@ -139,9 +139,22 @@ void TimelineDataWrapper::deleteItem( int time ){
 
     //creation de l'action ActDeleteClip
     ActDeleteClip action;
-    //declenchement de l'action
-    action(time);
 
+    Timeline::UOMapClip mapClip = getTimeline().mapClip();
+    //on décale les autres clips
+    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, mapClip )
+    {
+        if( s.second->getSelected() )
+            action(s.second->timeIn());
+    }
+
+
+
+}
+
+bool TimelineDataWrapper::isSelected(int timeIn)
+{
+    return getTimeline().getOrderedClips()[timeIn]->getSelected();
 }
 
 void TimelineDataWrapper::unselectAll()

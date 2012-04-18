@@ -51,6 +51,7 @@ public:
         Q_INVOKABLE void deleteItem( int time );
         Q_INVOKABLE void unselectAll();
         Q_INVOKABLE void selectClip( int timeIn );
+        Q_INVOKABLE bool isSelected(int timeIn);
 
 
 
