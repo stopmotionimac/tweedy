@@ -1,0 +1,16 @@
+22 serialization::archive 9 0 0 0 0 16 8 0 0 8 15 /timeline1/flux 3 1 0
+0 0 0 0 0 2 0 9 timeline1 4 flux 12 img/flux.jpg 7 8 15 /timeline1/none 3
+1 2 0 9 timeline1 4 none 12 img/none.jpg 0 1 16 /timeline1/clip2 3
+2 2 0 9 timeline1 5 clip2 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy0.jpg 6 7 16 /timeline1/clip4 3
+3 2 0 9 timeline1 5 clip4 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy6.jpg 4 5 16 /timeline1/clip3 3
+4 2 0 9 timeline1 5 clip3 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy4.jpg 5 6 16 /timeline1/clip6 3
+5 2 0 9 timeline1 5 clip6 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy1.jpg 2 3 16 /timeline1/clip5 3
+6 2 0 9 timeline1 5 clip5 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy3.jpg 3 4 16 /timeline1/clip7 3
+7 2 0 9 timeline1 5 clip7 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy5.jpg 1 2 1 0 9 timeline1 0 0 0 0 7 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy0.jpg 8 1 0
+8 0 0 -1228832812 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy0.jpg 2 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy4.jpg 8
+9 -1228832796 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy4.jpg 2 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy6.jpg 8
+10 -1228832788 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy6.jpg 2 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy3.jpg 8
+11 -1228832800 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy3.jpg 2 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy1.jpg 8
+12 -1228832808 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy1.jpg 2 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy5.jpg 8
+13 -1228832792 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy5.jpg 2 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy2.jpg 8
+14 -1228832804 55 /home/julien/Bureau/Imac/S3/Ptut/tweedy/img/tweedy2.jpg 2
