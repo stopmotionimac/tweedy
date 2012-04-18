@@ -80,6 +80,7 @@ public:
         void clearUrlList(){ _urlList.clear(); }
         std::string getIdRealTime() { return  _idRealTime; }
 
+        std::string getIdRealTime(){ return _idRealTime; }
 
 private:
 
