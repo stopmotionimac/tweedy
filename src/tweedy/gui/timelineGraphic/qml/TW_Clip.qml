@@ -23,7 +23,7 @@ Item
 		border.color: ( timeInDoubleClickedClip != object.timeIn ) ? "black": "white"
 		border.width: 2
                 radius: 10
-                color: ( timeInClipSelected != object.timeIn ) ? "#e28a26" : "#FF3300"
+                color: ( _tw_timelineData.isSelected(object.timeIn) ) ?  "#FF3300":"#e28a26"
 
 		// image du Clip (Vignette)
 		Image
@@ -52,9 +52,13 @@ Item
 			drag.axis: "XAxis"
 			acceptedButtons: Qt.LeftButton | Qt.RightButton
 
+                        //0 -> not pressed
+                        //1 -> pressed and hold
+                        //2 -> pressed and released
+
 			onEntered:
 			{
-                                if( timeInClipSelected != object.timeIn )
+                                if( timeInClipSelected != object.timeIn &&  controlPosition == 0)
                                 {
                                         parent.color = '#FDAE37'
                                 }
@@ -63,7 +67,7 @@ Item
 
 			onExited:
 			{
-                            if( timeInClipSelected != object.timeIn )
+                            if( timeInClipSelected != object.timeIn &&  controlPosition == 0)
                                 parent.color = '#e28a26'
 			}
 
@@ -71,8 +75,14 @@ Item
 			{
                             clipPressed = true
 
-                            _tw_timelineData.unselectAll()
-                            _tw_timelineData.selectClip(object.timeIn)
+                            if (controlPosition ! 2)
+                            {
+                                _tw_timelineData.unselectAll()
+                                _tw_timelineData.selectClip(object.timeIn)
+                                controlPosition = 0
+                            }
+                            else
+                                _tw_timelineData.selectClip(object.timeIn)
 
                             timeInClipSelected = object.timeIn
                             parent.color = '#FF3300'
@@ -108,16 +118,15 @@ Item
 
 			onReleased:
 			{
-				tw_clip.z = 0;
-                                tw_insertMarker.visible = false
+                            tw_clip.z = 0;
+                            tw_insertMarker.visible = false
 
-                                if( clipPressed )
-				{
-
-                                        var selectedClip = _tw_timelineData.translate( timeInClipSelected, timeInClipSelected + parent.x / ratio )
-					if( selectedClip != -1 )
-                                                timeInClipSelected = selectedClip
-				}
+                            if( clipPressed )
+                            {
+                                var selectedClip = _tw_timelineData.translate( timeInClipSelected, timeInClipSelected + parent.x / ratio )
+                                if( selectedClip != -1 )
+                                timeInClipSelected = selectedClip
+                            }
 			}
 		}
 
