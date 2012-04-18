@@ -91,7 +91,6 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
 int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
 
-
     // si les 2 sont égaux on ne fait rien
     if (timeInClipToDrag == timeToDrop)
     {

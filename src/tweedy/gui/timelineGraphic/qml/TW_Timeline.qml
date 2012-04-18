@@ -261,14 +261,13 @@ Rectangle
         // delete key is pressed
         if (event.key == Qt.Key_Delete)
         {
-            console.log("Big background rectangle : delete key has been pressed")
+            console.log("Big background rectangle : delete key has been pressed", tw_timeInClipSelected)
             if (tw_timeInClipSelected > -1 )
             {
                 _tw_timelineData.selectClip(tw_timeInClipSelected)
                 _tw_timelineData.deleteItem(tw_timeInClipSelected)
-                if (tw_timeInClipSelected <  tw_maxTime )
-                    _tw_timelineData.selectClip(tw_timeInClipSelected)
-                else
+                _tw_timelineData.unselectAll()
+                if (tw_timeInClipSelected >= tw_maxTime )
                     tw_timeInClipSelected = -1
             }            
         }
