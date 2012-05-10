@@ -31,13 +31,15 @@ Item
 			id: image
 			anchors.fill: parent
 			anchors.margins: 5
+
                         width: parent.width
                         height: parent.height
                         fillMode: Image.PreserveAspectFit
                         smooth: true // better visual quality but slower
                         source: object.imgPath // image source file path
                         asynchronous: true // enable asynchronous load
-		}
+
+                }
 
 		// zone de deplacement
 		MouseArea
@@ -54,7 +56,7 @@ Item
 
 			onEntered:
 			{
-                                if( timeInClipSelected != object.timeIn )
+                                if( timeInClipSelected != object.timeIn && controlPressed == 0)
                                 {
                                         parent.color = '#FDAE37'
                                 }
@@ -77,21 +79,32 @@ Item
 
 			onExited:
 			{
-                                if( timeInClipSelected != object.timeIn )
+                                if( timeInClipSelected != object.timeIn && controlPressed == 0 )
                                         parent.color = '#e28a26'
 			}
 
 			onPressed:
-			{
+                        {
+
+                            if (controlPressed < 2)
+                            {
+                                _tw_timelineData.unselectAll()
+                                controlPressed = 0
+                            }
+
                             clipPressed = true
                             timeInClipSelected = object.timeIn
+                            _tw_timelineData.selectClip(object.timeIn)
                             parent.color = '#FF3300'
+
+
                         }
 
 			onDoubleClicked:
 			{
-                                timeInDoubleClickedClip = object.timeIn
-                                _tw_timelineData.displayClip( timeInDoubleClickedClip )
+                            timeInDoubleClickedClip = object.timeIn
+                            _tw_timelineData.displayClip( timeInDoubleClickedClip )
+
 			}
 
 			onPositionChanged:
@@ -121,7 +134,7 @@ Item
 				tw_clip.z = 0;
                                 tw_insertMarker.visible = false
 
-                                if( clipPressed )
+                                if( clipPressed && controlPressed == 0)
 				{
 
                                         var selectedClip = _tw_timelineData.translate( timeInClipSelected, timeInClipSelected + parent.x / ratio )

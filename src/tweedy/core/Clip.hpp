@@ -23,7 +23,10 @@ public:
         _imgHeight(0), 
         _imgreduction(0), 
         _timeIn(0), 
-        _timeOut(0){ this->_name = url.filename();}
+        _timeOut(0),
+        _selected(false)
+        { this->_name = url.filename();}
+
     
     
     Clip()
@@ -34,7 +37,8 @@ public:
         _imgHeight(0), 
         _imgreduction(0), 
         _timeIn(0), 
-        _timeOut(0){}
+        _timeOut(0),
+        _selected(false){}
    
 
     Clip& operator=(const Clip&);
@@ -45,6 +49,8 @@ public:
     boost::filesystem::path& getImgPath() { return _imgPath;}
     unsigned int timeIn() const { return _timeIn; }
     unsigned int timeOut() const { return _timeOut; }
+    bool selected() const { return _selected;}
+    void setSelected(bool selected) { _selected = selected; }
 
     void setPosition(unsigned int ti, unsigned int to) { _timeIn = ti; _timeOut = to; }
     void increaseTimeIn(int value){ _timeIn += value; }
@@ -61,6 +67,7 @@ protected :
     unsigned int _imgreduction;
     unsigned int _timeIn;
     unsigned int _timeOut;
+    bool _selected;
     
     Id _id;
 

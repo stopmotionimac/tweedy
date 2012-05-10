@@ -195,12 +195,42 @@ void Timeline::updateMaxTime()
 	_signalChanged();
 }*/
 
+void Timeline::selectClip(int timeIn)
+{
+    OMapClip orderedClips = getOrderedClips();
+
+    BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
+    {
+        if( s.first == timeIn)
+        {
+            ( *s.second )->setSelected(true);
+            break;
+        }
+    }
+}
+
+
+
+void Timeline::unselectAll()
+{
+    BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
+    {
+            s.second->setSelected(false);
+    }
+}
+
 
 
 void Timeline::deleteClip(const std::string& clipName)
 {
     Clip c = _mapClip[clipName];
     int duration = c.timeOut() - c.timeIn();
+
+    UOMapClip::iterator it = _mapClip.find( clipName );
+    BOOST_ASSERT( it != _mapClip.end() );
+    _mapClip.erase( it );
+
+
     UOMapClip mapClips = _mapClip;
     BOOST_FOREACH( const UOMapClip::value_type& s, mapClips )
     {
@@ -210,8 +240,8 @@ void Timeline::deleteClip(const std::string& clipName)
             s.second->increaseTimeOut( -duration );
         }
     }
-    _mapClip.erase(c.imgPath().string());
-    updateMaxTime();
+
+    _maxTime -= duration;
     _signalChanged();
 }
 

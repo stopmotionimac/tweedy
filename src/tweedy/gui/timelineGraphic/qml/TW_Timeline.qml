@@ -21,7 +21,7 @@ Rectangle
     property int timeInClipSelected : -1
 
     property int ratio : tw_timelineWindow.width / 5
-
+    property int controlPressed : 0
 
 
     Keys.onPressed:
@@ -31,9 +31,10 @@ Rectangle
         {
             console.log("Big background rectangle : delete key has been pressed")
             if (timeInClipSelected > 0 )
-                _tw_timelineData.deleteItem(timeInClipSelected);
+                _tw_timelineData.deleteItem();
 
             ratio = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
+
         }
         if (event.key == Qt.Key_Left)
         {
@@ -46,7 +47,18 @@ Rectangle
             if (timeInClipSelected < _tw_timelineData.maxTime - 1)
                 timeInClipSelected ++;
         }
+        if (event.key == Qt.Key_Control)
+            controlPressed = 2;
+
     }
+
+    Keys.onReleased:
+    {
+        if (event.key == Qt.Key_Control)
+            controlPressed = 1;
+    }
+
+
 
 
     Rectangle

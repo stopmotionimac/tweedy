@@ -94,9 +94,8 @@ int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 
     if (timeInClipToDrag == timeToDrop)
     {
-        std::cout << "ekljnjknelk" <<std::endl;
         updateListe();
-        return -1;
+        return timeInClipToDrag;
     }
     else
     {
@@ -135,25 +134,29 @@ void TimelineDataWrapper::displayCurrentClip( int time )
 }
 
 
-void TimelineDataWrapper::deleteItem( int time ){
+void TimelineDataWrapper::deleteItem(){
 
     //creation de l'action ActDeleteClip
     ActDeleteClip action;
-    //declenchement de l'action
-    action(time);
+
+    Timeline::UOMapClip mapClips = getTimeline().mapClip();
+
+    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, mapClips )
+    {
+        if( (*s.second).selected() )
+                action( (*s.second ).timeIn() );
+    }
+
 
 }
 
 
-void TimelineDataWrapper::changeSelected( int time )
+void TimelineDataWrapper::selectClip(int timeIn)
 {
-    for (int i=0; i<_clips.size(); ++i )
-    {
-        ClipDataWrapper * c = dynamic_cast< ClipDataWrapper *>(_clips[i]);
-        if (c->getTimeIn() == time)
-            c->setSelected(true);
-        else
-            c->setSelected(false);
-    }
+    getTimeline().selectClip(timeIn);
+}
 
+void TimelineDataWrapper::unselectAll()
+{
+    getTimeline().unselectAll();
 }

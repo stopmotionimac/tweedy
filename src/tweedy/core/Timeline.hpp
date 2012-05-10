@@ -55,6 +55,9 @@ public:
 	void addTimeToClip( const std::string& clipName, double decalage );
         std::string findCurrentClip(int time) const;
 
+        void selectClip(int timeIn);
+        void unselectAll();
+
         //int getBlankDuration( Clip* clip );
 
 
