@@ -90,8 +90,8 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
 
 int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
-    // si les 2 sont égaux on ne fait rien
 
+    // si les 2 sont égaux on ne fait rien
     if (timeInClipToDrag == timeToDrop)
     {
         updateListe();
@@ -139,17 +139,20 @@ void TimelineDataWrapper::deleteItem(){
     //creation de l'action ActDeleteClip
     ActDeleteClip action;
 
-    Timeline::UOMapClip mapClips = getTimeline().mapClip();
-
-    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, mapClips )
+    Timeline::UOMapClip mapClip = getTimeline().mapClip();
+    //on décale les autres clips
+    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, mapClip )
     {
-        if( (*s.second).selected() )
-                action( (*s.second ).timeIn() );
+        if( s.second->getSelected() )
+            action(s.second->timeIn());
     }
-
 
 }
 
+bool TimelineDataWrapper::isSelected(int timeIn)
+{
+    return getTimeline().getOrderedClips()[timeIn]->getSelected();
+}
 
 void TimelineDataWrapper::selectClip(int timeIn)
 {

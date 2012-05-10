@@ -82,7 +82,7 @@ void MainWindow::createActions()
         connect( _saveProjectAction, SIGNAL( triggered() ), this, SLOT( on_saveProjectAction_triggered() ) );
 
 	_saveAsProjectAction = new QAction( "Save As", this );
-	_saveProjectAction->setShortcut( QKeySequence( "Ctrl+S" ) );
+	//_saveProjectAction->setShortcut( QKeySequence( "Ctrl+S" ) );
 	_saveProjectAction->setStatusTip( "Save your project" );
 	connect( _saveAsProjectAction, SIGNAL( triggered() ), this, SLOT( on_saveAsProjectAction_triggered() ) );
 
@@ -400,16 +400,34 @@ void MainWindow::on_openProjectAction_triggered()
 
 	QString fileName = fileDialog->getOpenFileName( this, tr( "Open a project" ), QString( boost::filesystem::initial_path().string().c_str() ), "*.txt" );
 
-	this->setEnabled( true );
+        this->setEnabled( true );
 
 	//plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
+        on_loadProjectAction_triggered(fileName.toStdString().c_str());
 }
 
 void MainWindow::on_saveAsProjectAction_triggered()
 {
 	QFileDialog * fileDialog = new QFileDialog();
 	fileDialog->setAcceptMode( QFileDialog::AcceptSave );
-	QString fileName = fileDialog->getSaveFileName( this, tr( "Save as a project" ), QString( boost::filesystem::initial_path().string().c_str() ), "*.txt" );
+	QString fileName = fileDialog->getSaveFileName( this, tr( "Save as a project" ), QString( boost::filesystem::initial_path().string().c_str() ));
+        
+        std::vector<std::string> strs;
+        const std::string st = fileName.toStdString();
+        boost::split(strs, st, boost::is_any_of("/"));
+        std::string nameFile = strs.back();
+        std::string nameFolder = "";
+        
+        for(std::vector<std::string>::iterator it = strs.begin() ; it < strs.end()-1 ; ++it)
+            nameFolder +=  "/" + (*it) ;
+        
+        std::cout << nameFolder << std::endl;
+        
+        project().setProjectFolder(nameFolder);
+        project().setProjectFile(nameFile);
+            
+        on_saveProjectAction_triggered();
+                
 }
 
 void MainWindow::on_undoButton_clicked()
@@ -477,18 +495,22 @@ void MainWindow::createStatusBar()
 void MainWindow::on_saveProjectAction_triggered()
 {
 	//make an archive
-	const char * filename = "./saveProjectTweedy.txt";
-	std::ofstream ofs( filename );
+	std::string filename = project().getProjectFolder().string() 
+                + "/" + project().getProjectFile().string() + ".txt";
+        
+        std::cout << filename << std::endl;
+        
+        std::ofstream ofs( filename.c_str() );
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();
         ofs.close();
 }
 
 //load the project
-void MainWindow::on_loadProjectAction_triggered()
+
+void MainWindow::on_loadProjectAction_triggered(const char* filename)
 {
 	// open the archive
-	const char * filename = "./saveProjectTweedy.txt";
 	std::ifstream ifs( filename );
 	boost::archive::text_iarchive ia( ifs );
 
@@ -501,6 +523,9 @@ void MainWindow::on_loadProjectAction_triggered()
 
 void MainWindow::on_exportAction_triggered()
 {
+    /* place the real time at the end of the timeline */
+    project().getTimeline().moveElement(project().getTimeline().getIdRealTime(), project().getTimeline().getMaxTime()-1);
+    
     _exportWidget = new ExportWidget( );
     _exportWidget->show();
 

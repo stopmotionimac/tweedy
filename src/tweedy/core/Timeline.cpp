@@ -5,14 +5,19 @@
 
 Timeline::Timeline( const Id& idParent, const std::string& id )
 : Imedia( ImediaTypeTimeline )
-, _maxTime( 1 )
-, _nbClip( 1 )
+, _maxTime( 2 )
+, _nbClip( 2 )
 , _id( idParent, id )
 {
-	Clip realTime( "img/flux.jpg", getId(), "flux" );
-        realTime.setPosition( 0, 1 );
-	_mapClip[realTime.getId().getIdStringForm()] = realTime;
+    Clip blank( "img/none.jpg", getId(), "none" );
+    blank.setPosition( 0, 1 );
+    _mapClip[blank.getId().getIdStringForm()] = blank;
 
+
+    Clip realTime( "img/flux.jpg", getId(), "flux" );
+    realTime.setPosition( 1, 2 );
+    _idRealTime = realTime.getId().getIdStringForm();
+    _mapClip[_idRealTime] = realTime;
 }
 
 
@@ -45,34 +50,44 @@ const Id& Timeline::getId() const
 	return _id;
 }
 
-void Timeline::addClip( const Clip& clip )
+/*void Timeline::addClip( const Clip& clip )
 {
-	_mapClip[clip.getId().getIdStringForm()] = clip;
-	updateMaxTime();
+        //_mapClip[clip.getId().getIdStringForm()] = clip;
+        //int duration = clip.timeOut() - clip.timeIn();
+        //maxTime +=
+    Clip copy = clip;
+    insertClip(copy, copy.timeIn());
+
 	_signalChanged();
-}
+}*/
 
 void Timeline::insertClip( Clip& newClip, double currentTime )
 {
-        std::string clipName = findCurrentClip( currentTime );
-        int timeIn = _mapClip[clipName].timeIn();
+        int duration = newClip.timeOut() - newClip.timeIn();
+
+        if (currentTime < _maxTime && time > 0)
+        {
+            std::string clipName = findCurrentClip( currentTime );
+            currentTime = _mapClip[clipName].timeIn();
+        }
+
+        std::cout << "currentTime : " << currentTime << std::endl;
 
 	//décale les clips suivants
 
-	BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
+        BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
 	{
-		if( s.second->timeIn() >= timeIn )
+                if( s.second->timeIn() >= currentTime )
 		{
-			s.second->increaseTimeIn( 1 );
-			s.second->increaseTimeOut( 1 );
+                        s.second->increaseTimeIn( duration );
+                        s.second->increaseTimeOut( duration );
 		}
 	}
 
-	newClip.setPosition( timeIn, timeIn + 1 );
+        newClip.setPosition( currentTime, currentTime+duration );
 	_mapClip[newClip.getId().getIdStringForm()] = newClip;
 
-
-	updateMaxTime();
+        _maxTime += duration;
 
 	_signalChanged();
 }
@@ -195,44 +210,20 @@ void Timeline::updateMaxTime()
 	_signalChanged();
 }*/
 
-void Timeline::selectClip(int timeIn)
-{
-    OMapClip orderedClips = getOrderedClips();
-
-    BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
-    {
-        if( s.first == timeIn)
-        {
-            ( *s.second )->setSelected(true);
-            break;
-        }
-    }
-}
-
-
-
-void Timeline::unselectAll()
-{
-    BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
-    {
-            s.second->setSelected(false);
-    }
-}
-
-
 
 void Timeline::deleteClip(const std::string& clipName)
 {
+    //On recupere la duree du clip
     Clip c = _mapClip[clipName];
     int duration = c.timeOut() - c.timeIn();
 
+    //on retire le clip de la map
     UOMapClip::iterator it = _mapClip.find( clipName );
     BOOST_ASSERT( it != _mapClip.end() );
     _mapClip.erase( it );
 
-
-    UOMapClip mapClips = _mapClip;
-    BOOST_FOREACH( const UOMapClip::value_type& s, mapClips )
+    //on décale les autres clips
+    BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
         if( s.second->timeIn() > c.timeIn() )
         {
@@ -246,22 +237,20 @@ void Timeline::deleteClip(const std::string& clipName)
 }
 
 
-/*int Timeline::getBlankDuration( Clip* clip )
+void Timeline::unselectAll()
 {
-	OMapClip orderedClips = getOrderedClips();
-	int previousTimeOut = 0;
-
-	BOOST_FOREACH( const OMapClip::value_type& s, orderedClips )
+        BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
 	{
-		if( clip->timeIn() >= ( *s.second )->timeOut() )
-		{
-			previousTimeOut = ( *s.second )->timeOut();
-		}
-		else
-			break;
+                s.second->setSelected(false);
 	}
-	return clip->timeIn() - previousTimeOut;
-}*/
+
+}
+
+void Timeline::selectClip(int timeIn)
+{
+   OMapClip orderedClips = getOrderedClips();
+   orderedClips[timeIn]->setSelected(true);
+}
 
 boost::signal0<void>& Timeline::getSignalChanged()
 {

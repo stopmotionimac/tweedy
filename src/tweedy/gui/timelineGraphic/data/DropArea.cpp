@@ -48,6 +48,9 @@ void DropArea::insertElement( int position )
     ActDragNDropChutToTL actionChutToTl;
     Timeline* t = getTimeline();
 
+    position = std::max(position,0);
+    position = std::min(position,(int) t->getMaxTime());
+
     for( int i = 0; i < t->getUrlList().size(); ++i )
         actionChutToTl( t->getUrlList().at( i ), position );
 

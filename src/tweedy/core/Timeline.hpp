@@ -24,9 +24,6 @@ public:
 	Timeline( const Id& idParent, const std::string& id );
 	Timeline( const Timeline& );
 
-	//void getlistPiste ();
-	//void addPiste (PisteClip & pisteClip);
-	//void supprPiste (PisteClip & pisteClip);
 
 	UOMapClip& mapClip()
 	{
@@ -42,7 +39,7 @@ public:
 	const OMapClip getOrderedClips() const;
 
 	void moveElement( std::string filename, int newPosition );
-	void addClip( const Clip& clip );
+        //void addClip( const Clip& clip );
 	void deleteClip( const std::string& clipName );
 
 
@@ -81,6 +78,8 @@ public:
         std::vector<std::string> getUrlList(){ return _urlList; }
         void setUrlList(std::string url){ _urlList.push_back(url); }
         void clearUrlList(){ _urlList.clear(); }
+        std::string getIdRealTime() { return  _idRealTime; }
+
 
 
 private:
@@ -108,6 +107,7 @@ private:
 	}
 
         std::vector<std::string> _urlList;
+        std::string _idRealTime;
 
 };
 

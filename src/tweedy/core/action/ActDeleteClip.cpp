@@ -33,8 +33,8 @@ void ActDeleteClip::operator()(int currentTime)
         CommandManager& cmdMng = projet.getCommandManager();
         cmdMng.pushNewCommand(cmd);
     }
-
-    //fin de l'action
+    
     std::cout << "Action done" << std::endl;
+    
 }
 

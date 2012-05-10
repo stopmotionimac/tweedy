@@ -49,10 +49,9 @@ public:
         Q_INVOKABLE int getMarkerPosition( int timeToAdd, bool positiveMove );
         Q_INVOKABLE void displayClip( int time ){ Q_EMIT displayChanged( 0, time ); }
         Q_INVOKABLE void deleteItem();
-
-        Q_INVOKABLE void selectClip(int timeIn);
         Q_INVOKABLE void unselectAll();
-
+        Q_INVOKABLE void selectClip( int timeIn );
+        Q_INVOKABLE bool isSelected(int timeIn);
 
 
 private:

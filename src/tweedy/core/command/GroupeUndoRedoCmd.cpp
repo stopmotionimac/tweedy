@@ -18,6 +18,8 @@ GroupeUndoRedoCmd* GroupeUndoRedoCmd::clone() const{
 
 void GroupeUndoRedoCmd::runDo(){
     
+    std::cout << _listeCmd.size() << std::endl;
+    
     BOOST_FOREACH(IUndoRedoCommand& command, _listeCmd )
     {
         command.runDo();
@@ -25,7 +27,7 @@ void GroupeUndoRedoCmd::runDo(){
 }
 
 void GroupeUndoRedoCmd::redo(){
-    
+        
     BOOST_FOREACH(IUndoRedoCommand& command, _listeCmd )
     {
         command.redo();
@@ -33,7 +35,7 @@ void GroupeUndoRedoCmd::redo(){
 }
 
 void GroupeUndoRedoCmd::undo(){
-    
+        
     BOOST_FOREACH(IUndoRedoCommand& command, _listeCmd )
     {
         command.undo();

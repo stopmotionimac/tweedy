@@ -1,0 +1,7 @@
+library/QObjectListModel/src
+sandbox/qml-abstractitemmodel/src
+sandbox/qml-dummymodel/src
+sandbox/testGPhoto/src
+sandbox/testGPhoto/srcOriginel
+sandbox/testQt/src
+src/tweedy/core/gphoto
