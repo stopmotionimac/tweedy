@@ -217,20 +217,21 @@ void Timeline::deleteClip(const std::string& clipName)
     Clip c = _mapClip[clipName];
     int duration = c.timeOut() - c.timeIn();
 
-    //on retire le clip de la map
-    UOMapClip::iterator it = _mapClip.find( clipName );
-    BOOST_ASSERT( it != _mapClip.end() );
-    _mapClip.erase( it );
-
     //on décale les autres clips
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
+        std::cout << "c.timeIn() " << c.timeIn() << std::endl;
         if( s.second->timeIn() > c.timeIn() )
         {
             s.second->increaseTimeIn( -duration );
             s.second->increaseTimeOut( -duration );
         }
     }
+
+    //on retire le clip de la map
+    UOMapClip::iterator it = _mapClip.find( clipName );
+    BOOST_ASSERT( it != _mapClip.end() );
+    _mapClip.erase( it );
 
     _maxTime -= duration;
     _signalChanged();
@@ -240,16 +241,19 @@ void Timeline::deleteClip(const std::string& clipName)
 void Timeline::unselectAll()
 {
         BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
-	{
+        {
                 s.second->setSelected(false);
-	}
+        }
 
 }
 
 void Timeline::selectClip(int timeIn)
 {
    OMapClip orderedClips = getOrderedClips();
-   orderedClips[timeIn]->setSelected(true);
+   if (orderedClips[timeIn]->getSelected())
+        orderedClips[timeIn]->setSelected(false);
+   else
+       orderedClips[timeIn]->setSelected(true);
 }
 
 boost::signal0<void>& Timeline::getSignalChanged()

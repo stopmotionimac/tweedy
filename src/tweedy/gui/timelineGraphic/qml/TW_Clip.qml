@@ -21,11 +21,9 @@ Item
 
                 border.color: ( tw_timeInDoubleClickedClip != object.timeIn ) ? "black": "white"
                 border.width: 2
-                    /*
-                    radius: 10
-                    color: ( _tw_timelineData.isSelected(object.timeIn) ) ? "#FF3300":"#e28a26"*/
+
                 radius: 15
-                color: ( tw_timeInClipSelected != object.timeIn ) ? "#e28a26": "#FF3300"
+                color: ( _tw_timelineData.isSelected(object.timeIn) ) ? "#FF3300":"#e28a26"
 
 
                     // image du Clip (Vignette)
@@ -51,8 +49,8 @@ Item
                     hoverEnabled: true
         drag.target: tw_clipContainer
         drag.axis: "XAxis"
-                    drag.minimumX: -1
-                    drag.maximumX: tw_realMaxTime * tw_scaleTimeToPix
+        drag.minimumX: -1
+        drag.maximumX: tw_realMaxTime * tw_scaleTimeToPix
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
                                 //0 -> not pressed
@@ -61,55 +59,34 @@ Item
 
         onEntered:
         {
-            if( tw_timeInClipSelected != object.timeIn )
+            if(  ! _tw_timelineData.isSelected(object.timeIn) )
             {
                  parent.color = '#FDAE37'
             }
         }
 
-                    /*
-        onClicked:
-                    {
-                        _tw_timelineData.displayCurrentClip(tw_timeCursor.x / tw_timelineScale)
-
-                        timeInClipSelected = tw_timeCursor.x / tw_timelineScale
-        >>>>>>> 53e9ed7c26ceb6fc88683acffeace29b6573d4fb
-
-        console.log( " timeInClipSelected" + timeInClipSelected)
-
-        parent.color = 'red'
-        console.log("qml tw_clipHandle onPressed.")
-                        timeInClipSelected = object.timeIn
-        }
-                    */
 
         onExited:
         {
-             if( tw_timeInClipSelected != object.timeIn )
+             if( ! _tw_timelineData.isSelected(object.timeIn) )
                    parent.color = '#e28a26'
 
         }
 
         onPressed:
         {
-            tw_timeBlankSelected = -1
 
-        /*
-                                    if (controlPosition ! 2)
-                                    {
-                                        _tw_timelineData.unselectAll()
-                                        _tw_timelineData.selectClip(object.timeIn)
-                                        controlPosition = 0
-                                    }
-                                    else
-                                        _tw_timelineData.selectClip(object.timeIn)
-        */
             clipSelected = true
-                            //console.log( "qml tw_clipHandle onPressed." )
-            tw_timeInClipSelected = object.timeIn
-                                            tw_insertPos = tw_timeInClipSelected
 
-            parent.color = '#FF3300'
+            if (tw_controlPosition != 1)
+                _tw_timelineData.unselectAll()
+
+            _tw_timelineData.selectClip(object.timeIn)
+
+            tw_timeInClipSelected = object.timeIn
+            tw_insertPos = tw_timeInClipSelected
+            //parent.color = '#FF3300'
+
         }
 
         onDoubleClicked:
@@ -148,11 +125,11 @@ Item
 
             if( clipSelected )
             {
-                print("tw_insertPos", tw_insertPos)
                 var selectedClip = -1
                 selectedClip = _tw_timelineData.translate( tw_timeInClipSelected, tw_insertPos )
-                if( selectedClip != -1 )
-                    tw_timeInClipSelected = selectedClip
+                if( selectedClip != -1 ){
+                    tw_timeInClipSelected = tw_insertPos
+                }
                 clipSelected = false
             }
 

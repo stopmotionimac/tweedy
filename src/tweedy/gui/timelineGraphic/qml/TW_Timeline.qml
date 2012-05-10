@@ -20,18 +20,14 @@ Rectangle
     property int tw_widthChanged :0
     property int tw_xPositionChanged :0
     property int tw_scrollPositionChanged:0
-/*
-    property int timeInDoubleClickedClip : -1
 
-    property int timeInClipSelected : -1
-
-    property int ratio : tw_timelineWindow.width / 5
-
-    property int controlPosition : 0
+    property int tw_controlPosition : 0
     //0 -> not pressed
     //1 -> pressed and hold
     //2 -> pressed and released
 
+
+/*
 
     Keys.onPressed:
     {
@@ -260,23 +256,32 @@ Rectangle
                 // delete key is pressed
                 if (event.key == Qt.Key_Delete)
                 {
-                    console.log("Big background rectangle : delete key has been pressed", tw_timeInClipSelected)
-                    if (tw_timeInClipSelected > -1 )
-                    {
-                        //_tw_timelineData.selectClip(tw_timeInClipSelected)
+                    if (tw_timeInClipSelected > -1)
                         _tw_timelineData.deleteItem()
-                        _tw_timelineData.unselectAll()
-                        if (tw_timeInClipSelected >= tw_maxTime )
-                            tw_timeInClipSelected = -1
-                    }
+
+                    if (tw_timeInClipSelected >= tw_maxTime )
+                        tw_timeInClipSelected = -1
+
                 }
-                if (event.key == Qt.Key_Right)
-                    if (tw_timeInClipSelected < _tw_timelineData.maxTime - 1)
+                /*if (event.key == Qt.Key_Right)
+                    if (tw_timeInClipSelected < _tw_timelineData.maxTime - 1){
                         tw_timeInClipSelected ++;
+                       }
+
 
                 if (event.key == Qt.Key_Left)
-                    if (tw_timeInClipSelected > 0)
+                    if (tw_timeInClipSelected > 0){
                         tw_timeInClipSelected --;
+                    }*/
+
+                if (event.key == Qt.Key_Control)
+                    tw_controlPosition = 1
+            }
+
+            Keys.onReleased:
+            {
+                if (event.key == Qt.Key_Control)
+                    tw_controlPosition = 2
             }
 
 
