@@ -318,9 +318,9 @@ void MainWindow::on_captureAction_triggered()
 	{
 		//take HD picture
 		Projet& project = Projet::getInstance();
-
-		project.gPhotoInstance().setFolderToSavePictures( project.getProjectFolder() );
-
+//ICI!!!
+                project.gPhotoInstance().setFolderToSavePictures( project.getProjectFolder() );
+//
 		//take the picture's filename
 		boost::filesystem::path filenameHD = project.gPhotoInstance().captureToFile();
 
@@ -346,9 +346,9 @@ void MainWindow::on_captureAction_triggered()
 
 		_chutier->getTabWidget().setCurrentWidget( &listWidgetCapture );
 		/*add to chutier core*/
-                boost::filesystem::path nameOfFileToImport( filenameLD );
-                ChutierMediaExt& chutierPictures = project.getChutierPictures();
-                chutierPictures.importMediaToChutier( nameOfFileToImport);
+               // boost::filesystem::path nameOfFileToImport( filenameLD );
+               // ChutierMediaExt& chutierPictures = project.getChutierPictures();
+               // chutierPictures.importMediaToChutier( nameOfFileToImport);
 	}
 
 }
@@ -384,6 +384,7 @@ void MainWindow::on_searchFolderProjectButton_clicked()
 	boost::filesystem::create_directory( pathFolderPictures );
         boost::filesystem::path pathFolderPicturesHD = pathFolderPictures / "HD";
         boost::filesystem::create_directory( pathFolderPicturesHD );
+        projectInstance.gPhotoInstance().setFolderToSavePictures( projectInstance.getProjectFolder() );
 }
 
 //fonction a completer pour creer un nouveau projet
