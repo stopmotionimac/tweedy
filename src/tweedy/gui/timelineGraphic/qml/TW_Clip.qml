@@ -10,8 +10,9 @@ Item
         property bool clipLeftPressed: false
     property bool clipSelected: false
 
-        width: ( object.timeOut - object.timeIn ) * tw_scaleTimeToPix
-        height: tw_track.height
+	property double timeLength: object.timeOut - object.timeIn
+	width: timeLength * tw_scaleTimeToPix
+	height: tw_track.height
 
     Rectangle
     {
@@ -125,12 +126,14 @@ Item
 
             if( clipSelected )
             {
-                var selectedClip = -1
-                selectedClip = _tw_timelineData.translate( tw_timeInClipSelected, tw_insertPos )
-                if( selectedClip != -1 ){
-                    tw_timeInClipSelected = tw_insertPos
+            	var insertPos = tw_insertPos > object.timeIn ? tw_insertPos - timeLength : tw_insertPos
+            	var selectedClip = -1
+            	selectedClip = _tw_timelineData.translate( tw_timeInClipSelected, insertPos )
+            	if( selectedClip != -1 )
+                {
+                	tw_timeInClipSelected = tw_insertPos
                 }
-                clipSelected = false
+            	clipSelected = false
             }
 
         }
