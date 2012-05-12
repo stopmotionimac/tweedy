@@ -346,7 +346,9 @@ void MainWindow::on_captureAction_triggered()
 
 		_chutier->getTabWidget().setCurrentWidget( &listWidgetCapture );
 		/*add to chutier core*/
-
+                boost::filesystem::path nameOfFileToImport( filenameLD );
+                ChutierMediaExt& chutierPictures = project.getChutierPictures();
+                chutierPictures.importMediaToChutier( nameOfFileToImport);
 	}
 
 }
