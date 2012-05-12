@@ -6,13 +6,11 @@
 
 class ClipDataWrapper : public QObject
 {
-
 	Q_OBJECT
 
 	Q_PROPERTY( QString imgPath READ getImgPath WRITE setImgPath NOTIFY imgPathChanged )
 	Q_PROPERTY( int timeIn READ getTimeIn WRITE setTimeIn NOTIFY timeInChanged )
 	Q_PROPERTY( int timeOut READ getTimeOut WRITE setTimeOut NOTIFY timeOutChanged )
-
 
 public:
 	explicit ClipDataWrapper( QObject *parent = 0 );
@@ -31,7 +29,6 @@ public:
                 return *this;
 	}
 
-
         const QString& getImgPath( ) const{ return _imgPath; }
         void setImgPath( QString imgpath ){ _imgPath = imgpath; }
 
@@ -40,7 +37,6 @@ public:
 
         int getTimeOut( ) const{ return _timeOut; }
         void setTimeOut( int timeOut ){ _timeIn = timeOut; }
-
 
 Q_SIGNALS:
         void imgPathChanged();

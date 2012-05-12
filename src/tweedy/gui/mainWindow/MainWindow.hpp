@@ -150,7 +150,6 @@ private:
         /// @{
         ViewerTweedy* _viewerImg;
         Chutier* _chutier;
-        //TimelineTable* _timelineTable;
         UndoView* _undoView;
         QWidget* _undoWidget;
         TimelineGraphic* _timelineGraphic;

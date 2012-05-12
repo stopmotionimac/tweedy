@@ -12,6 +12,6 @@ function createSpriteObjects( nbClip )
 
     if( sprite == null )
 	{
-        console.log("Error creating object");
+        //console.log("Error creating object");
     }
 }

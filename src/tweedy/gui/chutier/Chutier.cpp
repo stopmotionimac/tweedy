@@ -46,7 +46,6 @@ Chutier::Chutier( QWidget *parent )
 	_viewerChutier->setBackgroundRole( QPalette::Dark );
         _viewerChutierDock->setWidget( _viewerChutier );
 
-
         _viewerChutier->setSizePolicy( QSizePolicy::Ignored, QSizePolicy::Ignored );
         _viewerChutier->setScaledContents( false );
 
@@ -60,13 +59,10 @@ Chutier::Chutier( QWidget *parent )
 	layoutChutier->addWidget( _tabWidget );
 	layoutChutier->addLayout( layoutBoutons );
 
-	//QSplitter* splitter = new QSplitter(this);
 	QHBoxLayout *mainLayout = new QHBoxLayout( this );
 	mainLayout->addLayout( layoutChutier );
-	//mainLayout->addWidget(splitter);
 	mainLayout->addWidget( _viewerChutierDock );
 	setLayout( mainLayout );
-
 
 	Projet& projectInstance = Projet::getInstance();
 
@@ -77,7 +73,6 @@ Chutier::Chutier( QWidget *parent )
 
 	for( iter = chutierMediaExt.getMapMediaExt().begin(); iter != chutierMediaExt.getMapMediaExt().end(); ++iter )
 	{
-		std::cout << iter->first << std::endl;
 		/*path*/
 		QString image( iter->first.data() );
 		/*item*/
@@ -93,7 +88,6 @@ Chutier::Chutier( QWidget *parent )
 
 	for( iterP = chutierPicture.getMapMediaExt().begin(); iterP != chutierPicture.getMapMediaExt().end(); ++iterP )
 	{
-		std::cout << iterP->first << std::endl;
 		/*path*/
 		QString image( iterP->first.data() );
 		/*item*/
@@ -137,31 +131,17 @@ void Chutier::on_importAction_triggered()
 	Projet& projectInstance = Projet::getInstance();
 
 	BOOST_FOREACH( const QString& fileName, fileNames )
-	{
-            /*
-		QListWidgetItem *item = new QListWidgetItem( QIcon( fileName ), fileName, _listWidgetImport );
-
-		_listWidgetImport->addItem( item );
-
-		_tabWidget->setCurrentWidget( _listWidgetImport );
-            */
+        {
 		/*add media imported to chutier core*/
 		boost::filesystem::path nameOfFileToImport( fileName.toStdString() );
 		ChutierMediaExt& chutierMediaExt = projectInstance.getChutierMediaExt();
 		chutierMediaExt.importMediaToChutier( nameOfFileToImport );
-
-		chutierMediaExt.printMapMediaExt();
-
-  //OK          //std::cout<<&chutierMediaExt<<std::endl
-  //COHERANT    //std::cout<<chutierMediaExt.getMapMediaExt().size()<<std::endl;
-
         }
         this->updateChutier();
 }
 
 void Chutier::on_deleteAction_triggered()
 {
-    
 	QList<QListWidgetItem *> fileSelected = _listWidgetImport->selectedItems();
 	BOOST_FOREACH( const QListWidgetItem* currentItem, fileSelected )
 	{
@@ -173,7 +153,6 @@ void Chutier::on_deleteAction_triggered()
 
 	}
         this->updateChutier();
-        
 }
 
 void Chutier::changedPixmap( int row, int column )
@@ -188,29 +167,20 @@ void Chutier::changedPixmap( int row, int column )
 
 void Chutier::contextMenuEvent( QContextMenuEvent *event )
 {
-
 	QMenu menu( this );
 	menu.addAction( _importAction );
 	menu.exec( event->globalPos() );
-
 }
 
-/*
- actualise le chutier
- */
+/* refresh chutier*/
 void Chutier::updateChutier()
 {
     _listWidgetImport->clear();
     
     Projet& projectInstance = Projet::getInstance();
-   
-    
     
     MapMedia_t& mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
-   
-//    const boost::ptr_unordered_map<std::string, MediaExt>& mapMediaExt = projectInstance.getChutierMediaExt().getMapMediaExt();
-    //std::cout<<mapMediaExt.size()<<std::endl;
-    
+
     
     BOOST_FOREACH( MapMedia_t::value_type s, mapMediaExt)
     {
@@ -220,9 +190,6 @@ void Chutier::updateChutier()
 
         _tabWidget->setCurrentWidget( _listWidgetImport );
     }
-    
-    
-    
 }
 
 Chutier::~Chutier()

@@ -13,7 +13,7 @@ CmdCapturePicture::CmdCapturePicture(const std::string& text,const boost::filesy
 
 CmdCapturePicture::~CmdCapturePicture()
 {
-    std::cout << "Dtor cmd : "+_text << std::endl;
+
 }
 
 CmdCapturePicture* CmdCapturePicture::clone() const{
@@ -22,60 +22,46 @@ CmdCapturePicture* CmdCapturePicture::clone() const{
 
 void CmdCapturePicture::runDo()
 {
-
     Timeline& timeline = Projet::getInstance().getTimeline();
 
-///@todo Why not use CmdInsertClip?
-
-    //créer un nouveau clip
+    //create a new clip
     Clip clip(_filename, timeline.getId() , "clip" + boost::lexical_cast<std::string>(timeline.getNbClip()) );
     timeline.setNbClip( timeline.getNbClip()+1 );
 
     _newClip = clip;
 
-    //on ajoute le clip au projet
+    //add the clip to the project
     Projet::getInstance().addImedia(_newClip);
-    //on ajoute la photo au chutier des pictures
+    //add the picture to pictures' chutier
     boost::filesystem::path filePath(_filename);
     Projet::getInstance().getChutierPictures().importMediaToChutier(filePath);
 
-    //on ajoute le clip a la fin de la timeline (a regler avec le temps reel)
+    //add the clip to the end of the timeline (real time?)
     clip.setPosition(timeline.getMaxTime(),timeline.getMaxTime()+1);
     timeline.insertClip(clip, clip.timeIn());
-
-
 }
 
 void CmdCapturePicture::undo()
 {
-    //recuperer les donnees du clip a supprimer et les "sauvegarder"
-    //dans un clip temporaire
-
-    //recuperation du clip grâce a son id
+    //get back clip thanks to its id
     Projet& projet = Projet::getInstance();
     Timeline& timeline = projet.getTimeline();
 
-    //creation par copy du clip
+    //creation of clip by copy
     _newClip = timeline.mapClip()[_newClip.getId().getIdStringForm()];
 
-    //effacer le clip de la timeline
+    //suprr the clip from the timeline
     timeline.deleteClip(_newClip.getId().getIdStringForm());
-
-    //effacer le blanc de la timeline
-    //timeline.deleteBlank(&_newClip);
-
 }
 
 void CmdCapturePicture::redo()
 {
     Timeline& timeline = Projet::getInstance().getTimeline();
 
-    //remettre le clip dans la timeline
+    //put back the clip in the timeline
     _newClip.setPosition(timeline.getMaxTime(),timeline.getMaxTime()+1);
     timeline.insertClip(_newClip, _newClip.timeIn());
-
 }
-
 
 const std::string& CmdCapturePicture::getText() const {
     return _text;

@@ -14,9 +14,7 @@ private :
     
 public :
     PisteClip(const std::string& n );
-    ~PisteClip(){}
-     
+    ~PisteClip(){} 
 };
-
 
 #endif

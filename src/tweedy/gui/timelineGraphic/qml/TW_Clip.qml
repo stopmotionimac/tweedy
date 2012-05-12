@@ -8,7 +8,7 @@ Item
 
         property bool clipRightPressed: false
         property bool clipLeftPressed: false
-    property bool clipSelected: false
+        property bool clipSelected: false
 
         width: ( object.timeOut - object.timeIn ) * tw_scaleTimeToPix
         height: tw_track.height
@@ -25,8 +25,7 @@ Item
                 radius: 15
                 color: ( _tw_timelineData.isSelected(object.timeIn) ) ? "#FF3300":"#e28a26"
 
-
-                    // image du Clip (Vignette)
+                //image of clip
     Image
     {
         id: image
@@ -40,7 +39,7 @@ Item
         asynchronous: true // enable asynchronous load
     }
 
-            // zone de deplacement
+    //moving zone
     MouseArea
     {
         id: tw_clipHandle
@@ -53,9 +52,9 @@ Item
         drag.maximumX: tw_realMaxTime * tw_scaleTimeToPix
         acceptedButtons: Qt.LeftButton | Qt.RightButton
 
-                                //0 -> not pressed
-                                //1 -> pressed and hold
-                                //2 -> pressed and released
+        //0 -> not pressed
+        //1 -> pressed and hold
+        //2 -> pressed and released
 
         onEntered:
         {
@@ -64,7 +63,6 @@ Item
                  parent.color = '#FDAE37'
             }
         }
-
 
         onExited:
         {
@@ -85,8 +83,6 @@ Item
 
             tw_timeInClipSelected = object.timeIn
             tw_insertPos = tw_timeInClipSelected
-            //parent.color = '#FF3300'
-
         }
 
         onDoubleClicked:
@@ -109,9 +105,6 @@ Item
                  markerPosition = _tw_timelineData.getMarkerPosition( dstTime, positiveMove )
                  if( markerPosition != -1 )
                  {
-                 //console.log( "onPositionChanged C" )
-                                //console.log( "markerPosition:", markerPosition )
-                                //console.log( "markerPosition * tw_scaleTimeToPix:", markerPosition * tw_scaleTimeToPix )
                     tw_inserting = true
                     tw_insertPos = markerPosition
                 }
@@ -132,13 +125,12 @@ Item
                 }
                 clipSelected = false
             }
-
         }
     }
 
-        // zone gauche pour l'agrandissement du clip
-        Rectangle
-        {
+    //left zone for growing clip
+    Rectangle
+    {
             id: tw_clipLeftHandle
 
             width: tw_handleWidth
@@ -147,7 +139,7 @@ Item
 
             color: "green"
             visible: false
-        }
+    }
         MouseArea
         {
             id: tw_clipLeftHandleMA
@@ -172,19 +164,19 @@ Item
                 {
                     if( object.timeIn > 0 )
                     {
-                        console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
+                        //console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
                     }
 
                 }
             }
 
             onReleased:{
-                console.log( "mouse X clip Released" + mouseX );
+                //console.log( "mouse X clip Released" + mouseX );
                 clipLeftPressed = 0
             }
         }
 
-        // zone droite pour l'agrandissement du clip
+        //right area for growing clip
         Rectangle
         {
             id: tw_clipRightHandle
@@ -204,26 +196,25 @@ Item
             onEntered:
             {
                 tw_clipRightHandle.visible = true
-                console.log( "R onEntered" );
+                //console.log( "R onEntered" );
                 _tw_timelineData.displayCursor( "scale" );
             }
             onExited:
             {
                 _tw_timelineData.displayCursor( "none" );
                 tw_clipRightHandle.visible = false
-                console.log( "R onExited" );
+                //console.log( "R onExited" );
             }
             onPressed:
             {
                 clipRightPressed = 1
-                console.log( "R mouse X clip Released" + mouseX );
+                //console.log( "R mouse X clip Released" + mouseX );
             }
             onReleased:
             {
                 clipRightPressed = 0
-                console.log( "R mouse X clip Released" + mouseX );
+                //console.log( "R mouse X clip Released" + mouseX );
             }
         }
     }
 }
-

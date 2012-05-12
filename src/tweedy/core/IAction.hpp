@@ -3,10 +3,7 @@
 
 class IAction{
 public:
-    virtual ~IAction(){};
-    
-    
+    virtual ~IAction(){};  
 };
 
 #endif	/* IACTION_HPP */
-

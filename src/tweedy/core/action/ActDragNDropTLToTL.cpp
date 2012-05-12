@@ -8,7 +8,6 @@ ActDragNDropTLToTL::ActDragNDropTLToTL()
     
 }
 
-
 ActDragNDropTLToTL::~ActDragNDropTLToTL()
 {
     
@@ -16,16 +15,12 @@ ActDragNDropTLToTL::~ActDragNDropTLToTL()
 
 void ActDragNDropTLToTL::operator ()(const std::string& idClip, int position)
 {
-    
     Projet& project = Projet::getInstance();
     
-    //creation de la commande de deplacement d'un clip dans la timeline
+    //creation of a command for moving a clip in the timeline
     IUndoRedoCommand* cmd = new CmdMoveClip(idClip,"Cmd Move Clip : "+idClip, position);
     
-    //ajout de la commande au commande manager
+    //add the command to the command manager
     CommandManager& cmdMng = project.getCommandManager();
     cmdMng.pushNewCommand(cmd);
-    
-    std::cout << "Action done" << std::endl;
-    
 }

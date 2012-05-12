@@ -16,4 +16,3 @@ public:
 };
 
 #endif	/* ACTDRAGNDROPTLTOTL_HPP */
-

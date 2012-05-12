@@ -30,4 +30,3 @@ private:
 };
 
 #endif	/* CMDCLIPDELETE_HPP */
-

@@ -3,7 +3,6 @@
 #include <tweedy/core/action/ActDeleteClip.hpp>
 #include <tweedy/core/Clip.hpp>
 
-
 #include <QtGui/QCursor>
 #include <QtGui/QApplication>
 #include <QtGui/QPixmap>
@@ -23,7 +22,6 @@ TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 	_dataConnection = getTimeline().getSignalChanged().connect(
                 boost::bind( &TimelineDataWrapper::coreDataChanged,this ) );
 
-
         updateListe();
 }
 
@@ -35,6 +33,7 @@ TimelineDataWrapper& TimelineDataWrapper::operator=(const TimelineDataWrapper& o
 
 TimelineDataWrapper::~TimelineDataWrapper()
 {
+
 }
 
 void TimelineDataWrapper::coreDataChanged()
@@ -66,7 +65,6 @@ void TimelineDataWrapper::updateListe()
 	Q_EMIT maxTimeChanged();
 
 	Q_EMIT enableUpdatesSignal( true );
-
 }
 
 int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
@@ -82,11 +80,9 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
         return getTimeline().mapClip()[filename].timeIn();
 }
 
-
 int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
-
-    // si les 2 sont égaux on ne fait rien
+    //if both are aquals, do nothing
     if (timeInClipToDrag == timeToDrop)
     {
         updateListe();
@@ -106,10 +102,8 @@ int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
         action( filenameDepart, timeToDrop );
 
         return returnedValue;
-
     }
 }
-
 
 void TimelineDataWrapper::displayCursor( QString typeCurseur )
 {
@@ -128,10 +122,8 @@ void TimelineDataWrapper::displayCurrentClip( int time )
 	Q_EMIT timeChanged( time );
 }
 
-
 void TimelineDataWrapper::deleteItem(){
-
-    //creation de l'action ActDeleteClip
+    //creation of ActDeleClip action
     ActDeleteClip action;
 
     Timeline::OMapClip mapClip = getTimeline().getOrderedClips();
@@ -146,7 +138,6 @@ void TimelineDataWrapper::deleteItem(){
 
     for (int i=0; i<selectedClips.size(); ++i)
         action( getTimeline().mapClip()[ selectedClips.at(i) ]);
-
 }
 
 bool TimelineDataWrapper::isSelected(int timeIn)

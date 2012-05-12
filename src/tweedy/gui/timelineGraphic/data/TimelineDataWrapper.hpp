@@ -14,7 +14,6 @@
 
 class TimelineDataWrapper : public QObject
 {
-
 	Q_OBJECT
 
 public:
@@ -38,7 +37,6 @@ public:
         Timeline& getTimeline(){ return Projet::getInstance().getTimeline(); }
         const Timeline& getTimeline() const{ return Projet::getInstance().getTimeline(); }
         int getMaxTime() const{ return getTimeline().getMaxTime(); }
-        //int getTimeIn() const{ return _timeInDrag; }
 
         int getTimeMarker() const{ return _timeMarker; }
         int getCurrentTime() const{ return _currentTime; }
@@ -78,7 +76,5 @@ public:
 private:
         void updateListe();
 };
-
-
 
 #endif // TIMELINEDATAWRAPPER_HPP

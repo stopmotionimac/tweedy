@@ -9,13 +9,13 @@
 ActClipSetTimeRange::ActClipSetTimeRange()
         :IAction("Action set time range clip")
 {
-    
+
 }
 
 
 ActClipSetTimeRange::~ActClipSetTimeRange()
 {
-    std::cout << "Dtor action : " +_name << std::endl;
+
 }
 
 
@@ -31,15 +31,11 @@ void ActClipSetTimeRange::operator()(int currentTime, int value)
     oss<<value;
     IUndoRedoCommand* cmd = new CmdClipSetTimeRange(idClip,"Commande Clip Set Time Range"+oss.str()
     , value);
-    //trouver le command Manager par l'application
 
+    //find the command manager thanks to the application (core)
     CommandManager& cmdMng = projet.getCommandManager();
 
-    //ajouter la commande au commande manager
+    //add the command to the command manager
     cmdMng.pushNewCommand(cmd);
-
-    std::cout << "Action done" << std::endl;
     
 }
-
-

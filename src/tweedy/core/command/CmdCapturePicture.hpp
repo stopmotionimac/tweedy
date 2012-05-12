@@ -15,7 +15,6 @@ public:
 
     CmdCapturePicture* clone() const;
 
-
     void undo();
     void runDo();
     void redo();
@@ -30,4 +29,3 @@ private:
 };
 
 #endif	/* CMDCAPTUREPICTURE_HPP */
-

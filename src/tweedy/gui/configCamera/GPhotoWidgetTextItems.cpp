@@ -6,7 +6,7 @@ GPhotoWidgetTextItems::GPhotoWidgetTextItems(CameraWidget* widget)
 }
 
 QComboBox * GPhotoWidgetTextItems::makeMenu() {
-    _comboBoxChoice = new QComboBox(/*this*/);
+    _comboBoxChoice = new QComboBox();
     return _comboBoxChoice;
 }
 
@@ -24,7 +24,6 @@ void GPhotoWidgetTextItems::putChoicesIntoMenu() {
 }
 
 void GPhotoWidgetTextItems::on_setValue_activated(const QString & valueChoice){
-    //const void * varChoice = valueChoice.toStdString().data();
     Projet& projectInstance = Projet::getInstance();
     projectInstance.gPhotoInstance().setValueString(_widget, valueChoice.toStdString().data());
 }

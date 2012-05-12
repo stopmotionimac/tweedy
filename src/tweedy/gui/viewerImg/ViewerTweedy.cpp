@@ -32,7 +32,7 @@ ViewerTweedy::ViewerTweedy( QWidget *parent )
 
 	displayChanged( 0 );
 
-	//connecter l'update de la timelineUi au signalChanged de la timeline
+        //connect timelineUi updater to the timeline signalChanged
 	ViewerTweedyUpdater upd( *this );
 
 	Projet::getInstance().getTimeline().getSignalChanged().connect( upd );
@@ -45,8 +45,6 @@ ViewerTweedy::ViewerTweedy( QWidget *parent )
         getViewerLabel()->setScaledContents( false );
 
         this->getViewerLabel()->setMinimumSize(this->getViewerLabel()->pixmap()->size());
-
-
 }
 
 QToolButton * ViewerTweedy::getPlayPauseButton()
@@ -92,7 +90,6 @@ QSlider * ViewerTweedy::getTempsSlider()
 void ViewerTweedy::displayChanged( int time )
 {
     _previewTimer->stop();
-    //_ui->spinBox->setValue(0);
     _currentTime = time;
     Timeline* timeline = &( Projet::getInstance().getTimeline() );
 
@@ -146,7 +143,6 @@ void ViewerTweedy::handle_onionAction_triggered()
 
 	resultImage.scaled( this->geometry().size(), Qt::KeepAspectRatioByExpanding );
 	this->getViewerLabel()->setPixmap( QPixmap::fromImage( resultImage ) );
-
 }
 
 //capture and display real time
@@ -157,9 +153,7 @@ void ViewerTweedy::updatePreview()
 	int isConnected = projectInstance.gPhotoInstance().tryToConnectCamera();
 	if( isConnected == 0 )
 	{
-		QPixmap noCamera( QString::fromStdString( "img/noCameraDetected.jpg" ) );
-		//        noCamera.scaled(this->getViewerLabel()->pixmap()->size(),Qt::KeepAspectRatioByExpanding);
-		//        noCamera.scaled(this->geometry().size(), Qt::KeepAspectRatioByExpanding) ;
+                QPixmap noCamera( QString::fromStdString( "img/noCameraDetected.jpg" ) );
 		this->getViewerLabel()->setPixmap( noCamera );
 	}
 	else
@@ -170,12 +164,11 @@ void ViewerTweedy::updatePreview()
 		boost::filesystem::path FileToDeletePath( filename );
 		boost::filesystem::remove( filename );
 	}
-	//std::cout<<"DO PREVIEW"<<std::endl;
 }
 
 QImage ViewerTweedy::calculateImage( const QImage& sourceImage, const QImage& destinationImage )
 {
-	//    QSize(475,343)
+        //QSize(475,343)
 	QImage resultImage = QImage( sourceImage.size(), QImage::Format_ARGB32_Premultiplied );
 
 	QPainter::CompositionMode mode = QPainter::CompositionMode_SoftLight;

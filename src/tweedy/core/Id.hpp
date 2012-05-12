@@ -14,10 +14,10 @@ class Id
     
 public:
     
-    //ctor de base
+    //basic ctor
     Id(const std::string&);
     
-    //ctor a partir de l'id du parent
+    //ctor based on parent's id
     Id( const Id& parent, const std::string& localId );
     
     ~Id();
@@ -39,4 +39,3 @@ private:
 };
 
 #endif	/* ID_HPP */
-

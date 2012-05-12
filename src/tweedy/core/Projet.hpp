@@ -35,26 +35,20 @@ public:
 
   void setValueCameraIsInit (bool val);
 
-  //static boost::ptr_vector<Imedia> getListMedia(){ return listMedia; }
   static boost::ptr_unordered_map<std::string, Imedia> getMapMedia() {}
   Imedia getImedia(int idMedia) { }
   boost::filesystem::path getNameImedia (Imedia & imedia);
   void addImedia(Imedia & media);
   void supprImedia(int idMedia);
   void printAllMedia();
-  //à supprimer
+  //to suppr
   void fillChutierPicutresWithProjet();
-  //
-  //void makeChutier();
 
   //function for gPhotoInstance
   int tryToConnectCamera ();
-  //bool getValueCameraIsInit();
-  //void setFolderToSavePictures ();
-  void setProjectFolder(boost::filesystem::path pathFolder) { _projectFolder =  pathFolder; /*std::cout<<"PROJECT FOLDER : "<<_projectFolder<<std::endl;*/ }
+  void setProjectFolder(boost::filesystem::path pathFolder) { _projectFolder =  pathFolder; }
   boost::filesystem::path& getProjectFolder() { return _projectFolder; }
   boost::filesystem::path captureToFile();
-
 
   Gphoto& gPhotoInstance() { return Gphoto::getInstance(); }
   
@@ -87,8 +81,6 @@ private:
   {
      ar & _timeline;
      ar & _chutierMediaExt;
-     
-     
      std::string s1;
      std::string s2;
      
@@ -104,9 +96,6 @@ private:
          _projectFolder = s1;
          _projectFile = s2;
      }
-     
-         
   }
-
 };
 #endif  // PROJET_HPP

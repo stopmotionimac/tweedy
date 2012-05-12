@@ -21,7 +21,6 @@ Gphoto::~Gphoto()
 
         _WidgetsVector.clear();
 
-
 #else
         std::cout << "Error: Not compiled with gphoto2." << std::endl;
 #endif
@@ -47,7 +46,6 @@ static boost::filesystem::path capture_to_file( Camera *camera, GPContext *conte
 
             fn /= camera_file_path.name;
             const char * fnToOpen = fn.string().data();
-            std::cout << fnToOpen << std::endl;
 
             //folder/file on computer
             fd = open( fnToOpen, O_CREAT | O_WRONLY, 0644 );
@@ -117,15 +115,9 @@ static void errordumper( GPLogLevel level, const char *domain, const char *str, 
 
 #endif
 
-
-//bool Gphoto::getVarCameraIsInit() {
-//    return /*_cameraIsInit*/0;
-//}
-
 void Gphoto::setVarCameraIsInit(bool var) {
     _cameraIsInit = var;
 }
-
 
 void Gphoto::initContext()
 {
@@ -146,10 +138,10 @@ int Gphoto::initCamera() {
         {
                 //printf("No camera auto detected.\n");
                 gp_camera_free( _camera );
-                _cameraIsInit = 0/*false*/;
+                _cameraIsInit = 0;
                 return 0;
         }
-        _cameraIsInit = 1/*true*/;
+        _cameraIsInit = 1;
         return 1;
 #else
 	std::cout << "Error: Not compiled with gphoto2." << std::endl;
@@ -188,11 +180,8 @@ std::string Gphoto::doPreview(int i) {
                     CameraFile *file;
 
                     char * outputFile;
-                    //boost::filesystem::path outputFilePath("/home/solvejg/Bureau/projet/pictures/");
-//                 boost::filesystem::path outputFilePath = _fileName ;
-                    boost::filesystem::path outputFilePath("/home/solvejg/Bureau/projet/pictures/") ;
+                    boost::filesystem::path outputFilePath = _fileName ;
                     outputFile = (char*)outputFilePath.string().data();
-
 
                     //fprintf(stderr,"preview %d\n", i);
                     ret = gp_file_new(&file);
@@ -236,14 +225,11 @@ void Gphoto::findMainWidget() {
     ret = gp_camera_get_config(_camera, &_mainWidget, _context);
     ret = gp_widget_get_name (_mainWidget, &nameMainWidget);
     ret = gp_widget_get_label (_mainWidget, &labelMainWidget);
-//    int countChildren = gp_widget_count_children (_mainWidget);
 }
 
 void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
     CameraWidget * child;
     int idChild;
-//    const char* name;
-
     int ret;
 
     int countChildren = gp_widget_count_children (parentWidget);
@@ -251,10 +237,7 @@ void Gphoto::findChildrenOfOneWidget(CameraWidget* parentWidget) {
     for (int i = 0; i< countChildren; ++i)
     {
          ret = gp_widget_get_child (parentWidget, i, &child);
-//OK
-
          int countChildrenOfChildren = gp_widget_count_children (child);
-
          if (countChildrenOfChildren != 0)
          {
              findChildrenOfOneWidget(child);
@@ -274,8 +257,6 @@ std::string Gphoto::getNameOfAWidget(CameraWidget *widget) {
 }
 
 bool Gphoto::isRadioOrMenu(CameraWidget *widget) {
-    //CameraWidgetType *type;
-    //int ret = gp_widget_count_choices(widget);
     int ret = CountChoices(widget);
     if (ret > 0) {
         return true;
@@ -311,7 +292,7 @@ int Gphoto::_lookup_widget(CameraWidget*widget, const char *key, CameraWidget **
                 ret = gp_widget_get_child_by_label (widget, key, child);
         return ret;
 }
-/*Works for int*/
+
 void Gphoto::getValue(CameraWidget *widget) {
     int value;
     int ret = get_config_value (_camera, getNameOfAWidget(widget).data(), &value, _context);
@@ -392,7 +373,6 @@ int Gphoto::get_config_value (Camera *camera, const char *key, char ** str, GPCo
         case GP_WIDGET_MENU:
         case GP_WIDGET_RADIO:
         case GP_WIDGET_TEXT:
-        //case GP_WIDGET_TOGGLE:
                 break;
         default:
                 fprintf (stderr, "widget has bad type %d\n", type);
@@ -481,7 +461,7 @@ void Gphoto::exitCamera()
 {
 #ifdef WITH_GPHOTO2
 	gp_camera_exit( _camera, _context );
-        _cameraIsInit = 0/*false*/;
+        _cameraIsInit = 0;
 #else
 	std::cout << "Error: Not compiled with gphoto2." << std::endl;
 #endif

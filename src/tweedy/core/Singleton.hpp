@@ -14,19 +14,17 @@ class Singleton
 protected:
   // Constructor/destructor
   Singleton () { }
-  ~Singleton () { std::cout << "destroying singleton." << std::endl; }
+  ~Singleton () { }
 
 public:
   static T& getInstance ()
   {
     if (NULL == _singleton)
       {
-        //std::cout << "creating singleton." << std::endl;
         _singleton = new T;
       }
     else
       {
-        //std::cout << "singleton already exist" << std::endl;
       }
 
     return *_singleton;

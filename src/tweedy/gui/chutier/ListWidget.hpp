@@ -1,7 +1,6 @@
 #ifndef LISTWIDGET_H
 #define LISTWIDGET_H
 
-
 #include <QtGui/QListWidget>
 
 
@@ -13,7 +12,6 @@ public:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
     void startDrag(Qt::DropActions supportedActions);
-
 
 private:
 

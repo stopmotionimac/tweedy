@@ -6,7 +6,7 @@ GPhotoWidgetTextField::GPhotoWidgetTextField(CameraWidget* widget)
 }
 
 QLineEdit * GPhotoWidgetTextField::makeMenu() {
-    _textField = new QLineEdit(/*this*/);
+    _textField = new QLineEdit();
     /*make the appropriate action*/
     QLineEdit::connect(_textField, SIGNAL(textChanged(const QString&)), this, SLOT(on_setValue_textChanged(const QString&)));
     return _textField;

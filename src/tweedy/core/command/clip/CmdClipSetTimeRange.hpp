@@ -14,15 +14,11 @@ public:
     
     CmdClipSetTimeRange* clone() const;
 
-
     void undo();
     void runDo();
     void redo();
 
     const std::string& getText() const;
-    
-    
-    
     
 private:
     
@@ -32,6 +28,4 @@ private:
     
 };
 
-
 #endif	/* CMDCLIPSETTIMERANGE_HPP */
-
