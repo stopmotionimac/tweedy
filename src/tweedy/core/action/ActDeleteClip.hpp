@@ -2,6 +2,7 @@
 #define	ACTDELETECLIP_HPP
 
 #include <tweedy/core/action/IAction.hpp>
+#include <tweedy/core/Clip.hpp>
 
 class ActDeleteClip : public IAction
 {
@@ -11,7 +12,7 @@ public:
     ActDeleteClip();
     ~ActDeleteClip();
     
-    void operator()(int currentTime);
+    void operator()(Clip clip);
         
 };
 

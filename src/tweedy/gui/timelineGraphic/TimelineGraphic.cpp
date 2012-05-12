@@ -26,7 +26,6 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
 {
     _dropArea = new DropArea();
 
-    std::cout << "TimelineGraphique::TimelineGraphique" << std::endl;
     qmlRegisterType<QObjectListModel>();
     qmlRegisterType<DropArea>("DragNDrop", 1, 0, "DropArea");
 
@@ -49,14 +48,12 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
 
 void TimelineGraphic::onEnableUpdates( const bool update )
 {
-	std::cout << "TimelineGraphique::onEnableUpdates: " << update << std::endl;
-	this->setUpdatesEnabled( update );
+        this->setUpdatesEnabled( update );
 }
 
 void TimelineGraphic::onQmlFileChanged( const QString &file )
 {
-	std::cout << "TimelineGraphique::onQmlFileChanged: " << file.toStdString() << std::endl;
-	this->setSource( QUrl::fromLocalFile(file) );
+        this->setSource( QUrl::fromLocalFile(file) );
 	this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
 	this->update();
 	this->repaint();

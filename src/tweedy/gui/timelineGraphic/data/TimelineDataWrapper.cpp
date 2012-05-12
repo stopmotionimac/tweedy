@@ -1,6 +1,7 @@
 #include "TimelineDataWrapper.hpp"
 #include <tweedy/core/action/ActDragNDropTLToTL.hpp>
 #include <tweedy/core/action/ActDeleteClip.hpp>
+#include <tweedy/core/Clip.hpp>
 
 
 #include <QtGui/QCursor>
@@ -18,19 +19,16 @@ TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 : QObject( parent ),
   _timeMarker(0)
 {
-	std::cout << "TimelineDataWrapper::TimelineDataWrapper" << std::endl;
-	// connecter l'update de la TimelineDataWrapper au signalChanged de la timeline
+        // connecter l'update de la TimelineDataWrapper au signalChanged de la timeline
 	_dataConnection = getTimeline().getSignalChanged().connect(
                 boost::bind( &TimelineDataWrapper::coreDataChanged,this ) );
 
 
         updateListe();
-	std::cout << "TimelineDataWrapper::TimelineDataWrapper end" << std::endl;
 }
 
 TimelineDataWrapper& TimelineDataWrapper::operator=(const TimelineDataWrapper& other )
 {
-	std::cout << "TimelineDataWrapper::operator=()" << std::endl;
         _clips.setObjectList( other._clips.objectList() );
 	return *this;
 }
@@ -53,8 +51,6 @@ void TimelineDataWrapper::updateListe()
 
 	static int i = 0;
 	++i;
-	std::cout << "TimelineDataWrapper ptr: " << this << std::endl;
-	std::cout << "TimelineDataWrapper::updateListe: " << i << std::endl;
 
 	_clips.clear();
 
@@ -68,7 +64,6 @@ void TimelineDataWrapper::updateListe()
 	}
 
 	Q_EMIT maxTimeChanged();
-	std::cout << "TimelineDataWrapper::updateListe end" << std::endl;
 
 	Q_EMIT enableUpdatesSignal( true );
 
@@ -90,7 +85,6 @@ int TimelineDataWrapper::getMarkerPosition( int timeToDrop, bool positiveMove )
 
 int TimelineDataWrapper::translate( int timeInClipToDrag, int timeToDrop )
 {
-
 
     // si les 2 sont égaux on ne fait rien
     if (timeInClipToDrag == timeToDrop)
@@ -135,20 +129,23 @@ void TimelineDataWrapper::displayCurrentClip( int time )
 }
 
 
-void TimelineDataWrapper::deleteItem( int time ){
+void TimelineDataWrapper::deleteItem(){
 
     //creation de l'action ActDeleteClip
     ActDeleteClip action;
 
-    Timeline::UOMapClip mapClip = getTimeline().mapClip();
-    //on décale les autres clips
-    BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, mapClip )
+    Timeline::OMapClip mapClip = getTimeline().getOrderedClips();
+
+    std::vector<std::string> selectedClips;
+
+    BOOST_FOREACH( const Timeline::OMapClip::value_type& s, mapClip )
     {
-        if( s.second->getSelected() )
-            action(s.second->timeIn());
+        if( (*s.second)->getSelected() )
+            selectedClips.push_back((*s.second)->getId().getIdStringForm());
     }
 
-
+    for (int i=0; i<selectedClips.size(); ++i)
+        action( getTimeline().mapClip()[ selectedClips.at(i) ]);
 
 }
 
@@ -157,13 +154,12 @@ bool TimelineDataWrapper::isSelected(int timeIn)
     return getTimeline().getOrderedClips()[timeIn]->getSelected();
 }
 
+void TimelineDataWrapper::selectClip(int timeIn)
+{
+    getTimeline().selectClip(timeIn);
+}
+
 void TimelineDataWrapper::unselectAll()
 {
     getTimeline().unselectAll();
-}
-
-
-void TimelineDataWrapper::selectClip( int timeIn )
-{
-    getTimeline().selectClip(timeIn);
 }

@@ -17,13 +17,12 @@ ActDeleteClip::~ActDeleteClip()
 }
 
 
-void ActDeleteClip::operator()(int currentTime)
+void ActDeleteClip::operator()(Clip clip)
 {
 
     Projet& projet = Projet::getInstance();
-    Timeline timeline = projet.getTimeline();
 
-    std::string idClip = timeline.findCurrentClip(currentTime);
+    std::string idClip = clip.getId().getIdStringForm();
     if ( idClip.find("flux") == std::string::npos)
     {
         //creation d'une commande de suppression de clip
@@ -33,8 +32,8 @@ void ActDeleteClip::operator()(int currentTime)
         CommandManager& cmdMng = projet.getCommandManager();
         cmdMng.pushNewCommand(cmd);
     }
-    
+
     std::cout << "Action done" << std::endl;
-    
+
 }
 

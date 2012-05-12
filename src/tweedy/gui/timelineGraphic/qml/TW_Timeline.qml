@@ -20,18 +20,14 @@ Rectangle
     property int tw_widthChanged :0
     property int tw_xPositionChanged :0
     property int tw_scrollPositionChanged:0
-/*
-    property int timeInDoubleClickedClip : -1
 
-    property int timeInClipSelected : -1
-
-    property int ratio : tw_timelineWindow.width / 5
-
-    property int controlPosition : 0
+    property int tw_controlPosition : 0
     //0 -> not pressed
     //1 -> pressed and hold
     //2 -> pressed and released
 
+
+/*
 
     Keys.onPressed:
     {
@@ -132,192 +128,199 @@ Rectangle
             clampedTimeOut = tw_maxTime
             clampedTimeIn = clampedTimeOut - timeLength
         }
-
         setDisplayIn( clampedTimeIn )
-        setDisplayOut( clampedTimeOut )
-    }
-
-    Column
-    {
-        anchors.fill: parent
-        // Graduation block
-        TW_Graduation
-        {
-            id: tw_graduation
-
-            width: tw_timelineWindow.width
-            height: tw_gradHeight
-            color: "#414042"
-
-            // zone de deplacement
-            MouseArea
-            {
-                id: tw_allTracksHandle
-                anchors.fill: parent
-
-                onClicked: moveTimeTo( mapToItem( tw_timelineWindow, mouseX, mouseY ).x )
-                onEntered: moveTimeTo( mapToItem( tw_timelineWindow, mouseX, mouseY ).x )
-                onReleased: moveTimeTo( mapToItem( tw_timelineWindow, mouseX, mouseY ).x )
-                onPositionChanged: moveTimeTo( mapToItem( tw_timelineWindow, mouseX, mouseY ).x )
+                setDisplayOut( clampedTimeOut )
             }
-        }
 
-        Rectangle
-        {
-            id: tw_track
-
-            x: -tw_displayInPix
-            width: tw_maxTimePix
-            height: parent.height - tw_graduation.height - tw_scrollArea.height
-            //color: '#ACB6B5'
-            color: '#414042'
-
-            // delegate clip component
-            Component
+            Column
             {
-                id: tw_clipDelegate
-
-                // the current clip
-                TW_Clip
+                anchors.fill: parent
+                // Graduation block
+                TW_Graduation
                 {
-                    id: tw_clip
+                    id: tw_graduation
 
-                    // For technical reason: delay the destruction allows an item to remove itself
-                    ListView.onRemove: SequentialAnimation
+                    width: tw_timelineWindow.width
+                    height: tw_gradHeight
+                    color: "#414042"
+
+                    // zone de deplacement
+                    MouseArea
                     {
-                        PropertyAction { target: tw_clip; property: "width"; value: 0 } // to not create an offset for the newly inserted items
-                        PropertyAction { target: tw_clip; property: "visible"; value: false }
-                        PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: true } // start delay remove
-                        // fake animation to delay the tw_clip destruction
-                        NumberAnimation { target: tw_clip; property: "height"; to: 0; duration: 1; easing.type: Easing.InOutQuad } // to force a time delay of one frame
-                        // Make sure delayRemove is set back to false so that the item can be destroyed
-                        PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: false } // end delay remove
+                        id: tw_allTracksHandle
+                        anchors.fill: parent
+
+                        onClicked: moveTimeTo( mapToItem( tw_timelineWindow, mouseX, mouseY ).x )
+                        onEntered: moveTimeTo( mapToItem( tw_timelineWindow, mouseX, mouseY ).x )
+                        onReleased: moveTimeTo( mapToItem( tw_timelineWindow, mouseX, mouseY ).x )
+                        onPositionChanged: moveTimeTo( mapToItem( tw_timelineWindow, mouseX, mouseY ).x )
                     }
+                }
+
+                Rectangle
+                {
+                    id: tw_track
+
+                    x: -tw_displayInPix
+                    width: tw_maxTimePix
+                    height: parent.height - tw_graduation.height - tw_scrollArea.height
+                    //color: '#ACB6B5'
+                    color: '#414042'
+
+                    // delegate clip component
+                    Component
+                    {
+                        id: tw_clipDelegate
+
+                        // the current clip
+                        TW_Clip
+                        {
+                            id: tw_clip
+
+                            // For technical reason: delay the destruction allows an item to remove itself
+                            ListView.onRemove: SequentialAnimation
+                            {
+                                PropertyAction { target: tw_clip; property: "width"; value: 0 } // to not create an offset for the newly inserted items
+                                PropertyAction { target: tw_clip; property: "visible"; value: false }
+                                PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: true } // start delay remove
+                                // fake animation to delay the tw_clip destruction
+                                NumberAnimation { target: tw_clip; property: "height"; to: 0; duration: 1; easing.type: Easing.InOutQuad } // to force a time delay of one frame
+                                // Make sure delayRemove is set back to false so that the item can be destroyed
+                                PropertyAction { target: tw_clip; property: "ListView.delayRemove"; value: false } // end delay remove
+                            }
+                        }
+                    }
+
+                    // List of clips
+                    ListView
+                    {
+                        id: tw_clipsList
+
+                        anchors.fill: parent
+                        orientation: ListView.Horizontal
+
+                        model : _tw_timelineData.clips
+                        delegate : tw_clipDelegate
+                        interactive: false
+                    }
+
+                }
+
+                // scrollBar item
+                TW_scrollBar
+                {
+                    id: tw_scrollArea
+
+                    x: 0
+                    height: 25
+                    width: tw_timelineWindow.width
                 }
             }
 
-            // List of clips
-            ListView
+            // time manipulator item
+            TW_TimeCursor
             {
-                id: tw_clipsList
+                id: tw_timeCursor
 
+                gradHeight: tw_gradHeight
+                x: tw_currentTimePix - tw_displayInPix
+            }
+
+            HorizontalGradient
+            {
+                id: tw_insertMarker
+                x: tw_insertPos * tw_scaleTimeToPix - tw_displayInPix - width * 0.5
+                y: 0
+                width : 20
+                visible: tw_inserting
+                height: tw_graduation.height + tw_track.height
+
+                property double cr: 1
+                property double cg: 1
+                property double cb: 0
+
+                gradient: Gradient
+                {
+                    GradientStop { position: 0.0; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 0.0) }
+                    GradientStop { position: 0.40; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 0.4) }
+                    GradientStop { position: 0.41; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 1.0) }
+                    GradientStop { position: 0.59; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 1.0) }
+                    GradientStop { position: 0.60; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 0.4) }
+                    GradientStop { position: 1.0; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 0.0) }
+                }
+            }
+
+
+            Keys.onPressed:
+            {
+                // delete key is pressed
+                if (event.key == Qt.Key_Delete)
+                {
+                    if (tw_timeInClipSelected > -1)
+                        _tw_timelineData.deleteItem()
+
+                    if (tw_timeInClipSelected >= tw_maxTime )
+                        tw_timeInClipSelected = -1
+
+                }
+                /*if (event.key == Qt.Key_Right)
+                    if (tw_timeInClipSelected < _tw_timelineData.maxTime - 1){
+                        tw_timeInClipSelected ++;
+                       }
+
+
+                if (event.key == Qt.Key_Left)
+                    if (tw_timeInClipSelected > 0){
+                        tw_timeInClipSelected --;
+                    }*/
+
+                if (event.key == Qt.Key_Control)
+                    tw_controlPosition = 1
+            }
+
+            Keys.onReleased:
+            {
+                if (event.key == Qt.Key_Control)
+                    tw_controlPosition = 2
+            }
+
+
+            DropArea
+            {
+                id: dropArea
                 anchors.fill: parent
-                orientation: ListView.Horizontal
 
-                model : _tw_timelineData.clips
-                delegate : tw_clipDelegate
-                interactive: false
+                onDragMove:
+                {
+                    var markerPosition = -1
+                    // console.log( "onDragMove, position:", position )
+                    markerPosition = _tw_timelineData.getMarkerPosition( (position-tw_track.x) * tw_scalePixToTime, false )
+
+                    if( markerPosition != -1 )
+                    {
+                        tw_inserting = true
+                        tw_insertPos = markerPosition
+                    }
+
+                }
+
+                onDragLeave:
+                {
+                    tw_inserting = false
+                }
+
+                onDrop:
+                {
+                    // console.log( "onDrop, position:", position )
+                    tw_inserting = false
+
+                    _tw_dropArea.insertElement( (position-tw_track.x) * tw_scalePixToTime )
+
+                    tw_timeInClipSelected = (position-tw_track.x) * tw_scalePixToTime
+                    if( tw_timeInClipSelected > (position-tw_track.x) * tw_scalePixToTime )
+                        tw_timeInClipSelected -= 1
+
+                    // console.log( " timeInClipSelected", tw_timeInClipSelected)
+                }
             }
-
         }
-
-        // scrollBar item
-        TW_scrollBar
-        {
-            id: tw_scrollArea
-
-            x: 0
-            height: 25
-            width: tw_timelineWindow.width
-        }
-    }
-
-    // time manipulator item
-    TW_TimeCursor
-    {
-        id: tw_timeCursor
-
-        gradHeight: tw_gradHeight
-        x: tw_currentTimePix - tw_displayInPix
-    }
-
-    HorizontalGradient
-    {
-        id: tw_insertMarker
-        x: tw_insertPos * tw_scaleTimeToPix - tw_displayInPix - width * 0.5
-        y: 0
-        width : 20
-        visible: tw_inserting
-        height: tw_graduation.height + tw_track.height
-
-        property double cr: 1
-        property double cg: 1
-        property double cb: 0
-
-        gradient: Gradient
-        {
-            GradientStop { position: 0.0;  color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 0.0) }
-            GradientStop { position: 0.40; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 0.4) }
-            GradientStop { position: 0.41; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 1.0) }
-            GradientStop { position: 0.59; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 1.0) }
-            GradientStop { position: 0.60; color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 0.4) }
-            GradientStop { position: 1.0;  color: Qt.rgba(tw_insertMarker.cr, tw_insertMarker.cg, tw_insertMarker.cb, 0.0) }
-        }
-    }
-
-
-    Keys.onPressed:
-    {
-        // delete key is pressed
-        if (event.key == Qt.Key_Delete)
-        {
-            console.log("Big background rectangle : delete key has been pressed")
-            if (tw_timeInClipSelected > -1 )
-            {
-                _tw_timelineData.selectClip(tw_timeInClipSelected)
-                _tw_timelineData.deleteItem(tw_timeInClipSelected)
-                if (tw_timeInClipSelected <  tw_maxTime )
-                    _tw_timelineData.selectClip(tw_timeInClipSelected)
-                else
-                    tw_timeInClipSelected = -1
-            }            
-        }
-        if (event.key == Qt.Key_Right)
-            if (tw_timeInClipSelected < _tw_timelineData.maxTime - 1)
-                tw_timeInClipSelected ++;
-
-        if (event.key == Qt.Key_Left)
-            if (tw_timeInClipSelected > 0)
-                tw_timeInClipSelected --;
-    }
-
-
-    DropArea
-    {
-        id: dropArea
-        anchors.fill: parent
-
-        onDragMove:
-        {
-            var markerPosition = -1
-            // console.log( "onDragMove, position:", position )
-            markerPosition = _tw_timelineData.getMarkerPosition( (position-tw_track.x) * tw_scalePixToTime, false )
-
-            if( markerPosition != -1 )
-            {
-                tw_inserting = true
-                tw_insertPos = markerPosition
-            }
-
-        }
-
-        onDragLeave:
-        {
-            tw_inserting = false
-        }
-
-        onDrop:
-        {
-            // console.log( "onDrop, position:", position )
-            tw_inserting = false
-
-            _tw_dropArea.insertElement( (position-tw_track.x) * tw_scalePixToTime )
-
-            tw_timeInClipSelected = (position-tw_track.x) * tw_scalePixToTime
-            if( tw_timeInClipSelected > (position-tw_track.x) * tw_scalePixToTime )
-                tw_timeInClipSelected -= 1
-
-            // console.log( " timeInClipSelected", tw_timeInClipSelected)
-        }
-    }
-}
