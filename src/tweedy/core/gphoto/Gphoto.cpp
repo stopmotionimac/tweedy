@@ -189,7 +189,7 @@ std::string Gphoto::doPreview(int i) {
 
                     char * outputFile;
                     //boost::filesystem::path outputFilePath("/home/solvejg/Bureau/projet/pictures/");
-                    boost::filesystem::path outputFilePath = _fileName ;
+                    boost::filesystem::path outputFilePath = /*_fileName*/"" ;
                     outputFile = (char*)outputFilePath.string().data();
 
 
