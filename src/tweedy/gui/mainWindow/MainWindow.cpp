@@ -365,7 +365,6 @@ void MainWindow::on_captureAction_triggered()
 
                 std::string filenameLD = filenameHD.string();
                 filenameLD.insert( filenameLD.size() - 4, "_LD" );
-                int pos = filenameLD.find("HD/");
                 filenameLD.erase(filenameLD.begin()+37, filenameLD.begin()+40);
 
 		petiteImg.save( QString::fromStdString( filenameLD ) );
@@ -533,7 +532,7 @@ void MainWindow::on_saveProjectAction_triggered()
 {
 	//make an archive
 	std::string filename = project().getProjectFolder().string() 
-                + "/" + project().getProjectFile().string() + ".txt";
+                + "/" + project().getProjectFile().string() + ".tweedy";
         
         std::cout << filename << std::endl;
         
