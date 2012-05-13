@@ -77,7 +77,6 @@ public Q_SLOTS:
         void on_saveAsProjectAction_triggered();
         void on_undoButton_clicked();
         void on_redoButton_clicked();
-        void writeTime( int newValue );
         void on_close_window();
         void on_saveProjectAction_triggered();
         void on_loadProjectAction_triggered(const char*);
@@ -92,8 +91,11 @@ public Q_SLOTS:
         void handle_nextAction_triggered();
         void handle_prevAction_triggered();
 
+        void on_initialPlaceWidgets_triggered();
+
         void increaseTime();
-        void changeFps( int value ) { _fps = value; }
+        void changeFps( QString value ) { _fps = value.toInt(); }
+        void changeTimeViewer( int newTime );
 
 Q_SIGNALS:
         void timeChanged( int newValue );
@@ -112,6 +114,12 @@ private:
         void createStatusBar();
 
         void createWidgetViewer();
+
+        void saveWidgets();
+
+        QDockWidget * _chutierDock;
+        QDockWidget * _graphicTimelineDock;
+        QDockWidget * _contentViewerDock;
 
         QMenu* _fileMenu;
         QMenu* _editMenu;
@@ -138,6 +146,8 @@ private:
         QAction* _nextAction;
         QAction* _prevAction;
         QAction* _zeroAction;
+
+        QAction* _initialPlaceWidgets;
 
         QToolBar* _fileToolBar;
         QToolBar* _editToolBar;

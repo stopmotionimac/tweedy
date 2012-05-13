@@ -45,6 +45,14 @@ ViewerTweedy::ViewerTweedy( QWidget *parent )
         getViewerLabel()->setScaledContents( false );
 
         this->getViewerLabel()->setMinimumSize(this->getViewerLabel()->pixmap()->size());
+
+        getComboFPS()->addItem("8");
+        getComboFPS()->addItem("12");
+        getComboFPS()->addItem("24");
+
+        _ui->timeText->setText( "<font color=\"black\">Time : </font>" );
+        _ui->fpsText->setText( "<font color=\"black\">FPS : </font>" );
+        _ui->onionSkinLabel->setText( "<font color=\"black\">OnionSkin : </font>" );
 }
 
 QToolButton * ViewerTweedy::getPlayPauseButton()
@@ -85,6 +93,11 @@ QLabel * ViewerTweedy::getTimeLabel()
 QSlider * ViewerTweedy::getTempsSlider()
 {
 	return _ui->tempsSlider;
+}
+
+QComboBox * ViewerTweedy::getComboFPS()
+{
+        return _ui->comboFPS;
 }
 
 void ViewerTweedy::displayChanged( int time )

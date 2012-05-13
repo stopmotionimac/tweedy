@@ -120,6 +120,7 @@ void TimelineDataWrapper::displayCursor( QString typeCurseur )
 void TimelineDataWrapper::displayCurrentClip( int time )
 {
 	Q_EMIT timeChanged( time );
+        _currentTime = time;
 }
 
 void TimelineDataWrapper::deleteItem(){

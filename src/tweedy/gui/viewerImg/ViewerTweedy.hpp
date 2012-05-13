@@ -6,8 +6,9 @@
 #include <QtGui/QLabel>
 #include <QtGui/QPainter>
 #include <QtGui/QSlider>
-#include <QtCore/QTimer>
 #include <QtGui/QMessageBox>
+#include <QtGui/QComboBox>
+#include <QtCore/QTimer>
 
 #include <tweedy/core/Projet.hpp>
 
@@ -30,6 +31,7 @@ public:
     QLabel * getViewerLabel();
     QLabel * getTimeLabel();
     QSlider * getTempsSlider();
+    QComboBox * getComboFPS();
     QImage calculateImage(const QImage& sourceImage, const QImage& destinationImage);
     
 private Q_SLOTS:
