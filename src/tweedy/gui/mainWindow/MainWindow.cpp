@@ -356,7 +356,6 @@ void MainWindow::on_captureAction_triggered()
 
                 std::string filenameLD = filenameHD.string();
                 filenameLD.insert( filenameLD.size() - 4, "_LD" );
-                int pos = filenameLD.find("HD/");
                 filenameLD.erase(filenameLD.begin()+37, filenameLD.begin()+40);
 
 		petiteImg.save( QString::fromStdString( filenameLD ) );
@@ -495,7 +494,10 @@ void MainWindow::createStatusBar()
 void MainWindow::on_saveProjectAction_triggered()
 {
 	//make an archive
-        std::string filename = project().getProjectFolder().string() + "/" + project().getProjectFile().string() + ".txt";
+        //std::string filename = project().getProjectFolder().string() + "/" + project().getProjectFile().string() + ".txt";
+	std::string filename = project().getProjectFolder().string() 
+                + "/" + project().getProjectFile().string() + ".tweedy";
+                
         std::ofstream ofs( filename.c_str() );
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();
