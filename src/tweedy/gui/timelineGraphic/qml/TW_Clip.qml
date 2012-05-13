@@ -10,9 +10,12 @@ Item
         property bool clipLeftPressed: false
         property bool clipSelected: false
 
-property double timeLength: object.timeOut - object.timeIn
-width: timeLength * tw_scaleTimeToPix
-height: tw_track.height
+        property int timeClipIn: 0
+        property int timeClipOut: 0
+
+        property double timeLength: object.timeOut - object.timeIn
+        width: timeLength * tw_scaleTimeToPix
+        height: tw_track.height
 
     Rectangle
     {
@@ -160,6 +163,7 @@ height: tw_track.height
             }
             onPressed:{
                 clipLeftPressed = 1
+                timeClipIn = object.timeIn
             }
             onPositionChanged:
             {
@@ -167,17 +171,14 @@ height: tw_track.height
                 {
                     if( object.timeIn > 0 )
                     {
-                        //console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX);
                         var diff = - mouseX / tw_scaleTimeToPix;
-                        //console.log("diff"+diff);
-                        object.timeIn = diff;
-                        //console.log( "object.timeIn "+object.timeIn );
-                        setDisplayIn(diff);
+                        _tw_timelineData.changeTimeInClip(timeClipIn, diff)
                     }
                     else {
-                        object.timeIn = 0
+                        object.timeIn = 0.
+
                     }
-                console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
+                //console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
                 }
             }
 
@@ -219,6 +220,7 @@ height: tw_track.height
             onPressed:
             {
                 clipRightPressed = 1
+                timeClipIn = object.timeIn
                 //console.log( "R mouse X clip Released" + mouseX );
             }
             onReleased:
@@ -226,6 +228,18 @@ height: tw_track.height
                 clipRightPressed = 0
                 //console.log( "R mouse X clip Released" + mouseX );
             }
+            onPositionChanged:
+            {
+                if ( clipRightPressed == 1 )
+                {
+                    if( object.timeOut < tw_realMaxTime )
+                    {
+                        var diff = - mouseX / tw_scaleTimeToPix;
+                        _tw_timelineData.changeTimeOutClip(timeClipIn, diff)
+                    }
+
+                }
+             }
         }
     }
 }

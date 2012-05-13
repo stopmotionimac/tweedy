@@ -48,13 +48,15 @@ MainWindow::MainWindow()
         
 
         connect( this, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
-	connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
+        connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
         connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
         connect( _timer, SIGNAL( timeout() ), this, SLOT( increaseTime() ) );
+        connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( timeChanged( int )), this, SLOT( changeTimeViewer( int ) ) );
 
 	this->adjustSize();
 
         Q_EMIT timeChanged( _time );
+        _timelineGraphic->getTimelineDataWrapper()._currentTime = _time;
         
         QSettings settings("IMAC","Tweedy");     
 }
