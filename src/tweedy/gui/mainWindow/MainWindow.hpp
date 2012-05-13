@@ -29,6 +29,8 @@
 
 #include <QtCore/QTimer>
 
+#include <QtCore/QSettings>
+
 class MainWindow : public QMainWindow
 {
         Q_OBJECT
@@ -83,6 +85,7 @@ public Q_SLOTS:
         void on_configAction_triggered();
         void on_acceptedNewProjectWindow();
         void on_exportAction_triggered();
+        void on_recentProject_selected(QListWidgetItem*);
 
         void handle_playPauseAction_triggered();
         void handle_zeroAction_triggered();
@@ -164,6 +167,8 @@ private:
         newProjectWindow* _newProjectDialog;
         AboutTweedy* _aboutWindow;
         /// @}
+        
+        //QSettings _settings;
 };
 
 #endif
