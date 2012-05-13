@@ -1,6 +1,7 @@
 #include "ui_StartWindow.h"
 
 #include "StartWindow.hpp"
+#include <tweedy/core/Projet.hpp>
 
 #include <iostream>
 
@@ -22,6 +23,13 @@ QToolButton* StartWindow::getOpenProjectButton()
 {
 	return _ui->openProjectButton;
 }
+
+QListWidget* StartWindow::getListRecentsProjects()
+{
+    return _ui->listRecentsProjects;
+}
+
+
 
 StartWindow::~StartWindow()
 {

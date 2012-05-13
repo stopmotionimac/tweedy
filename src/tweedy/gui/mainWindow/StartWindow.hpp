@@ -19,6 +19,7 @@ public:
     QToolButton* getNewProjectButton();
     QToolButton* getOpenProjectButton();
     QListWidget* getListRecentsProjects();
+    
 
 private:
     Ui::StartWindow *_ui;

@@ -44,6 +44,7 @@ MainWindow::MainWindow()
         _timer = new QTimer( this );
         _fps = 8;
         _time = 0;
+        
 
         connect( this, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 	connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
@@ -53,6 +54,8 @@ MainWindow::MainWindow()
 	this->adjustSize();
 
         Q_EMIT timeChanged( _time );
+        
+        QSettings settings("IMAC","Tweedy");     
 }
 
 MainWindow::~MainWindow()
@@ -163,10 +166,42 @@ void MainWindow::createStartWindow()
 
 	_startWindowDialog->setModal( true );
 	_startWindowDialog->activateWindow();
-
-	this->setEnabled( false );
-
+        
+        QSettings settings("IMAC","Tweedy");
+        settings.beginGroup("Saves");
+        QStringList keys = settings.allKeys();
+        QStringListIterator it(keys);
+        while(it.hasNext())
+        {
+            QListWidgetItem* item = new QListWidgetItem(it.next());
+            _startWindowDialog->getListRecentsProjects()->addItem(item);
+            
+        }
+        settings.endGroup();
+        
+        this->setEnabled( false );
+        
+        connect( _startWindowDialog->getListRecentsProjects(), SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT (on_recentProject_selected(QListWidgetItem*)));
 	connect( _startWindowDialog, SIGNAL( rejected() ), this, SLOT( on_close_window() ) );
+        
+}
+
+void MainWindow::on_recentProject_selected(QListWidgetItem* item)
+{
+    
+    QString projectName = item->text();
+    
+    QSettings settings("IMAC","Tweedy");
+    settings.beginGroup("Saves");
+    QString saveFile = settings.value(projectName).toString();
+    
+    on_loadProjectAction_triggered(saveFile.toStdString().c_str());
+    
+    settings.endGroup();
+    
+    _startWindowDialog->hide();
+    this->setEnabled( true );
+    
 }
 
 void MainWindow::on_close_window()
@@ -464,6 +499,12 @@ void MainWindow::on_saveProjectAction_triggered()
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();
         ofs.close();
+        
+        //
+        QSettings  settings("IMAC","Tweedy");
+        settings.beginGroup("Saves");
+        settings.setValue(QString(project().getProjectFile().string().c_str()),filename.c_str());
+        settings.endGroup();
 }
 
 //load the project
