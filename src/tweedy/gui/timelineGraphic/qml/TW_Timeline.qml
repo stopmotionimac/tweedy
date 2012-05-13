@@ -99,11 +99,11 @@ Rectangle
                 setDisplayOut( clampedTimeOut )
      }
 
-    signal currentTimeChanged
+    /*/signal currentTimeChanged
     onCurrentTimeChanged: {
         console.log("onCurrentTimeChanged")
     }
-    Component.onCompleted:tw_timelineWindow.currentTimeChanged
+    Component.onCompleted:tw_timelineWindow.currentTimeChanged*/
 
         Column
             {
@@ -237,7 +237,21 @@ Rectangle
                 }
 
                 if (event.key == Qt.Key_Control)
+                {
                     tw_controlPosition = 1
+                }
+
+                if (event.key == Qt.Key_Right)
+                {
+                    tw_timeCursor.x = tw_timeCursor.x +10
+                    _tw_timelineData.displayCurrentClip( tw_timeCursor.x * tw_scalePixToTime )
+                }
+
+                if (event.key == Qt.Key_Left)
+                {
+                    tw_timeCursor.x = tw_timeCursor.x -10
+                    _tw_timelineData.displayCurrentClip( tw_timeCursor.x * tw_scalePixToTime )
+                }
             }
 
             Keys.onReleased:

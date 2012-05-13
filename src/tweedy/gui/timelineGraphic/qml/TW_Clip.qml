@@ -175,10 +175,8 @@ Item
                         _tw_timelineData.changeTimeInClip(timeClipIn, diff)
                     }
                     else {
-                        object.timeIn = 0.
-
+                        object.timeIn = 0
                     }
-                //console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
                 }
             }
 

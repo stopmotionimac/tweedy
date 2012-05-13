@@ -115,7 +115,7 @@ void ViewerTweedy::displayChanged( int time )
 
     QPixmap img( QString::fromStdString( filename ) );
     //QPixmap p( img.scaled ( getViewerLabel()->size(), Qt::KeepAspectRatioByExpanding ) );
-    QPixmap p( img.scaled ( 200, 2) );
+    QPixmap p( img.scaled ( 400, 300) );
     this->getViewerLabel()->setPixmap( p );
     this->getViewerLabel()->adjustSize();
 
