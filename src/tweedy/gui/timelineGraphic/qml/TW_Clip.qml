@@ -10,9 +10,9 @@ Item
         property bool clipLeftPressed: false
     property bool clipSelected: false
 
-	property double timeLength: object.timeOut - object.timeIn
-	width: timeLength * tw_scaleTimeToPix
-	height: tw_track.height
+property double timeLength: object.timeOut - object.timeIn
+width: timeLength * tw_scaleTimeToPix
+height: tw_track.height
 
     Rectangle
     {
@@ -60,7 +60,7 @@ Item
 
         onEntered:
         {
-            if(  ! _tw_timelineData.isSelected(object.timeIn) )
+            if( ! _tw_timelineData.isSelected(object.timeIn) )
             {
                  parent.color = '#FDAE37'
             }
@@ -126,14 +126,14 @@ Item
 
             if( clipSelected )
             {
-            	var insertPos = tw_insertPos > object.timeIn ? tw_insertPos - timeLength : tw_insertPos
-            	var selectedClip = -1
-            	selectedClip = _tw_timelineData.translate( tw_timeInClipSelected, insertPos )
-            	if( selectedClip != -1 )
+             var insertPos = tw_insertPos > object.timeIn ? tw_insertPos - timeLength : tw_insertPos
+             var selectedClip = -1
+             selectedClip = _tw_timelineData.translate( tw_timeInClipSelected, insertPos )
+             if( selectedClip != -1 )
                 {
-                	tw_timeInClipSelected = tw_insertPos
+                 tw_timeInClipSelected = tw_insertPos
                 }
-            	clipSelected = false
+             clipSelected = false
             }
 
         }
@@ -175,9 +175,17 @@ Item
                 {
                     if( object.timeIn > 0 )
                     {
-                        console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
-                    }
+                        console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX);
+                        var diff = - mouseX / tw_scaleTimeToPix;
+                        console.log("diff"+diff);
+                        object.timeIn = diff;
+                        console.log( "object.timeIn "+object.timeIn );
+                        setDisplayIn(diff);
+                    } else {
+                        object.timeIn = 0
 
+                    }
+                console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
                 }
             }
 
@@ -229,4 +237,3 @@ Item
         }
     }
 }
-

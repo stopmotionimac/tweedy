@@ -54,3 +54,7 @@ QTabBar::tab {
 QDockWidget {
         border: 1px solid black;
     }
+
+.ViewerTweedy QLabel {
+    color:'red';
+}
