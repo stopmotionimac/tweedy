@@ -14,8 +14,6 @@ StartWindow::StartWindow( QWidget *parent )
         setWindowTitle( tr( "TWEEDY - stop motion software" ) );
 
 	_ui->logoLabel->setPixmap( QString::fromStdString( "img/logo.png" ) );
-        
-
 }
 
 QToolButton* StartWindow::getNewProjectButton()

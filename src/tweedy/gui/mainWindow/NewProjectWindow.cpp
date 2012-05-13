@@ -35,8 +35,7 @@ newProjectWindow::~newProjectWindow()
 
 void newProjectWindow::on_accept_clicked()
 {
-    /*affecter un nom de fichier et de dossier au projet*/
-    
+    //give a filename and a folder name to the project
     if(_ui->nameProjectLineEdit->text().isEmpty() || _ui->folderProjectLineEdit->text().isEmpty())
         QMessageBox::about(this, tr("Empty Path"), tr("Please, choose a folder and a name"));
     else
@@ -48,11 +47,7 @@ void newProjectWindow::on_accept_clicked()
         
         QString projectFile = QString(_ui->nameProjectLineEdit->text());
         projet.setProjectFile(projectFile.toStdString());
-        
-        std::cout << "Project File :" << projet.getProjectFile() << std::endl;
-        std::cout << "Project Folder :" << projet.getProjectFolder() << std::endl;
     }
-    
 }
 
 void newProjectWindow::on_reject_clicked()

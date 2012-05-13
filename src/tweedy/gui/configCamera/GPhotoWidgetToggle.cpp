@@ -44,5 +44,4 @@ void GPhotoWidgetToggle::on_setValue_toggled(bool checked){
         }
     }
     projectInstance.gPhotoInstance().setValueInt(_widget, value);
-
 }

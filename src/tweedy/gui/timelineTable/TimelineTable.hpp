@@ -54,21 +54,10 @@ public:
 		return _table;
 	}
 
-        //void createActions();
 	void toolBar();
-        //void linkButtonsWithActions();
 	void updateTable();
-	//void emitDisplayChanged();
 
 public Q_SLOTS:
-        //void increaseTime();
-	//void writeTime(int newValue);
-        //void getCurrentTime( int row, int column );
-        /*void handle_plusAction_triggered();
-	void handle_minusAction_triggered();
-	void handle_blankBeforeAction_triggered();
-	void handle_blankAfterAction_triggered();
-        void deleteKey_activated();*/
 
 Q_SIGNALS:
 	void timeChanged( int newValue );
@@ -77,16 +66,8 @@ Q_SIGNALS:
 private:
 	Ui::TimelineTable* _ui;
 	QIcon _defautIcon;
-
-        /*QAction* _plusAction;
-	QAction* _minusAction;
-	QAction* _blankBeforeAction;
-        QAction* _blankAfterAction;*/
-
 	QShortcut* _deleteKey;
-
 	Table* _table;
-
 };
 
 #endif

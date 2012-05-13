@@ -3,7 +3,6 @@
 
 #include <string>
 
-
 class IAction {
     
 public:
@@ -14,12 +13,9 @@ public:
     
     virtual std::string getName() const;
 
-    
 protected:
     
     std::string _name;
 };
 
-
 #endif	/* IACTION_HPP */
-

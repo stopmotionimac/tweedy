@@ -5,27 +5,22 @@
 ActDragNDropChutToTL::ActDragNDropChutToTL()
         :IAction("Action Drag and Drop from Chutier to Timeline")
 {
-    
-}
 
+}
 
 ActDragNDropChutToTL::~ActDragNDropChutToTL()
 {
-    
+
 }
 
 void ActDragNDropChutToTL::operator ()(const std::string& filename, int position)
 {
-    
     Projet& project = Projet::getInstance();
     
-    //creation de la commande de deplacement d'un clip dans la timeline
+    //creation of the moving command of a clip to the timeline
     IUndoRedoCommand* cmd = new CmdInsertClip(filename,"Cmd Insert Clip : "+filename, position);
     
-    //ajout de la commande au commande manager
+    //add the command to the command manager
     CommandManager& cmdMng = project.getCommandManager();
-    cmdMng.pushNewCommand(cmd);
-    
-    std::cout << "Action done" << std::endl;
-    
+    cmdMng.pushNewCommand(cmd);    
 }

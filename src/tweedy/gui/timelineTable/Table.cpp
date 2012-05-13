@@ -20,10 +20,6 @@ Table::Table( QWidget *parent )
 : QTableWidget( parent )
 {
 	this->setRowCount( 1 );
-	//this->setColumnCount(1);
-
-	/*QTableWidgetItem * itemColonne1 = new QTableWidgetItem("Real time");
-	this->setHorizontalHeaderItem(0,itemColonne1);*/
 
 	QTableWidgetItem * itemLigne1 = new QTableWidgetItem( "Sequence" );
 	this->setVerticalHeaderItem( 0, itemLigne1 );
@@ -48,9 +44,6 @@ void Table::dragMoveEvent( QDragMoveEvent *event )
 
 void Table::startDrag( Qt::DropActions supportedActions )
 {
-	std::cout << "TabWidget::startDrag" << std::endl;
-
-
 	QMimeData *mimeData = new QMimeData;
 	mimeData->setText( QString::fromStdString( "timeline" ) );
 
@@ -66,34 +59,28 @@ void Table::startDrag( Qt::DropActions supportedActions )
 	}
 	mimeData->setUrls( urls );
 
-
 	QDrag *drag = new QDrag( this );
 	drag->setMimeData( mimeData );
-
-
 	drag->exec();
 
 }
 
 void Table::dropEvent( QDropEvent *event )
 {
-	//creation de l'action de drag and drop au sein de la timeline
+        //creation of the drag and drop action inside the timeline
 	ActDragNDropTLToTL actionTlToTl;
 	ActDragNDropChutToTL actionChutToTl;
 
-
-	std::cout << "TableTimeline::dropEvent" << std::endl;
-	//on recupere la timeline
+        //get the timeline
 	Timeline * timeline = &( Projet::getInstance().getTimeline() );
 
 
-	//on recupere le mimeData (ce que l'on drag)
+        //get the mimeData (what is dragged)
 	const QMimeData* mimeData = event->mimeData();
 
-	//on recupere la position
+        //get the position
 	QTableWidgetItem * item = itemAt( event->pos() );
 	unsigned int position = item->column();
-	std::cout << "y: " << item->column() << std::endl;
 
 	QList<QUrl> urlList = mimeData->urls();
 
@@ -101,31 +88,18 @@ void Table::dropEvent( QDropEvent *event )
 	{
 		QString text = urlList.at( i ).path();
 		std::string filename = text.toStdString();
-		std::cout << filename << std::endl;
 
 		if( mimeData->text().toStdString() == "timeline" )
 		{
-			//timeline->moveElement(filename, position);
 			actionTlToTl( filename, position );
-
 		}
-
 
 		else
 		{
-
-
-			//ajout du clip dans la timeline core
-			//timeline->insertClip(filename, position);
-			actionChutToTl( filename, position );
+                    //add clip on the core timeline
+                    actionChutToTl( filename, position );
 		}
 	}
 
-	/*std::vector<std::string> filenames;
-	boost::algorithm::split( filenames, datas, boost::is_any_of(":") );
-	std::cout << "TL: " << filenames.size() << std::endl;*/
-
 	event->acceptProposedAction();
-
-
 }

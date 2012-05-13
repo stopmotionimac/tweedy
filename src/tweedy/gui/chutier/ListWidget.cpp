@@ -22,14 +22,11 @@ ListWidget::ListWidget( QWidget *parent )
 	setDropIndicatorShown( true );
 	setDragDropMode( QAbstractItemView::DragDrop );
 	setSelectionMode( QAbstractItemView::ExtendedSelection );
-
 }
 
 void ListWidget::dragEnterEvent( QDragEnterEvent *event )
 {
-
 	event->acceptProposedAction();
-
 }
 
 void ListWidget::dropEvent( QDropEvent *event )
@@ -43,15 +40,11 @@ void ListWidget::dropEvent( QDropEvent *event )
 		QListWidgetItem *item = new QListWidgetItem( QIcon( text ), text, this );
 		this->addItem( item );
 	}
-
 	event->acceptProposedAction();
-
 }
 
 void ListWidget::startDrag( Qt::DropActions supportedActions )
 {
-	std::cout << "ListWidget::startDrag" << std::endl;
-
 	QByteArray itemData;
 
 	QMimeData *mimeData = new QMimeData;
@@ -66,9 +59,7 @@ void ListWidget::startDrag( Qt::DropActions supportedActions )
 	}
 	mimeData->setUrls( urls );
 
-        QDrag *drag = new QDrag( this );
-	drag->setMimeData( mimeData );
-
+	QDrag *drag = new QDrag( this );
+        drag->setMimeData( mimeData );
 	drag->exec();
-
 }

@@ -1,7 +1,6 @@
 #ifndef ACTDRAGNDROPCHUTTOTL_HPP
 #define	ACTDRAGNDROPCHUTTOTL_HPP
 
-
 #include <tweedy/core/action/IAction.hpp>
 
 class ActDragNDropChutToTL : public IAction
@@ -17,4 +16,3 @@ public:
 };
 
 #endif	/* ACTDRAGNDROPCHUTTOTL_HPP */
-

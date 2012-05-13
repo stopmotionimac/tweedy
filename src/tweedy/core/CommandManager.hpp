@@ -22,23 +22,17 @@ public:
     bool isActive() const;
     void setActive(bool active = true) ;
     
-    
     int getCleanIndex() const;
     
     bool canUndo() const;
     bool canRedo() const;
     
-    
     int getUndoLimit() const;
     int getRedoLimit() const;
     
-    
     void setUndoLimit(int limit);
     void setRedoLimit(int limit);
-    
-    
-    //void beginMacro (const std::string&  text);
-    
+        
     void clean();
     bool isClean() const;
     
@@ -51,7 +45,6 @@ public:
     void undo();        
     void redo();
 
- 
     boost::ptr_vector<IUndoRedoCommand>& getUndoRedoVector();
     
     size_t getIndex();
@@ -76,6 +69,4 @@ private:
     
 };
 
-
 #endif	/* COMMANDMANAGER_HPP */
-

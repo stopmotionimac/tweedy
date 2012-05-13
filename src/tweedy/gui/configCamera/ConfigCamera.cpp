@@ -19,12 +19,10 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
     }
     else
     {
-
-
         QVBoxLayout * layoutForListOfParam = new QVBoxLayout(this);
 
         QWidget * widgetForListOfParam = new QWidget(this);
-        //Change size in fonction of nuber of config
+        //Change size in fonction of config's number
 
         widgetForListOfParam->setLayout(layoutForListOfParam);
 
@@ -76,8 +74,6 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
     //                    QRadioButton * toggleNo = no->makeButton("no");
     //                    layoutForOneParam->addWidget(toggleYes);
     //                    layoutForOneParam->addWidget(toggleNo);
-
-
     //                    break;
     //                }
 
@@ -90,20 +86,11 @@ ConfigCamera::ConfigCamera(QWidget *parent) : QWidget(parent)
                         break;
                     }
                 }
-
             }
         }
         scrollArea->setWidget(widgetForListOfParam);
     }
 
-
-
-
     QVBoxLayout * layoutForScrollArea = new QVBoxLayout(this);
     layoutForScrollArea->addWidget(scrollArea);
-
-    //scrollArea->setBackgroundRole(QPalette::Dark);
-    //scrollArea->addLayout(layoutForListOfParam);
-
-
 }

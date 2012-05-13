@@ -15,23 +15,19 @@ public:
     
     CmdInsertClip* clone() const;
 
-
     void undo();
     void runDo();
     void redo();
 
     const std::string& getText() const;
-    
-    
-    
+
 private:
     
     std::string _text;
     std::string _filename;
     int _newPosition;
     Clip _clipTemp;
-    
+
 };
 
 #endif	/* CMDINSERTCLIP_HPP */
-

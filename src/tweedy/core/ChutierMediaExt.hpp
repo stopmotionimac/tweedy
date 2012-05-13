@@ -32,16 +32,8 @@ private :
         template<class Archive>
         void serialize(Archive& ar, const unsigned int version)
         {
-
             ar & _mapMediaExt;
-
-
-
-        }
-        
-        
+        } 
 };
-
-
 
 #endif // CHUTIER_HPP

@@ -4,12 +4,12 @@
 TweedyApp::TweedyApp(int& argc, char** argv)
         :QApplication(argc,argv)
 {
-    
+
 }
 
 TweedyApp::~TweedyApp()
 {
-    
+
 }
 
 bool TweedyApp::notify(QObject * receiver, QEvent * event)

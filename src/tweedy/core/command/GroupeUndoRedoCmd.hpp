@@ -24,19 +24,12 @@ public:
     const std::string& getText() const;
     
     boost::ptr_vector<IUndoRedoCommand>& getListeCmd();
-    
-    //void setCmd(IUndoRedoCommand& i);
-    
-    
-    
-    
+
 private:
     
     boost::ptr_vector<IUndoRedoCommand> _listeCmd;
     std::string _text;
-
     
 };
 
 #endif	/* GROUPEUNDOREDOCMD_HPP */
-

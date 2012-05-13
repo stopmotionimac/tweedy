@@ -32,8 +32,6 @@ private:
     Camera * _camera;
     GPContext * _context;
     bool _cameraIsInit;
-    //const char ** ptr;
-    //unsigned long int * size;
     boost::filesystem::path _fileName;
     CameraWidget * _mainWidget;
     std::vector<CameraWidget*> _WidgetsVector;
@@ -67,13 +65,10 @@ public:
     boost::filesystem::path captureToFile();
     
     std::string doPreview(int i);
-    //bool getVarCameraIsInit();
     void setVarCameraIsInit(bool var);
-
 
 private:
     void initContext();
-
 
 };
 

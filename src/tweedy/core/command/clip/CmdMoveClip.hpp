@@ -15,15 +15,12 @@ public:
     
     CmdMoveClip* clone() const;
 
-
     void undo();
     void runDo();
     void redo();
 
     const std::string& getText() const;
-    
-    
-    
+
 private:
     
     std::string _text;
@@ -34,4 +31,3 @@ private:
 };
 
 #endif	/* CMDMOVECLIP_HPP */
-

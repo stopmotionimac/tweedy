@@ -6,7 +6,6 @@
 #include <QtGui/QWidget>
 #include <QtGui/QComboBox>
 
-
 class GPhotoWidgetTextItems : public QWidget
 {
     Q_OBJECT
