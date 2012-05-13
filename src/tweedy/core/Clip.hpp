@@ -24,7 +24,7 @@ public:
         _imgreduction(0), 
         _timeIn(0), 
         _timeOut(0),
-          _selected(false){
+        _selected(false){
 
         this->_name = url.filename();
     }
@@ -39,9 +39,9 @@ public:
         _imgreduction(0), 
         _timeIn(0), 
         _timeOut(0),
-          _selected(false){
-    }
-   
+        _selected(false){
+
+        }
 
     Clip& operator=(const Clip&);
         

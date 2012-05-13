@@ -44,6 +44,7 @@ void CmdClipDelete::undo()
 {
     //ajouter le clip temp dans la map
     Timeline& timeline = Projet::getInstance().getTimeline();
+    timeline.unselectAll();
     timeline.insertClip(_clipTemp, _clipTemp.timeIn());
 }
 
