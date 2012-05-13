@@ -497,7 +497,7 @@ void MainWindow::on_saveProjectAction_triggered()
         //std::string filename = project().getProjectFolder().string() + "/" + project().getProjectFile().string() + ".txt";
 	std::string filename = project().getProjectFolder().string() 
                 + "/" + project().getProjectFile().string() + ".tweedy";
-                
+
         std::ofstream ofs( filename.c_str() );
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();

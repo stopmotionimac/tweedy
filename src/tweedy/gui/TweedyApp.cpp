@@ -21,7 +21,7 @@ bool TweedyApp::notify(QObject * receiver, QEvent * event)
     }
     catch ( const std::exception& e)
     {
-        int r = QMessageBox::critical(0, tr("Tweedy"), tr("The application shuts down"),0,1,2);
+        //int r = QMessageBox::critical(0, tr("Tweedy"), tr("The application shuts down"),0,1,2);
     }
     catch( ... )
     {
