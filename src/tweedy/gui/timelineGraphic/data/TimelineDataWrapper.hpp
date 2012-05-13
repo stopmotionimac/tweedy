@@ -50,6 +50,8 @@ public:
         Q_INVOKABLE void unselectAll();
         Q_INVOKABLE void selectClip( int timeIn );
         Q_INVOKABLE bool isSelected(int timeIn);
+        Q_INVOKABLE void changeTimeInClip(int timeIn, int time);
+        Q_INVOKABLE void changeTimeOutClip(int timeIn, int time);
 
 
 private:

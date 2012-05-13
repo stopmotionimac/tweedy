@@ -98,12 +98,14 @@ Rectangle
         setDisplayIn( clampedTimeIn )
                 setDisplayOut( clampedTimeOut )
      }
-    function changeXCursor ( currentTimeChanged )
-    {
-        console.log ("ddddddd")
-    }
 
-            Column
+    signal currentTimeChanged
+    onCurrentTimeChanged: {
+        console.log("onCurrentTimeChanged")
+    }
+    Component.onCompleted:tw_timelineWindow.currentTimeChanged
+
+        Column
             {
                 anchors.fill: parent
                 // Graduation block
@@ -194,7 +196,7 @@ Rectangle
                 id: tw_timeCursor
 
                 gradHeight: tw_gradHeight
-                x: tw_currentTimePix - tw_displayInPix
+                x: tw_currentTimePix
             }
 
             HorizontalGradient

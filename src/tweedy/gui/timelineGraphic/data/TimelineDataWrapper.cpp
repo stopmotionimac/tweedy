@@ -155,3 +155,29 @@ void TimelineDataWrapper::unselectAll()
 {
     getTimeline().unselectAll();
 }
+
+void TimelineDataWrapper::changeTimeInClip(int timeIn, int time)
+{
+    std::string id = getTimeline().findCurrentClip(timeIn);
+    Clip clip = getTimeline().mapClip().at(id);
+    std::cout<<clip.timeIn()<<std::endl;
+
+    clip.increaseTimeIn(-time);
+    std::cout<<clip.timeIn()<<std::endl;
+
+    updateListe();
+
+}
+
+void TimelineDataWrapper::changeTimeOutClip(int timeIn, int time)
+{
+    std::string id = getTimeline().findCurrentClip(timeIn);
+    Clip clip = getTimeline().mapClip().at(id);
+    std::cout<<clip.timeIn()<<std::endl;
+
+    clip.increaseTimeOut(time);
+    std::cout<<clip.timeIn()<<std::endl;
+
+    updateListe();
+
+}

@@ -53,6 +53,7 @@ ViewerTweedy::ViewerTweedy( QWidget *parent )
         _ui->timeText->setText( "<font color=\"black\">Time : </font>" );
         _ui->fpsText->setText( "<font color=\"black\">FPS : </font>" );
         _ui->onionSkinLabel->setText( "<font color=\"black\">OnionSkin : </font>" );
+
 }
 
 QToolButton * ViewerTweedy::getPlayPauseButton()
@@ -113,7 +114,8 @@ void ViewerTweedy::displayChanged( int time )
         _previewTimer->start( 50 );
 
     QPixmap img( QString::fromStdString( filename ) );
-    QPixmap p( img.scaled ( getViewerLabel()->size(), Qt::KeepAspectRatioByExpanding ) );
+    //QPixmap p( img.scaled ( getViewerLabel()->size(), Qt::KeepAspectRatioByExpanding ) );
+    QPixmap p( img.scaled ( 200, 2) );
     this->getViewerLabel()->setPixmap( p );
     this->getViewerLabel()->adjustSize();
 
