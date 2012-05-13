@@ -1,6 +1,7 @@
 #include "ui_StartWindow.h"
 
 #include "StartWindow.hpp"
+#include <tweedy/core/Projet.hpp>
 
 #include <iostream>
 
@@ -10,10 +11,9 @@ StartWindow::StartWindow( QWidget *parent )
 {
 	_ui->setupUi( this );
 
-	setWindowTitle( tr( "TWEEDY - logiciel de stop motion" ) );
+        setWindowTitle( tr( "TWEEDY - stop motion software" ) );
 
 	_ui->logoLabel->setPixmap( QString::fromStdString( "img/logo.png" ) );
-
 }
 
 QToolButton* StartWindow::getNewProjectButton()
@@ -25,6 +25,13 @@ QToolButton* StartWindow::getOpenProjectButton()
 {
 	return _ui->openProjectButton;
 }
+
+QListWidget* StartWindow::getListRecentsProjects()
+{
+    return _ui->listRecentsProjects;
+}
+
+
 
 StartWindow::~StartWindow()
 {

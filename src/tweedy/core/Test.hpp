@@ -21,5 +21,4 @@ class TestB : public Test {
     TestB(ImediaType i) : Test(i){};
 };
 
-//Voiture() : IVehicule(eVehiculeTypeVoiture)
 #endif // TEST_HPP

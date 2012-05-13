@@ -1,7 +1,6 @@
 import QtQuick 1.1
 import DragNDrop 1.0
 
-
 // Window container
 Rectangle
 {
@@ -26,38 +25,6 @@ Rectangle
     //1 -> pressed and hold
     //2 -> pressed and released
 
-
-/*
-
-    Keys.onPressed:
-    {
-        // delete key is pressed
-        if (event.key == Qt.Key_Delete)
-        {
-            console.log("Big background rectangle : delete key has been pressed")
-            var timeInClipSelected = _tw_timelineData.deleteItem();
-
-            //ratio = tw_fullBar.width*tw_fullBar.width/(_tw_timelineData.maxTime*tw_scrollBar.width)
-
-            if (timeInClipSelected < _tw_timelineData.maxTime)
-                _tw_timelineData.selectClip(timeInClipSelected)
-
-        }
-        if (event.key == Qt.Key_Left)
-            if (timeInClipSelected < _tw_timelineData.maxTime - 1)
-                timeInClipSelected ++;
-        }
-        if (event.key == Qt.Key_Control)
-             controlPosition = 1
-
-    }
-
-    Keys.onReleased:
-    {
-        if (event.key == Qt.Key_Control)
-            controlPosition = 2
-    }
-*/
     property int tw_timeInDoubleClickedClip : -1
     property int tw_doubleClickedBlank : -1
     property int tw_timeInClipSelected : -1
@@ -86,13 +53,13 @@ Rectangle
 
     function moveTimeTo( mouseX )
     {
-        console.log( "moveTimeTo" )
-        console.log( "mouseX:", mouseX )
-        console.log( "tw_scalePixToTime:", tw_scalePixToTime )
-        console.log( "( mouseX * tw_scalePixToTime ):", ( mouseX * tw_scalePixToTime ) )
-        console.log( "tw_displayIn:", tw_displayIn )
+        //console.log( "moveTimeTo" )
+        //console.log( "mouseX:", mouseX )
+        //console.log( "tw_scalePixToTime:", tw_scalePixToTime )
+        //console.log( "( mouseX * tw_scalePixToTime ):", ( mouseX * tw_scalePixToTime ) )
+        //console.log( "tw_displayIn:", tw_displayIn )
         tw_currentTime = tw_displayIn + ( mouseX * tw_scalePixToTime )
-        console.log( "tw_currentTime:", tw_currentTime )
+        //console.log( "tw_currentTime:", tw_currentTime )
         _tw_timelineData.displayCurrentClip( tw_currentTime )
         tw_doubleClickedBlank = -1
         tw_timeInClipSelected = -1
@@ -144,7 +111,7 @@ Rectangle
                     height: tw_gradHeight
                     color: "#414042"
 
-                    // zone de deplacement
+                    //moving zone
                     MouseArea
                     {
                         id: tw_allTracksHandle
@@ -250,7 +217,6 @@ Rectangle
                 }
             }
 
-
             Keys.onPressed:
             {
                 // delete key is pressed
@@ -263,16 +229,6 @@ Rectangle
                         tw_timeInClipSelected = -1
 
                 }
-                /*if (event.key == Qt.Key_Right)
-                    if (tw_timeInClipSelected < _tw_timelineData.maxTime - 1){
-                        tw_timeInClipSelected ++;
-                       }
-
-
-                if (event.key == Qt.Key_Left)
-                    if (tw_timeInClipSelected > 0){
-                        tw_timeInClipSelected --;
-                    }*/
 
                 if (event.key == Qt.Key_Control)
                     tw_controlPosition = 1
@@ -284,7 +240,6 @@ Rectangle
                     tw_controlPosition = 2
             }
 
-
             DropArea
             {
                 id: dropArea
@@ -293,7 +248,6 @@ Rectangle
                 onDragMove:
                 {
                     var markerPosition = -1
-                    // console.log( "onDragMove, position:", position )
                     markerPosition = _tw_timelineData.getMarkerPosition( (position-tw_track.x) * tw_scalePixToTime, false )
 
                     if( markerPosition != -1 )
@@ -301,7 +255,6 @@ Rectangle
                         tw_inserting = true
                         tw_insertPos = markerPosition
                     }
-
                 }
 
                 onDragLeave:
@@ -311,7 +264,6 @@ Rectangle
 
                 onDrop:
                 {
-                    // console.log( "onDrop, position:", position )
                     tw_inserting = false
 
                     _tw_dropArea.insertElement( (position-tw_track.x) * tw_scalePixToTime )
@@ -319,8 +271,6 @@ Rectangle
                     tw_timeInClipSelected = (position-tw_track.x) * tw_scalePixToTime
                     if( tw_timeInClipSelected > (position-tw_track.x) * tw_scalePixToTime )
                         tw_timeInClipSelected -= 1
-
-                    // console.log( " timeInClipSelected", tw_timeInClipSelected)
                 }
             }
         }

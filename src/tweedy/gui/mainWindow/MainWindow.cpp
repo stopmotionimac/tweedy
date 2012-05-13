@@ -18,6 +18,7 @@
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QImage>
+#include <QtCore/QSettings>
 
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
@@ -31,7 +32,7 @@
 
 MainWindow::MainWindow()
 {
-	setWindowTitle( tr( "TWEEDY - stop motion software" ) );
+        setWindowTitle( tr( "TWEEDY - Stop Motion software" ) );
 
 	createActions();
 	createStartWindow();
@@ -44,6 +45,7 @@ MainWindow::MainWindow()
         _timer = new QTimer( this );
         _fps = 8;
         _time = 0;
+        
 
         connect( this, SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
 	connect( &( this->_timelineGraphic->getTimelineDataWrapper() ), SIGNAL( timeChanged( int ) ), this->_viewerImg, SLOT( displayChanged( int ) ) );
@@ -53,7 +55,8 @@ MainWindow::MainWindow()
 	this->adjustSize();
 
         Q_EMIT timeChanged( _time );
-
+        
+        QSettings settings("IMAC","Tweedy");     
 }
 
 MainWindow::~MainWindow()
@@ -63,7 +66,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::createActions()
 {
-
 	_newProjectAction = new QAction( QIcon( "img/icones/new1.png" ), "New project", this );
 	_newProjectAction->setShortcut( QKeySequence( "Ctrl+N" ) );
 	_newProjectAction->setStatusTip( "Create a new project" );
@@ -136,20 +138,21 @@ void MainWindow::createActions()
         _zeroAction->setStatusTip( "Reset" );
         connect( _zeroAction, SIGNAL( triggered() ), this, SLOT( handle_zeroAction_triggered() ) );
 
+        _initialPlaceWidgets = new QAction( "Restore display", this );
+        _initialPlaceWidgets->setStatusTip( "Restore widget's location" );
+        connect( _initialPlaceWidgets, SIGNAL( triggered() ), this, SLOT( on_initialPlaceWidgets_triggered() ) );
+
 }
 
 void MainWindow::createStartWindow()
 {
 	//creation of the start window
-	_startWindowDialog = new StartWindow();
-	/// @todo Le titre est deja sette dans StartWindow !
-	/// Pourquoi ne pas tout faire dans StartWindow ??
-	_startWindowDialog->setWindowTitle( tr( "TWEEDY - stop motion software" ) );
+        _startWindowDialog = new StartWindow();
 	_startWindowDialog->setWindowFlags( Qt::WindowStaysOnTopHint );
 	_startWindowDialog->setModal( false );
 	_startWindowDialog->showNormal();
 
-	//pu the window on the screen center
+        //put the window on the screen center
 	const QRect screen = QApplication::desktop()->screenGeometry();
 	_startWindowDialog->move( screen.center() - _startWindowDialog->rect().center() );
 
@@ -165,10 +168,42 @@ void MainWindow::createStartWindow()
 
 	_startWindowDialog->setModal( true );
 	_startWindowDialog->activateWindow();
-
-	this->setEnabled( false );
-
+        
+        QSettings settings("IMAC","Tweedy");
+        settings.beginGroup("Saves");
+        QStringList keys = settings.allKeys();
+        QStringListIterator it(keys);
+        while(it.hasNext())
+        {
+            QListWidgetItem* item = new QListWidgetItem(it.next());
+            _startWindowDialog->getListRecentsProjects()->addItem(item);
+            
+        }
+        settings.endGroup();
+        
+        this->setEnabled( false );
+        
+        connect( _startWindowDialog->getListRecentsProjects(), SIGNAL(itemDoubleClicked(QListWidgetItem*)), this, SLOT (on_recentProject_selected(QListWidgetItem*)));
 	connect( _startWindowDialog, SIGNAL( rejected() ), this, SLOT( on_close_window() ) );
+        
+}
+
+void MainWindow::on_recentProject_selected(QListWidgetItem* item)
+{
+    
+    QString projectName = item->text();
+    
+    QSettings settings("IMAC","Tweedy");
+    settings.beginGroup("Saves");
+    QString saveFile = settings.value(projectName).toString();
+    
+    on_loadProjectAction_triggered(saveFile.toStdString().c_str());
+    
+    settings.endGroup();
+    
+    _startWindowDialog->hide();
+    this->setEnabled( true );
+    
 }
 
 void MainWindow::on_close_window()
@@ -194,6 +229,7 @@ void MainWindow::createMenuBar()
 	_editMenu->addAction( _redoAction );
 
 	_viewMenu = menuBar()->addMenu( tr( "View" ) );
+        _viewMenu->addAction( _initialPlaceWidgets );
 
 	_paramsMenu = menuBar()->addMenu( tr( "Configuration" ) );
 	_paramsMenu->addAction( _configAction );
@@ -222,64 +258,54 @@ void MainWindow::createWidgets()
 {
 	{
 		// Dock Chutier
-		QDockWidget * chutierDock = new QDockWidget( "Media List", this );
+                _chutierDock = new QDockWidget( "Media List", this );
 		{
-			_chutier = new Chutier( chutierDock );
-			chutierDock->setWidget( _chutier );
-			addDockWidget( Qt::TopDockWidgetArea, chutierDock );
-			_viewMenu->addAction( chutierDock->toggleViewAction() );
-			_viewMenu->addAction( _chutier->_viewerChutierDock->toggleViewAction() );
-		}
-		// Dock UndoWidget
-		QDockWidget * undoDock = new QDockWidget( "Command List", this );
-		{
-			_undoView = new UndoView( Projet::getInstance().getCommandManager(), undoDock );
-			_undoWidget = new UndoWidget( _undoView );
-			undoDock->setWidget( _undoWidget );
-			addDockWidget( Qt::TopDockWidgetArea, undoDock );
-			_viewMenu->addAction( undoDock->toggleViewAction() );
+                        _chutier = new Chutier( _chutierDock );
+                        _chutierDock->setWidget( _chutier );
+                        addDockWidget( Qt::TopDockWidgetArea, _chutierDock );
+                        _viewMenu->addAction( _chutierDock->toggleViewAction() );
+                        _viewMenu->addAction( _chutier->_viewerChutierDock->toggleViewAction() );
 		}
 
-		tabifyDockWidget( chutierDock, undoDock );
-		undoDock->setHidden( true );
-		undoDock->setFloating( true );
 	}
-
-//                {
-//                        // Dock Timeline Table
-//                        QDockWidget * timelineDock = new QDockWidget( "Timeline", this );
-//                        _timelineTable = new TimelineTable( timelineDock );
-//                        timelineDock->setWidget( _timelineTable );
-//                        addDockWidget( Qt::BottomDockWidgetArea, timelineDock );
-//                        _viewMenu->addAction( timelineDock->toggleViewAction() );
-
-//                        connect( _timelineTable->getTableWidget(), SIGNAL( cellDoubleClicked( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
-//                        connect( _timelineTable, SIGNAL( timeChanged( int ) ), this, SLOT( writeTime( int ) ) );
-//                }
 
 	{
-		// Dock Timeline QML
-		QDockWidget * graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
-		_timelineGraphic = new TimelineGraphic( NULL );
-		graphicTimelineDock->setWidget( _timelineGraphic );
-		addDockWidget( Qt::BottomDockWidgetArea, graphicTimelineDock );
+                // Dock Viewer
+                createWidgetViewer();
+                saveWidgets();
 
-		_viewMenu->addAction( graphicTimelineDock->toggleViewAction() );
+                // Dock UndoWidget
+                QDockWidget * undoDock = new QDockWidget( "Command List", this );
+                {
+                        _undoView = new UndoView( Projet::getInstance().getCommandManager(), undoDock );
+                        _undoWidget = new UndoWidget( _undoView );
+                        undoDock->setWidget( _undoWidget );
+                        addDockWidget( Qt::TopDockWidgetArea, undoDock );
+                        _viewMenu->addAction( undoDock->toggleViewAction() );
+                }
 
+                tabifyDockWidget( _chutierDock, undoDock );
+                undoDock->setHidden( true );
+                undoDock->setFloating( true );
+
+                // Dock Timeline QML
+                _graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
+                _timelineGraphic = new TimelineGraphic( this );
+                _graphicTimelineDock->setWidget( _timelineGraphic );
+                addDockWidget( Qt::BottomDockWidgetArea, _graphicTimelineDock );
+
+                _viewMenu->addAction( _graphicTimelineDock->toggleViewAction() );
 	}
-
-	// Dock Viewer
-	createWidgetViewer();
 }
 
 void MainWindow::createWidgetViewer()
 {
-	QDockWidget * contentViewerDock = new QDockWidget( "Viewer", this );
-	_viewerImg = new ViewerTweedy( contentViewerDock );
-	contentViewerDock->setWidget( _viewerImg );
-	addDockWidget( Qt::TopDockWidgetArea, contentViewerDock );
+        _contentViewerDock = new QDockWidget( "Viewer", this );
+        _viewerImg = new ViewerTweedy( _contentViewerDock );
+        _contentViewerDock->setWidget( _viewerImg );
+        addDockWidget( Qt::TopDockWidgetArea, _contentViewerDock );
 
-	_viewMenu->addAction( contentViewerDock->toggleViewAction() );
+        _viewMenu->addAction( _contentViewerDock->toggleViewAction() );
 
 	_viewerImg->getCaptureButton()->setDefaultAction( _captureAction );
 	_viewerImg->getCaptureButton()->setIconSize( QSize( 60, 60 ) );
@@ -287,22 +313,24 @@ void MainWindow::createWidgetViewer()
 	/// @todo ne pas appeler la timeline depuis le viewer !
 	/// Mais emettre des signaux dans chacun et repasser par la MainWindow,
 	/// pour changer le temps.
-	//connexions boutons du viewer avec actions de la timeline
+        //connect viewer buttons with timeline actions
         _viewerImg->getNextButton()->setDefaultAction( getNextAction() );
-        _viewerImg->getNextButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getNextButton()->setIconSize( QSize( 26, 26 ) );
         _viewerImg->getPlayPauseButton()->setDefaultAction( getPlayPauseAction() );
-        _viewerImg->getPlayPauseButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getPlayPauseButton()->setIconSize( QSize( 26, 26 ) );
         _viewerImg->getPreviousButton()->setDefaultAction( getPreviousAction() );
-        _viewerImg->getPreviousButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getPreviousButton()->setIconSize( QSize( 26, 26 ) );
         _viewerImg->getRetour0Button()->setDefaultAction( getRetour0Action() );
-        _viewerImg->getRetour0Button()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getRetour0Button()->setIconSize( QSize( 26, 26 ) );
 	//timer
 	//connection slider
 	_viewerImg->getTempsSlider()->setTickPosition( QSlider::TicksAbove );
-	//signal : valueChanged() : Emitted when the slider's value has changed.
-	connect( _viewerImg->getTempsSlider(), SIGNAL( valueChanged( int ) ), this, SLOT( writeTime( int ) ) );
+        //signal : valueChanged() : Emitted when the slider's value has changed.
+        connect( _viewerImg->getTempsSlider(), SIGNAL( valueChanged( int ) ), this, SLOT( changeTimeViewer( int ) ) );
         _viewerImg->getTempsSlider()->setMaximum( getTimeline().getMaxTime() );
 
+        connect(this,SIGNAL(timeChanged(int)), this, SLOT(changeTimeViewer(int)));
+        connect( _viewerImg->getComboFPS(), SIGNAL( currentIndexChanged(QString) ), this, SLOT( changeFps( QString ) ));
 }
 
 void MainWindow::on_captureAction_triggered()
@@ -318,9 +346,7 @@ void MainWindow::on_captureAction_triggered()
 	{
 		//take HD picture
 		Projet& project = Projet::getInstance();
-
-		project.gPhotoInstance().setFolderToSavePictures( project.getProjectFolder() );
-
+                project.gPhotoInstance().setFolderToSavePictures( project.getProjectFolder() );
 		//take the picture's filename
 		boost::filesystem::path filenameHD = project.gPhotoInstance().captureToFile();
 
@@ -330,7 +356,6 @@ void MainWindow::on_captureAction_triggered()
 
                 std::string filenameLD = filenameHD.string();
                 filenameLD.insert( filenameLD.size() - 4, "_LD" );
-                int pos = filenameLD.find("HD/");
                 filenameLD.erase(filenameLD.begin()+37, filenameLD.begin()+40);
 
 		petiteImg.save( QString::fromStdString( filenameLD ) );
@@ -346,9 +371,10 @@ void MainWindow::on_captureAction_triggered()
 
 		_chutier->getTabWidget().setCurrentWidget( &listWidgetCapture );
 		/*add to chutier core*/
-
+                boost::filesystem::path nameOfFileToImport( filenameLD );
+                ChutierMediaExt& chutierPictures = project.getChutierPictures();
+                chutierPictures.importMediaToChutier( nameOfFileToImport);
 	}
-
 }
 
 void MainWindow::on_newProjectAction_triggered()
@@ -359,7 +385,6 @@ void MainWindow::on_newProjectAction_triggered()
 
 	connect( _newProjectDialog, SIGNAL( rejected() ), this, SLOT( on_close_window() ) );
 	connect( _newProjectDialog, SIGNAL( accepted() ), this, SLOT( on_acceptedNewProjectWindow() ) );
-
 	connect( _newProjectDialog->getSearchFolderProjectButton(), SIGNAL( clicked() ), this, SLOT( on_searchFolderProjectButton_clicked() ) );
 }
 
@@ -382,14 +407,12 @@ void MainWindow::on_searchFolderProjectButton_clicked()
 	boost::filesystem::create_directory( pathFolderPictures );
         boost::filesystem::path pathFolderPicturesHD = pathFolderPictures / "HD";
         boost::filesystem::create_directory( pathFolderPicturesHD );
+        projectInstance.gPhotoInstance().setFolderToSavePictures( projectInstance.getProjectFolder() );
 }
 
-//fonction a completer pour creer un nouveau projet
 void MainWindow::on_acceptedNewProjectWindow()
 {
-
 	this->setEnabled( true );
-
 }
 
 void MainWindow::on_openProjectAction_triggered()
@@ -402,7 +425,6 @@ void MainWindow::on_openProjectAction_triggered()
 
         this->setEnabled( true );
 
-	//plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
         on_loadProjectAction_triggered(fileName.toStdString().c_str());
 }
 
@@ -420,105 +442,82 @@ void MainWindow::on_saveAsProjectAction_triggered()
         
         for(std::vector<std::string>::iterator it = strs.begin() ; it < strs.end()-1 ; ++it)
             nameFolder +=  "/" + (*it) ;
-        
-        std::cout << nameFolder << std::endl;
-        
+                
         project().setProjectFolder(nameFolder);
         project().setProjectFile(nameFile);
-            
         on_saveProjectAction_triggered();
-                
 }
 
 void MainWindow::on_undoButton_clicked()
 {
-
 	CommandManager& cmdMng = ( Projet::getInstance() ).getCommandManager();
 	if( cmdMng.canUndo() )
 	{
 		cmdMng.undo();
 	}
-
 }
 
 void MainWindow::on_redoButton_clicked()
 {
-
 	CommandManager& cmdMng = ( Projet::getInstance() ).getCommandManager();
 	if( cmdMng.canRedo() )
 	{
-		cmdMng.redo();
+            cmdMng.redo();
 	}
-
 }
 
 void MainWindow::on_aboutAction_triggered()
 {
-
 	_aboutWindow = new AboutTweedy( this );
-	_aboutWindow->exec();
-
+        _aboutWindow->exec();
 }
 
 void MainWindow::on_configAction_triggered()
 {
 	QDockWidget * configCameraDock = new QDockWidget( "Camera Configuration", this );
 	{
-		_configCamera = new ConfigCamera( configCameraDock );
-		configCameraDock->setWidget( ( _configCamera ) );
-		addDockWidget( Qt::TopDockWidgetArea, configCameraDock );
-
+            _configCamera = new ConfigCamera( configCameraDock );
+            configCameraDock->setWidget( ( _configCamera ) );
+            addDockWidget( Qt::TopDockWidgetArea, configCameraDock );
 	}
 	configCameraDock->setFloating( true );
-}
-
-
-//Write time in label
-void MainWindow::writeTime( int newValue )
-{
-	_viewerImg->getTimeLabel()->setNum( newValue );
-	_viewerImg->getTempsSlider()->setSliderPosition( newValue );
-
-	_timelineGraphic->getTimelineDataWrapper()._currentTime = newValue;
 }
 
 //Create the status bar
 void MainWindow::createStatusBar()
 {
-
 	_statusBar = statusBar();
 	_statusBar->showMessage( "Ready" );
-
 }
 
 //save the project
 void MainWindow::on_saveProjectAction_triggered()
 {
 	//make an archive
+        //std::string filename = project().getProjectFolder().string() + "/" + project().getProjectFile().string() + ".txt";
 	std::string filename = project().getProjectFolder().string() 
-                + "/" + project().getProjectFile().string() + ".txt";
-        
-        std::cout << filename << std::endl;
-        
+                + "/" + project().getProjectFile().string() + ".tweedy";
+                
         std::ofstream ofs( filename.c_str() );
 	boost::archive::text_oarchive oa( ofs );
 	oa << project();
         ofs.close();
+        
+        //
+        QSettings  settings("IMAC","Tweedy");
+        settings.beginGroup("Saves");
+        settings.setValue(QString(project().getProjectFile().string().c_str()),filename.c_str());
+        settings.endGroup();
 }
 
 //load the project
-
 void MainWindow::on_loadProjectAction_triggered(const char* filename)
 {
 	// open the archive
 	std::ifstream ifs( filename );
 	boost::archive::text_iarchive ia( ifs );
-
 	ia >> project();
-        
-        //_timelineTable->updateTable();
         _chutier->updateChutier();
-
 }
 
 void MainWindow::on_exportAction_triggered()
@@ -535,7 +534,7 @@ std::string MainWindow::generateTimeData(int value, int choosenFps, int absolute
 {
     double cAbsoluteFps = static_cast<double>(absoluteFps);
     
-    //convertir la lgr du clip en base 24
+    //convert clip's width in base 24
     int nbframe = value * (absoluteFps/choosenFps);
     int hour = nbframe/std::pow(cAbsoluteFps,3);
     int min = (nbframe % static_cast<int>(std::pow(cAbsoluteFps,3)))/std::pow(cAbsoluteFps,2);
@@ -564,17 +563,17 @@ void MainWindow::handle_playPauseAction_triggered()
 {
         if( !_isPlaying )
         {
-                _timer->start( 1000.0 / _fps );
-                _isPlaying = true;
-                _playPauseAction->setIcon( QIcon( "img/icones/pause.png" ) );
-                _playPauseAction->setStatusTip( "Mettre en pause" );
+             _timer->start( 1000.0 / _fps );
+             _isPlaying = true;
+             _playPauseAction->setIcon( QIcon( "img/icones/pause.png" ) );
+             _playPauseAction->setStatusTip( "Mettre en pause" );
         }
         else
         {
-                _timer->stop();
-                _isPlaying = false;
-                _playPauseAction->setIcon( QIcon( "img/icones/play.png" ) );
-                _playPauseAction->setStatusTip( "Lancer le montage" );
+             _timer->stop();
+             _isPlaying = false;
+             _playPauseAction->setIcon( QIcon( "img/icones/play.png" ) );
+             _playPauseAction->setStatusTip( "Lancer le montage" );
         }
 }
 
@@ -582,7 +581,6 @@ void MainWindow::handle_zeroAction_triggered()
 {
         _time = 0;
         Q_EMIT timeChanged( _time );
-
 }
 
 void MainWindow::handle_nextAction_triggered()
@@ -608,7 +606,6 @@ void MainWindow::handle_nextAction_triggered()
 
         if( !lastClip )
                 Q_EMIT timeChanged( _time );
-
 }
 
 void MainWindow::handle_prevAction_triggered()
@@ -632,19 +629,54 @@ void MainWindow::handle_prevAction_triggered()
 
         if( !firstClip )
                 Q_EMIT timeChanged( _time );
-
 }
-
 
 /**
  * @brief Increase current time or stop timer if last frame
  */
 void MainWindow::increaseTime()
 {
+
         if( _time>-1 && _time < getTimeline().getMaxTime() )
                 ++ _time;
         if( _time == getTimeline().getMaxTime() )
                 _time = 0;
 
         Q_EMIT timeChanged( _time );
+}
+
+void MainWindow::saveWidgets()
+{
+    QSettings settings("Test", "Test Dock Problem");
+    settings.setValue("MainWindow/State", saveState());
+}
+
+void MainWindow::on_initialPlaceWidgets_triggered()
+{
+    QSettings settings("Test", "Test Dock Problem");
+    restoreState(settings.value("MainWindow/State").toByteArray());
+}
+
+void MainWindow::changeTimeViewer( int newTime )
+{
+    _viewerImg->getTempsSlider()->setSliderPosition( newTime );
+
+    std::string time;
+
+    switch(_fps)
+    {
+        case 8:
+            time = generateTimeData( newTime, 3,24);
+            break;
+        case 12:
+            time = generateTimeData( newTime, 2,24);
+            break;
+        case 24:
+            time = generateTimeData( newTime, 1,24);
+            break;
+    }
+
+     _viewerImg->getTimeLabel()->setText( QString(time.c_str()));
+
+    _timelineGraphic->getTimelineDataWrapper()._currentTime = newTime;
 }

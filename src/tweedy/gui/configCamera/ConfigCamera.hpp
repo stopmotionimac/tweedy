@@ -12,7 +12,6 @@
 #include <QtGui/QScrollArea>
 #include <QtGui/QVBoxLayout>
 
-
 class ConfigCamera : public QWidget
 {
     Q_OBJECT

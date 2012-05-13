@@ -16,6 +16,4 @@ public:
         
 };
 
-
 #endif	/* ACTDELETECLIP_HPP */
-

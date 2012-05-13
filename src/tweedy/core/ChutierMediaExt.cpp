@@ -21,7 +21,6 @@ void ChutierMediaExt::importMediaToChutier(boost::filesystem::path & urlMedia) {
     using namespace boost::assign;
     MediaExt mediaE(urlMedia);
     ptr_map_insert( _mapMediaExt )( mediaE.getNameMedia().string(), mediaE );
-    printMapMediaExt();
 
 }
 

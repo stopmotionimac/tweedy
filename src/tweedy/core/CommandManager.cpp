@@ -9,11 +9,9 @@ void CommandManager::setActive(bool active){
     active = active;
 }
 
-
 int CommandManager::getCleanIndex() const{
     return _cleanIndex;
 }
-
 
 int CommandManager::getUndoLimit() const{
     return _undoLimit;
@@ -31,24 +29,14 @@ void CommandManager::setRedoLimit(int limit){
     _redoLimit = limit;
 }
 
-
-
-
-
-//si l'indice de la commande courante est superieur à 0
+//if indice of the current command is > 0
 bool CommandManager::canUndo() const{
     return _index!=0;
 }
 
-
 bool CommandManager::canRedo() const{
     return _index!= _undoRedoVector.size();
 }
-
-
-
-
-
 
 void CommandManager::clean(){
     _undoRedoVector.clear();
@@ -59,9 +47,6 @@ bool CommandManager::isClean() const{           /* a verifier */
     return (_undoRedoVector.empty());
 }
 
-
-
-
 size_t CommandManager::countUndo() const{
     return _index;
 }
@@ -70,16 +55,11 @@ size_t CommandManager::countRedo() const{
     return (_undoRedoVector.size() - _index);
 }
 
-
 size_t CommandManager::count() const{
     return _undoRedoVector.size();
 }
 
-
-
 void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
-    
-        
     /* clear the redo part of undoRedoVector*/
     _undoRedoVector.erase( _undoRedoVector.begin()+_index, _undoRedoVector.end() );
             
@@ -91,26 +71,17 @@ void CommandManager::pushNewCommand(IUndoRedoCommand* newCommand){
     _signalChanged();
 }
 
-
 void CommandManager::undo(){
-    
     if (this->canUndo()){
         size_t indexUndoCommand = --_index;
         _undoRedoVector[indexUndoCommand].undo();
         _signalChanged();
     }
-    else
-        std::cout << "No command to undo" << std::endl; /* case of no command to undo will be implement
-                                                      * with the slot */
 }
 
-
 void CommandManager::redo(){
-    
     if( !this->canRedo() )
     {
-        std::cout << "No command to redo" << std::endl; /* case of no command to undo will be implement
-                                                      * with the slot */
         return;
     }
     size_t indexUndoCommand = _index++;
@@ -125,7 +96,6 @@ void CommandManager::redo(){
  size_t CommandManager::getIndex(){
      return _index;
  }
- 
  
  boost::signal0<void>& CommandManager::getSignalChanged(){
      return _signalChanged;

@@ -29,6 +29,8 @@
 
 #include <QtCore/QTimer>
 
+#include <QtCore/QSettings>
+
 class MainWindow : public QMainWindow
 {
         Q_OBJECT
@@ -75,7 +77,6 @@ public Q_SLOTS:
         void on_saveAsProjectAction_triggered();
         void on_undoButton_clicked();
         void on_redoButton_clicked();
-        void writeTime( int newValue );
         void on_close_window();
         void on_saveProjectAction_triggered();
         void on_loadProjectAction_triggered(const char*);
@@ -83,14 +84,18 @@ public Q_SLOTS:
         void on_configAction_triggered();
         void on_acceptedNewProjectWindow();
         void on_exportAction_triggered();
+        void on_recentProject_selected(QListWidgetItem*);
 
         void handle_playPauseAction_triggered();
         void handle_zeroAction_triggered();
         void handle_nextAction_triggered();
         void handle_prevAction_triggered();
 
+        void on_initialPlaceWidgets_triggered();
+
         void increaseTime();
-        void changeFps( int value ) { _fps = value; }
+        void changeFps( QString value ) { _fps = value.toInt(); }
+        void changeTimeViewer( int newTime );
 
 Q_SIGNALS:
         void timeChanged( int newValue );
@@ -109,6 +114,12 @@ private:
         void createStatusBar();
 
         void createWidgetViewer();
+
+        void saveWidgets();
+
+        QDockWidget * _chutierDock;
+        QDockWidget * _graphicTimelineDock;
+        QDockWidget * _contentViewerDock;
 
         QMenu* _fileMenu;
         QMenu* _editMenu;
@@ -136,6 +147,8 @@ private:
         QAction* _prevAction;
         QAction* _zeroAction;
 
+        QAction* _initialPlaceWidgets;
+
         QToolBar* _fileToolBar;
         QToolBar* _editToolBar;
 
@@ -150,7 +163,6 @@ private:
         /// @{
         ViewerTweedy* _viewerImg;
         Chutier* _chutier;
-        //TimelineTable* _timelineTable;
         UndoView* _undoView;
         QWidget* _undoWidget;
         TimelineGraphic* _timelineGraphic;
@@ -164,6 +176,8 @@ private:
         newProjectWindow* _newProjectDialog;
         AboutTweedy* _aboutWindow;
         /// @}
+        
+        //QSettings _settings;
 };
 
 #endif

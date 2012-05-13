@@ -20,7 +20,6 @@ Timeline::Timeline( const Id& idParent, const std::string& id )
     _mapClip[_idRealTime] = realTime;
 }
 
-
 Timeline::Timeline( const Timeline& timeline )
 : Imedia( timeline )
 , _id( timeline._id )
@@ -50,17 +49,6 @@ const Id& Timeline::getId() const
 	return _id;
 }
 
-/*void Timeline::addClip( const Clip& clip )
-{
-        //_mapClip[clip.getId().getIdStringForm()] = clip;
-        //int duration = clip.timeOut() - clip.timeIn();
-        //maxTime +=
-    Clip copy = clip;
-    insertClip(copy, copy.timeIn());
-
-	_signalChanged();
-}*/
-
 void Timeline::insertClip( Clip& newClip, double currentTime )
 {
         int duration = newClip.timeOut() - newClip.timeIn();
@@ -71,10 +59,7 @@ void Timeline::insertClip( Clip& newClip, double currentTime )
             currentTime = _mapClip[clipName].timeIn();
         }
 
-        std::cout << "currentTime : " << currentTime << std::endl;
-
-	//décale les clips suivants
-
+        //move back a row next clips
         BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
 	{
                 if( s.second->timeIn() >= currentTime )
@@ -91,8 +76,6 @@ void Timeline::insertClip( Clip& newClip, double currentTime )
 
 	_signalChanged();
 }
-
-
 
 void Timeline::moveElement( std::string clipName, int newPosition )
 {
@@ -113,11 +96,11 @@ void Timeline::moveElement( std::string clipName, int newPosition )
 
 		BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip )
 		{
-			if( s.second->timeIn() > _mapClip[clipName].timeIn() && s.second->timeIn() <= newPosition )
-			{
-				s.second->increaseTimeIn( -dureeClip );
-				s.second->increaseTimeOut( -dureeClip );
-			}
+                    if( s.second->timeIn() > _mapClip[clipName].timeIn() && s.second->timeIn() <= newPosition )
+                    {
+                        s.second->increaseTimeIn( -dureeClip );
+                        s.second->increaseTimeOut( -dureeClip );
+                    }
 		}
 	}
 	else
@@ -126,13 +109,12 @@ void Timeline::moveElement( std::string clipName, int newPosition )
 
 		BOOST_FOREACH( const Timeline::UOMapClip::value_type& s, _mapClip )
 		{
-			if( s.second->timeIn() >= addedValueCurrent && s.second->timeIn() < _mapClip[clipName].timeIn() )
-			{
-				s.second->increaseTimeIn( dureeClip );
-				s.second->increaseTimeOut( dureeClip );
-			}
+                    if( s.second->timeIn() >= addedValueCurrent && s.second->timeIn() < _mapClip[clipName].timeIn() )
+                    {
+                        s.second->increaseTimeIn( dureeClip );
+                        s.second->increaseTimeOut( dureeClip );
+                    }
 		}
-
 	}
 
 
@@ -168,7 +150,6 @@ void Timeline::addTimeToClip( const std::string& clipName, double decalage )
 
 }
 
-
 std::string Timeline::findCurrentClip(int time) const
 {
     if (time >= _maxTime || time < 0)
@@ -181,7 +162,6 @@ std::string Timeline::findCurrentClip(int time) const
         if( s.first <= time && ( *s.second )->timeOut() > time )
             return ( *s.second )->getId().getIdStringForm();
     }
-
 }
 
 void Timeline::updateMaxTime()
@@ -194,33 +174,17 @@ void Timeline::updateMaxTime()
 			max = s.second->timeOut();
 	}
 	_maxTime = max;
-
 }
-
-/*void Timeline::deleteClip( const std::string& clipName )
-{
-	//on retire le clip de la map
-	UOMapClip::iterator it = _mapClip.find( clipName );
-
-	BOOST_ASSERT( it != _mapClip.end() );
-
-	_mapClip.erase( it );
-
-	//emission du signal de changement d'etat de la timeline
-	_signalChanged();
-}*/
-
 
 void Timeline::deleteClip(const std::string& clipName)
 {
-    //On recupere la duree du clip
+    //get the clip duration
     Clip c = _mapClip[clipName];
     int duration = c.timeOut() - c.timeIn();
 
-    //on décale les autres clips
+    //move back a row the other clips
     BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
     {
-        std::cout << "c.timeIn() " << c.timeIn() << std::endl;
         if( s.second->timeIn() > c.timeIn() )
         {
             s.second->increaseTimeIn( -duration );
@@ -228,7 +192,7 @@ void Timeline::deleteClip(const std::string& clipName)
         }
     }
 
-    //on retire le clip de la map
+    //remove clip from the map
     UOMapClip::iterator it = _mapClip.find( clipName );
     BOOST_ASSERT( it != _mapClip.end() );
     _mapClip.erase( it );
@@ -237,14 +201,12 @@ void Timeline::deleteClip(const std::string& clipName)
     _signalChanged();
 }
 
-
 void Timeline::unselectAll()
 {
         BOOST_FOREACH( const UOMapClip::value_type& s, _mapClip )
         {
                 s.second->setSelected(false);
         }
-
 }
 
 void Timeline::selectClip(int timeIn)

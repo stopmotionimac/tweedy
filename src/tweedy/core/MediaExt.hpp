@@ -25,9 +25,7 @@ private:
     void serialize(Archive& ar, const unsigned int version) {
         // serialize base class information
         ar & boost::serialization::base_object<Imedia>(*this);
-
     }
-
 };
 
 #endif // MEDIAEXT_HPP

@@ -29,7 +29,6 @@ public:
         this->_name = url.filename();
     }
     
-    
     Clip()
         : Imedia(ImediaTypeClip),
         _id(Id(""),""),
@@ -82,7 +81,6 @@ private:
     template<class Archive>
     void serialize(Archive& ar, const unsigned int version)
     {
-
             ar & _id;
             
             std::string s; 
@@ -93,11 +91,7 @@ private:
                 _imgPath = s;
             ar & _timeIn;
             ar & _timeOut;
-        
-
     }
-    
-    
 };
 
 #endif

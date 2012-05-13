@@ -5,17 +5,14 @@ CommandManager& Projet::getCommandManager(){
     return _cmdManager; 
 }
 
-
 Timeline& Projet::getTimeline(){
     return _timeline;
 }
-
 
 Id& Projet::getId()
 {
     return _id;
 }
-
 
 //to add any media (except MediaExt)
 void Projet::addImedia(Imedia & media)
@@ -36,8 +33,6 @@ ChutierMediaExt& Projet::getChutierPictures() {
     return _chutierPictures;
 }
 
-
-
 void Projet::printAllMedia() {
     boost::ptr_unordered_map<std::string, Imedia*>::iterator iter;
     std::cout<<"PRINT MAP APPLI"<<std::endl;
@@ -47,20 +42,11 @@ void Projet::printAllMedia() {
     }
 }
 
-
 //Functions for gPhotoInstance
 int Projet::tryToConnectCamera() {
     int retval = gPhotoInstance().tryToConnectCamera();
     return retval;
 }
-
-//void Projet::setFolderToSavePictures() {
-//    gPhotoInstance().setFolderToSavePictures();
-//}
-
-//bool Projet::getValueCameraIsInit() {
-//    return gPhotoInstance->getVarCameraIsInit();
-//}
 
 void Projet::setValueCameraIsInit(bool var) {
     gPhotoInstance().setVarCameraIsInit(var);

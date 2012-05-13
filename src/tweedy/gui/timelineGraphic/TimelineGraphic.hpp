@@ -23,8 +23,6 @@ public:
                 return _timelineData;
         }
 
-
-
 private:
 	TimelineGraphic( const TimelineGraphic& );
 	TimelineGraphic& operator=( const TimelineGraphic& );
@@ -35,15 +33,9 @@ private:
         QString _timelineQmlFile;
         QFileSystemWatcher _qmlFileWatcher;
 
-
-
-
-	
 private Q_SLOTS:
 	void onQmlFileChanged( const QString &file );
 	void onEnableUpdates( const bool update );
-
-
 };
 
 #endif
