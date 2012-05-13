@@ -33,6 +33,8 @@ public:
     QSlider * getTempsSlider();
     QComboBox * getComboFPS();
     QImage calculateImage(const QImage& sourceImage, const QImage& destinationImage);
+    int getCurrentTime() { return _currentTime; }
+    int setCurrentTime(int newCurrentTime) { _currentTime = newCurrentTime; }
     
 private Q_SLOTS:
     void displayChanged(int time);

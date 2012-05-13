@@ -25,12 +25,12 @@ ViewerTweedy::ViewerTweedy( QWidget *parent )
 , _ui( new Ui::ViewerTweedy )
 {
 	_ui->setupUi( this );
-	_currentTime = 0;
+        _currentTime = 0;
         _onionAction = new QAction( "onion", this );
 	_onionAction->setStatusTip( "Option Onion Skin" );
 	_previewTimer = new QTimer( this );
 
-	displayChanged( 0 );
+        displayChanged( 0 );
 
         //connect timelineUi updater to the timeline signalChanged
 	ViewerTweedyUpdater upd( *this );

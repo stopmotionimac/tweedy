@@ -66,7 +66,7 @@ Q_SIGNALS:
         void enableUpdatesSignal( const bool update );
         void timelineScaleChanged();
         void timeMarkerChanged();
-        void currentTimeChanged();
+        void currentTimeChanged( int );
         void displayChanged( int unusedValue, int time );
 
 public:

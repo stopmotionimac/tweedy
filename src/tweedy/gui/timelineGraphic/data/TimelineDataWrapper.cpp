@@ -22,6 +22,8 @@ TimelineDataWrapper::TimelineDataWrapper( QObject *parent )
 	_dataConnection = getTimeline().getSignalChanged().connect(
                 boost::bind( &TimelineDataWrapper::coreDataChanged,this ) );
 
+        _currentTime = 0;
+
         updateListe();
 }
 
@@ -31,10 +33,7 @@ TimelineDataWrapper& TimelineDataWrapper::operator=(const TimelineDataWrapper& o
 	return *this;
 }
 
-TimelineDataWrapper::~TimelineDataWrapper()
-{
-
-}
+TimelineDataWrapper::~TimelineDataWrapper(){}
 
 void TimelineDataWrapper::coreDataChanged()
 {
@@ -119,8 +118,9 @@ void TimelineDataWrapper::displayCursor( QString typeCurseur )
 
 void TimelineDataWrapper::displayCurrentClip( int time )
 {
-	Q_EMIT timeChanged( time );
         _currentTime = time;
+         Q_EMIT timeChanged( time );
+
 }
 
 void TimelineDataWrapper::deleteItem(){
