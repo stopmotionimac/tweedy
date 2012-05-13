@@ -37,7 +37,7 @@ Rectangle
     property int tw_maxTime: tw_realMaxTime > tw_displayMinLength ? tw_realMaxTime : tw_displayMinLength
 
     // time coordinates are centralized here
-    property double tw_currentTime: 0
+    property double tw_currentTime: _tw_timelineData.currentTime
     property double tw_displayIn: 0
     property double tw_displayOut: tw_maxTime
     property double tw_displayLength: tw_displayOut - tw_displayIn
@@ -97,9 +97,15 @@ Rectangle
         }
         setDisplayIn( clampedTimeIn )
                 setDisplayOut( clampedTimeOut )
-            }
+     }
 
-            Column
+    signal currentTimeChanged
+    onCurrentTimeChanged: {
+        console.log("onCurrentTimeChanged")
+    }
+    Component.onCompleted:tw_timelineWindow.currentTimeChanged
+
+        Column
             {
                 anchors.fill: parent
                 // Graduation block
@@ -190,7 +196,7 @@ Rectangle
                 id: tw_timeCursor
 
                 gradHeight: tw_gradHeight
-                x: tw_currentTimePix - tw_displayInPix
+                x: tw_currentTimePix
             }
 
             HorizontalGradient
