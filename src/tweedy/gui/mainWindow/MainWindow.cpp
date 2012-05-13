@@ -669,13 +669,13 @@ void MainWindow::changeTimeViewer( int newTime )
     switch(_fps)
     {
         case 8:
-            time = generateTimeData( newTime, 3,24);
+            time = generateTimeData( newTime, 8,24);
             break;
         case 12:
-            time = generateTimeData( newTime, 2,24);
+            time = generateTimeData( newTime, 12,24);
             break;
         case 24:
-            time = generateTimeData( newTime, 1,24);
+            time = generateTimeData( newTime, 24,24);
             break;
     }
 
