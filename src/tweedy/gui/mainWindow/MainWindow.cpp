@@ -77,8 +77,6 @@ void MainWindow::createActions()
 	_openProjectAction->setShortcut( QKeySequence( "Ctrl+O" ) );
 	_openProjectAction->setStatusTip( "Open a project" );
 	connect( _openProjectAction, SIGNAL( triggered() ), this, SLOT( on_openProjectAction_triggered() ) );
-        //load the project
-        connect( _openProjectAction, SIGNAL( triggered() ), this, SLOT( on_loadProjectAction_triggered() ) );
 
 	_saveProjectAction = new QAction( QIcon( "img/icones/save1.png" ), "Save", this );
 	_saveProjectAction->setShortcut( QKeySequence( "Ctrl+S" ) );
@@ -354,8 +352,9 @@ void MainWindow::on_captureAction_triggered()
 
 		//make a LD picture
 		QImage img( QString::fromStdString( filenameHD.string() ) );
-		QImage petiteImg = img.scaled( QSize( 600, 350 ) );
-
+		//QImage petiteImg = img.scaled( QSize( 600, 350 ) );
+                QImage petiteImg = img.scaled( QSize( 150, 100 ) );
+                
                 std::string filenameLD = filenameHD.string();
                 filenameLD.insert( filenameLD.size() - 4, "_LD" );
                 filenameLD.erase(filenameLD.begin()+37, filenameLD.begin()+40);
@@ -423,11 +422,15 @@ void MainWindow::on_openProjectAction_triggered()
 	QFileDialog * fileDialog = new QFileDialog();
 	fileDialog->setAcceptMode( QFileDialog::AcceptOpen );
 
-	QString fileName = fileDialog->getOpenFileName( this, tr( "Open a project" ), QString( boost::filesystem::initial_path().string().c_str() ), "*.txt" );
+	QString fileName = fileDialog->getOpenFileName( this, tr( "Open a project" ), QString( boost::filesystem::initial_path().string().c_str() ), "*.tweedy" );
 
         this->setEnabled( true );
 
-        on_loadProjectAction_triggered(fileName.toStdString().c_str());
+
+	//plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
+        if (!fileName.isNull())
+                on_loadProjectAction_triggered(fileName.toStdString().c_str());
+
 }
 
 void MainWindow::on_saveAsProjectAction_triggered()
