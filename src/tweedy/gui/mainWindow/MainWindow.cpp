@@ -352,8 +352,8 @@ void MainWindow::on_captureAction_triggered()
 
 		//make a LD picture
 		QImage img( QString::fromStdString( filenameHD.string() ) );
-		//QImage petiteImg = img.scaled( QSize( 600, 350 ) );
-                QImage petiteImg = img.scaled( QSize( 150, 100 ) );
+                QImage petiteImg = img.scaled( QSize( 600, 350 ) );
+                //QImage petiteImg = img.scaled( QSize( 150, 100 ) );
                 
                 std::string filenameLD = filenameHD.string();
                 filenameLD.insert( filenameLD.size() - 4, "_LD" );
@@ -429,8 +429,8 @@ void MainWindow::on_openProjectAction_triggered()
 
 	//plus qu a recuperer le fileName pour ouvrir le projet sauvegarde
         if (!fileName.isNull())
-                on_loadProjectAction_triggered(fileName.toStdString().c_str());
 
+            on_loadProjectAction_triggered(fileName.toStdString().c_str());
 }
 
 void MainWindow::on_saveAsProjectAction_triggered()
@@ -523,6 +523,9 @@ void MainWindow::on_loadProjectAction_triggered(const char* filename)
 	boost::archive::text_iarchive ia( ifs );
 	ia >> project();
         _chutier->updateChutier();
+        Projet& project = Projet::getInstance();
+        project.gPhotoInstance().setFolderToSavePictures( project.getProjectFolder() );
+        std::cout<<project.getProjectFolder()<<std::endl;
 }
 
 void MainWindow::on_exportAction_triggered()
