@@ -231,7 +231,7 @@ void MainWindow::createWidgets()
                         _chutierDock->setWidget( _chutier );
                         addDockWidget( Qt::TopDockWidgetArea, _chutierDock );
                         _viewMenu->addAction( _chutierDock->toggleViewAction() );
-			_viewMenu->addAction( _chutier->_viewerChutierDock->toggleViewAction() );
+                        _viewMenu->addAction( _chutier->_viewerChutierDock->toggleViewAction() );
 		}
 
 	}
@@ -296,20 +296,22 @@ void MainWindow::createWidgetViewer()
 	/// pour changer le temps.
 	//connexions boutons du viewer avec actions de la timeline
         _viewerImg->getNextButton()->setDefaultAction( getNextAction() );
-        _viewerImg->getNextButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getNextButton()->setIconSize( QSize( 26, 26 ) );
         _viewerImg->getPlayPauseButton()->setDefaultAction( getPlayPauseAction() );
-        _viewerImg->getPlayPauseButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getPlayPauseButton()->setIconSize( QSize( 26, 26 ) );
         _viewerImg->getPreviousButton()->setDefaultAction( getPreviousAction() );
-        _viewerImg->getPreviousButton()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getPreviousButton()->setIconSize( QSize( 26, 26 ) );
         _viewerImg->getRetour0Button()->setDefaultAction( getRetour0Action() );
-        _viewerImg->getRetour0Button()->setIconSize( QSize( 30, 30 ) );
+        _viewerImg->getRetour0Button()->setIconSize( QSize( 26, 26 ) );
 	//timer
 	//connection slider
 	_viewerImg->getTempsSlider()->setTickPosition( QSlider::TicksAbove );
 	//signal : valueChanged() : Emitted when the slider's value has changed.
-	connect( _viewerImg->getTempsSlider(), SIGNAL( valueChanged( int ) ), this, SLOT( writeTime( int ) ) );
+        connect( _viewerImg->getTempsSlider(), SIGNAL( valueChanged( int ) ), this, SLOT( changeTimeViewer( int ) ) );
         _viewerImg->getTempsSlider()->setMaximum( getTimeline().getMaxTime() );
 
+        connect(this,SIGNAL(timeChanged(int)), this, SLOT(changeTimeViewer(int)));
+        connect( _viewerImg->getComboFPS(), SIGNAL( currentIndexChanged(QString) ), this, SLOT( changeFps( QString ) ));
 }
 
 void MainWindow::on_captureAction_triggered()
@@ -479,16 +481,6 @@ void MainWindow::on_configAction_triggered()
 
 	}
 	configCameraDock->setFloating( true );
-}
-
-
-//Write time in label
-void MainWindow::writeTime( int newValue )
-{
-	_viewerImg->getTimeLabel()->setNum( newValue );
-	_viewerImg->getTempsSlider()->setSliderPosition( newValue );
-
-	_timelineGraphic->getTimelineDataWrapper()._currentTime = newValue;
 }
 
 //Create the status bar
@@ -669,4 +661,28 @@ void MainWindow::on_initialPlaceWidgets_triggered()
 {
     QSettings settings("Test", "Test Dock Problem");
     restoreState(settings.value("MainWindow/State").toByteArray());
+}
+
+void MainWindow::changeTimeViewer( int newTime )
+{
+    _viewerImg->getTempsSlider()->setSliderPosition( newTime );
+
+    std::string time;
+
+    switch(_fps)
+    {
+        case 8:
+            time = generateTimeData( newTime, 3,24);
+            break;
+        case 12:
+            time = generateTimeData( newTime, 2,24);
+            break;
+        case 24:
+            time = generateTimeData( newTime, 1,24);
+            break;
+    }
+
+     _viewerImg->getTimeLabel()->setText( QString(time.c_str()));
+
+    _timelineGraphic->getTimelineDataWrapper()._currentTime = newTime;
 }

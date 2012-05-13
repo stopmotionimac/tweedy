@@ -75,7 +75,6 @@ public Q_SLOTS:
         void on_saveAsProjectAction_triggered();
         void on_undoButton_clicked();
         void on_redoButton_clicked();
-        void writeTime( int newValue );
         void on_close_window();
         void on_saveProjectAction_triggered();
         void on_loadProjectAction_triggered(const char*);
@@ -92,7 +91,8 @@ public Q_SLOTS:
         void on_initialPlaceWidgets_triggered();
 
         void increaseTime();
-        void changeFps( int value ) { _fps = value; }
+        void changeFps( QString value ) { _fps = value.toInt(); }
+        void changeTimeViewer( int newTime );
 
 Q_SIGNALS:
         void timeChanged( int newValue );
