@@ -18,6 +18,7 @@
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QApplication>
 #include <QtGui/QImage>
+#include <QtCore/QSettings>
 
 #include <boost/filesystem.hpp>
 #include <boost/lexical_cast.hpp>
@@ -136,15 +137,16 @@ void MainWindow::createActions()
         _zeroAction->setStatusTip( "Reset" );
         connect( _zeroAction, SIGNAL( triggered() ), this, SLOT( handle_zeroAction_triggered() ) );
 
+        _initialPlaceWidgets = new QAction( "Restore display", this );
+        _initialPlaceWidgets->setStatusTip( "Restore widget's location" );
+        connect( _initialPlaceWidgets, SIGNAL( triggered() ), this, SLOT( on_initialPlaceWidgets_triggered() ) );
+
 }
 
 void MainWindow::createStartWindow()
 {
 	//creation of the start window
-	_startWindowDialog = new StartWindow();
-	/// @todo Le titre est deja sette dans StartWindow !
-	/// Pourquoi ne pas tout faire dans StartWindow ??
-	_startWindowDialog->setWindowTitle( tr( "TWEEDY - stop motion software" ) );
+        _startWindowDialog = new StartWindow();
 	_startWindowDialog->setWindowFlags( Qt::WindowStaysOnTopHint );
 	_startWindowDialog->setModal( false );
 	_startWindowDialog->showNormal();
@@ -194,6 +196,7 @@ void MainWindow::createMenuBar()
 	_editMenu->addAction( _redoAction );
 
 	_viewMenu = menuBar()->addMenu( tr( "View" ) );
+        _viewMenu->addAction( _initialPlaceWidgets );
 
 	_paramsMenu = menuBar()->addMenu( tr( "Configuration" ) );
 	_paramsMenu->addAction( _configAction );
@@ -222,27 +225,15 @@ void MainWindow::createWidgets()
 {
 	{
 		// Dock Chutier
-		QDockWidget * chutierDock = new QDockWidget( "Media List", this );
+                _chutierDock = new QDockWidget( "Media List", this );
 		{
-			_chutier = new Chutier( chutierDock );
-			chutierDock->setWidget( _chutier );
-			addDockWidget( Qt::TopDockWidgetArea, chutierDock );
-			_viewMenu->addAction( chutierDock->toggleViewAction() );
+                        _chutier = new Chutier( _chutierDock );
+                        _chutierDock->setWidget( _chutier );
+                        addDockWidget( Qt::TopDockWidgetArea, _chutierDock );
+                        _viewMenu->addAction( _chutierDock->toggleViewAction() );
 			_viewMenu->addAction( _chutier->_viewerChutierDock->toggleViewAction() );
 		}
-		// Dock UndoWidget
-		QDockWidget * undoDock = new QDockWidget( "Command List", this );
-		{
-			_undoView = new UndoView( Projet::getInstance().getCommandManager(), undoDock );
-			_undoWidget = new UndoWidget( _undoView );
-			undoDock->setWidget( _undoWidget );
-			addDockWidget( Qt::TopDockWidgetArea, undoDock );
-			_viewMenu->addAction( undoDock->toggleViewAction() );
-		}
 
-		tabifyDockWidget( chutierDock, undoDock );
-		undoDock->setHidden( true );
-		undoDock->setFloating( true );
 	}
 
 //                {
@@ -258,28 +249,44 @@ void MainWindow::createWidgets()
 //                }
 
 	{
-		// Dock Timeline QML
-		QDockWidget * graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
-		_timelineGraphic = new TimelineGraphic( NULL );
-		graphicTimelineDock->setWidget( _timelineGraphic );
-		addDockWidget( Qt::BottomDockWidgetArea, graphicTimelineDock );
+                // Dock Viewer
+                createWidgetViewer();
+                saveWidgets();
 
-		_viewMenu->addAction( graphicTimelineDock->toggleViewAction() );
+                // Dock UndoWidget
+                QDockWidget * undoDock = new QDockWidget( "Command List", this );
+                {
+                        _undoView = new UndoView( Projet::getInstance().getCommandManager(), undoDock );
+                        _undoWidget = new UndoWidget( _undoView );
+                        undoDock->setWidget( _undoWidget );
+                        addDockWidget( Qt::TopDockWidgetArea, undoDock );
+                        _viewMenu->addAction( undoDock->toggleViewAction() );
+                }
+
+                tabifyDockWidget( _chutierDock, undoDock );
+                undoDock->setHidden( true );
+                undoDock->setFloating( true );
+
+                // Dock Timeline QML
+                _graphicTimelineDock = new QDockWidget( "Graphic Timeline", this );
+                _timelineGraphic = new TimelineGraphic( this );
+                _graphicTimelineDock->setWidget( _timelineGraphic );
+                addDockWidget( Qt::BottomDockWidgetArea, _graphicTimelineDock );
+
+                _viewMenu->addAction( _graphicTimelineDock->toggleViewAction() );
 
 	}
 
-	// Dock Viewer
-	createWidgetViewer();
 }
 
 void MainWindow::createWidgetViewer()
 {
-	QDockWidget * contentViewerDock = new QDockWidget( "Viewer", this );
-	_viewerImg = new ViewerTweedy( contentViewerDock );
-	contentViewerDock->setWidget( _viewerImg );
-	addDockWidget( Qt::TopDockWidgetArea, contentViewerDock );
+        _contentViewerDock = new QDockWidget( "Viewer", this );
+        _viewerImg = new ViewerTweedy( _contentViewerDock );
+        _contentViewerDock->setWidget( _viewerImg );
+        addDockWidget( Qt::TopDockWidgetArea, _contentViewerDock );
 
-	_viewMenu->addAction( contentViewerDock->toggleViewAction() );
+        _viewMenu->addAction( _contentViewerDock->toggleViewAction() );
 
 	_viewerImg->getCaptureButton()->setDefaultAction( _captureAction );
 	_viewerImg->getCaptureButton()->setIconSize( QSize( 60, 60 ) );
@@ -641,10 +648,23 @@ void MainWindow::handle_prevAction_triggered()
  */
 void MainWindow::increaseTime()
 {
+
         if( _time>-1 && _time < getTimeline().getMaxTime() )
                 ++ _time;
         if( _time == getTimeline().getMaxTime() )
                 _time = 0;
 
         Q_EMIT timeChanged( _time );
+}
+
+void MainWindow::saveWidgets()
+{
+    QSettings settings("Test", "Test Dock Problem");
+    settings.setValue("MainWindow/State", saveState());
+}
+
+void MainWindow::on_initialPlaceWidgets_triggered()
+{
+    QSettings settings("Test", "Test Dock Problem");
+    restoreState(settings.value("MainWindow/State").toByteArray());
 }

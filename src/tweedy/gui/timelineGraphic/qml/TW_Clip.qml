@@ -2,13 +2,13 @@ import QtQuick 1.1
 
 Item
 {
-	id:	tw_clipContainer
+    id:	tw_clipContainer
 
     scale: tw_clipHandle.pressed ? 1.05: 1.0
 
     property bool clipRightPressed: false
     property bool clipLeftPressed: false
-	property bool clipSelected: false
+    property bool clipSelected: false
 
     width: ( object.timeOut - object.timeIn ) * tw_scaleTimeToPix
     height: tw_track.height
@@ -21,9 +21,7 @@ Item
 
             border.color: ( tw_timeInDoubleClickedClip != object.timeIn ) ? "black": "white"
             border.width: 2
-                /*
-                radius: 10
-                color: ( _tw_timelineData.isSelected(object.timeIn) ) ?  "#FF3300":"#e28a26"*/
+
             radius: 15
             color: ( tw_timeInClipSelected != object.timeIn ) ? "#e28a26": "#FF3300"
 
@@ -42,17 +40,17 @@ Item
 			asynchronous: true // enable asynchronous load
 		}
 
-        // zone de deplacement
+                // zone de deplacement
 		MouseArea
 		{
 			id: tw_clipHandle
 
 			anchors.fill: tw_clip
-            hoverEnabled: true
+                        hoverEnabled: true
 			drag.target: tw_clipContainer
 			drag.axis: "XAxis"
-            drag.minimumX: -1
-            drag.maximumX: tw_realMaxTime * tw_scaleTimeToPix
+                        drag.minimumX: -1
+                        drag.maximumX: tw_realMaxTime * tw_scaleTimeToPix
 			acceptedButtons: Qt.LeftButton | Qt.RightButton
 
                         //0 -> not pressed
@@ -62,7 +60,7 @@ Item
 			onEntered:
 /*
 			{
-                                if( timeInClipSelected != object.timeIn &&  controlPosition == 0)
+                                if( timeInClipSelected != obje ct.timeIn &&  controlPosition == 0)
                                 {
                                         parent.color = '#FDAE37'
                                 }
@@ -187,7 +185,7 @@ Item
                         }
 		}
 
-		// zone gauche pour l'agrandissement du clip
+        // zone gauche pour l'agrandissement du clip
         Rectangle
         {
             id: tw_clipLeftHandle
@@ -199,46 +197,54 @@ Item
             color: "green"
             visible: false
         }
-		MouseArea
-		{
+
+        MouseArea
+        {
             id: tw_clipLeftHandleMA
             anchors.fill: tw_clipLeftHandle
 
-			hoverEnabled: true
+            hoverEnabled: true
 
-			onEntered:
+            onEntered:
             {
-				_tw_timelineData.displayCursor( "scale" );
+                _tw_timelineData.displayCursor( "scale" );
                 tw_clipLeftHandle.visible = true
-			}
-			onExited:
+            }
+            onExited:
             {
-				_tw_timelineData.displayCursor( "none" );
+                _tw_timelineData.displayCursor( "none" );
                 tw_clipLeftHandle.visible = false
-			}
-			onPressed:
+            }
+            onPressed:
             {
-				clipLeftPressed = 1
-				//console.log( "qml tw_clipRightHandle onPressed." )
+                clipLeftPressed = 1
+                //console.log( "qml tw_clipRightHandle onPressed." )
             }
             onPositionChanged:
             {
-				if ( clipLeftPressed == 1 )
-				{
-					if( object.timeIn > 0 )
+                if ( clipLeftPressed == 1 )
+                {
+                    if( object.timeIn > 0 )
                     {
-                        console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX)
-					}
+                        console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX);
+                        var diff = - mouseX / tw_scaleTimeToPix;
+                        console.log("diff"+diff);
+                        object.timeIn = diff;
+                        console.log( "object.timeIn "+object.timeIn );
+                        setDisplayIn(diff);
+                    } else {
+                        object.timeIn = 0
+                    }
 
-				}
-			}
+                }
+            }
 
-			onReleased:
+            onReleased:
             {
-				console.log( "mouse X clip Released" + mouseX );
-				clipLeftPressed = 0
-			}
-		}
+                console.log( "mouse X clip Released" + mouseX );
+                clipLeftPressed = 0
+            }
+        }
 
         // zone droite pour l'agrandissement du clip
         Rectangle
@@ -252,6 +258,7 @@ Item
             color: "blue"
             visible: false
         }
+
         MouseArea
         {
             id: tw_clipRightHandleMA
@@ -279,6 +286,24 @@ Item
             {
                 clipRightPressed = 0
                 console.log( "R mouse X clip Released" + mouseX );
+            }
+            onPositionChanged:
+            {
+                if ( clipRightPressed == 1 )
+                {
+                    if( object.timeIn > 0 )
+                    {
+                        console.log("mouse X tw_clipLeftHandle onPositionChanged" + mouseX);
+                        var diff = - mouseX / tw_scaleTimeToPix;
+                        console.log("diff"+diff);
+                        object.timeIn = diff;
+                        console.log( "object.timeIn "+object.timeIn );
+                        setDisplayOut(diff);
+                    } else {
+                        object.timeIn = 0
+                    }
+
+                }
             }
         }
 	}

@@ -89,6 +89,8 @@ public Q_SLOTS:
         void handle_nextAction_triggered();
         void handle_prevAction_triggered();
 
+        void on_initialPlaceWidgets_triggered();
+
         void increaseTime();
         void changeFps( int value ) { _fps = value; }
 
@@ -109,6 +111,12 @@ private:
         void createStatusBar();
 
         void createWidgetViewer();
+
+        void saveWidgets();
+
+        QDockWidget * _chutierDock;
+        QDockWidget * _graphicTimelineDock;
+        QDockWidget * _contentViewerDock;
 
         QMenu* _fileMenu;
         QMenu* _editMenu;
@@ -135,6 +143,8 @@ private:
         QAction* _nextAction;
         QAction* _prevAction;
         QAction* _zeroAction;
+
+        QAction* _initialPlaceWidgets;
 
         QToolBar* _fileToolBar;
         QToolBar* _editToolBar;
