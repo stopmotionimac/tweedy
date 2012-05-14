@@ -253,7 +253,7 @@ Rectangle
                 {
                     if (tw_timeCursor.x > 0)
                     {
-                        tw_timeCursor.x = tw_timeCursor.x -100
+                        tw_timeCursor.x = tw_timeCursor.x
                         _tw_timelineData.displayCurrentClip( tw_timeCursor.x * tw_scalePixToTime )
                     }
                 }
