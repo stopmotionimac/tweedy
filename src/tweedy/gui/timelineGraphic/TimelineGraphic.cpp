@@ -36,6 +36,10 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
     this->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
     this->setResizeMode( QDeclarativeView::SizeRootObjectToView );
 
+    /*QObject contentView = this->rootObject().findChild<QObject>(QString("_tw_timelineData"));
+    QObject::connect(&_timelineData, SIGNAL(timeChanged(int)), contentView, SLOT(updateViewWithItem(QString)));
+    QObject *rootObject = dynamic_cast<QObject*>(view.rootObject());*/
+
     connect( &_timelineData, SIGNAL( enableUpdatesSignal( const bool ) ), this, SLOT( onEnableUpdates( const bool ) ) );
 
     _qmlFileWatcher.addPath( _timelineQmlFile );

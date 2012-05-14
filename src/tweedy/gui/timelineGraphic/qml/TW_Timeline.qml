@@ -99,6 +99,15 @@ Rectangle
                 setDisplayOut( clampedTimeOut )
      }
 
+    function changeXCursor( time )
+    {
+        tw_timeCursor.x = time * tw_scaleTimeToPix
+    }
+
+    Connections {
+            target: _tw_timelineData
+            onTimeChanged: changeXCursor(time)
+    }
     /*/signal currentTimeChanged
     onCurrentTimeChanged: {
         console.log("onCurrentTimeChanged")

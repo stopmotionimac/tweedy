@@ -61,7 +61,7 @@ private:
         QObjectListModel _clips;
         int _timeMarker;
 
-Q_SIGNALS:
+Q_SIGNALS :
         void clipsChanged( );
         void maxTimeChanged( );
         void timeChanged( int time );
@@ -70,6 +70,10 @@ Q_SIGNALS:
         void timeMarkerChanged();
         void currentTimeChanged( int );
         void displayChanged( int unusedValue, int time );
+
+public Q_SLOTS:
+        void time(int time) { Q_EMIT timeChanged(time); }
+
 
 public:
         void coreDataChanged();

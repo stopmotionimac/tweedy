@@ -52,6 +52,7 @@ MainWindow::MainWindow()
         connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( displayChanged( int, int ) ), _chutier, SLOT( changedPixmap( int, int ) ) );
         connect( _timer, SIGNAL( timeout() ), this, SLOT( increaseTime() ) );
         connect( &(this->_timelineGraphic->getTimelineDataWrapper()), SIGNAL( timeChanged( int )), this, SLOT( changeTimeViewer( int ) ) );
+        connect( this, SIGNAL(timeChanged(int)), &(this->_timelineGraphic->getTimelineDataWrapper()), SLOT(time(int)) );
 
 	this->adjustSize();
 
