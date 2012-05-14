@@ -175,9 +175,7 @@ void TimelineDataWrapper::changeTimeOutClip(int timeIn, int time)
     Clip clip = getTimeline().mapClip().at(id);
     std::cout<<clip.timeIn()<<std::endl;
 
-    clip.increaseTimeOut(time);
-    std::cout<<clip.timeIn()<<std::endl;
-
-    updateListe();
+    clip.increaseTimeOut(-time);
+    std::cout<<"clip time IN"<<clip.timeIn()<<" clip time OUT"<<clip.timeOut()<<std::endl;
 
 }
