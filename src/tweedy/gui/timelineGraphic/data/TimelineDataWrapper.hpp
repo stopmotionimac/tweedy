@@ -52,6 +52,7 @@ public:
         Q_INVOKABLE bool isSelected(int timeIn);
         Q_INVOKABLE void changeTimeInClip(int timeIn, int time);
         Q_INVOKABLE void changeTimeOutClip(int timeIn, int time);
+        Q_INVOKABLE void updateListe();
 
 
 private:
@@ -80,7 +81,7 @@ public:
         int _currentTime;
 
 private:
-        void updateListe();
+        //void updateListe();
 };
 
 #endif // TIMELINEDATAWRAPPER_HPP

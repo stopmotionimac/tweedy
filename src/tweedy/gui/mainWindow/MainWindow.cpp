@@ -671,21 +671,13 @@ void MainWindow::changeTimeViewer( int newTime )
     _viewerImg->getTempsSlider()->setSliderPosition( newTime );
 
     std::string time;
-
-    switch(_fps)
-    {
-        case 8:
-            time = generateTimeData( newTime, 8,24);
-            break;
-        case 12:
-            time = generateTimeData( newTime, 12,24);
-            break;
-        case 24:
-            time = generateTimeData( newTime, 24,24);
-            break;
-    }
-
+    time = generateTimeData( newTime,_fps,24);
      _viewerImg->getTimeLabel()->setText( QString(time.c_str()));
 
     _timelineGraphic->getTimelineDataWrapper()._currentTime = newTime;
+}
+
+void MainWindow::changeFps(QString value)
+{
+    _fps = value.toInt();
 }

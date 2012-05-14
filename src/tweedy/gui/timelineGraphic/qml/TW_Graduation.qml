@@ -22,7 +22,7 @@ Rectangle
                 id: tw_graduationFrame
 
                 height: tw_graduation.height
-                width: tw_scaleTimeToPix //* 1000
+                width: tw_scaleTimeToPix
                 border.width: 2
                 border.color: "black"
                 color: "#ACB6B5"

@@ -30,6 +30,7 @@ Rectangle {
             onPositionChanged: {
                 var offsetTime = ( mapToItem( tw_timeScrollbar, mouseX, mouseY ).x -origMouseX) * scrollBar_pixelToTime
                 setDisplayInOut( origDisplayIn + offsetTime, origDisplayOut + offsetTime )
+                tw_timeCursor.x = tw_currentTimePix - tw_displayInPix
             }
             onPressed:{
                 origDisplayIn = tw_displayIn
@@ -52,7 +53,6 @@ Rectangle {
                _tw_timelineData.displayCursor("none");
            }
            onPressed:{
-               print( "tw_scrollBarItemLeftHandle pressed" )
                scrollLeftPressed = true
            }
 
@@ -61,6 +61,7 @@ Rectangle {
                if ( scrollLeftPressed )
                {
                    setDisplayIn( mapToItem( tw_timeScrollbar, mouseX, mouseY ).x * scrollBar_pixelToTime )
+                   tw_timeCursor.x = tw_currentTimePix - tw_displayInPix
                }
            }
            onReleased:{
@@ -83,7 +84,6 @@ Rectangle {
             }
 
             onPressed:{
-                print( "tw_scrollBarItemRightHandle pressed" )
                 scrollRightPressed = true
             }
 
@@ -91,11 +91,11 @@ Rectangle {
                 if ( scrollRightPressed )
                 {
                     setDisplayOut( mapToItem( tw_timeScrollbar, mouseX, mouseY ).x * scrollBar_pixelToTime )
+                    tw_timeCursor.x = tw_currentTimePix - tw_displayInPix
                 }
             }
 
             onReleased: {
-                print( "tw_scrollBarItemRightHandle released" )
                 scrollRightPressed = false
             }
         }

@@ -171,8 +171,9 @@ Item
                 {
                     if( object.timeIn > 0 )
                     {
-                        var diff = - mouseX / tw_scaleTimeToPix;
-                        _tw_timelineData.changeTimeInClip(timeClipIn, diff)
+                        var diff = mouseX * tw_scalePixToTime;
+                        //console.log(diff)
+                        //_tw_timelineData.changeTimeInClip(timeClipIn, diff)
                     }
                     else {
                         object.timeIn = 0
@@ -181,8 +182,8 @@ Item
             }
 
             onReleased:{
-                //console.log( "mouse X clip Released" + mouseX );
                 clipLeftPressed = 0
+                _tw_timelineData.updateListe()
             }
         }
 
@@ -206,25 +207,22 @@ Item
             onEntered:
             {
                 tw_clipRightHandle.visible = true
-                //console.log( "R onEntered" );
                 _tw_timelineData.displayCursor( "scale" );
             }
             onExited:
             {
                 _tw_timelineData.displayCursor( "none" );
                 tw_clipRightHandle.visible = false
-                //console.log( "R onExited" );
             }
             onPressed:
             {
                 clipRightPressed = 1
                 timeClipIn = object.timeIn
-                //console.log( "R mouse X clip Released" + mouseX );
             }
             onReleased:
             {
                 clipRightPressed = 0
-                //console.log( "R mouse X clip Released" + mouseX );
+                _tw_timelineData.updateListe()
             }
             onPositionChanged:
             {
@@ -232,8 +230,9 @@ Item
                 {
                     if( object.timeOut < tw_realMaxTime )
                     {
-                        var diff = - mouseX / tw_scaleTimeToPix;
-                        _tw_timelineData.changeTimeOutClip(timeClipIn, diff)
+                        var diff = mouseX * tw_scalePixToTime ;
+                        //console.log(diff)
+                        //_tw_timelineData.changeTimeOutClip(timeClipIn, diff)
                     }
 
                 }

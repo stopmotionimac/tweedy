@@ -53,13 +53,7 @@ Rectangle
 
     function moveTimeTo( mouseX )
     {
-        //console.log( "moveTimeTo" )
-        //console.log( "mouseX:", mouseX )
-        //console.log( "tw_scalePixToTime:", tw_scalePixToTime )
-        //console.log( "( mouseX * tw_scalePixToTime ):", ( mouseX * tw_scalePixToTime ) )
-        //console.log( "tw_displayIn:", tw_displayIn )
         tw_currentTime = tw_displayIn + ( mouseX * tw_scalePixToTime )
-        //console.log( "tw_currentTime:", tw_currentTime )
         _tw_timelineData.displayCurrentClip( tw_currentTime )
         tw_doubleClickedBlank = -1
         tw_timeInClipSelected = -1
@@ -101,7 +95,7 @@ Rectangle
 
     function changeXCursor( time )
     {
-        tw_timeCursor.x = time * tw_scaleTimeToPix
+        tw_timeCursor.x = time * tw_scaleTimeToPix - tw_displayInPix
     }
 
     Connections {
@@ -200,7 +194,7 @@ Rectangle
                 id: tw_timeCursor
 
                 gradHeight: tw_gradHeight
-                x: tw_currentTimePix
+                x: tw_currentTimePix - tw_displayInPix
             }
 
             HorizontalGradient

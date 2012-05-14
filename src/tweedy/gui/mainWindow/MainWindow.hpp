@@ -94,7 +94,7 @@ public Q_SLOTS:
         void on_initialPlaceWidgets_triggered();
 
         void increaseTime();
-        void changeFps( QString value ) { _fps = value.toInt(); }
+        void changeFps( QString value );
         void changeTimeViewer( int newTime );
 
 Q_SIGNALS:
