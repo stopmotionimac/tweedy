@@ -146,46 +146,6 @@ Item
             color: "green"
             visible: false
     }
-        MouseArea
-        {
-            id: tw_clipLeftHandleMA
-            anchors.fill: tw_clipLeftHandle
-
-            hoverEnabled: true
-
-            onEntered:{
-                _tw_timelineData.displayCursor( "scale" );
-                tw_clipLeftHandle.visible = true
-            }
-            onExited:{
-                _tw_timelineData.displayCursor( "none" );
-                tw_clipLeftHandle.visible = false
-            }
-            onPressed:{
-                clipLeftPressed = 1
-                timeClipIn = object.timeIn
-            }
-            onPositionChanged:
-            {
-                if ( clipLeftPressed == 1 )
-                {
-                    if( object.timeIn > 0 )
-                    {
-                        var diff = mouseX * tw_scalePixToTime;
-                        //console.log(diff)
-                        //_tw_timelineData.changeTimeInClip(timeClipIn, diff)
-                    }
-                    else {
-                        object.timeIn = 0
-                    }
-                }
-            }
-
-            onReleased:{
-                clipLeftPressed = 0
-                _tw_timelineData.updateListe()
-            }
-        }
 
         //right area for growing clip
         Rectangle
@@ -196,7 +156,7 @@ Item
             height: tw_clip.height
             anchors.right: tw_clip.right
 
-            color: "blue"
+            color: "red"
             visible: false
         }
         MouseArea
@@ -222,19 +182,12 @@ Item
             onReleased:
             {
                 clipRightPressed = 0
-                _tw_timelineData.updateListe()
+
             }
             onPositionChanged:
             {
-                if ( clipRightPressed == 1 )
-                {
-                    if( object.timeOut < tw_realMaxTime )
-                    {
-                        var diff = mouseX * tw_scalePixToTime ;
-                        //console.log(diff)
-                        //_tw_timelineData.changeTimeOutClip(timeClipIn, diff)
-                    }
-
+                if ( clipRightPressed == 1 ){
+                    _tw_timelineData.addTimeToClip(object.timeIn,object.timeOut, mouseX/tw_scaleTimeToPix)
                 }
              }
         }

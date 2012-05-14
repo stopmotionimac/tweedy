@@ -1,5 +1,6 @@
 #include "TimelineDataWrapper.hpp"
 #include <tweedy/core/action/ActDragNDropTLToTL.hpp>
+#include <tweedy/core/action/ActClipSetTimeRange.hpp>
 #include <tweedy/core/action/ActDeleteClip.hpp>
 #include <tweedy/core/Clip.hpp>
 
@@ -167,3 +168,11 @@ void TimelineDataWrapper::changeTimeOutClip(int timeIn, int time)
     std::string id = getTimeline().findCurrentClip(timeIn);
     getTimeline().mapClip().at(id).increaseTimeOut(time);
 }
+
+void TimelineDataWrapper::addTimeToClip(int timeIn, int timeOut, int duration){
+    ActClipSetTimeRange action;
+    if (duration > 0 || (duration < 0 && timeOut - timeIn > 1 )){
+        action(timeIn,duration);
+    }
+}
+

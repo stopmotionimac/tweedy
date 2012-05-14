@@ -52,6 +52,7 @@ public:
         Q_INVOKABLE bool isSelected(int timeIn);
         Q_INVOKABLE void changeTimeInClip(int timeIn, int time);
         Q_INVOKABLE void changeTimeOutClip(int timeIn, int time);
+        Q_INVOKABLE void addTimeToClip(int timeIn, int timeOut, int duration);
         Q_INVOKABLE void updateListe();
 
 
