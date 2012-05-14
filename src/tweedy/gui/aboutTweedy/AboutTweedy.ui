@@ -63,7 +63,7 @@
    <item>
     <widget class="QLabel" name="text">
      <property name="text">
-      <string>Tweedy est un logiciel de stop motion développé par 4 étudiants : Solveig Bougeois, Stéphanie Brière, Guillaume Bonvoust et Julien Hennet. </string>
+      <string>Tweedy est un logiciel de stop motion développé par 4 étudiants : Solveig Bougeois, Stéphanie Brière, Guillaume Bonvoust et Julien Hennet. Il a été réalisé en 6 mois dans le cadre d'un projet tutoré à l'école d'ingénieur IMAC en 2ème année. L'équipe remercie Fabien Castan, le tuteur.  </string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
@@ -81,6 +81,9 @@
    </item>
    <item>
     <widget class="QLabel" name="photoLabel">
+     <property name="enabled">
+      <bool>true</bool>
+     </property>
      <property name="maximumSize">
       <size>
        <width>16777214</width>
@@ -89,6 +92,9 @@
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="scaledContents">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
