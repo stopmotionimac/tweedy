@@ -1,6 +1,7 @@
 #ifndef TIMELINEGRAPHIQUE_H
 #define TIMELINEGRAPHIQUE_H
 
+#include "QmlFileWatcher.h"
 #include "data/ClipDataWrapper.hpp"
 #include "data/TimelineDataWrapper.hpp"
 #include "data/DropArea.hpp"
@@ -9,6 +10,7 @@
 
 #include <QtGui/QWidget>
 #include <QtDeclarative/QDeclarativeView>
+
 
 class TimelineGraphic : public QDeclarativeView
 {
@@ -31,10 +33,9 @@ private:
         TimelineDataWrapper _timelineData;
         DropArea* _dropArea;
         QString _timelineQmlFile;
-        QFileSystemWatcher _qmlFileWatcher;
+        QmlFileWatcher _qmlFileWatcher;
 
 private Q_SLOTS:
-	void onQmlFileChanged( const QString &file );
 	void onEnableUpdates( const bool update );
 };
 

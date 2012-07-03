@@ -23,6 +23,7 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
 : QDeclarativeView( parent )
 
 , _timelineQmlFile( "src/tweedy/gui/timelineGraphic/qml/TW_Timeline.qml" )
+, _qmlFileWatcher( this )
 {
     _dropArea = new DropArea();
 
@@ -36,27 +37,19 @@ TimelineGraphic::TimelineGraphic( QWidget * parent )
     this->setSource( QUrl::fromLocalFile( _timelineQmlFile ) );
     this->setResizeMode( QDeclarativeView::SizeRootObjectToView );
 
+    _qmlFileWatcher.addFile( this->source(), true);
+
     /*QObject contentView = this->rootObject().findChild<QObject>(QString("_tw_timelineData"));
     QObject::connect(&_timelineData, SIGNAL(timeChanged(int)), contentView, SLOT(updateViewWithItem(QString)));
     QObject *rootObject = dynamic_cast<QObject*>(view.rootObject());*/
 
     connect( &_timelineData, SIGNAL( enableUpdatesSignal( const bool ) ), this, SLOT( onEnableUpdates( const bool ) ) );
 
-    _qmlFileWatcher.addPath( _timelineQmlFile );
-    connect( &_qmlFileWatcher, SIGNAL( fileChanged( const QString & ) ), this, SLOT( onQmlFileChanged( const QString & ) ) );
 }
 
 void TimelineGraphic::onEnableUpdates( const bool update )
 {
-        this->setUpdatesEnabled( update );
-}
-
-void TimelineGraphic::onQmlFileChanged( const QString &file )
-{
-        this->setSource( QUrl::fromLocalFile(file) );
-	this->rootContext()->setContextProperty( "_tw_timelineData", &_timelineData );
-	this->update();
-	this->repaint();
+    this->setUpdatesEnabled( update );
 }
 
 TimelineGraphic::~TimelineGraphic(){
