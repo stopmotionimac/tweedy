@@ -10,7 +10,8 @@
 namespace fs = boost::filesystem;
 
 QmlFileWatcher::QmlFileWatcher( QDeclarativeView *attachedView, const bool addSourceContainingFolder, const bool watch )
-    : QObject(), m_attachedView(attachedView), m_isWatching(false), m_reloadDelay(0.0f)
+: QObject(), m_attachedView(attachedView), m_isWatching(false)
+    //, m_reloadDelay(0.0f)
 {
     this->setWatching(watch);
 
@@ -38,8 +39,10 @@ void QmlFileWatcher::onQmlFileChanged(const QString &file)
     this->removeFile(file);
     m_modifiedFile = file;
 
-    // Perform the view reloading after the reload delay
-    QTimer::singleShot(m_reloadDelay, this, SLOT(updateAttachedView()));
+    updateAttachedView();
+
+    // NO NEED : Perform the view reloading after the reload delay
+    //QTimer::singleShot(m_reloadDelay, this, SLOT(updateAttachedView()));
 }
 
 void QmlFileWatcher::printWatchedFiles()
@@ -181,7 +184,3 @@ void QmlFileWatcher::setWatching(const bool watching)
     }
 }
 
-void QmlFileWatcher::setReloadDelay(const unsigned int delay)
-{
-    m_reloadDelay = delay;
-}

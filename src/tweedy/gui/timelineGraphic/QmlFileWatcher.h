@@ -52,13 +52,14 @@ public:
 
     const QStringList& watchedFiles() const { return m_watchedFiles; }
 
-    /**
-     * @brief set the delay (ms) after which the attached view will be reloaded (100 by default).
-     *        Useful to get over slow saving software.
-     *
-     */
-    void setReloadDelay(const unsigned int delay);
-    const float reloadDelay() const { return m_reloadDelay; }
+//    /**
+//     * @brief set the delay (ms) after which the attached view will be reloaded (100 by default).
+//     *        Useful to get over slow saving software.
+//     *
+//     */
+//    void setReloadDelay(const unsigned int delay) { m_reloadDelay = delay; }
+//    const float reloadDelay() const { return m_reloadDelay; }
+
 
     void printWatchedFiles();
 
@@ -83,7 +84,7 @@ private:
     QStringList m_watchedFiles;
     QString m_modifiedFile;
     bool m_isWatching;
-    unsigned int m_reloadDelay;
+//    unsigned int m_reloadDelay;
 };
 
 
